@@ -1,0 +1,11 @@
+# example/pubspec.yaml
+name: flutter_element_example
+environment:
+  sdk: "^3.6.0"
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_element:
+    path: ../
+flutter:
+  uses-material-design: true
