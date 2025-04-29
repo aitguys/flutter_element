@@ -2,6 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element/flutter_element.dart';
 import 'button_page.dart';
+import 'link_page.dart';
+import 'scrollbar_page.dart';
+import 'autocomplete_page.dart';
+import 'checkbox_page.dart';
 
 void main() {
   runApp(const ElementXApp());
@@ -35,6 +39,48 @@ class HomePage extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => const ButtonPage()),
+                );
+              },
+            ),
+            EButton(
+              text: 'Link Examples',
+              type: EButtonType.Primary,
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const LinkPage()),
+                );
+              },
+            ),
+            EButton(
+              text: 'Scrollbar Examples',
+              type: EButtonType.Primary,
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const ScrollbarPage(),
+                  ),
+                );
+              },
+            ),
+            EButton(
+              text: 'Autocomplete Examples',
+              type: EButtonType.Primary,
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const AutocompletePage(),
+                  ),
+                );
+              },
+            ),
+            EButton(
+              text: 'Checkbox Examples',
+              type: EButtonType.Primary,
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const CheckboxPage(),
+                  ),
                 );
               },
             ),

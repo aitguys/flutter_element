@@ -33,16 +33,14 @@ Color calculateForegroundColor(
   if (backgroundColor == EColors.Default) {
     return EColors.TextGray;
   }
-  if (isDisabled) {
-    return backgroundColor.withOpacity(0.4);
-  }
   if (isPlain) {
     if (isActive) {
       return Colors.white;
     }
     return backgroundColor;
+  } else {
+    return Colors.white;
   }
-  return Colors.white;
 }
 
 // 背景色计算
@@ -57,7 +55,7 @@ Color calculatePlainBackgroundColor(
   }
   if (isPlain) {
     if (isDisabled) {
-      return backgroundColor.withOpacity(0.4);
+      return backgroundColor.withOpacity(0.1);
     }
     if (isActive) {
       return backgroundColor.withOpacity(0.8);

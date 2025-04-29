@@ -27,8 +27,10 @@ class ButtonPage extends StatelessWidget {
                   EButton(
                     text: 'Primary Button',
                     type: EButtonType.Primary,
-                    icon: Icons.search,
-                    onPressed: () {},
+                    isDisabled: true,
+                    onPressed: () {
+                      print('点击了');
+                    },
                   ),
                   EButton(
                     text: 'Success Button',
@@ -67,11 +69,13 @@ class ButtonPage extends StatelessWidget {
                     text: 'Primary Button',
                     type: EButtonType.Primary,
                     isPlain: true,
+                    isDisabled: true,
                     onPressed: () {},
                   ),
                   EButton(
                     text: 'Success Button',
                     type: EButtonType.Success,
+                    size: EButtonSize.small,
                     isPlain: true,
                     onPressed: () {},
                   ),
@@ -79,6 +83,7 @@ class ButtonPage extends StatelessWidget {
                     text: 'Warning Button',
                     type: EButtonType.Warning,
                     isPlain: true,
+                    size: EButtonSize.large,
                     icon: Icons.add,
                     onPressed: () {},
                   ),
