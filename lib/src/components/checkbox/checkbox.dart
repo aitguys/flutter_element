@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_element/src/theme/index.dart';
 
 class ECheckbox extends StatefulWidget {
-  final bool? value;
+  late bool? value;
   final String? label;
   final bool disabled;
   final bool border;
@@ -16,7 +16,7 @@ class ECheckbox extends StatefulWidget {
   final String? ariaControls;
   final Function(bool?)? onChange;
 
-  const ECheckbox({
+  ECheckbox({
     super.key,
     this.value,
     this.label,
@@ -57,6 +57,7 @@ class _ECheckboxState extends State<ECheckbox> {
   void _handleTap() {
     if (widget.disabled) return;
     setState(() {
+      widget.value = _isChecked;
       _isChecked = !_isChecked;
     });
     if (widget.onChange != null) {
@@ -74,9 +75,9 @@ class _ECheckboxState extends State<ECheckbox> {
     Widget checkbox = Container(
       width: checkboxSize,
       height: checkboxSize,
-      decoration: BoxDecoration(
-        border: Border.all(color: EColors.BorderGray),
-      ),
+      // decoration: BoxDecoration(
+      //   border: Border.all(color: EColors.BorderGray),
+      // ),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
@@ -93,13 +94,16 @@ class _ECheckboxState extends State<ECheckbox> {
                           : EColors.Primary,
                     ),
                   )
-                : widget.indeterminate
-                    ? Container(
-                        color: widget.disabled
-                            ? EColors.BorderGray
-                            : EColors.Primary,
-                      )
-                    : null,
+                : Transform.translate(
+                    offset: const Offset(-2, -2),
+                    child: Icon(
+                      Icons.check_box_outline_blank,
+                      size: checkboxSize + 4,
+                      color: widget.disabled
+                          ? EColors.BorderGray
+                          : EColors.BorderGray,
+                    ),
+                  ),
           ),
         ),
       ),
