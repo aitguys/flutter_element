@@ -22,6 +22,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_colorpicker:
+    dependency: transitive
+    description:
+      name: flutter_colorpicker
+      sha256: "969de5f6f9e2a570ac660fb7b501551451ea2a1ab9e2097e89475f60e07816ea"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
   flutter_element:
     dependency: "direct main"
     description:
@@ -29,6 +37,14 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
+  flutter_hsvcolor_picker:
+    dependency: transitive
+    description:
+      name: flutter_hsvcolor_picker
+      sha256: f3480d7beaf4d3a3b76512a0c149a3b698076c8cf721bc515cded30de37ded6a
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.5.1"
   material_color_utilities:
     dependency: transitive
     description:
@@ -60,4 +76,4 @@ packages:
     version: "2.1.4"
 sdks:
   dart: ">=3.6.1 <4.0.0"
-  flutter: ">=1.17.0"
+  flutter: ">=2.10.0"

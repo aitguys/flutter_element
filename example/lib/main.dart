@@ -6,6 +6,7 @@ import 'link_page.dart';
 import 'scrollbar_page.dart';
 import 'autocomplete_page.dart';
 import 'checkbox_page.dart';
+import 'color_picker_page.dart';
 
 void main() {
   runApp(const ElementXApp());
@@ -80,6 +81,17 @@ class HomePage extends StatelessWidget {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => const CheckboxPage(),
+                  ),
+                );
+              },
+            ),
+            EButton(
+              text: 'Color Picker Examples',
+              type: EButtonType.Primary,
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const ColorPickerPage(),
                   ),
                 );
               },
