@@ -26,8 +26,8 @@ class _ColorPickerPageState extends State<ColorPickerPage> {
             const Text('Basic Usage:'),
             const SizedBox(height: 16),
             EColorPicker(
-              value: _color,
-              onChange: (color) {
+              pickerColor: _color,
+              onColorChanged: (color) {
                 setState(() => _color = color);
               },
             ),
@@ -35,9 +35,9 @@ class _ColorPickerPageState extends State<ColorPickerPage> {
             const Text('With Alpha Channel:'),
             const SizedBox(height: 16),
             EColorPicker(
-              value: _colorWithAlpha,
+              pickerColor: _colorWithAlpha,
               showAlpha: true,
-              onChange: (color) {
+              onColorChanged: (color) {
                 print('color change1: $color');
                 setState(() => _colorWithAlpha = color);
               },
@@ -46,7 +46,12 @@ class _ColorPickerPageState extends State<ColorPickerPage> {
             const Text('With Predefined Colors:'),
             const SizedBox(height: 16),
             EColorPicker(
-              value: _color,
+              onColorChanged: (color) {
+                print('color change2: $color');
+                setState(() => _color = color);
+              },
+              pickerColor: _color,
+              showAlpha: false,
               predefine: [
                 Colors.red,
                 Colors.green,
@@ -57,10 +62,6 @@ class _ColorPickerPageState extends State<ColorPickerPage> {
                 Colors.pink,
                 Colors.teal,
               ],
-              onChange: (color) {
-                print('color change: $color');
-                setState(() => _color = color);
-              },
             ),
             const SizedBox(height: 32),
             const Text('Different Sizes:'),
@@ -68,24 +69,25 @@ class _ColorPickerPageState extends State<ColorPickerPage> {
             Row(
               children: [
                 EColorPicker(
-                  value: _color,
+                  pickerColor: _color,
                   size: 'large',
-                  onChange: (color) {
+                  onColorChanged: (color) {
                     setState(() => _color = color);
                   },
                 ),
                 const SizedBox(width: 16),
                 EColorPicker(
-                  value: _color,
-                  onChange: (color) {
+                  pickerColor: _color,
+                  size: 'large',
+                  onColorChanged: (color) {
                     setState(() => _color = color);
                   },
                 ),
                 const SizedBox(width: 16),
                 EColorPicker(
-                  value: _color,
+                  pickerColor: _color,
                   size: 'small',
-                  onChange: (color) {
+                  onColorChanged: (color) {
                     setState(() => _color = color);
                   },
                 ),
@@ -95,9 +97,9 @@ class _ColorPickerPageState extends State<ColorPickerPage> {
             const Text('Disabled:'),
             const SizedBox(height: 16),
             EColorPicker(
-              value: _color,
+              pickerColor: _color,
               disabled: true,
-              onChange: (color) {
+              onColorChanged: (color) {
                 setState(() => _color = color);
               },
             ),

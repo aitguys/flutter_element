@@ -6,8 +6,8 @@ import 'dart:math';
 import 'package:flutter_element/src/methods/index.dart';
 
 class EColorPicker extends StatefulWidget {
-  final Color? value;
-  final ValueChanged<Color>? onChange;
+  final Color pickerColor;
+  final ValueChanged<Color> onColorChanged;
   final bool showAlpha;
   final List<Color>? predefine;
   final bool disabled;
@@ -16,8 +16,8 @@ class EColorPicker extends StatefulWidget {
 
   const EColorPicker({
     Key? key,
-    this.value,
-    this.onChange,
+    this.pickerColor = Colors.blue,
+    required this.onColorChanged,
     this.showAlpha = false,
     this.predefine,
     this.disabled = false,
@@ -35,14 +35,13 @@ class _EColorPickerState extends State<EColorPicker> {
   Color _currentColor = Colors.blue;
   Color? _tempColor;
   bool _isOpen = false;
-  TextEditingController? _hexInputController;
+  final TextEditingController _hexInputController =
+      TextEditingController(text: '#2F19DB');
 
   @override
   void initState() {
     super.initState();
-    _currentColor = widget.value ?? Colors.blue;
-    _hexInputController =
-        TextEditingController(text: _colorToHex(_currentColor));
+    _currentColor = widget.pickerColor ?? Colors.blue;
   }
 
   @override
@@ -52,11 +51,11 @@ class _EColorPickerState extends State<EColorPicker> {
   }
 
   String _colorToHex(Color color) {
-    print('red: $color');
-
-    return widget.showAlpha
-        ? '${color.r.toInt().toRadixString(16).padLeft(2, '0')}${color.g.toInt().toRadixString(16).padLeft(2, '0')}${color.b.toInt().toRadixString(16).padLeft(2, '0')}${color.a.toInt().toRadixString(16).padLeft(2, '0')}'
-        : '${color.r.toInt().toRadixString(16).padLeft(2, '0')}${color.g.toInt().toRadixString(16).padLeft(2, '0')}${color.b.toInt().toRadixString(16).padLeft(2, '0')}';
+    if (widget.showAlpha) {
+      return '${color.a.toInt().toRadixString(16).padLeft(2, '0')}${color.r.toInt().toRadixString(16).padLeft(2, '0')}${color.g.toInt().toRadixString(16).padLeft(2, '0')}${color.b.toInt().toRadixString(16).padLeft(2, '0')}';
+    } else {
+      return '${color.r.toInt().toRadixString(16).padLeft(2, '0')}${color.g.toInt().toRadixString(16).padLeft(2, '0')}${color.b.toInt().toRadixString(16).padLeft(2, '0')}';
+    }
   }
 
   void _showColorPicker() {
@@ -141,36 +140,26 @@ class _EColorPickerState extends State<EColorPicker> {
   }
 
   Widget _buildColorPicker() {
-    Debouncer colorDebouncer = Debouncer(milliseconds: 200);
     return Column(
       children: [
         ColorPicker(
-          pickerColor: _currentColor,
+          pickerColor: widget.pickerColor,
           onColorChanged: (color) {
-            if (color != _currentColor &&
-                color != Color.from(alpha: 0, red: 0, green: 0, blue: 0)) {
-              colorDebouncer.run(() {
-                setState(() {
-                  print('执行');
-                  _tempColor = color;
-                  _currentColor = color;
-                  _hexInputController?.text = _colorToHex(color);
-                  widget.onChange?.call(color);
-                });
-              });
-            }
+            widget.onColorChanged(color);
           },
           colorPickerWidth: 400,
-          pickerAreaHeightPercent: 0.5,
-          enableAlpha: widget.showAlpha,
-          labelTypes: const [],
+          pickerAreaHeightPercent: 0.7,
+          enableAlpha:
+              widget.showAlpha, // hexInputController will respect it too.
           displayThumbColor: true,
-          pickerAreaBorderRadius: BorderRadius.only(
+          paletteType: PaletteType.hsvWithHue,
+          labelTypes: const [],
+          pickerAreaBorderRadius: const BorderRadius.only(
             topLeft: Radius.circular(2),
             topRight: Radius.circular(2),
           ),
+          hexInputController: _hexInputController, // <- here
           portraitOnly: true,
-          hexInputController: _hexInputController,
         ),
         if (widget.predefine != null) _buildPredefineColors(),
         Row(
@@ -226,7 +215,7 @@ class _EColorPickerState extends State<EColorPicker> {
                         _currentColor = Colors.blue;
                       });
                       _hexInputController?.text = _colorToHex(Colors.blue);
-                      widget.onChange?.call(Colors.blue);
+                      widget.onColorChanged(Colors.blue);
                       _hideColorPicker();
                     },
                     style: TextButton.styleFrom(
@@ -246,7 +235,7 @@ class _EColorPickerState extends State<EColorPicker> {
                       setState(() {
                         _currentColor = _tempColor!;
                       });
-                      widget.onChange?.call(_currentColor);
+                      widget.onColorChanged(_currentColor);
                       _hideColorPicker();
                     },
                     style: TextButton.styleFrom(
@@ -283,7 +272,7 @@ class _EColorPickerState extends State<EColorPicker> {
             setState(() {
               _tempColor = color;
               _currentColor = color;
-              _hexInputController?.text = _colorToHex(color);
+              // _hexInputController.text = _colorToHex(color);
               _overlayEntry?.markNeedsBuild();
             });
           },
@@ -342,7 +331,7 @@ class _EColorPickerState extends State<EColorPicker> {
                   borderRadius: BorderRadius.circular(4),
                 ),
               ),
-              if (widget.disabled && widget.value != null)
+              if (widget.disabled && widget.pickerColor != null)
                 Icon(
                   Icons.close,
                   size: widget.size == 'large'
