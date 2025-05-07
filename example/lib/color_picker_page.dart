@@ -9,7 +9,7 @@ class ColorPickerPage extends StatefulWidget {
 }
 
 class _ColorPickerPageState extends State<ColorPickerPage> {
-  Color _color = Colors.red;
+  Color _color = Colors.green;
   Color _colorWithAlpha = Colors.blue.withOpacity(0.5);
 
   @override
@@ -47,11 +47,19 @@ class _ColorPickerPageState extends State<ColorPickerPage> {
             const SizedBox(height: 16),
             EColorPicker(
               onColorChanged: (color) {
-                print('color change2: $color');
-                setState(() => _color = color);
+                print('onColorChanged: $color');
+                print('color: $_color');
+              },
+              onConfirm: (color) {
+                print('color confirm: $color');
+                print('color: $_color');
+              },
+              onCancel: () {
+                print('color cancel');
+                print('color: $_color');
               },
               pickerColor: _color,
-              showAlpha: false,
+              showAlpha: true,
               predefine: [
                 Colors.red,
                 Colors.green,
@@ -78,7 +86,7 @@ class _ColorPickerPageState extends State<ColorPickerPage> {
                 const SizedBox(width: 16),
                 EColorPicker(
                   pickerColor: _color,
-                  size: 'large',
+                  size: 'middle',
                   onColorChanged: (color) {
                     setState(() => _color = color);
                   },

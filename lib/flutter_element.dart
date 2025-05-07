@@ -6,4 +6,5 @@ export 'src/components/scrollbar/index.dart';
 export 'src/components/autocomplete/index.dart';
 export 'src/components/checkbox/index.dart';
 export 'src/components/color_picker/index.dart';
+export 'src/components/date_picker/index.dart';
 export 'src/theme/index.dart';

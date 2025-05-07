@@ -13,35 +13,52 @@ class EColorPicker extends StatefulWidget {
   final bool disabled;
   final String? size;
   final double? width;
-
+  final Function(Color)? onConfirm;
+  final Function()? onCancel;
   const EColorPicker({
-    Key? key,
-    this.pickerColor = Colors.blue,
+    super.key,
+    this.pickerColor = Colors.red,
     required this.onColorChanged,
     this.showAlpha = false,
     this.predefine,
     this.disabled = false,
     this.size,
     this.width,
-  }) : super(key: key);
+    this.onConfirm,
+    this.onCancel,
+  });
 
   @override
   State<EColorPicker> createState() => _EColorPickerState();
+}
+
+String _colorToHex(Color color, bool showAlpha) {
+  final hex = showAlpha
+      ? color.value.toRadixString(16)
+      : color.value.toRadixString(16).substring(2);
+  return hex;
+  // if (showAlpha) {
+  //   return '${color.alpha.toRadixString(16).padLeft(2, '0')}${color.red.toRadixString(16).padLeft(2, '0')}${color.green.toRadixString(16).padLeft(2, '0')}${color.blue.toRadixString(16).padLeft(2, '0')}';
+  // } else {
+  //   return '${color.red.toRadixString(16).padLeft(2, '0')}${color.green.toRadixString(16).padLeft(2, '0')}${color.blue.toRadixString(16).padLeft(2, '0')}';
+  // }
 }
 
 class _EColorPickerState extends State<EColorPicker> {
   final GlobalKey _buttonKey = GlobalKey();
   OverlayEntry? _overlayEntry;
   Color _currentColor = Colors.blue;
-  Color? _tempColor;
   bool _isOpen = false;
-  final TextEditingController _hexInputController =
-      TextEditingController(text: '#2F19DB');
-
+  final _hexInputController = TextEditingController();
+  late Color initialColor = Colors.blue;
   @override
   void initState() {
     super.initState();
-    _currentColor = widget.pickerColor ?? Colors.blue;
+    initialColor = widget.pickerColor;
+    setState(() {
+      _hexInputController.text = _colorToHex(_currentColor, widget.showAlpha);
+      _currentColor = widget.pickerColor;
+    });
   }
 
   @override
@@ -50,18 +67,8 @@ class _EColorPickerState extends State<EColorPicker> {
     super.dispose();
   }
 
-  String _colorToHex(Color color) {
-    if (widget.showAlpha) {
-      return '${color.a.toInt().toRadixString(16).padLeft(2, '0')}${color.r.toInt().toRadixString(16).padLeft(2, '0')}${color.g.toInt().toRadixString(16).padLeft(2, '0')}${color.b.toInt().toRadixString(16).padLeft(2, '0')}';
-    } else {
-      return '${color.r.toInt().toRadixString(16).padLeft(2, '0')}${color.g.toInt().toRadixString(16).padLeft(2, '0')}${color.b.toInt().toRadixString(16).padLeft(2, '0')}';
-    }
-  }
-
   void _showColorPicker() {
     if (widget.disabled) return;
-
-    _tempColor = _currentColor;
 
     final RenderBox button =
         _buttonKey.currentContext!.findRenderObject() as RenderBox;
@@ -86,7 +93,15 @@ class _EColorPickerState extends State<EColorPicker> {
         children: [
           Positioned.fill(
             child: GestureDetector(
-              onTap: _hideColorPicker,
+              onTap: () {
+                setState(() {
+                  _currentColor = initialColor;
+                  _hexInputController.text =
+                      _colorToHex(initialColor, widget.showAlpha);
+                });
+                widget.onCancel?.call();
+                _hideColorPicker();
+              },
               behavior: HitTestBehavior.opaque,
               child: Container(
                 color: Colors.transparent,
@@ -146,6 +161,9 @@ class _EColorPickerState extends State<EColorPicker> {
           pickerColor: widget.pickerColor,
           onColorChanged: (color) {
             widget.onColorChanged(color);
+            setState(() {
+              _currentColor = color;
+            });
           },
           colorPickerWidth: 400,
           pickerAreaHeightPercent: 0.7,
@@ -174,11 +192,7 @@ class _EColorPickerState extends State<EColorPicker> {
                       child: Icon(Icons.tag)),
                   suffix: IconButton(
                       onPressed: () async {
-                        final data = await Clipboard.getData('text/plain');
-                        if (data != null && data.text != null) {
-                          _hexInputController?.text = data.text!;
-                          // TODO: Convert hex to color and update
-                        }
+                        copyToClipboard('#${_hexInputController.text}');
                       },
                       icon: const Icon(Icons.content_paste_go_rounded)),
                   onChanged: (value) {
@@ -187,7 +201,6 @@ class _EColorPickerState extends State<EColorPicker> {
                         final color = Color(int.parse(
                             '0xFF${value.substring(value.length - 6)}'));
                         setState(() {
-                          _tempColor = color;
                           _currentColor = color;
                         });
                       } catch (e) {
@@ -210,19 +223,19 @@ class _EColorPickerState extends State<EColorPicker> {
                 children: [
                   TextButton(
                     onPressed: () {
-                      _tempColor = Colors.blue;
                       setState(() {
-                        _currentColor = Colors.blue;
+                        _currentColor = initialColor;
+                        _hexInputController.text =
+                            _colorToHex(initialColor, widget.showAlpha);
                       });
-                      _hexInputController?.text = _colorToHex(Colors.blue);
-                      widget.onColorChanged(Colors.blue);
                       _hideColorPicker();
+                      widget.onCancel?.call();
                     },
                     style: TextButton.styleFrom(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                     ),
                     child: const Text(
-                      'Clear',
+                      'Cancel',
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
@@ -232,10 +245,9 @@ class _EColorPickerState extends State<EColorPicker> {
                   const SizedBox(width: 12),
                   TextButton(
                     onPressed: () {
-                      setState(() {
-                        _currentColor = _tempColor!;
-                      });
-                      widget.onColorChanged(_currentColor);
+                      setState(() {});
+                      // widget.onColorChanged(_currentColor);
+                      widget.onConfirm?.call(_currentColor);
                       _hideColorPicker();
                     },
                     style: TextButton.styleFrom(
@@ -270,9 +282,11 @@ class _EColorPickerState extends State<EColorPicker> {
         return GestureDetector(
           onTap: () {
             setState(() {
-              _tempColor = color;
               _currentColor = color;
-              // _hexInputController.text = _colorToHex(color);
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                _hexInputController.text = _colorToHex(color, widget.showAlpha);
+              });
+              widget.onColorChanged(color);
               _overlayEntry?.markNeedsBuild();
             });
           },
@@ -347,8 +361,8 @@ class _EColorPickerState extends State<EColorPicker> {
                   size: widget.size == 'large'
                       ? 20
                       : widget.size == 'small'
-                          ? 15
-                          : 20,
+                          ? 10
+                          : 25,
                   color: Colors.white,
                 ),
             ],
