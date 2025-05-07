@@ -14,24 +14,57 @@ class ElememtSize {
 
   ElememtSize({required this.size});
 
-  EdgeInsets getInputPadding(SizeItem size) {
+  EdgeInsets getInputPadding() {
     switch (size) {
       case SizeItem.large:
-        return EdgeInsets.fromLTRB(20, 20, 20, 20);
+        return EdgeInsets.all(20);
       case SizeItem.medium:
-        return EdgeInsets.fromLTRB(12, 12, 12, 12);
+        return EdgeInsets.all(12);
       case SizeItem.small:
-        return EdgeInsets.fromLTRB(8, 8, 8, 8);
+        return EdgeInsets.fromLTRB(4, 0, 4, 8);
+    }
+  }
+
+  double getContainerHeight() {
+    switch (size) {
+      case SizeItem.large:
+        return 40;
+      case SizeItem.medium:
+        return 32;
+      case SizeItem.small:
+        return 24;
     }
   }
 
   // getCheckboxSize
-  double getCheckboxSize(SizeItem size) {
+  double getCheckboxSize() {
     switch (size) {
       case SizeItem.large:
         return 20;
       case SizeItem.medium:
         return 16;
+      case SizeItem.small:
+        return 12;
+    }
+  }
+
+  double getIconSize() {
+    switch (size) {
+      case SizeItem.large:
+        return 28;
+      case SizeItem.medium:
+        return 24;
+      case SizeItem.small:
+        return 20;
+    }
+  }
+
+  double getTextfieldFontSize() {
+    switch (size) {
+      case SizeItem.large:
+        return 16;
+      case SizeItem.medium:
+        return 14;
       case SizeItem.small:
         return 12;
     }

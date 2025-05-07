@@ -27,7 +27,7 @@ class AutocompletePage extends StatelessWidget {
               clearable: true,
               disabled: false,
               debounce: 1000,
-              size: SizeItem.large,
+              size: SizeItem.small,
               triggerOnFocus: true,
               onChange: (value) {
                 print('onChange: $value');

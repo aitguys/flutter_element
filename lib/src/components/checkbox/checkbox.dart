@@ -67,8 +67,7 @@ class _ECheckboxState extends State<ECheckbox> {
 
   @override
   Widget build(BuildContext context) {
-    final checkboxSize =
-        ElememtSize(size: widget.size).getCheckboxSize(widget.size);
+    final checkboxSize = ElememtSize(size: widget.size).getCheckboxSize();
     final backgroundColor =
         widget.disabled ? EColors.BorderGray : EColors.Primary;
 

@@ -327,7 +327,7 @@ class _EAutocompleteState extends State<EAutocomplete> {
                 hintStyle: TextStyle(color: EColors.BorderGray),
                 prefixIcon: widget.prefix,
                 contentPadding:
-                    ElememtSize(size: widget.size).getInputPadding(widget.size),
+                    ElememtSize(size: widget.size).getInputPadding(),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(4),
                   borderSide: BorderSide(color: EColors.BorderGray),

@@ -37,6 +37,14 @@ class DatePickerPage extends StatelessWidget {
                 print('Selected date: $date');
               },
             ),
+            const SizedBox(height: 16),
+            EDatePicker(
+              size: SizeItem.large,
+              value: DateTime.now(),
+              onChange: (date) {
+                print('Selected date: $date');
+              },
+            ),
             const SizedBox(height: 32),
             const Text('Date Range Picker',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),

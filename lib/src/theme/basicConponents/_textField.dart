@@ -75,8 +75,9 @@ class EBasicTextField extends TextField {
   }) : super(
           decoration: (decoration ?? const InputDecoration()).copyWith(
             hintText: placeholder,
+            // isDense: true,
             hintStyle: TextStyle(color: EColors.BorderGray),
-            contentPadding: ElememtSize(size: size).getInputPadding(size),
+            contentPadding: ElememtSize(size: size).getInputPadding(),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(4),
               borderSide: BorderSide(color: EColors.BorderGray),

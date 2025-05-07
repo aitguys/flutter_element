@@ -367,10 +367,23 @@ class _EDatePickerState extends State<EDatePicker> {
         enabled: !widget.disabled,
         decoration: InputDecoration(
           hintText: widget.placeholder,
-          prefix: Icon(Icons.calendar_today_outlined),
-          hintStyle: TextStyle(color: EColors.BorderGray),
-          contentPadding:
-              ElememtSize(size: widget.size).getInputPadding(widget.size),
+          prefix: Padding(
+            padding: const EdgeInsets.all(0),
+            child: SizedBox(
+              height: 32,
+              child: Icon(
+                Icons.calendar_month_rounded,
+                size: ElememtSize(size: widget.size).getIconSize(),
+                color: widget.disabled ? EColors.BorderGray : EColors.Primary,
+              ),
+            ),
+          ),
+          // prefixIcon: Icon(
+          //   Icons.calendar_month_rounded,
+          //   size: ElememtSize(size: widget.size).getIconSize(),
+          //   color: widget.disabled ? EColors.BorderGray : EColors.Primary,
+          // ),
+          // hintStyle: TextStyle(color: EColors.BorderGray),
         ),
       ),
     );
