@@ -27,12 +27,13 @@ class ElememtSize {
     }
   }
 
+  // 输入框整体高度
   double getContainerHeight() {
     switch (size) {
       case SizeItem.large:
-        return 40;
+        return 50;
       case SizeItem.medium:
-        return 32;
+        return 40;
       case SizeItem.small:
         return 32;
     }
