@@ -29,3 +29,19 @@ class EDatePickerStyle {
     color: disabledColor,
   );
 }
+
+// 'year' | 'years' |'month' | 'months' | 'date' | 'dates' | 'datetime' | 'week' | 'datetimerange' | 'daterange' | 'monthrange' | 'yearrange' type
+enum DatePickerType {
+  year,
+  years,
+  month,
+  months,
+  date,
+  dates,
+  datetime,
+  week,
+  datetimerange,
+  daterange,
+  monthrange,
+  yearrange,
+}

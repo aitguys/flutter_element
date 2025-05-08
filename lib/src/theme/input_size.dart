@@ -1,4 +1,6 @@
 // 定义大中小情况下 输入框
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 enum SizeItem {
@@ -19,9 +21,9 @@ class ElememtSize {
       case SizeItem.large:
         return EdgeInsets.all(20);
       case SizeItem.medium:
-        return EdgeInsets.all(12);
+        return EdgeInsets.all(16);
       case SizeItem.small:
-        return EdgeInsets.symmetric(vertical: 4);
+        return EdgeInsets.symmetric(vertical: 0);
     }
   }
 
@@ -32,7 +34,7 @@ class ElememtSize {
       case SizeItem.medium:
         return 32;
       case SizeItem.small:
-        return 24;
+        return 32;
     }
   }
 
@@ -62,11 +64,11 @@ class ElememtSize {
   double getTextfieldFontSize() {
     switch (size) {
       case SizeItem.large:
-        return 16;
+        return 18;
       case SizeItem.medium:
-        return 14;
+        return 16;
       case SizeItem.small:
-        return 12;
+        return 14;
     }
   }
 }

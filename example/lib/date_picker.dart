@@ -29,10 +29,57 @@ class DatePickerPage extends StatelessWidget {
                 print('Selected date: $date');
               },
             ),
+            EDatePicker(
+              size: SizeItem.small,
+              value: DateTime.now(),
+              type: DatePickerType.daterange,
+              onChange: (date) {
+                print('Selected date: $date');
+              },
+            ),
+            EDatePicker(
+              size: SizeItem.small,
+              value: DateTime.now(),
+              type: DatePickerType.year,
+              onChange: (date) {
+                print('Selected date: $date');
+              },
+            ),
+            EDatePicker(
+              size: SizeItem.small,
+              value: DateTime.now(),
+              type: DatePickerType.month,
+              onChange: (date) {
+                print('Selected date: $date');
+              },
+            ),
+            EDatePicker(
+              size: SizeItem.small,
+              value: DateTime.now(),
+              type: DatePickerType.years,
+              onChange: (date) {
+                print('Selected date: $date');
+              },
+            ),
+            EDatePicker(
+              size: SizeItem.small,
+              value: DateTime.now(),
+              type: DatePickerType.months,
+              onChange: (date) {
+                print('Selected date: $date');
+              },
+            ),
+            EDatePicker(
+              size: SizeItem.small,
+              value: DateTime.now(),
+              type: DatePickerType.datetime,
+              onChange: (date) {
+                print('Selected date: $date');
+              },
+            ),
             const SizedBox(height: 16),
             EDatePicker(
               size: SizeItem.medium,
-              value: DateTime.now(),
               onChange: (date) {
                 print('Selected date: $date');
               },

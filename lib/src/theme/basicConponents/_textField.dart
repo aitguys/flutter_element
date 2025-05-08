@@ -2,14 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_element/src/theme/index.dart';
 
 class EBasicTextField extends TextField {
-  final bool clearable;
-  final bool hideLoading;
-  final bool isLoading;
-  final Widget? prefix;
-  final Widget? suffix;
-  final Function()? onFocus;
-  final Function()? onClear;
-
   EBasicTextField({
     super.key,
     super.controller,
@@ -63,18 +55,12 @@ class EBasicTextField extends TextField {
     super.enableIMEPersonalizedLearning,
     InputDecoration? decoration,
     String? placeholder,
-    this.clearable = false,
     bool disabled = false,
     SizeItem size = SizeItem.medium,
-    this.prefix,
-    this.suffix,
-    this.onFocus,
-    this.onClear,
-    this.hideLoading = false,
-    this.isLoading = false,
   }) : super(
           decoration: (decoration ?? const InputDecoration()).copyWith(
             hintText: placeholder,
+            isCollapsed: true,
             isDense: true,
             hintStyle: TextStyle(color: EColors.BorderGray),
             contentPadding: ElememtSize(size: size).getInputPadding(),
