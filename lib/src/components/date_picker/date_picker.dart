@@ -546,8 +546,12 @@ class _EDatePickerState extends State<EDatePicker> {
           }
         }
       } else {
-        isSelected =
-            _selectedDate != null && date.isAtSameMomentAs(_selectedDate!);
+        if (widget.type == DatePickerType.dates) {
+          isSelected = _selectedDates?.contains(date) ?? false;
+        } else {
+          isSelected =
+              _selectedDate != null && date.isAtSameMomentAs(_selectedDate!);
+        }
       }
 
       bool isToday = date.isAtSameMomentAs(DateTime(
