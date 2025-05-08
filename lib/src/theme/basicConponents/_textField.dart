@@ -75,20 +75,20 @@ class EBasicTextField extends TextField {
   }) : super(
           decoration: (decoration ?? const InputDecoration()).copyWith(
             hintText: placeholder,
-            // isDense: true,
+            isDense: true,
             hintStyle: TextStyle(color: EColors.BorderGray),
             contentPadding: ElememtSize(size: size).getInputPadding(),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(4),
-              borderSide: BorderSide(color: EColors.BorderGray),
+              borderSide: BorderSide(color: EColors.BorderGray, width: 1.0),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(4),
-              borderSide: BorderSide(color: EColors.BorderGray),
+              borderSide: BorderSide(color: EColors.BorderGray, width: 1.0),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(4),
-              borderSide: BorderSide(color: EColors.Primary),
+              borderSide: BorderSide(color: EColors.Primary, width: 1.0),
             ),
           ),
         );

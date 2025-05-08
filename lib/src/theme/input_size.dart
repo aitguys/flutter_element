@@ -21,7 +21,7 @@ class ElememtSize {
       case SizeItem.medium:
         return EdgeInsets.all(12);
       case SizeItem.small:
-        return EdgeInsets.fromLTRB(4, 0, 4, 8);
+        return EdgeInsets.symmetric(vertical: 4);
     }
   }
 

@@ -362,11 +362,13 @@ class _EDatePickerState extends State<EDatePicker> {
       link: _layerLink,
       child: EBasicTextField(
         controller: _controller,
+        textAlignVertical: TextAlignVertical.center,
         readOnly: false,
         size: widget.size,
         enabled: !widget.disabled,
         decoration: InputDecoration(
           hintText: widget.placeholder,
+          hintStyle: TextStyle(color: EColors.BorderGray),
           prefix: Padding(
             padding: const EdgeInsets.all(0),
             child: SizedBox(
@@ -378,6 +380,13 @@ class _EDatePickerState extends State<EDatePicker> {
               ),
             ),
           ),
+          // prefixIcon: Container(
+          //   color: EColors.Primary,
+          //   child: Icon(
+          //     Icons.calendar_month_rounded,
+          //     color: Colors.white,
+          //   ),
+          // ),
           // prefixIcon: Icon(
           //   Icons.calendar_month_rounded,
           //   size: ElememtSize(size: widget.size).getIconSize(),
