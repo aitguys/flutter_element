@@ -9,6 +9,9 @@ import 'checkbox_page.dart';
 import 'color_picker_page.dart';
 import 'date_picker.dart';
 import 'time_picker_page.dart';
+import 'input_page.dart';
+import 'input_number_page.dart';
+import 'input_tag.dart';
 
 void main() {
   runApp(const ElementXApp());
@@ -116,6 +119,39 @@ class HomePage extends StatelessWidget {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => const TimePickerPage(),
+                  ),
+                );
+              },
+            ),
+            EButton(
+              text: 'Input Examples',
+              type: EButtonType.Primary,
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const InputPage(),
+                  ),
+                );
+              },
+            ),
+            EButton(
+              text: 'Input Number Examples',
+              type: EButtonType.Primary,
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const InputNumberPage(),
+                  ),
+                );
+              },
+            ),
+            EButton(
+              text: 'Input Tag Examples',
+              type: EButtonType.Primary,
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const InputTagPage(),
                   ),
                 );
               },
