@@ -40,6 +40,7 @@ enum DatePickerType {
   dates,
   datetime,
   week,
+  time,
   datetimerange,
   daterange,
   monthrange,

@@ -107,6 +107,18 @@ class DatePickerPage extends StatelessWidget {
                 print('Selected date: $date');
               },
             ),
+            const Text('显示times small',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 16),
+            EDatePicker(
+              size: SizeItem.small,
+              type: DatePickerType.date,
+              showtimeSelect: true,
+              value: DateTime.now(),
+              onChange: (date) {
+                print('Selected date: $date');
+              },
+            ),
             // EDatePicker(
             //   size: SizeItem.small,
             //   value: DateTime.now(),

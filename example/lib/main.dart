@@ -8,6 +8,7 @@ import 'autocomplete_page.dart';
 import 'checkbox_page.dart';
 import 'color_picker_page.dart';
 import 'date_picker.dart';
+import 'time_picker_page.dart';
 
 void main() {
   runApp(const ElementXApp());
@@ -104,6 +105,17 @@ class HomePage extends StatelessWidget {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => const DatePickerPage(),
+                  ),
+                );
+              },
+            ),
+            EButton(
+              text: 'Time Picker Examples',
+              type: EButtonType.Primary,
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const TimePickerPage(),
                   ),
                 );
               },
