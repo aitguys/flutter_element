@@ -11,3 +11,4 @@ export 'src/theme/index.dart';
 export 'src/components/time_picker/index.dart';
 export 'src/components/input_tag/index.dart';
 export 'src/components/input_number/index.dart';
+export 'src/components/mention/index.dart';

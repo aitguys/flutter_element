@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element/src/theme/index.dart';
+import 'package:flutter/services.dart';
 
 enum EInputTagSize { small, medium, large }
 
@@ -80,6 +81,7 @@ class _EInputTagState extends State<EInputTag> {
   late FocusNode _focusNode;
   bool _isHovered = false;
   bool _isFocused = false;
+  String? _hoveredTag;
 
   @override
   void initState() {
@@ -122,7 +124,9 @@ class _EInputTagState extends State<EInputTag> {
     if (tag.isEmpty) return;
     if (widget.max != null && (widget.value?.length ?? 0) >= widget.max!)
       return;
-    if (widget.value?.contains(tag) ?? false) return;
+
+    // 检查标签是否已存在（不区分大小写）
+
     List<String> newValue = List<String>.from(widget.value ?? []);
     newValue.add(tag);
     widget.onChanged?.call(newValue);
@@ -171,13 +175,15 @@ class _EInputTagState extends State<EInputTag> {
   @override
   Widget build(BuildContext context) {
     final bool hasValue = _controller.text.isNotEmpty;
-    return SizedBox(
-      height: _height,
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        minHeight: _height,
+      ),
       child: MouseRegion(
         onEnter: (_) => setState(() => _isHovered = true),
         onExit: (_) => setState(() => _isHovered = false),
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
           decoration: BoxDecoration(
             border: Border.all(
               color: widget.disabled
@@ -202,8 +208,24 @@ class _EInputTagState extends State<EInputTag> {
                   runSpacing: 4,
                   children: [
                     ...?widget.value?.map((tag) => _buildTag(tag)),
-                    SizedBox(
-                      width: 100,
+                    KeyboardListener(
+                      focusNode: FocusNode(),
+                      onKeyEvent: (KeyEvent event) {
+                        if (event is KeyDownEvent &&
+                            event.logicalKey == LogicalKeyboardKey.backspace &&
+                            _controller.text.isEmpty &&
+                            widget.value?.isNotEmpty == true) {
+                          _removeTag(widget.value!.last);
+                        } else if (widget.trigger == EInputTagTrigger.space &&
+                            event is KeyDownEvent &&
+                            event.logicalKey == LogicalKeyboardKey.space) {
+                          _addTag(_controller.text);
+                        } else if (widget.trigger == EInputTagTrigger.enter &&
+                            event is KeyDownEvent &&
+                            event.logicalKey == LogicalKeyboardKey.enter) {
+                          _addTag(_controller.text);
+                        }
+                      },
                       child: TextField(
                         controller: _controller,
                         focusNode: _focusNode,
@@ -224,12 +246,18 @@ class _EInputTagState extends State<EInputTag> {
                               if (tag.isNotEmpty) _addTag(tag.trim());
                             }
                             _controller.clear();
+                          } else if (widget.trigger == EInputTagTrigger.space &&
+                              value.endsWith(' ')) {
+                            final tag = value.trim();
+                            if (tag.isNotEmpty) {
+                              _addTag(tag);
+                              _controller.clear();
+                            }
                           }
                         },
                         onSubmitted: (value) {
-                          if (widget.trigger == EInputTagTrigger.enter) {
-                            _addTag(value);
-                          }
+                          print('onSubmitted: $value');
+                          _focusNode.requestFocus(); // 保持焦点
                         },
                       ),
                     ),
@@ -240,16 +268,9 @@ class _EInputTagState extends State<EInputTag> {
                   hasValue &&
                   !widget.disabled &&
                   !widget.readOnly)
-                GestureDetector(
-                  onTap: _handleClear,
-                  child: MouseRegion(
-                    cursor: SystemMouseCursors.click,
-                    child: Container(
-                      padding: const EdgeInsets.all(4),
-                      child:
-                          Icon(Icons.close, size: 16, color: EColors.Primary),
-                    ),
-                  ),
+                IconButton(
+                  onPressed: _handleClear,
+                  icon: const Icon(Icons.close),
                 ),
               if (widget.suffix != null)
                 Padding(
@@ -267,37 +288,43 @@ class _EInputTagState extends State<EInputTag> {
     if (widget.tagBuilder != null) {
       return widget.tagBuilder!(context, tag);
     }
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      decoration: BoxDecoration(
-        color: widget.tagEffect == 'dark' ? EColors.Primary : Colors.grey[200],
-        borderRadius: BorderRadius.circular(4),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            tag,
-            style: TextStyle(
-              color: widget.tagEffect == 'dark' ? Colors.white : Colors.black,
-              fontSize: _fontSize - 2,
-            ),
-          ),
-          if (!widget.disabled && !widget.readOnly)
-            GestureDetector(
-              onTap: () => _removeTag(tag),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 4),
-                child: Icon(
-                  Icons.close,
-                  size: 14,
-                  color: widget.tagEffect == 'dark'
-                      ? Colors.white
-                      : Colors.grey[600],
-                ),
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      onEnter: (_) => setState(() => _hoveredTag = tag),
+      onExit: (_) => setState(() => _hoveredTag = null),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        decoration: BoxDecoration(
+          color:
+              widget.tagEffect == 'dark' ? EColors.Primary : Colors.grey[200],
+          borderRadius: BorderRadius.circular(4),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              tag,
+              style: TextStyle(
+                color: widget.tagEffect == 'dark' ? Colors.white : Colors.black,
+                fontSize: _fontSize - 2,
               ),
             ),
-        ],
+            if (!widget.disabled && !widget.readOnly)
+              GestureDetector(
+                onTap: () => _removeTag(tag),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 4),
+                  child: Icon(
+                    _hoveredTag == tag ? Icons.cancel : Icons.close,
+                    size: 14,
+                    color: widget.tagEffect == 'dark'
+                        ? Colors.white
+                        : Colors.grey[600],
+                  ),
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }

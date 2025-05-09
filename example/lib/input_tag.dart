@@ -21,6 +21,9 @@ class _InputTagPageState extends State<InputTagPage> {
             const Text('基础用法'),
             EInputTag(
               value: _value,
+              prefix: const Icon(Icons.search),
+              trigger: EInputTagTrigger.enter,
+              clearable: true,
               onChanged: (value) => setState(() => _value = value ?? []),
             ),
           ],
