@@ -74,13 +74,34 @@ class DatePickerPage extends StatelessWidget {
                 print('Selected date: $date');
               },
             ),
-
+            const Text('基础年(s)选择 small',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 16),
+            EDatePicker(
+              size: SizeItem.small,
+              type: DatePickerType.years,
+              value: DateTime.now(),
+              onChange: (date) {
+                print('Selected date: $date');
+              },
+            ),
             const Text('基础月份选择 small',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             const SizedBox(height: 16),
             EDatePicker(
               size: SizeItem.small,
               type: DatePickerType.month,
+              value: DateTime.now(),
+              onChange: (date) {
+                print('Selected date: $date');
+              },
+            ),
+            const Text('基础月份s选择 small',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 16),
+            EDatePicker(
+              size: SizeItem.small,
+              type: DatePickerType.months,
               value: DateTime.now(),
               onChange: (date) {
                 print('Selected date: $date');

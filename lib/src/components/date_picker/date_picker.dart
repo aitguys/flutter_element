@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 
 class EDatePicker extends StatefulWidget {
   final DateTime? value;
+  final List<DateTime>? selectedDates;
   final ValueChanged<DateTime>? onChange;
   final SizeItem size;
   final DatePickerType type;
@@ -21,6 +22,7 @@ class EDatePicker extends StatefulWidget {
   const EDatePicker({
     super.key,
     this.value,
+    this.selectedDates,
     this.onChange,
     this.placeholder = 'Select date',
     this.disabled = false,
@@ -57,6 +59,7 @@ class _EDatePickerState extends State<EDatePicker> {
   void initState() {
     super.initState();
     _selectedDate = widget.value;
+    _selectedDates = [];
     _selectedRange = widget.rangeValue;
     _currentMonth = _selectedDate ?? DateTime.now();
     _updateController();
@@ -82,6 +85,10 @@ class _EDatePickerState extends State<EDatePicker> {
     if (widget.value != oldWidget.value) {
       _selectedDate = widget.value;
       _updateController();
+    }
+    if (widget.type == DatePickerType.dates &&
+        widget.value != oldWidget.value) {
+      _selectedDates = widget.value != null ? [widget.value!] : [];
     }
     if (widget.rangeValue != oldWidget.rangeValue) {
       _selectedRange = widget.rangeValue;
@@ -110,8 +117,18 @@ class _EDatePickerState extends State<EDatePicker> {
           case DatePickerType.year:
             _controller.text = _selectedDate!.year.toString();
             break;
+          case DatePickerType.years:
+            _controller.text =
+                _selectedDates?.map((e) => e.year.toString()).join(',') ?? '';
+            break;
           case DatePickerType.month:
             _controller.text = DateFormat('yyyy-MM').format(_selectedDate!);
+            break;
+          case DatePickerType.months:
+            _controller.text = _selectedDates
+                    ?.map((e) => DateFormat('yyyy-MM').format(e))
+                    .join(',') ??
+                '';
             break;
           default:
             _controller.text = _formatDate(_selectedDate!);
@@ -386,7 +403,12 @@ class _EDatePickerState extends State<EDatePicker> {
 
     List<Widget> years = List.generate(10, (index) {
       final int year = decadeStart + index;
-      final bool isSelected = _selectedDate?.year == year;
+      bool isSelected = false;
+      if (widget.type == DatePickerType.years) {
+        isSelected = _selectedDates?.any((d) => d.year == year) ?? false;
+      } else {
+        isSelected = _selectedDate?.year == year;
+      }
       final bool isToday = year == DateTime.now().year;
 
       return MouseRegion(
@@ -395,60 +417,88 @@ class _EDatePickerState extends State<EDatePicker> {
         child: GestureDetector(
           onTap: () {
             setState(() {
-              _selectedDate = DateTime(year);
-              _updateController();
-              widget.onChange?.call(_selectedDate!);
-              _hidePicker();
+              if (widget.type == DatePickerType.years) {
+                final yearDate = DateTime(year);
+                if (_selectedDates == null) {
+                  _selectedDates = [yearDate];
+                } else {
+                  if (_selectedDates!.any((d) => d.year == year)) {
+                    // 创建新列表并移除年份
+                    _selectedDates = List<DateTime>.from(_selectedDates!)
+                      ..removeWhere((d) => d.year == year);
+                  } else {
+                    // 创建新列表并添加年份
+                    _selectedDates = List<DateTime>.from(_selectedDates!)
+                      ..add(yearDate);
+                  }
+                }
+                print('selectedDates: $_selectedDates');
+                _updateController();
+              } else {
+                _selectedDate = DateTime(year);
+                _updateController();
+                widget.onChange?.call(_selectedDate!);
+                _hidePicker();
+              }
             });
           },
-          child: Container(
-            width: 80,
-            height: 32,
-            margin: const EdgeInsets.all(2),
-            decoration: BoxDecoration(
-              color: isSelected
-                  ? EDatePickerStyle.selectedColor
-                  : _hoveredDate?.year == year
-                      ? EDatePickerStyle.hoverColor
+          child: StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+              return Container(
+                width: 80,
+                height: 32,
+                margin: const EdgeInsets.all(2),
+                decoration: BoxDecoration(
+                  color: _selectedDates!.any((d) => d.year.toInt() == year)
+                      ? EDatePickerStyle.selectedColor
                       : Colors.transparent,
-              borderRadius: BorderRadius.circular(4),
-              border: isToday
-                  ? Border.all(color: EDatePickerStyle.selectedColor)
-                  : null,
-            ),
-            child: Center(
-              child: Text(
-                year.toString(),
-                style: TextStyle(
-                  color: isSelected
-                      ? Colors.white
-                      : _hoveredDate?.year == year && !isSelected
-                          ? EDatePickerStyle.selectedColor
-                          : const Color(0xFF606266),
-                  fontSize: 14,
+                  borderRadius: BorderRadius.circular(4),
+                  border: isToday
+                      ? Border.all(color: EDatePickerStyle.selectedColor)
+                      : null,
                 ),
-              ),
-            ),
+                child: Center(
+                  child: Text(
+                    year.toString(),
+                    style: TextStyle(
+                      color:
+                          isSelected ? Colors.white : const Color(0xFF606266),
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
+              );
+            },
           ),
         ),
       );
     });
 
-    return Container(
-      padding: const EdgeInsets.all(8),
-      child: Wrap(
-        spacing: 4,
-        runSpacing: 4,
-        children: years,
-      ),
-    );
+    return StatefulBuilder(
+        builder: (BuildContext context, StateSetter setState) {
+      return Container(
+        padding: const EdgeInsets.all(8),
+        child: Wrap(
+          spacing: 4,
+          runSpacing: 4,
+          children: years,
+        ),
+      );
+    });
   }
 
   Widget _buildMonthGrid() {
     List<Widget> months = List.generate(12, (index) {
       final int month = index + 1;
-      final bool isSelected = _selectedDate?.year == _currentMonth.year &&
-          _selectedDate?.month == month;
+      bool isSelected = false;
+      if (widget.type == DatePickerType.months) {
+        isSelected = _selectedDates?.any(
+                (d) => d.year == _currentMonth.year && d.month == month) ??
+            false;
+      } else {
+        isSelected = _selectedDate?.year == _currentMonth.year &&
+            _selectedDate?.month == month;
+      }
       final bool isToday = _currentMonth.year == DateTime.now().year &&
           month == DateTime.now().month;
 
@@ -459,10 +509,23 @@ class _EDatePickerState extends State<EDatePicker> {
         child: GestureDetector(
           onTap: () {
             setState(() {
-              _selectedDate = DateTime(_currentMonth.year, month);
-              _updateController();
-              widget.onChange?.call(_selectedDate!);
-              _hidePicker();
+              if (widget.type == DatePickerType.months) {
+                if (_selectedDates == null) {
+                  _selectedDates = [DateTime(_currentMonth.year, month)];
+                } else if (_selectedDates!.any(
+                    (d) => d.year == _currentMonth.year && d.month == month)) {
+                  _selectedDates!.removeWhere(
+                      (d) => d.year == _currentMonth.year && d.month == month);
+                } else {
+                  _selectedDates!.add(DateTime(_currentMonth.year, month));
+                }
+                _updateController();
+              } else {
+                _selectedDate = DateTime(_currentMonth.year, month);
+                _updateController();
+                widget.onChange?.call(_selectedDate!);
+                _hidePicker();
+              }
             });
           },
           child: Container(
@@ -472,9 +535,7 @@ class _EDatePickerState extends State<EDatePicker> {
             decoration: BoxDecoration(
               color: isSelected
                   ? EDatePickerStyle.selectedColor
-                  : _hoveredDate?.month == month
-                      ? EDatePickerStyle.hoverColor
-                      : Colors.transparent,
+                  : Colors.transparent,
               borderRadius: BorderRadius.circular(4),
               border: isToday
                   ? Border.all(color: EDatePickerStyle.selectedColor)
@@ -484,11 +545,7 @@ class _EDatePickerState extends State<EDatePicker> {
               child: Text(
                 DateFormat('MMM').format(DateTime(2000, month)),
                 style: TextStyle(
-                  color: isSelected
-                      ? Colors.white
-                      : _hoveredDate?.month == month && !isSelected
-                          ? EDatePickerStyle.selectedColor
-                          : const Color(0xFF606266),
+                  color: isSelected ? Colors.white : const Color(0xFF606266),
                   fontSize: 14,
                 ),
               ),
@@ -536,7 +593,10 @@ class _EDatePickerState extends State<EDatePicker> {
       }
 
       bool isSelected = false;
-      if (widget.range) {
+      if (widget.type == DatePickerType.dates) {
+        isSelected =
+            _selectedDates?.any((d) => d.isAtSameMomentAs(date)) ?? false;
+      } else if (widget.range) {
         if (_selectedRange != null) {
           if (_selectedRange!.length == 1) {
             isSelected = date.isAtSameMomentAs(_selectedRange![0]);
@@ -546,12 +606,8 @@ class _EDatePickerState extends State<EDatePicker> {
           }
         }
       } else {
-        if (widget.type == DatePickerType.dates) {
-          isSelected = _selectedDates?.contains(date) ?? false;
-        } else {
-          isSelected =
-              _selectedDate != null && date.isAtSameMomentAs(_selectedDate!);
-        }
+        isSelected =
+            _selectedDate != null && date.isAtSameMomentAs(_selectedDate!);
       }
 
       bool isToday = date.isAtSameMomentAs(DateTime(
@@ -570,7 +626,17 @@ class _EDatePickerState extends State<EDatePicker> {
                 _currentMonth = DateTime(date.year, date.month);
               }
 
-              if (widget.range) {
+              if (widget.type == DatePickerType.dates) {
+                if (_selectedDates == null) {
+                  _selectedDates = [date];
+                } else if (_selectedDates!
+                    .any((d) => d.isAtSameMomentAs(date))) {
+                  _selectedDates!.removeWhere((d) => d.isAtSameMomentAs(date));
+                } else {
+                  _selectedDates!.add(date);
+                }
+                _updateController();
+              } else if (widget.range) {
                 if (_selectedRange == null) {
                   _selectedRange = [date];
                 } else if (_selectedRange!.length == 1) {
@@ -588,11 +654,7 @@ class _EDatePickerState extends State<EDatePicker> {
                   _hidePicker();
                 }
               } else {
-                if (widget.type == DatePickerType.dates) {
-                  _selectedDates = [...(_selectedDates ?? []), date];
-                } else {
-                  _selectedDate = date;
-                }
+                _selectedDate = date;
                 _updateController();
                 widget.onChange?.call(_selectedDate!);
                 if (widget.type == DatePickerType.date) {
@@ -608,9 +670,7 @@ class _EDatePickerState extends State<EDatePicker> {
             decoration: BoxDecoration(
               color: isSelected
                   ? EDatePickerStyle.selectedColor
-                  : _hoveredDate == date
-                      ? EDatePickerStyle.hoverColor
-                      : Colors.transparent,
+                  : Colors.transparent,
               shape: BoxShape.circle,
               border: isToday
                   ? Border.all(color: EDatePickerStyle.selectedColor)
@@ -622,11 +682,9 @@ class _EDatePickerState extends State<EDatePicker> {
                 style: TextStyle(
                   color: isSelected
                       ? Colors.white
-                      : _hoveredDate == date && !isSelected
-                          ? EDatePickerStyle.selectedColor
-                          : !isCurrentMonth
-                              ? const Color(0xFFCCCCCC)
-                              : const Color(0xFF606266),
+                      : !isCurrentMonth
+                          ? const Color(0xFFCCCCCC)
+                          : const Color(0xFF606266),
                   fontSize: 14,
                 ),
               ),
