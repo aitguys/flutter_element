@@ -4,6 +4,7 @@ import 'button_style.dart';
 import 'package:flutter_element/src/theme/index.dart';
 import 'color_caculate.dart';
 import 'content_caculate.dart';
+import '../badge/badge.dart';
 
 class EButton extends StatelessWidget {
   final String? text;
@@ -25,6 +26,8 @@ class EButton extends StatelessWidget {
   final VoidCallback? onLongPressed;
   final ValueChanged<bool>? onHover;
   final ValueChanged<bool>? onFocus;
+  final bool showBadge;
+  final EBadge? badge;
   const EButton(
       {super.key,
       this.text,
@@ -45,7 +48,9 @@ class EButton extends StatelessWidget {
       this.size = EButtonSize.medium,
       this.fontSize,
       this.padding,
-      this.autoFocus = false});
+      this.autoFocus = false,
+      this.showBadge = false,
+      this.badge});
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +83,7 @@ class EButton extends StatelessWidget {
       contentFontSize = fontSize!;
     }
 
-    return ElevatedButton(
+    Widget btn = ElevatedButton(
         style: ButtonStyle(
           backgroundColor: WidgetStateProperty.resolveWith((states) {
             if (states.contains(WidgetState.hovered)) {
@@ -148,5 +153,20 @@ class EButton extends StatelessWidget {
               isDisabled: isDisabled,
               isActive: false);
         }));
+
+    if (showBadge) {
+      btn = Stack(
+        clipBehavior: Clip.none,
+        children: [
+          btn,
+          Positioned(
+            right: -4,
+            top: -4,
+            child: badge ?? const EBadge(value: 1),
+          ),
+        ],
+      );
+    }
+    return btn;
   }
 }

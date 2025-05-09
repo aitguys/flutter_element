@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element/flutter_element.dart';
+import 'package:flutter_element/src/components/badge/badge.dart';
 
 class ButtonPage extends StatelessWidget {
   const ButtonPage({super.key});
@@ -266,6 +267,39 @@ class ButtonPage extends StatelessWidget {
                     type: EButtonType.Primary,
                     loading: true,
                     loadingIcon: Icons.add,
+                  ),
+                ],
+              ),
+              // Badge 测试
+              const SizedBox(height: 16),
+              Text('按钮徽章 Badge'),
+              const SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  EButton(
+                    text: '消息',
+                    showBadge: true,
+                    badge: EBadge(value: 12, type: 'primary'),
+                    onPressed: () {},
+                  ),
+                  EButton(
+                    text: '评论',
+                    showBadge: true,
+                    badge: EBadge(value: 200, max: 99, type: 'danger'),
+                    onPressed: () {},
+                  ),
+                  EButton(
+                    text: '小红点',
+                    showBadge: true,
+                    badge: EBadge(isDot: true, type: 'warning'),
+                    onPressed: () {},
+                  ),
+                  EButton(
+                    text: '自定义颜色',
+                    showBadge: true,
+                    badge: EBadge(value: '新', color: Colors.purple),
+                    onPressed: () {},
                   ),
                 ],
               ),

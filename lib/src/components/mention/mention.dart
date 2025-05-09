@@ -165,6 +165,12 @@ class _EMentionState extends State<EMention> {
     print('_handleTextChanged: $text');
     widget.onChanged?.call(text);
 
+    // 如果文本为空，隐藏弹窗
+    if (text.isEmpty) {
+      _hideOverlay();
+      return;
+    }
+
     // 保存当前光标位置
     int currentCursorPosition = _controller.selection.baseOffset;
 
@@ -221,8 +227,9 @@ class _EMentionState extends State<EMention> {
     // );
 
     _hideOverlay();
-    // widget.onChanged?.call(newText);
-    // widget.onSelect?.call(option);
+    widget.onChanged?.call(newText);
+    widget.onSelect?.call(option);
+
     Future.delayed(const Duration(milliseconds: 10), () {
       _controller.selection =
           TextSelection.collapsed(offset: _controller.text.length);
@@ -246,7 +253,7 @@ class _EMentionState extends State<EMention> {
             final text = _controller.text;
 
             // 查找最近的 @ 符号位置
-            int atIndex = text.lastIndexOf('@', cursorPosition);
+            int atIndex = text.lastIndexOf('@', cursorPosition - 1);
             if (atIndex != -1) {
               // 查找下一个空格位置
               int spaceIndex = text.indexOf(' ', atIndex);
@@ -254,10 +261,26 @@ class _EMentionState extends State<EMention> {
                 spaceIndex = text.length;
               }
 
-              // 删除整个@项
-              _controller.text =
-                  text.substring(0, atIndex) + text.substring(spaceIndex);
-              _controller.selection = TextSelection.collapsed(offset: atIndex);
+              // 如果光标位置在@和空格之间，才删除整个@项
+              if (cursorPosition > atIndex && cursorPosition <= spaceIndex) {
+                String newText =
+                    text.substring(0, atIndex) + text.substring(spaceIndex);
+                _controller.text = newText;
+                _controller.selection =
+                    TextSelection.collapsed(offset: atIndex);
+
+                // 如果删除后文本为空，确保弹窗消失
+                if (newText.isEmpty) {
+                  _hideOverlay();
+                } else {
+                  // 重置状态，避免显示错误的弹窗
+                  setState(() {
+                    _currentPrefix = '';
+                    _prefixStart = -1;
+                  });
+                  _hideOverlay();
+                }
+              }
             }
           }
         },

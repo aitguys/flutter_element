@@ -31,6 +31,7 @@ class _MentionPageState extends State<MentionPage> {
             EMention(
               options: _options,
               placeholder: '请输入 @ 触发提及',
+              whole: true,
               onSearch: (query) {
                 print('搜索: $query');
               },
