@@ -35,6 +35,16 @@ import 'timeline_page.dart';
 import 'package:flutter_element_example/tree.dart';
 import 'package:flutter_element_example/pages/statistic/statistic.dart';
 import 'package:flutter_element_example/pages/segmented/segmented.dart';
+import 'affix_page.dart';
+import 'back_top_page.dart';
+import 'steps_page.dart';
+import 'tabs_page.dart';
+import 'alert_page.dart';
+import 'dialog_page.dart';
+import 'drawer_page.dart';
+import 'message_page.dart';
+import 'notification_page.dart';
+import 'watermark_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -312,6 +322,76 @@ class HomePage extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => const SegmentedPage()),
               );
             },
+          ),
+          ListTile(
+            title: const Text('Affix 固钉'),
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const AffixPage()),
+            ),
+          ),
+          ListTile(
+            title: const Text('Back Top 回到顶部'),
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const BackTopPage()),
+            ),
+          ),
+          ListTile(
+            title: const Text('Steps 步骤条'),
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const StepsPage()),
+            ),
+          ),
+          ListTile(
+            title: const Text('Tabs 标签页'),
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const TabsPage()),
+            ),
+          ),
+          ListTile(
+            title: const Text('Alert 警告'),
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const AlertPage()),
+            ),
+          ),
+          ListTile(
+            title: const Text('Dialog 对话框'),
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const DialogPage()),
+            ),
+          ),
+          ListTile(
+            title: const Text('Drawer 抽屉'),
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const DrawerPage()),
+            ),
+          ),
+          ListTile(
+            title: const Text('Message 消息提示'),
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const MessagePage()),
+            ),
+          ),
+          ListTile(
+            title: const Text('Notification 通知'),
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const NotificationPage()),
+            ),
+          ),
+          ListTile(
+            title: const Text('Watermark 水印'),
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const WatermarkPage()),
+            ),
           ),
         ],
       ),
