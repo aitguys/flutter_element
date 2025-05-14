@@ -12,7 +12,6 @@ dependencies:
     sdk: flutter
   flutter_colorpicker: ^1.1.0
   intl: ^0.20.2
-  flutter_local_notifications: ^16.3.2
 
 dev_dependencies:
   flutter_test:

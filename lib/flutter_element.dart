@@ -38,5 +38,4 @@ export 'src/components/alert/index.dart';
 export 'src/components/dialog/index.dart';
 export 'src/components/drawer/index.dart';
 export 'src/components/message/index.dart';
-export 'src/components/notification/index.dart';
 export 'src/components/watermark/index.dart';

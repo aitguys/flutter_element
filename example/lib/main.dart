@@ -1,6 +1,5 @@
 // example/lib/main.dart
 import 'package:flutter/material.dart';
-import 'package:flutter_element/flutter_element.dart';
 import 'button_page.dart';
 import 'link_page.dart';
 import 'scrollbar_page.dart';
@@ -43,7 +42,6 @@ import 'alert_page.dart';
 import 'dialog_page.dart';
 import 'drawer_page.dart';
 import 'message_page.dart';
-import 'notification_page.dart';
 import 'watermark_page.dart';
 
 void main() {
@@ -377,13 +375,6 @@ class HomePage extends StatelessWidget {
             onTap: () => Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const MessagePage()),
-            ),
-          ),
-          ListTile(
-            title: const Text('Notification 通知'),
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const NotificationPage()),
             ),
           ),
           ListTile(
