@@ -39,3 +39,5 @@ export 'src/components/dialog/index.dart';
 export 'src/components/drawer/index.dart';
 export 'src/components/message/index.dart';
 export 'src/components/watermark/index.dart';
+export 'src/components/navItem/index.dart';
+export 'src/components/widgetPreview/index.dart';

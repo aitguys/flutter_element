@@ -22,8 +22,9 @@ class ButtonPage extends StatelessWidget {
             children: [
               Text('按钮类型 - Default'),
               const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Wrap(
+                spacing: 8,
+                runSpacing: 16,
                 children: [
                   EButton(
                     text: 'Primary Button',

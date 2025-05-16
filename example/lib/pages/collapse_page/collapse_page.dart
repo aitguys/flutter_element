@@ -28,11 +28,19 @@ class _CollapsePageState extends State<CollapsePage> {
               panels: [
                 ECollapsePanel(
                   title: const Text('面板1'),
-                  child: const Text('内容1'),
+                  child: const Text('内容1',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 17,
+                          fontWeight: FontWeight.w600)),
                 ),
                 ECollapsePanel(
                   title: const Text('面板2'),
-                  child: const Text('内容2'),
+                  child: const Text('内容2',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400)),
                 ),
                 ECollapsePanel(
                   title: const Text('面板3'),
