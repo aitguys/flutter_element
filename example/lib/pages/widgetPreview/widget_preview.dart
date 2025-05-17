@@ -17,11 +17,8 @@ class WidgetPreviewTestPage extends StatelessWidget {
               child: const Text('按钮示例'),
             ),
             code: '''
-ElevatedButton(
-  onPressed: () {},
-  child: const Text('按钮示例'),
-)
-''',
+            
+            ''',
           ),
           WidgetPreview(
             widget: Switch(
@@ -29,11 +26,8 @@ ElevatedButton(
               onChanged: (_) {},
             ),
             code: '''
-Switch(
-  value: true,
-  onChanged: (_) {},
-)
-''',
+            
+            ''',
           ),
         ],
       ),

@@ -12,7 +12,8 @@ dependencies:
     sdk: flutter
   flutter_colorpicker: ^1.1.0
   intl: ^0.20.2
-
+  flutter_syntax_view: ^4.1.7
+  http: ^1.4.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

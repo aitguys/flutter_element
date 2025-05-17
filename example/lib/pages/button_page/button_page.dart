@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element/flutter_element.dart';
 import 'package:flutter_element/src/components/badge/badge.dart';
+import 'button_basic.dart';
 
 class ButtonPage extends StatelessWidget {
   const ButtonPage({super.key});
@@ -22,50 +23,19 @@ class ButtonPage extends StatelessWidget {
             children: [
               Text('按钮类型 - Default'),
               const SizedBox(height: 16),
-              Wrap(
-                spacing: 8,
-                runSpacing: 16,
-                children: [
-                  EButton(
-                    text: 'Primary Button',
-                    type: EButtonType.Primary,
-                    isDisabled: true,
-                    onPressed: () {
-                      print('点击了');
-                    },
-                  ),
-                  EButton(
-                    text: 'Success Button',
-                    type: EButtonType.Success,
-                    onPressed: () {},
-                  ),
-                  EButton(
-                    text: 'Warning Button',
-                    type: EButtonType.Warning,
-                    onPressed: () {},
-                  ),
-                  EButton(
-                    text: 'Danger Button',
-                    type: EButtonType.Danger,
-                    onPressed: () {},
-                  ),
-                  EButton(
-                    text: 'Info Button',
-                    type: EButtonType.Info,
-                    onPressed: () {},
-                  ),
-                  EButton(
-                    text: 'Default Button',
-                    type: EButtonType.Default,
-                    onPressed: () {},
-                  ),
-                ],
+              WidgetPreview(
+                widget: button_basic(),
+                code:
+                    'https://aitmed-public.oss-cn-hangzhou.aliyuncs.com/button_basic.dart',
+                title: '按钮类型 - Default',
               ),
+
               const SizedBox(height: 16),
               Text('按钮类型 - Plain'),
               const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Wrap(
+                spacing: 8,
+                runSpacing: 16,
                 children: [
                   EButton(
                     text: 'Primary Button',
@@ -112,8 +82,9 @@ class ButtonPage extends StatelessWidget {
               const SizedBox(height: 16),
               Text('按钮类型 - Round'),
               const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Wrap(
+                spacing: 8,
+                runSpacing: 16,
                 children: [
                   EButton(
                     text: 'Primary Button',
@@ -156,8 +127,9 @@ class ButtonPage extends StatelessWidget {
               const SizedBox(height: 16),
               Text('按钮类型 - Icon'),
               const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Wrap(
+                spacing: 8,
+                runSpacing: 16,
                 children: [
                   EButton(
                     text: 'Primary Button',
@@ -199,8 +171,9 @@ class ButtonPage extends StatelessWidget {
               const SizedBox(height: 16),
               Text('自定义颜色'),
               const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Wrap(
+                spacing: 8,
+                runSpacing: 16,
                 children: [
                   EButton(
                     text: 'Primary Button',
@@ -231,8 +204,9 @@ class ButtonPage extends StatelessWidget {
               const SizedBox(height: 16),
               Text('自定义children'),
               const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Wrap(
+                spacing: 8,
+                runSpacing: 16,
                 children: [
                   EButton(
                     child: Container(
@@ -255,8 +229,9 @@ class ButtonPage extends StatelessWidget {
               const SizedBox(height: 16),
               Text('isloading'),
               const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Wrap(
+                spacing: 8,
+                runSpacing: 16,
                 children: [
                   EButton(
                     text: 'Primary Button',
@@ -275,8 +250,9 @@ class ButtonPage extends StatelessWidget {
               const SizedBox(height: 16),
               Text('按钮徽章 Badge'),
               const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Wrap(
+                spacing: 8,
+                runSpacing: 16,
                 children: [
                   EButton(
                     text: '消息',

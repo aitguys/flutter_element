@@ -6,7 +6,8 @@ import '../pages/timeline_page/timeline_page.dart';
 import '../pages/statistic/statistic.dart';
 import '../pages/home/home_page.dart';
 import '../pages/tree/tree.dart';
-import '../pages/button_page/button_page.dart';
+import '../pages/button_page/index.dart';
+import '../pages/button_page/button_basic.dart';
 import '../pages/link_page/link_page.dart';
 import '../pages/scrollbar_page/scrollbar_page.dart';
 import '../pages/autocomplete_page/autocomplete_page.dart';
@@ -53,6 +54,7 @@ abstract class Routes {
   static const TREE = '/tree';
   static const STATISTIC = '/statistic';
   static const BUTTON = '/button';
+  static const BUTTON_BASIC = '/button/basic';
   static const LINK = '/link';
   static const SCROLLBAR = '/scrollbar';
   static const AUTOCOMPLETE = '/autocomplete';
@@ -126,7 +128,11 @@ class AppPages {
     ),
     GetPage(
       name: Routes.BUTTON,
-      page: () => const ButtonPage(),
+      page: () => const ButtonPreview(),
+    ),
+    GetPage(
+      name: Routes.BUTTON_BASIC,
+      page: () => const button_basic_preview(),
     ),
     GetPage(
       name: Routes.LINK,

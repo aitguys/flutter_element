@@ -1,5 +1,14 @@
 /* Hero section logo glow effect */
-.VPHero .VPImage.image-src {
+
+:root {
+	--vp-layout-max-width: 100%;
+}
+
+.VPDoc.has-aside .content-container {
+	max-width: 100% !important;
+	padding: 0;
+}
+.VPHero  .VPImage.image-src {
 	filter: drop-shadow(0 0 5em #51b3f9aa);
 	transition: filter 0.3s ease;
 }

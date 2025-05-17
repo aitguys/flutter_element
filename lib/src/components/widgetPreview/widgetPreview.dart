@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_syntax_view/flutter_syntax_view.dart';
+import 'package:http/http.dart' as http;
 
 class WidgetPreview extends StatefulWidget {
   final Widget widget;
-  final String? code;
+  final String code;
+  final String? title;
 
   const WidgetPreview({
-    Key? key,
+    super.key,
     required this.widget,
-    this.code,
-  }) : super(key: key);
+    required this.code,
+    this.title,
+  });
 
   @override
   State<WidgetPreview> createState() => _WidgetPreviewState();
@@ -18,23 +21,58 @@ class WidgetPreview extends StatefulWidget {
 
 class _WidgetPreviewState extends State<WidgetPreview> {
   bool _expanded = false;
-  late String _code;
+  String? _code;
+  bool _isLoading = false;
 
-  @override
-  void initState() {
-    super.initState();
-    _code = widget.code ?? _generateCode(widget.widget);
-  }
+  Future<void> _loadCode() async {
+    setState(() {
+      _isLoading = true;
+    });
 
-  String _generateCode(Widget widget) {
-    return widget.toString();
+    try {
+      if (widget.code.startsWith('http')) {
+        final response = await http.get(Uri.parse(widget.code));
+        if (response.statusCode == 200) {
+          setState(() {
+            _code = response.body;
+          });
+        } else {
+          setState(() {
+            _code = '加载代码失败: ${response.statusCode}';
+          });
+        }
+      } else {
+        setState(() {
+          _code = widget.code;
+        });
+      }
+    } catch (e) {
+      setState(() {
+        _code = '加载代码失败: $e';
+      });
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   void _copyCode() {
-    Clipboard.setData(ClipboardData(text: _code));
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('代码已复制到剪贴板')),
-    );
+    if (_code != null) {
+      Clipboard.setData(ClipboardData(text: _code!));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('代码已复制到剪贴板')),
+      );
+    }
+  }
+
+  void _toggleExpanded() {
+    setState(() {
+      _expanded = !_expanded;
+      if (_expanded && _code == null) {
+        _loadCode();
+      }
+    });
   }
 
   @override
@@ -43,22 +81,37 @@ class _WidgetPreviewState extends State<WidgetPreview> {
 
     return Card(
       elevation: 1,
+      shadowColor: Colors.white,
       margin: const EdgeInsets.symmetric(vertical: 16),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(6),
+        borderRadius: BorderRadius.circular(4),
+        side: BorderSide(color: Colors.grey[200]!),
       ),
-      color: Colors.white,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          if (widget.title != null)
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.grey[50],
+                border: Border(
+                  bottom: BorderSide(color: Colors.grey[200]!),
+                ),
+              ),
+              child: Text(
+                widget.title!,
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: theme.colorScheme.onSurface,
+                ),
+              ),
+            ),
           Container(
-            padding: const EdgeInsets.all(12),
+            padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(6),
-                topRight: Radius.circular(6),
-              ),
             ),
             child: Center(child: widget.widget),
           ),
@@ -70,7 +123,7 @@ class _WidgetPreviewState extends State<WidgetPreview> {
               bottomRight: Radius.circular(6),
             ),
             child: InkWell(
-              onTap: () => setState(() => _expanded = !_expanded),
+              onTap: _toggleExpanded,
               borderRadius: const BorderRadius.only(
                 bottomLeft: Radius.circular(6),
                 bottomRight: Radius.circular(6),
@@ -94,7 +147,7 @@ class _WidgetPreviewState extends State<WidgetPreview> {
                       ),
                     ),
                     const Spacer(),
-                    if (_expanded)
+                    if (_expanded && !_isLoading)
                       IconButton(
                         icon: const Icon(Icons.copy, size: 18),
                         onPressed: _copyCode,
@@ -121,20 +174,28 @@ class _WidgetPreviewState extends State<WidgetPreview> {
                   bottomRight: Radius.circular(12),
                 ),
               ),
-              width: double.infinity,
               padding: const EdgeInsets.all(16),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: SelectableText(
-                  _code,
-                  style: TextStyle(
-                    fontFamily: 'Fira Code',
-                    fontSize: 14,
-                    height: 1.5,
-                    color: theme.colorScheme.onSurfaceVariant,
-                  ),
-                ),
-              ),
+              child: _isLoading
+                  ? const Center(child: CircularProgressIndicator())
+                  : SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        height: 400,
+                        child: SyntaxView(
+                            code: _code ?? '', // Code text
+                            syntax: Syntax.DART, // Language
+                            syntaxTheme: SyntaxTheme.vscodeLight(), // Theme
+                            fontSize: 14.0, // Font size
+                            withZoom: true, // Enable/Disable zoom icon controls
+                            withLinesCount: true, // Enable/Disable line number
+                            expanded:
+                                true, // Enable/Disable container expansion
+                            selectable:
+                                true // Enable/Disable code text selection
+                            ),
+                      ),
+                    ),
             ),
             crossFadeState: _expanded
                 ? CrossFadeState.showSecond
