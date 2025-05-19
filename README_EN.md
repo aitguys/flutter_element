@@ -4,6 +4,10 @@ English | [简体中文](README.md)
 
 A Flutter UI component library based on [Element Plus](https://element-plus.org/) design system, designed to accelerate Flutter application development.
 
+## 🚧 Work in Progress
+
+Initial version expected to be released by the end of May 2025.
+
 ## 🚀 Features
 
 - 📦 90% built with [Flutter](https://flutter.dev/) base components for optimal compatibility

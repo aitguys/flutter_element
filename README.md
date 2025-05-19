@@ -4,6 +4,10 @@
 
 基于 [Element Plus](https://element-plus.org/) 设计风格的 Flutter UI 组件库，旨在加速 Flutter 应用开发。
 
+
+## 🚧 正在开发
+初始版本5月底发布
+
 ## 🚀 特性
 
 - 📦 90% 使用 [Flutter](https://flutter.dev/) 基础组件构建，确保最佳兼容性
@@ -22,7 +26,7 @@
 - [ ] 单元测试
 - [ ] 性能优化
 
-预计 2024 年 5 月底完成初版发布。
+
 
 ## 📦 安装
 
