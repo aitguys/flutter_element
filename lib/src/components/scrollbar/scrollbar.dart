@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_element/src/theme/index.dart';
 
 class EScrollbar extends StatefulWidget {
   final Widget child;

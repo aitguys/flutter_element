@@ -1,13 +1,13 @@
 // lib/src/components/button/button.dart
 import 'package:flutter/material.dart';
 import 'button_style.dart';
-import 'package:flutter_element/src/theme/index.dart';
 import 'color_caculate.dart';
 import 'content_caculate.dart';
 import '../badge/badge.dart';
 
 class EButton extends StatelessWidget {
   final String? text;
+  final bool link;
   final IconData? icon;
   final Widget? child;
   final EButtonSize size;
@@ -31,6 +31,7 @@ class EButton extends StatelessWidget {
   const EButton(
       {super.key,
       this.text,
+      this.link = false,
       this.onPressed,
       this.onLongPressed,
       this.onHover,
@@ -153,12 +154,27 @@ class EButton extends StatelessWidget {
               isDisabled: isDisabled,
               isActive: false);
         }));
-
+    Widget linkBtn = TextButton(
+      onPressed: isDisabled ? null : onPressed,
+      style: ButtonStyle(
+        overlayColor: WidgetStateProperty.all(Colors.transparent),
+        mouseCursor: isDisabled
+            ? WidgetStateProperty.all(SystemMouseCursors.forbidden)
+            : WidgetStateProperty.all(SystemMouseCursors.click),
+      ),
+      child: Text(text ?? '',
+          style: TextStyle(
+            fontSize: contentFontSize,
+            color: calculateForegroundColor(buttonColor,
+                isPlain: true, isActive: false, isDisabled: isDisabled),
+          )),
+    );
+    Widget buttonWidget = link ? linkBtn : btn;
     if (showBadge) {
       btn = Stack(
         clipBehavior: Clip.none,
         children: [
-          btn,
+          buttonWidget,
           Positioned(
             right: -4,
             top: -4,
@@ -167,6 +183,6 @@ class EButton extends StatelessWidget {
         ],
       );
     }
-    return btn;
+    return buttonWidget;
   }
 }

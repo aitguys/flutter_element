@@ -31,9 +31,16 @@ Color calculateForegroundColor(
   bool isDisabled = false,
 }) {
   if (backgroundColor == EColors.Default) {
+    if (isDisabled) {
+      return EColors.TextGray.withValues(alpha: 0.4);
+    }
     return EColors.TextGray;
   }
+
   if (isPlain) {
+    if (isDisabled) {
+      return backgroundColor.withValues(alpha: 0.5);
+    }
     if (isActive) {
       return Colors.white;
     }

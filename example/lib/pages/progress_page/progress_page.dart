@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_element/flutter_element.dart';
 import 'package:flutter_element/src/components/progress/progress.dart';
 
 class ProgressPage extends StatelessWidget {

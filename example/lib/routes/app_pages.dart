@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import '../pages/button_page/route.dart';
 import '../pages/segmented/segmented.dart';
 import '../pages/table_page/table_page.dart';
 import '../pages/tag_page/tag_page.dart';
@@ -6,8 +7,6 @@ import '../pages/timeline_page/timeline_page.dart';
 import '../pages/statistic/statistic.dart';
 import '../pages/home/home_page.dart';
 import '../pages/tree/tree.dart';
-import '../pages/button_page/index.dart';
-import '../pages/button_page/button_basic.dart';
 import '../pages/link_page/link_page.dart';
 import '../pages/scrollbar_page/scrollbar_page.dart';
 import '../pages/autocomplete_page/autocomplete_page.dart';
@@ -46,236 +45,235 @@ import '../pages/nav_item/navItem_page.dart';
 import '../pages/widgetPreview/widget_preview.dart';
 
 abstract class Routes {
-  static const HOME = '/';
-  static const SEGMENTED = '/segmented';
-  static const TABLE = '/table';
-  static const TAG = '/tag';
-  static const TIMELINE = '/timeline';
-  static const TREE = '/tree';
-  static const STATISTIC = '/statistic';
-  static const BUTTON = '/button';
-  static const BUTTON_BASIC = '/button/basic';
-  static const LINK = '/link';
-  static const SCROLLBAR = '/scrollbar';
-  static const AUTOCOMPLETE = '/autocomplete';
-  static const CHECKBOX = '/checkbox';
-  static const COLOR_PICKER = '/color_picker';
-  static const DATE_PICKER = '/date_picker';
-  static const TIME_PICKER = '/time_picker';
-  static const INPUT = '/input';
-  static const INPUT_NUMBER = '/input_number';
-  static const INPUT_TAG = '/input_tag';
-  static const MENTION = '/mention';
-  static const RADIO = '/radio';
-  static const RATE = '/rate';
-  static const SELECT = '/select';
-  static const SLIDER = '/slider';
-  static const AVATAR = '/avatar';
-  static const CARD = '/card';
-  static const CAROUSEL = '/carousel';
-  static const COLLAPSE = '/collapse';
-  static const DESCRIPTIONS = '/descriptions';
-  static const EMPTY = '/empty';
-  static const IMAGE = '/image';
-  static const INFINITE_SCROLL = '/infinite_scroll';
-  static const PAGINATION = '/pagination';
-  static const PROGRESS = '/progress';
-  static const RESULT = '/result';
-  static const SKELETON = '/skeleton';
-  static const STEPS = '/steps';
-  static const TABS = '/tabs';
-  static const ALERT = '/alert';
-  static const DIALOG = '/dialog';
-  static const DRAWER = '/drawer';
-  static const MESSAGE = '/message';
-  static const WATERMARK = '/watermark';
-  static const NAV_ITEM = '/nav_item';
-  static const BACK_TOP = '/back_top';
-  static const WIDGET_PREVIEW = '/widget_preview';
+  static const home = '/';
+  static const segmented = '/segmented';
+  static const table = '/table';
+  static const tag = '/tag';
+  static const timeline = '/timeline';
+  static const tree = '/tree';
+  static const statistic = '/statistic';
+  static const button = ButtonRoutes.button;
+  static const buttonBasic = ButtonRoutes.buttonBasic;
+  static const buttonIcon = ButtonRoutes.buttonIcon;
+  static const buttonCustomColor = ButtonRoutes.buttonCustomColor;
+  static const buttonCustomChildren = ButtonRoutes.buttonCustomChildren;
+  static const buttonLoading = ButtonRoutes.buttonLoading;
+  static const buttonBadge = ButtonRoutes.buttonBadge;
+  static const buttonLink = ButtonRoutes.buttonLink;
+  static const link = '/link';
+  static const scrollbar = '/scrollbar';
+  static const autocomplete = '/autocomplete';
+  static const checkbox = '/checkbox';
+  static const colorPicker = '/color_picker';
+  static const datePicker = '/date_picker';
+  static const timePicker = '/time_picker';
+  static const input = '/input';
+  static const inputNumber = '/input_number';
+  static const inputTag = '/input_tag';
+  static const mention = '/mention';
+  static const radio = '/radio';
+  static const rate = '/rate';
+  static const select = '/select';
+  static const slider = '/slider';
+  static const avatar = '/avatar';
+  static const card = '/card';
+  static const carousel = '/carousel';
+  static const collapse = '/collapse';
+  static const descriptions = '/descriptions';
+  static const empty = '/empty';
+  static const image = '/image';
+  static const infiniteScroll = '/infinite_scroll';
+  static const pagination = '/pagination';
+  static const progress = '/progress';
+  static const result = '/result';
+  static const skeleton = '/skeleton';
+  static const steps = '/steps';
+  static const tabs = '/tabs';
+  static const alert = '/alert';
+  static const dialog = '/dialog';
+  static const drawer = '/drawer';
+  static const message = '/message';
+  static const watermark = '/watermark';
+  static const navItem = '/nav_item';
+  static const backTop = '/back_top';
+  static const widgetPreview = '/widget_preview';
 }
 
 class AppPages {
-  static const INITIAL = Routes.HOME;
+  static const initial = Routes.home;
 
   static final routes = [
     GetPage(
-      name: Routes.HOME,
+      name: Routes.home,
       page: () => const HomePage(),
     ),
     GetPage(
-      name: Routes.SEGMENTED,
+      name: Routes.segmented,
       page: () => const SegmentedPage(),
     ),
     GetPage(
-      name: Routes.TABLE,
+      name: Routes.table,
       page: () => const TablePage(),
     ),
     GetPage(
-      name: Routes.TAG,
+      name: Routes.tag,
       page: () => const TagPage(),
     ),
     GetPage(
-      name: Routes.TIMELINE,
+      name: Routes.timeline,
       page: () => const TimelinePage(),
     ),
     GetPage(
-      name: Routes.STATISTIC,
+      name: Routes.statistic,
       page: () => const StatisticPage(),
     ),
     GetPage(
-      name: Routes.TREE,
+      name: Routes.tree,
       page: () => const TreePage(),
     ),
+    ...buttonRoutesPages,
     GetPage(
-      name: Routes.BUTTON,
-      page: () => const ButtonPreview(),
-    ),
-    GetPage(
-      name: Routes.BUTTON_BASIC,
-      page: () => const button_basic_preview(),
-    ),
-    GetPage(
-      name: Routes.LINK,
+      name: Routes.link,
       page: () => const LinkPage(),
     ),
     GetPage(
-      name: Routes.SCROLLBAR,
+      name: Routes.scrollbar,
       page: () => const ScrollbarPage(),
     ),
     GetPage(
-      name: Routes.AUTOCOMPLETE,
+      name: Routes.autocomplete,
       page: () => const AutocompletePage(),
     ),
     GetPage(
-      name: Routes.CHECKBOX,
+      name: Routes.checkbox,
       page: () => const CheckboxPage(),
     ),
     GetPage(
-      name: Routes.COLOR_PICKER,
+      name: Routes.colorPicker,
       page: () => const ColorPickerPage(),
     ),
     GetPage(
-      name: Routes.DATE_PICKER,
+      name: Routes.datePicker,
       page: () => const DatePickerPage(),
     ),
     GetPage(
-      name: Routes.TIME_PICKER,
+      name: Routes.timePicker,
       page: () => const TimePickerPage(),
     ),
     GetPage(
-      name: Routes.INPUT,
+      name: Routes.input,
       page: () => const InputPage(),
     ),
     GetPage(
-      name: Routes.INPUT_NUMBER,
+      name: Routes.inputNumber,
       page: () => const InputNumberPage(),
     ),
     GetPage(
-      name: Routes.INPUT_TAG,
+      name: Routes.inputTag,
       page: () => const InputTagPage(),
     ),
     GetPage(
-      name: Routes.MENTION,
+      name: Routes.mention,
       page: () => const MentionPage(),
     ),
     GetPage(
-      name: Routes.RADIO,
+      name: Routes.radio,
       page: () => const RadioPage(),
     ),
     GetPage(
-      name: Routes.RATE,
+      name: Routes.rate,
       page: () => const RatePage(),
     ),
     GetPage(
-      name: Routes.SELECT,
+      name: Routes.select,
       page: () => const SelectPage(),
     ),
     GetPage(
-      name: Routes.SLIDER,
+      name: Routes.slider,
       page: () => const SliderPage(),
     ),
     GetPage(
-      name: Routes.AVATAR,
+      name: Routes.avatar,
       page: () => const AvatarPage(),
     ),
     GetPage(
-      name: Routes.CARD,
+      name: Routes.card,
       page: () => const CardPage(),
     ),
     GetPage(
-      name: Routes.CAROUSEL,
+      name: Routes.carousel,
       page: () => const CarouselPage(),
     ),
     GetPage(
-      name: Routes.COLLAPSE,
+      name: Routes.collapse,
       page: () => const CollapsePage(),
     ),
     GetPage(
-      name: Routes.DESCRIPTIONS,
+      name: Routes.descriptions,
       page: () => const DescriptionsPage(),
     ),
     GetPage(
-      name: Routes.EMPTY,
+      name: Routes.empty,
       page: () => const EmptyPage(),
     ),
     GetPage(
-      name: Routes.IMAGE,
+      name: Routes.image,
       page: () => const ImagePage(),
     ),
     GetPage(
-      name: Routes.INFINITE_SCROLL,
+      name: Routes.infiniteScroll,
       page: () => const InfiniteScrollPage(),
     ),
     GetPage(
-      name: Routes.PAGINATION,
+      name: Routes.pagination,
       page: () => const PaginationPage(),
     ),
     GetPage(
-      name: Routes.PROGRESS,
+      name: Routes.progress,
       page: () => const ProgressPage(),
     ),
     GetPage(
-      name: Routes.RESULT,
+      name: Routes.result,
       page: () => const ResultPage(),
     ),
     GetPage(
-      name: Routes.SKELETON,
+      name: Routes.skeleton,
       page: () => const SkeletonPage(),
     ),
     GetPage(
-      name: Routes.STEPS,
+      name: Routes.steps,
       page: () => const StepsPage(),
     ),
     GetPage(
-      name: Routes.TABS,
+      name: Routes.tabs,
       page: () => const TabsPage(),
     ),
     GetPage(
-      name: Routes.ALERT,
+      name: Routes.alert,
       page: () => const AlertPage(),
     ),
     GetPage(
-      name: Routes.DIALOG,
+      name: Routes.dialog,
       page: () => const DialogPage(),
     ),
     GetPage(
-      name: Routes.DRAWER,
+      name: Routes.drawer,
       page: () => const DrawerPage(),
     ),
     GetPage(
-      name: Routes.MESSAGE,
+      name: Routes.message,
       page: () => const MessagePage(),
     ),
     GetPage(
-      name: Routes.WATERMARK,
+      name: Routes.watermark,
       page: () => const WatermarkPage(),
     ),
     GetPage(
-      name: Routes.NAV_ITEM,
+      name: Routes.navItem,
       page: () => const NavItemTestPage(),
     ),
     GetPage(
-      name: Routes.WIDGET_PREVIEW,
+      name: Routes.widgetPreview,
       page: () => const WidgetPreviewTestPage(),
     ),
   ];

@@ -51,10 +51,6 @@ class _TreePageState extends State<TreePage> {
     print('选中的节点: $checkedKeys');
   }
 
-  void _onNodeClick(dynamic nodeValue, bool expanded) {
-    print('点击的节点: $nodeValue, 是否展开: $expanded');
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -104,7 +100,7 @@ class _TreePageState extends State<TreePage> {
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20),
-            FlTree(
+            const FlTree(
               data: [
                 FlTreeNode(
                   label: '一级 1',
@@ -129,7 +125,7 @@ class _TreePageState extends State<TreePage> {
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20),
-            FlTree(
+            const FlTree(
               data: [
                 FlTreeNode(
                   label: '一级 1',

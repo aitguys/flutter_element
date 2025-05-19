@@ -11,14 +11,14 @@ class EDescriptions extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
 
   const EDescriptions({
-    Key? key,
+    super.key,
     this.title,
     this.column = 3,
     this.border = false,
     this.size = EDescriptionsSize.medium,
     required this.items,
     this.padding,
-  }) : super(key: key);
+  });
 
   double get _fontSize {
     switch (size) {
@@ -29,18 +29,6 @@ class EDescriptions extends StatelessWidget {
       case EDescriptionsSize.medium:
       default:
         return 14;
-    }
-  }
-
-  double get _rowHeight {
-    switch (size) {
-      case EDescriptionsSize.mini:
-        return 28;
-      case EDescriptionsSize.small:
-        return 32;
-      case EDescriptionsSize.medium:
-      default:
-        return 36;
     }
   }
 

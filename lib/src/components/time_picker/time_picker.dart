@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:flutter_element/src/theme/index.dart';
 
 class ETimePicker extends StatefulWidget {

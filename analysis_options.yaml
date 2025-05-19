@@ -1,4 +1,17 @@
-include: package:flutter_lints/flutter.yaml
+include: package:flutter_lints/flutter.yaml  # 继承 Flutter 推荐规则
 
-# Additional information about this file can be found at
-# https://dart.dev/guides/language/analysis-options
+analyzer:
+  strong-mode:
+    implicit-casts: false  # 禁止隐式类型转换
+    implicit-dynamic: false # 禁止隐式 dynamic 类型
+  errors:
+    unused_element: error  # 未使用的元素报错
+    unused_import: error   # 未使用的导入报错
+
+linter:
+  rules:
+    - camel_case_types      # 类名必须大驼峰
+    - constant_identifier_names # 常量名必须全大写
+    - avoid_empty_else      # 禁止空 else
+    - prefer_const_constructors # 优先使用 const 构造函数
+    # 更多规则见：https://dart.dev/tools/linter-rules

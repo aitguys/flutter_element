@@ -110,10 +110,10 @@ class _WidgetPreviewState extends State<WidgetPreview> {
             ),
           Container(
             padding: const EdgeInsets.all(24),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Colors.white,
             ),
-            child: Center(child: widget.widget),
+            child: widget.widget,
           ),
           const Divider(height: 1),
           Material(

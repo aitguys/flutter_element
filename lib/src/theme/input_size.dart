@@ -1,6 +1,4 @@
 // 定义大中小情况下 输入框
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
 enum SizeItem {
@@ -19,11 +17,11 @@ class ElememtSize {
   EdgeInsets getInputPadding() {
     switch (size) {
       case SizeItem.large:
-        return EdgeInsets.all(20);
+        return const EdgeInsets.all(20);
       case SizeItem.medium:
-        return EdgeInsets.all(16);
+        return const EdgeInsets.all(16);
       case SizeItem.small:
-        return EdgeInsets.symmetric(vertical: 0);
+        return const EdgeInsets.symmetric(vertical: 0);
     }
   }
 

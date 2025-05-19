@@ -10,7 +10,7 @@ class TreePage extends StatefulWidget {
 
 class _TreePageState extends State<TreePage> {
   final List<FlTreeNode> data = [
-    FlTreeNode(
+    const FlTreeNode(
       label: '一级 1',
       value: '1',
       children: [
@@ -24,7 +24,7 @@ class _TreePageState extends State<TreePage> {
         ),
       ],
     ),
-    FlTreeNode(
+    const FlTreeNode(
       label: '一级 2',
       value: '2',
       children: [
@@ -49,10 +49,6 @@ class _TreePageState extends State<TreePage> {
 
   void _onCheck(List<dynamic> checkedKeys) {
     print('选中的节点: $checkedKeys');
-  }
-
-  void _onNodeClick(dynamic nodeValue, bool expanded) {
-    print('点击的节点: $nodeValue, 是否展开: $expanded');
   }
 
   @override

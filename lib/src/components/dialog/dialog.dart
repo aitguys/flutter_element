@@ -84,13 +84,6 @@ class _EDialogState extends State<EDialog> with SingleTickerProviderStateMixin {
     super.dispose();
   }
 
-  void _handleDragUpdate(DragUpdateDetails details) {
-    if (!widget.draggable) return;
-    setState(() {
-      _dragOffset += details.delta;
-    });
-  }
-
   void _handleClose() {
     widget.onClose?.call();
   }
