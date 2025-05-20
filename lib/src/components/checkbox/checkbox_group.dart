@@ -4,7 +4,7 @@ import 'checkbox.dart';
 
 class ECheckboxGroup extends StatefulWidget {
   final List<String> value;
-  final SizeItem size;
+  final ESizeItem size;
   final bool disabled;
   final int? min;
   final int? max;
@@ -18,7 +18,7 @@ class ECheckboxGroup extends StatefulWidget {
   const ECheckboxGroup({
     super.key,
     required this.value,
-    this.size = SizeItem.medium,
+    this.size = ESizeItem.medium,
     this.disabled = false,
     this.min,
     this.max,

@@ -6,14 +6,14 @@ class ETimePicker extends StatefulWidget {
   final ValueChanged<TimeOfDay>? onChange;
   final String? placeholder;
   final Widget? prefix;
-  final SizeItem size;
+  final ESizeItem size;
   const ETimePicker({
     Key? key,
     this.value,
     this.onChange,
     this.placeholder = '请选择时间',
     this.prefix,
-    this.size = SizeItem.medium,
+    this.size = ESizeItem.medium,
   }) : super(key: key);
 
   @override
@@ -57,7 +57,7 @@ class _ETimePickerState extends State<ETimePicker> {
         Icon(
           Icons.access_time,
           size: ElememtSize(size: widget.size).getIconSize(),
-          color: EColors.Primary,
+          color: EColorTypes.primary,
         );
   }
 

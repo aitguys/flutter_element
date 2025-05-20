@@ -7,17 +7,17 @@ import 'link_style.dart';
 Color getLinkColor(ELinkType type) {
   switch (type) {
     case ELinkType.Primary:
-      return EColors.Primary;
+      return EColorTypes.primary;
     case ELinkType.Success:
-      return EColors.Success;
+      return EColorTypes.success;
     case ELinkType.Warning:
-      return EColors.Warning;
+      return EColorTypes.warning;
     case ELinkType.Danger:
-      return EColors.Danger;
+      return EColorTypes.danger;
     case ELinkType.Info:
-      return EColors.Info;
+      return EColorTypes.info;
     case ELinkType.Default:
-      return EColors.Default;
+      return EColorTypes.default_;
   }
 }
 
@@ -28,8 +28,8 @@ Color calculateForegroundColor(
   bool isPlain = false,
   bool isDisabled = false,
 }) {
-  if (backgroundColor == EColors.Default) {
-    return EColors.TextGray;
+  if (backgroundColor == EColorTypes.default_) {
+    return EBasicColors.textGray;
   } else {
     if (isDisabled) {
       return backgroundColor.withOpacity(0.5);

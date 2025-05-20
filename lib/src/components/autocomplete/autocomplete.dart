@@ -35,7 +35,7 @@ class EAutocomplete extends StatefulWidget {
   final bool disabled;
   final String valueKey;
   final int debounce;
-  final SizeItem size;
+  final ESizeItem size;
   // final String placement;
   final Function(String, Function(List<dynamic>)) fetchSuggestions;
   final bool triggerOnFocus;
@@ -68,7 +68,7 @@ class EAutocomplete extends StatefulWidget {
     this.debounce = 300,
     // this.placement = 'bottom-start',
     required this.fetchSuggestions,
-    this.size = SizeItem.medium,
+    this.size = ESizeItem.medium,
     this.triggerOnFocus = true,
     // this.selectWhenUnmatched = false,
     this.name,
@@ -214,7 +214,7 @@ class _EAutocompleteState extends State<EAutocomplete> {
                 Center(
                   child: CustomPaint(
                     size: const Size(10, 5),
-                    painter: TrianglePainter(color: EColors.BorderGray),
+                    painter: TrianglePainter(color: EBasicColors.borderGray),
                   ),
                 ),
                 Material(
@@ -222,7 +222,7 @@ class _EAutocompleteState extends State<EAutocomplete> {
                   borderRadius: BorderRadius.circular(4),
                   child: Container(
                     decoration: BoxDecoration(
-                      border: Border.all(color: EColors.BorderGray),
+                      border: Border.all(color: EBasicColors.borderGray),
                       borderRadius: BorderRadius.circular(4),
                     ),
                     constraints: BoxConstraints(
@@ -249,11 +249,11 @@ class _EAutocompleteState extends State<EAutocomplete> {
                                 width: double.infinity,
                                 decoration: BoxDecoration(
                                   color: isHighlighted
-                                      ? EColors.Primary.withOpacity(0.1)
+                                      ? EColorTypes.primary.withOpacity(0.1)
                                       : null,
                                   border: Border(
                                     bottom: BorderSide(
-                                      color: EColors.BorderGray,
+                                      color: EBasicColors.borderGray,
                                       width: 0.5,
                                     ),
                                   ),
@@ -263,7 +263,7 @@ class _EAutocompleteState extends State<EAutocomplete> {
                                     item[widget.valueKey].toString(),
                                     style: TextStyle(
                                       color: isHighlighted
-                                          ? EColors.Primary
+                                          ? EColorTypes.primary
                                           : Colors.black87,
                                     ),
                                   ),
@@ -324,21 +324,21 @@ class _EAutocompleteState extends State<EAutocomplete> {
               enabled: !widget.disabled,
               decoration: InputDecoration(
                 hintText: widget.placeholder,
-                hintStyle: TextStyle(color: EColors.BorderGray),
+                hintStyle: TextStyle(color: EBasicColors.borderGray),
                 prefixIcon: widget.prefix,
                 contentPadding:
                     ElememtSize(size: widget.size).getInputPadding(),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(4),
-                  borderSide: BorderSide(color: EColors.BorderGray),
+                  borderSide: BorderSide(color: EBasicColors.borderGray),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(4),
-                  borderSide: BorderSide(color: EColors.BorderGray),
+                  borderSide: BorderSide(color: EBasicColors.borderGray),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(4),
-                  borderSide: BorderSide(color: EColors.Primary),
+                  borderSide: BorderSide(color: EColorTypes.primary),
                 ),
                 suffixIcon: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -351,8 +351,8 @@ class _EAutocompleteState extends State<EAutocomplete> {
                           height: 20,
                           child: CircularProgressIndicator(
                             strokeWidth: 2,
-                            valueColor:
-                                AlwaysStoppedAnimation<Color>(EColors.Primary),
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                                EColorTypes.primary),
                           ),
                         ),
                       ),

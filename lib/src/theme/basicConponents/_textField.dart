@@ -56,25 +56,27 @@ class EBasicTextField extends TextField {
     InputDecoration? decoration,
     String? placeholder,
     bool disabled = false,
-    SizeItem size = SizeItem.medium,
+    ESizeItem size = ESizeItem.medium,
   }) : super(
           decoration: (decoration ?? const InputDecoration()).copyWith(
             hintText: placeholder,
             isCollapsed: true,
             isDense: true,
-            hintStyle: TextStyle(color: EColors.BorderGray),
+            hintStyle: TextStyle(color: EBasicColors.borderGray),
             contentPadding: ElememtSize(size: size).getInputPadding(),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(4),
-              borderSide: BorderSide(color: EColors.BorderGray, width: 1.0),
+              borderSide:
+                  BorderSide(color: EBasicColors.borderGray, width: 1.0),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(4),
-              borderSide: BorderSide(color: EColors.BorderGray, width: 1.0),
+              borderSide:
+                  BorderSide(color: EBasicColors.borderGray, width: 1.0),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(4),
-              borderSide: BorderSide(color: EColors.Primary, width: 1.0),
+              borderSide: BorderSide(color: EColorTypes.primary, width: 1.0),
             ),
           ),
         );

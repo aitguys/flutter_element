@@ -60,6 +60,7 @@ abstract class Routes {
   static const buttonLoading = ButtonRoutes.buttonLoading;
   static const buttonBadge = ButtonRoutes.buttonBadge;
   static const buttonLink = ButtonRoutes.buttonLink;
+  static const buttonSize = ButtonRoutes.buttonSize;
   static const link = '/link';
   static const scrollbar = '/scrollbar';
   static const autocomplete = '/autocomplete';

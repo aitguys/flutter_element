@@ -174,10 +174,10 @@ class _EInputNumberState extends State<EInputNumber> {
           decoration: BoxDecoration(
             border: Border.all(
               color: widget.disabled
-                  ? EColors.BorderGray
+                  ? EBasicColors.borderGray
                   : _isFocused
-                      ? EColors.Primary
-                      : EColors.BorderGray,
+                      ? EColorTypes.primary
+                      : EBasicColors.borderGray,
             ),
             borderRadius: BorderRadius.circular(6),
             color: widget.disabled ? Colors.grey[100] : Colors.white,
@@ -234,8 +234,8 @@ class _EInputNumberState extends State<EInputNumber> {
                     cursor: SystemMouseCursors.click,
                     child: Container(
                       padding: const EdgeInsets.all(4),
-                      child:
-                          Icon(Icons.close, size: 16, color: EColors.Primary),
+                      child: Icon(Icons.close,
+                          size: 16, color: EColorTypes.primary),
                     ),
                   ),
                 ),

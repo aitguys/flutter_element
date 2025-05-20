@@ -1,7 +1,7 @@
 // 定义大中小情况下 输入框
 import 'package:flutter/material.dart';
 
-enum SizeItem {
+enum ESizeItem {
   large,
   medium,
   small,
@@ -9,18 +9,53 @@ enum SizeItem {
 
 // 定义不同size情况下 输入框的padding
 class ElememtSize {
-  // 给参数 EInputSizeItem 返回对应的padding
-  final SizeItem size;
+  // 给参数 EInputESizeItem 返回对应的padding
+  final ESizeItem size;
+  ElememtSize({
+    required this.size,
+  });
+  // 控制button 大小
+  EdgeInsets getButtonPadding() {
+    switch (size) {
+      case ESizeItem.large:
+        return const EdgeInsets.symmetric(vertical: 7, horizontal: 12);
+      case ESizeItem.medium:
+        return const EdgeInsets.symmetric(vertical: 5, horizontal: 9);
+      case ESizeItem.small:
+        return const EdgeInsets.symmetric(vertical: 3, horizontal: 5);
+    }
+  }
 
-  ElememtSize({required this.size});
+  EdgeInsets getButtonRoundPadding() {
+    switch (size) {
+      case ESizeItem.large:
+        return const EdgeInsets.all(7);
+      case ESizeItem.medium:
+        return const EdgeInsets.all(5);
+      case ESizeItem.small:
+        return const EdgeInsets.all(3);
+    }
+  }
+
+  // 控制fontsize大小
+  double getButtonFontSize() {
+    switch (size) {
+      case ESizeItem.large:
+        return 16;
+      case ESizeItem.medium:
+        return 14;
+      case ESizeItem.small:
+        return 12;
+    }
+  }
 
   EdgeInsets getInputPadding() {
     switch (size) {
-      case SizeItem.large:
+      case ESizeItem.large:
         return const EdgeInsets.all(20);
-      case SizeItem.medium:
+      case ESizeItem.medium:
         return const EdgeInsets.all(16);
-      case SizeItem.small:
+      case ESizeItem.small:
         return const EdgeInsets.symmetric(vertical: 0);
     }
   }
@@ -28,11 +63,11 @@ class ElememtSize {
   // 输入框整体高度
   double getContainerHeight() {
     switch (size) {
-      case SizeItem.large:
+      case ESizeItem.large:
         return 50;
-      case SizeItem.medium:
+      case ESizeItem.medium:
         return 40;
-      case SizeItem.small:
+      case ESizeItem.small:
         return 32;
     }
   }
@@ -40,33 +75,33 @@ class ElememtSize {
   // getCheckboxSize
   double getCheckboxSize() {
     switch (size) {
-      case SizeItem.large:
+      case ESizeItem.large:
         return 20;
-      case SizeItem.medium:
+      case ESizeItem.medium:
         return 16;
-      case SizeItem.small:
+      case ESizeItem.small:
         return 12;
     }
   }
 
   double getIconSize() {
     switch (size) {
-      case SizeItem.large:
+      case ESizeItem.large:
         return 28;
-      case SizeItem.medium:
-        return 24;
-      case SizeItem.small:
+      case ESizeItem.medium:
+        return 21;
+      case ESizeItem.small:
         return 20;
     }
   }
 
   double getTextfieldFontSize() {
     switch (size) {
-      case SizeItem.large:
+      case ESizeItem.large:
         return 18;
-      case SizeItem.medium:
+      case ESizeItem.medium:
         return 16;
-      case SizeItem.small:
+      case ESizeItem.small:
         return 14;
     }
   }

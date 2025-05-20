@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'button_basic.dart';
 import 'button_disable.dart';
 import 'button_link.dart';
-import 'button_badge.dart';
 import 'button_custom_children.dart';
 import 'button_custom_color.dart';
 import 'button_icon.dart';
 import 'button_loading.dart';
+import 'button_size.dart';
 
 class ButtonPreview extends StatelessWidget {
   const ButtonPreview({super.key});
@@ -27,11 +27,12 @@ class ButtonPreview extends StatelessWidget {
             ButtonBasicPreview(),
             ButtonDisablePreview(),
             ButtonLinkPreview(),
-            button_icon_preview(),
-            button_custom_color_preview(),
-            button_custom_children_preview(),
+            ButtonIconPreview(),
+            ButtonCustomColorPreview(),
+            ButtonCustomChildrenPreview(),
+            ButtonSizePage(),
             button_loading_preview(),
-            button_badge_preview(),
+            // button_badge_preview(),
           ],
         ),
       ),

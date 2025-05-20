@@ -25,7 +25,7 @@ Widget button_badge() {
         value: '99+',
         child: EButton(
           text: 'Primary Button',
-          type: EButtonType.Primary,
+          type: EButtonType.primary,
           onPressed: () {},
         ),
       ),
@@ -34,7 +34,7 @@ Widget button_badge() {
         type: 'danger',
         child: EButton(
           text: 'Success Button',
-          type: EButtonType.Success,
+          type: EButtonType.success,
           onPressed: () {},
         ),
       ),
@@ -43,7 +43,7 @@ Widget button_badge() {
         type: 'warning',
         child: EButton(
           text: 'Warning Button',
-          type: EButtonType.Warning,
+          type: EButtonType.warning,
           onPressed: () {},
         ),
       ),
@@ -52,7 +52,7 @@ Widget button_badge() {
         type: 'info',
         child: EButton(
           text: 'Danger Button',
-          type: EButtonType.Danger,
+          type: EButtonType.danger,
           onPressed: () {},
         ),
       ),
@@ -61,7 +61,7 @@ Widget button_badge() {
         type: 'success',
         child: EButton(
           text: 'Info Button',
-          type: EButtonType.Info,
+          type: EButtonType.info,
           onPressed: () {},
         ),
       ),
@@ -70,7 +70,7 @@ Widget button_badge() {
         type: 'primary',
         child: EButton(
           text: 'Default Button',
-          type: EButtonType.Default,
+          type: EButtonType.default_,
           onPressed: () {},
         ),
       ),

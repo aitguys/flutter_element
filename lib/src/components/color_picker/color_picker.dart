@@ -179,7 +179,7 @@ class _EColorPickerState extends State<EColorPicker> {
           hexInputController: _hexInputController, // <- here
           portraitOnly: true,
         ),
-        if (widget.predefine != null) _buildPredefineColors(),
+        if (widget.predefine != null) _buildPredefinEColorTypes(),
         Row(
           children: [
             Expanded(
@@ -272,7 +272,7 @@ class _EColorPickerState extends State<EColorPicker> {
     );
   }
 
-  Widget _buildPredefineColors() {
+  Widget _buildPredefinEColorTypes() {
     if (widget.predefine == null) return SizedBox.shrink();
 
     return Wrap(

@@ -8,6 +8,7 @@ import 'button_custom_children.dart';
 import 'button_custom_color.dart';
 import 'button_icon.dart';
 import 'button_loading.dart';
+import 'button_size.dart';
 
 abstract class ButtonRoutes {
   static const button = '/button';
@@ -19,6 +20,7 @@ abstract class ButtonRoutes {
   static const buttonCustomChildren = '/button/custom-children';
   static const buttonLoading = '/button/loading';
   static const buttonBadge = '/button/badge';
+  static const buttonSize = '/button/size';
 }
 
 final buttonRoutesPages = [
@@ -40,15 +42,15 @@ final buttonRoutesPages = [
   ),
   GetPage(
     name: ButtonRoutes.buttonIcon,
-    page: () => const button_icon_preview(),
+    page: () => const ButtonIconPreview(),
   ),
   GetPage(
     name: ButtonRoutes.buttonCustomColor,
-    page: () => const button_custom_color_preview(),
+    page: () => const ButtonCustomColorPreview(),
   ),
   GetPage(
     name: ButtonRoutes.buttonCustomChildren,
-    page: () => const button_custom_children_preview(),
+    page: () => const ButtonCustomChildrenPreview(),
   ),
   GetPage(
     name: ButtonRoutes.buttonLoading,
@@ -57,5 +59,9 @@ final buttonRoutesPages = [
   GetPage(
     name: ButtonRoutes.buttonBadge,
     page: () => const button_badge_preview(),
+  ),
+  GetPage(
+    name: ButtonRoutes.buttonSize,
+    page: () => const ButtonSizePage(),
   ),
 ];

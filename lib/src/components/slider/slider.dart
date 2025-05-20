@@ -87,7 +87,7 @@ class _ESliderState extends State<ESlider> {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               decoration: BoxDecoration(
-                color: EColors.Primary,
+                color: EColorTypes.primary,
                 borderRadius: BorderRadius.circular(4),
               ),
               child: Text(
@@ -135,17 +135,21 @@ class _ESliderState extends State<ESlider> {
     final max = widget.max ?? 100;
     final percentage = (_value - min) / (max - min);
     final isDisabled = widget.disabled;
-    final trackColor = isDisabled ? EColors.BorderGray : EColors.BorderGray;
-    final activeColor = isDisabled ? EColors.TextGray : EColors.Primary;
+    final trackColor =
+        isDisabled ? EBasicColors.borderGray : EBasicColors.borderGray;
+    final activeColor =
+        isDisabled ? EBasicColors.textGray : EColorTypes.primary;
     final thumbBorderColor = isDisabled
-        ? EColors.BorderGray
-        : (_isDragging || _isHover ? EColors.Primary : EColors.BorderGray);
+        ? EBasicColors.borderGray
+        : (_isDragging || _isHover
+            ? EColorTypes.primary
+            : EBasicColors.borderGray);
     final thumbShadow = isDisabled
         ? []
         : [
             BoxShadow(
-              color: EColors.Primary.withOpacity(
-                  _isDragging || _isHover ? 0.15 : 0.08),
+              color: EColorTypes.primary
+                  .withOpacity(_isDragging || _isHover ? 0.15 : 0.08),
               blurRadius: 4,
               offset: const Offset(0, 2),
             ),

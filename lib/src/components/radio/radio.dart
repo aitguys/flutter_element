@@ -73,12 +73,12 @@ class _ERadioState extends State<ERadio> {
               ? BoxDecoration(
                   border: Border.all(
                     color: isDisabled
-                        ? EColors.BorderGray
+                        ? EBasicColors.borderGray
                         : isChecked
-                            ? EColors.Primary
+                            ? EColorTypes.primary
                             : _isHovered
-                                ? EColors.Primary.withOpacity(0.5)
-                                : EColors.BorderGray,
+                                ? EColorTypes.primary.withOpacity(0.5)
+                                : EBasicColors.borderGray,
                   ),
                   borderRadius: BorderRadius.circular(4),
                 )
@@ -93,12 +93,12 @@ class _ERadioState extends State<ERadio> {
                   shape: BoxShape.circle,
                   border: Border.all(
                     color: isDisabled
-                        ? EColors.BorderGray
+                        ? EBasicColors.borderGray
                         : isChecked
-                            ? EColors.Primary
+                            ? EColorTypes.primary
                             : _isHovered
-                                ? EColors.Primary.withOpacity(0.5)
-                                : EColors.BorderGray,
+                                ? EColorTypes.primary.withOpacity(0.5)
+                                : EBasicColors.borderGray,
                     width: 1,
                   ),
                 ),
@@ -110,8 +110,8 @@ class _ERadioState extends State<ERadio> {
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color: isDisabled
-                                ? EColors.BorderGray
-                                : EColors.Primary,
+                                ? EBasicColors.borderGray
+                                : EColorTypes.primary,
                           ),
                         ),
                       )
@@ -124,7 +124,9 @@ class _ERadioState extends State<ERadio> {
                     widget.label!,
                     style: TextStyle(
                       fontSize: _fontSize,
-                      color: isDisabled ? EColors.TextGray : EColors.Primary,
+                      color: isDisabled
+                          ? EBasicColors.textGray
+                          : EColorTypes.primary,
                     ),
                   ),
                 ),

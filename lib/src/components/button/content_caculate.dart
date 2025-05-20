@@ -2,45 +2,71 @@
 
 import 'package:flutter/material.dart';
 import 'button_style.dart';
-import 'color_caculate.dart';
+import 'package:flutter_element/src/theme/index.dart';
 
 Widget calculateButtonContent({
   String? text,
   IconData? icon,
   Widget? child,
   bool loading = false,
-  EButtonType type = EButtonType.Default,
+  EButtonType type = EButtonType.default_,
   Color? color,
   IconData? loadingIcon,
   bool isActive = false,
   bool isPlain = false,
   bool isDisabled = false,
+  bool link = false,
+  ESizeItem size = ESizeItem.medium,
 }) {
   Widget content;
-
+  final iconWidget = Icon(
+    icon,
+    color: calculateContentColor(
+      color ?? getButtonColor(type),
+      isPlain: isPlain,
+      isDisabled: isDisabled,
+      isActive: isActive,
+      link: link,
+    ),
+    size: ElememtSize(size: size).getIconSize(),
+  );
+  final textWidget = Text(
+    text ?? '',
+    style: TextStyle(
+      fontSize: ElememtSize(size: size).getButtonFontSize(),
+      color: calculateContentColor(
+        color ?? getButtonColor(type),
+        isPlain: isPlain,
+        isDisabled: isDisabled,
+        isActive: isActive,
+        link: link,
+      ),
+    ),
+  );
   if (child != null) {
     content = child;
   } else if (text != null && icon != null) {
     content = Row(
       mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Icon(
-          icon,
-          color: calculateForegroundColor(
-            color ?? getButtonColor(type),
-            isPlain: isPlain,
-            isDisabled: isDisabled,
-            isActive: isActive,
-          ),
-        ),
+        iconWidget,
         const SizedBox(width: 8),
-        Text(text),
+        textWidget,
       ],
     );
   } else if (text != null) {
-    content = Text(text);
+    content = Row(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        textWidget,
+      ],
+    );
   } else {
-    content = Icon(icon);
+    content = iconWidget;
   }
 
   if (loading) {
@@ -48,16 +74,28 @@ Widget calculateButtonContent({
       mainAxisSize: MainAxisSize.min,
       children: [
         loadingIcon != null
-            ? Icon(loadingIcon,
-                color: calculateForegroundColor(color ?? getButtonColor(type),
-                    isPlain: isPlain))
+            ? Icon(
+                loadingIcon,
+                color: calculateContentColor(
+                  color ?? getButtonColor(type),
+                  isPlain: isPlain,
+                  isDisabled: isDisabled,
+                  isActive: isActive,
+                  link: link,
+                ),
+              )
             : SizedBox(
                 width: 16,
                 height: 16,
                 child: CircularProgressIndicator(
                   strokeWidth: 2,
-                  color: calculateForegroundColor(color ?? getButtonColor(type),
-                      isPlain: isPlain),
+                  color: calculateContentColor(
+                    color ?? getButtonColor(type),
+                    isPlain: isPlain,
+                    isDisabled: isDisabled,
+                    isActive: isActive,
+                    link: link,
+                  ),
                 ),
               ),
         const SizedBox(width: 8),

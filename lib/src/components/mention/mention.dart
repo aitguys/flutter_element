@@ -297,16 +297,17 @@ class _EMentionState extends State<EMention> {
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(4),
               borderSide: BorderSide(
-                color: _isFocused ? EColors.Primary : EColors.BorderGray,
+                color:
+                    _isFocused ? EColorTypes.primary : EBasicColors.borderGray,
               ),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(4),
-              borderSide: BorderSide(color: EColors.BorderGray),
+              borderSide: BorderSide(color: EBasicColors.borderGray),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(4),
-              borderSide: BorderSide(color: EColors.Primary),
+              borderSide: BorderSide(color: EColorTypes.primary),
             ),
           ),
           onChanged: _handleTextChanged,

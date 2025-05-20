@@ -187,10 +187,10 @@ class _EInputTagState extends State<EInputTag> {
           decoration: BoxDecoration(
             border: Border.all(
               color: widget.disabled
-                  ? EColors.BorderGray
+                  ? EBasicColors.borderGray
                   : _isFocused
-                      ? EColors.Primary
-                      : EColors.BorderGray,
+                      ? EColorTypes.primary
+                      : EBasicColors.borderGray,
             ),
             borderRadius: BorderRadius.circular(6),
             color: widget.disabled ? Colors.grey[100] : Colors.white,
@@ -295,8 +295,9 @@ class _EInputTagState extends State<EInputTag> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         decoration: BoxDecoration(
-          color:
-              widget.tagEffect == 'dark' ? EColors.Primary : Colors.grey[200],
+          color: widget.tagEffect == 'dark'
+              ? EColorTypes.primary
+              : Colors.grey[200],
           borderRadius: BorderRadius.circular(4),
         ),
         child: Row(

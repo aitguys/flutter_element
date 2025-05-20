@@ -23,7 +23,7 @@ class DatePickerPage extends StatelessWidget {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             const SizedBox(height: 16),
             EDatePicker(
-              size: SizeItem.large,
+              size: ESizeItem.large,
               type: DatePickerType.date,
               value: DateTime.now(),
               onChange: (date) {
@@ -34,7 +34,7 @@ class DatePickerPage extends StatelessWidget {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             const SizedBox(height: 16),
             EDatePicker(
-              size: SizeItem.medium,
+              size: ESizeItem.medium,
               type: DatePickerType.date,
               value: DateTime.now(),
               onChange: (date) {
@@ -45,7 +45,7 @@ class DatePickerPage extends StatelessWidget {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             const SizedBox(height: 16),
             EDatePicker(
-              size: SizeItem.small,
+              size: ESizeItem.small,
               type: DatePickerType.date,
               value: DateTime.now(),
               onChange: (date) {
@@ -56,7 +56,7 @@ class DatePickerPage extends StatelessWidget {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             const SizedBox(height: 16),
             EDatePicker(
-              size: SizeItem.small,
+              size: ESizeItem.small,
               type: DatePickerType.dates,
               value: DateTime.now(),
               onChange: (date) {
@@ -67,7 +67,7 @@ class DatePickerPage extends StatelessWidget {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             const SizedBox(height: 16),
             EDatePicker(
-              size: SizeItem.small,
+              size: ESizeItem.small,
               type: DatePickerType.year,
               value: DateTime.now(),
               onChange: (date) {
@@ -78,7 +78,7 @@ class DatePickerPage extends StatelessWidget {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             const SizedBox(height: 16),
             EDatePicker(
-              size: SizeItem.small,
+              size: ESizeItem.small,
               type: DatePickerType.years,
               value: DateTime.now(),
               onChange: (date) {
@@ -89,7 +89,7 @@ class DatePickerPage extends StatelessWidget {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             const SizedBox(height: 16),
             EDatePicker(
-              size: SizeItem.small,
+              size: ESizeItem.small,
               type: DatePickerType.month,
               value: DateTime.now(),
               onChange: (date) {
@@ -100,7 +100,7 @@ class DatePickerPage extends StatelessWidget {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             const SizedBox(height: 16),
             EDatePicker(
-              size: SizeItem.small,
+              size: ESizeItem.small,
               type: DatePickerType.months,
               value: DateTime.now(),
               onChange: (date) {
@@ -111,7 +111,7 @@ class DatePickerPage extends StatelessWidget {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             const SizedBox(height: 16),
             EDatePicker(
-              size: SizeItem.small,
+              size: ESizeItem.small,
               type: DatePickerType.date,
               showtimeSelect: true,
               value: DateTime.now(),
@@ -120,42 +120,42 @@ class DatePickerPage extends StatelessWidget {
               },
             ),
             // EDatePicker(
-            //   size: SizeItem.small,
+            //   size: ESizeItem.small,
             //   value: DateTime.now(),
             //   onChange: (date) {
             //     print('Selected date: $date');
             //   },
             // ),
             // EDatePicker(
-            //   size: SizeItem.small,
+            //   size: ESizeItem.small,
             //   value: DateTime.now(),
             //   onChange: (date) {
             //     print('Selected date: $date');
             //   },
             // ),
             // EDatePicker(
-            //   size: SizeItem.small,
+            //   size: ESizeItem.small,
             //   value: DateTime.now(),
             //   onChange: (date) {
             //     print('Selected date: $date');
             //   },
             // ),
             // EDatePicker(
-            //   size: SizeItem.small,
+            //   size: ESizeItem.small,
             //   value: DateTime.now(),
             //   onChange: (date) {
             //     print('Selected date: $date');
             //   },
             // ),
             // EDatePicker(
-            //   size: SizeItem.small,
+            //   size: ESizeItem.small,
             //   value: DateTime.now(),
             //   onChange: (date) {
             //     print('Selected date: $date');
             //   },
             // ),
             // EDatePicker(
-            //   size: SizeItem.small,
+            //   size: ESizeItem.small,
             //   value: DateTime.now(),
             //   onChange: (date) {
             //     print('Selected date: $date');
@@ -163,14 +163,14 @@ class DatePickerPage extends StatelessWidget {
             // ),
             // const SizedBox(height: 16),
             // EDatePicker(
-            //   size: SizeItem.medium,
+            //   size: ESizeItem.medium,
             //   onChange: (date) {
             //     print('Selected date: $date');
             //   },
             // ),
             // const SizedBox(height: 16),
             // EDatePicker(
-            //   size: SizeItem.large,
+            //   size: ESizeItem.large,
             //   value: DateTime.now(),
             //   onChange: (date) {
             //     print('Selected date: $date');

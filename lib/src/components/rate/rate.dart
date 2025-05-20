@@ -83,7 +83,7 @@ class _ERateState extends State<ERate> {
 
   Color _getColor(double value) {
     if (widget.colors == null || widget.colors!.isEmpty) {
-      return EColors.Primary;
+      return EColorTypes.primary;
     }
     if (widget.colors!.length == 1) {
       return widget.colors![0];
@@ -188,10 +188,10 @@ class _ERateState extends State<ERate> {
                                 : Icons.star_border,
                         size: _iconSize,
                         color: widget.disabled
-                            ? EColors.BorderGray
+                            ? EBasicColors.borderGray
                             : isFull || isHalf
                                 ? color
-                                : EColors.BorderGray,
+                                : EBasicColors.borderGray,
                       ),
                     ),
                   ),
@@ -208,10 +208,10 @@ class _ERateState extends State<ERate> {
               style: TextStyle(
                 fontSize: _fontSize,
                 color: widget.disabled
-                    ? EColors.TextGray
+                    ? EBasicColors.textGray
                     : text != null
                         ? color
-                        : EColors.Primary,
+                        : EColorTypes.primary,
               ),
             ),
           ),

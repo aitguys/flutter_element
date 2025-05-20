@@ -1,16 +1,15 @@
 // lib/src/components/button/button.dart
 import 'package:flutter/material.dart';
+import 'package:flutter_element/src/theme/index.dart';
 import 'button_style.dart';
-import 'color_caculate.dart';
 import 'content_caculate.dart';
-import '../badge/badge.dart';
 
-class EButton extends StatelessWidget {
+class EButton extends StatefulWidget {
   final String? text;
   final bool link;
   final IconData? icon;
   final Widget? child;
-  final EButtonSize size;
+  final ESizeItem size;
   final EButtonType type;
   final Color? textColor;
   final bool isPlain;
@@ -26,163 +25,117 @@ class EButton extends StatelessWidget {
   final VoidCallback? onLongPressed;
   final ValueChanged<bool>? onHover;
   final ValueChanged<bool>? onFocus;
-  final bool showBadge;
-  final EBadge? badge;
-  const EButton(
-      {super.key,
-      this.text,
-      this.link = false,
-      this.onPressed,
-      this.onLongPressed,
-      this.onHover,
-      this.onFocus,
-      this.type = EButtonType.Default,
-      this.textColor,
-      this.isPlain = false,
-      this.round = false,
-      this.icon,
-      this.child,
-      this.color,
-      this.loading = false,
-      this.loadingIcon,
-      this.isDisabled = false,
-      this.size = EButtonSize.medium,
-      this.fontSize,
-      this.padding,
-      this.autoFocus = false,
-      this.showBadge = false,
-      this.badge});
+
+  const EButton({
+    super.key,
+    this.text,
+    this.link = false,
+    this.onPressed,
+    this.onLongPressed,
+    this.onHover,
+    this.onFocus,
+    this.type = EButtonType.default_,
+    this.textColor,
+    this.isPlain = false,
+    this.round = false,
+    this.icon,
+    this.child,
+    this.color,
+    this.loading = false,
+    this.loadingIcon,
+    this.isDisabled = false,
+    this.size = ESizeItem.medium,
+    this.fontSize,
+    this.padding,
+    this.autoFocus = false,
+  });
+
+  @override
+  State<EButton> createState() => _EButtonState();
+}
+
+class _EButtonState extends State<EButton> {
+  bool isHovered = false;
 
   @override
   Widget build(BuildContext context) {
-    final buttonColor = color ?? getButtonColor(type);
+    final buttonColor = widget.color ?? getButtonColor(widget.type);
 
     // Calculate padding based on size
-    EdgeInsetsGeometry contentPadding;
-    double contentFontSize;
 
-    switch (size) {
-      case EButtonSize.small:
-        contentPadding =
-            const EdgeInsets.symmetric(horizontal: 12, vertical: 6);
-        contentFontSize = 12;
-        break;
-      case EButtonSize.large:
-        contentPadding =
-            const EdgeInsets.symmetric(horizontal: 25, vertical: 15);
-        contentFontSize = 16;
-        break;
-      case EButtonSize.medium:
-        contentPadding =
-            const EdgeInsets.symmetric(horizontal: 16, vertical: 8);
-        contentFontSize = 14;
-    }
-    if (padding != null) {
-      contentPadding = padding!;
-    }
-    if (fontSize != null) {
-      contentFontSize = fontSize!;
-    }
+    final isIconOnly = isOnlyIcon(widget.icon, widget.text, widget.child);
 
-    Widget btn = ElevatedButton(
-        style: ButtonStyle(
-          backgroundColor: WidgetStateProperty.resolveWith((states) {
-            if (states.contains(WidgetState.hovered)) {
-              return calculatePlainBackgroundColor(buttonColor,
-                  isPlain: isPlain, isActive: true, isDisabled: isDisabled);
-            }
-            return calculatePlainBackgroundColor(buttonColor,
-                isPlain: isPlain, isActive: false, isDisabled: isDisabled);
-          }),
-          foregroundColor: WidgetStateProperty.resolveWith((states) {
-            if (states.contains(WidgetState.hovered)) {
-              return calculateForegroundColor(buttonColor,
-                  isPlain: isPlain, isActive: true, isDisabled: isDisabled);
-            }
-            return calculateForegroundColor(buttonColor,
-                isPlain: isPlain, isActive: false, isDisabled: isDisabled);
-          }),
-          textStyle:
-              WidgetStateProperty.all(TextStyle(fontSize: contentFontSize)),
-          padding: WidgetStateProperty.all(contentPadding),
-          elevation: WidgetStateProperty.all(0),
-          shadowColor: WidgetStateProperty.all(Colors.transparent),
-          side: WidgetStateProperty.resolveWith((states) {
-            if (states.contains(WidgetState.hovered)) {
-              return BorderSide(
-                color: calculateBorderColor(buttonColor,
-                    isPlain: isPlain, isActive: true, isDisabled: isDisabled),
-                width: 1,
+    Widget btn = MouseRegion(
+      cursor: widget.isDisabled
+          ? SystemMouseCursors.forbidden
+          : SystemMouseCursors.click,
+      onEnter: (_) {
+        setState(() => isHovered = true);
+        widget.onHover?.call(true);
+      },
+      onExit: (_) {
+        setState(() => isHovered = false);
+        widget.onHover?.call(false);
+      },
+      child: GestureDetector(
+        onTap: widget.isDisabled ? null : widget.onPressed,
+        onLongPress: widget.isDisabled ? null : widget.onLongPressed,
+        child: Container(
+          padding: isIconOnly
+              ? ElememtSize(size: widget.size).getButtonRoundPadding()
+              : ElememtSize(size: widget.size).getButtonPadding(),
+          decoration: widget.link
+              ? null
+              : BoxDecoration(
+                  color: isHovered
+                      ? calculateBackgroundColor(buttonColor,
+                          isPlain: widget.isPlain,
+                          isActive: true,
+                          isDisabled: widget.isDisabled)
+                      : calculateBackgroundColor(buttonColor,
+                          isPlain: widget.isPlain,
+                          isActive: false,
+                          isDisabled: widget.isDisabled),
+                  borderRadius: isIconOnly
+                      ? BorderRadius.circular(100)
+                      : widget.round
+                          ? BorderRadius.circular(100)
+                          : BorderRadius.circular(5),
+                  border: Border.all(
+                    color: isHovered
+                        ? calculateBorderColor(buttonColor,
+                            isPlain: widget.isPlain,
+                            isActive: true,
+                            isDisabled: widget.isDisabled)
+                        : calculateBorderColor(buttonColor,
+                            isPlain: widget.isPlain,
+                            isActive: false,
+                            isDisabled: widget.isDisabled),
+                    width: 1,
+                  ),
+                ),
+          child: Builder(
+            builder: (context) {
+              return calculateButtonContent(
+                text: widget.text,
+                icon: widget.icon,
+                child: widget.child,
+                loading: widget.loading,
+                type: widget.type,
+                color: buttonColor,
+                loadingIcon: widget.loadingIcon,
+                isPlain: widget.isPlain,
+                link: widget.link,
+                isDisabled: widget.isDisabled,
+                isActive: isHovered,
+                size: widget.size,
               );
-            }
-            return BorderSide(
-              color: calculateBorderColor(buttonColor,
-                  isPlain: isPlain, isActive: false, isDisabled: isDisabled),
-              width: 1,
-            );
-          }),
-          shape: WidgetStateProperty.all(
-            isOnlyIcon(icon, text, child)
-                ? const CircleBorder()
-                : round
-                    ? RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(100),
-                      )
-                    : RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
+            },
           ),
-          mouseCursor: isDisabled
-              ? WidgetStateProperty.all(SystemMouseCursors.forbidden)
-              : WidgetStateProperty.all(SystemMouseCursors.click),
         ),
-        onPressed: isDisabled ? null : onPressed,
-        onLongPress: isDisabled ? null : onLongPressed,
-        autofocus: autoFocus,
-        onHover: isDisabled ? null : onHover,
-        onFocusChange: isDisabled ? null : onFocus,
-        child: Builder(builder: (context) {
-          return calculateButtonContent(
-              text: text,
-              icon: icon,
-              child: child,
-              loading: loading,
-              type: type,
-              color: color,
-              loadingIcon: loadingIcon,
-              isPlain: isPlain,
-              isDisabled: isDisabled,
-              isActive: false);
-        }));
-    Widget linkBtn = TextButton(
-      onPressed: isDisabled ? null : onPressed,
-      style: ButtonStyle(
-        overlayColor: WidgetStateProperty.all(Colors.transparent),
-        mouseCursor: isDisabled
-            ? WidgetStateProperty.all(SystemMouseCursors.forbidden)
-            : WidgetStateProperty.all(SystemMouseCursors.click),
       ),
-      child: Text(text ?? '',
-          style: TextStyle(
-            fontSize: contentFontSize,
-            color: calculateForegroundColor(buttonColor,
-                isPlain: true, isActive: false, isDisabled: isDisabled),
-          )),
     );
-    Widget buttonWidget = link ? linkBtn : btn;
-    if (showBadge) {
-      btn = Stack(
-        clipBehavior: Clip.none,
-        children: [
-          buttonWidget,
-          Positioned(
-            right: -4,
-            top: -4,
-            child: badge ?? const EBadge(value: 1),
-          ),
-        ],
-      );
-    }
-    return buttonWidget;
+
+    return btn;
   }
 }

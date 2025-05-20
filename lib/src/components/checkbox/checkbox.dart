@@ -6,7 +6,7 @@ class ECheckbox extends StatefulWidget {
   final String? label;
   final bool disabled;
   final bool border;
-  final SizeItem size;
+  final ESizeItem size;
   final String? name;
   final bool checked;
   final bool indeterminate;
@@ -22,7 +22,7 @@ class ECheckbox extends StatefulWidget {
     this.label,
     this.disabled = false,
     this.border = false,
-    this.size = SizeItem.medium,
+    this.size = ESizeItem.medium,
     this.name,
     this.checked = false,
     this.indeterminate = false,
@@ -69,13 +69,13 @@ class _ECheckboxState extends State<ECheckbox> {
   Widget build(BuildContext context) {
     final checkboxSize = ElememtSize(size: widget.size).getCheckboxSize();
     final backgroundColor =
-        widget.disabled ? EColors.BorderGray : EColors.Primary;
+        widget.disabled ? EBasicColors.borderGray : EColorTypes.primary;
 
     Widget checkbox = Container(
       width: checkboxSize,
       height: checkboxSize,
       // decoration: BoxDecoration(
-      //   border: Border.all(color: EColors.BorderGray),
+      //   border: Border.all(color: EBasicColors.borderGray),
       // ),
       child: Material(
         color: Colors.transparent,
@@ -89,8 +89,8 @@ class _ECheckboxState extends State<ECheckbox> {
                       Icons.check_box,
                       size: checkboxSize + 4,
                       color: widget.disabled
-                          ? EColors.BorderGray
-                          : EColors.Primary,
+                          ? EBasicColors.borderGray
+                          : EColorTypes.primary,
                     ),
                   )
                 : Transform.translate(
@@ -99,8 +99,8 @@ class _ECheckboxState extends State<ECheckbox> {
                       Icons.check_box_outline_blank,
                       size: checkboxSize + 4,
                       color: widget.disabled
-                          ? EColors.BorderGray
-                          : EColors.BorderGray,
+                          ? EBasicColors.borderGray
+                          : EBasicColors.borderGray,
                     ),
                   ),
           ),
@@ -117,7 +117,7 @@ class _ECheckboxState extends State<ECheckbox> {
           Text(
             widget.label!,
             style: TextStyle(
-              color: widget.disabled ? EColors.BorderGray : Colors.black87,
+              color: widget.disabled ? EBasicColors.borderGray : Colors.black87,
               fontSize: 14,
             ),
           ),

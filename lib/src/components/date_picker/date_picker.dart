@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 class EDatePicker extends StatefulWidget {
   final DateTime? value;
   final ValueChanged<dynamic>? onChange;
-  final SizeItem size;
+  final ESizeItem size;
   final DatePickerType type;
   final bool showtimeSelect;
   final Widget? prefix;
@@ -32,7 +32,7 @@ class EDatePicker extends StatefulWidget {
     this.showtimeSelect = false,
     this.clearable = true,
     this.format = 'yyyy-MM-dd',
-    this.size = SizeItem.medium,
+    this.size = ESizeItem.medium,
     this.type = DatePickerType.date,
     this.minDate,
     this.maxDate,
@@ -74,7 +74,7 @@ class _EDatePickerState extends State<EDatePicker> {
         Icon(
           Icons.calendar_month_rounded,
           size: ElememtSize(size: widget.size).getIconSize(),
-          color: EColors.Primary,
+          color: EColorTypes.primary,
         );
 
     _updateController();
@@ -763,7 +763,7 @@ class _EDatePickerState extends State<EDatePicker> {
           padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 0),
           decoration: BoxDecoration(
             border: Border.all(
-              color: _isFocused ? EColors.Primary : EColors.BorderGray,
+              color: _isFocused ? EColorTypes.primary : EBasicColors.borderGray,
             ),
             borderRadius: BorderRadius.circular(4),
           ),
@@ -794,7 +794,7 @@ class _EDatePickerState extends State<EDatePicker> {
                         isDense: true,
                         isCollapsed: true,
                         hintText: widget.placeholder,
-                        hintStyle: TextStyle(color: EColors.BorderGray),
+                        hintStyle: TextStyle(color: EBasicColors.borderGray),
                         border: InputBorder.none,
                       ),
                     ),
@@ -810,7 +810,7 @@ class _EDatePickerState extends State<EDatePicker> {
                         child: Icon(
                           Icons.close,
                           size: 16,
-                          color: EColors.Primary,
+                          color: EColorTypes.primary,
                         ),
                       ),
                     ),

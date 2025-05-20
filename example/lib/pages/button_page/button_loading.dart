@@ -7,7 +7,7 @@ class button_loading_preview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WidgetPreview(
-      widget: button_loading(),
+      widget: buttonLoading(),
       code:
           'https://aitmed-public.oss-cn-hangzhou.aliyuncs.com/button_loading.dart',
       title: '加载状态按钮',
@@ -15,19 +15,19 @@ class button_loading_preview extends StatelessWidget {
   }
 }
 
-Widget button_loading() {
-  return Wrap(
+Widget buttonLoading() {
+  return const Wrap(
     spacing: 8,
     runSpacing: 16,
     children: [
       EButton(
         text: 'Primary Button',
-        type: EButtonType.Primary,
+        type: EButtonType.primary,
         loading: true,
       ),
       EButton(
         text: 'Primary Button',
-        type: EButtonType.Primary,
+        type: EButtonType.primary,
         loading: true,
         loadingIcon: Icons.add,
       ),

@@ -35,14 +35,14 @@ class _TimePickerPageState extends State<TimePickerPage> {
             const Text('size medium'),
             const SizedBox(height: 16),
             ETimePicker(
-              size: SizeItem.medium,
+              size: ESizeItem.medium,
               value: DateTime(2025, 5, 9, 2, 53, 0),
             ),
             const SizedBox(height: 24),
             const Text('size large'),
             const SizedBox(height: 16),
             ETimePicker(
-              size: SizeItem.large,
+              size: ESizeItem.large,
             ),
           ],
         ),

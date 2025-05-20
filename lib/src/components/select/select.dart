@@ -157,7 +157,7 @@ class _ESelectState extends State<ESelect> {
                           decoration: BoxDecoration(
                             border: Border(
                               bottom: BorderSide(
-                                color: EColors.BorderGray,
+                                color: EBasicColors.borderGray,
                                 width: 1,
                               ),
                             ),
@@ -186,7 +186,7 @@ class _ESelectState extends State<ESelect> {
                                   vertical: 8,
                                 ),
                                 color: isSelected
-                                    ? EColors.Primary.withOpacity(0.1)
+                                    ? EColorTypes.primary.withOpacity(0.1)
                                     : null,
                                 child: Row(
                                   children: [
@@ -196,10 +196,10 @@ class _ESelectState extends State<ESelect> {
                                         style: TextStyle(
                                           fontSize: _fontSize,
                                           color: isDisabled
-                                              ? EColors.TextGray
+                                              ? EBasicColors.textGray
                                               : isSelected
-                                                  ? EColors.Primary
-                                                  : EColors.TextGray,
+                                                  ? EColorTypes.primary
+                                                  : EBasicColors.textGray,
                                         ),
                                       ),
                                     ),
@@ -207,7 +207,7 @@ class _ESelectState extends State<ESelect> {
                                       Icon(
                                         Icons.check,
                                         size: _fontSize,
-                                        color: EColors.Primary,
+                                        color: EColorTypes.primary,
                                       ),
                                   ],
                                 ),
@@ -285,12 +285,12 @@ class _ESelectState extends State<ESelect> {
             decoration: BoxDecoration(
               border: Border.all(
                 color: widget.disabled
-                    ? EColors.BorderGray
+                    ? EBasicColors.borderGray
                     : _isFocused
-                        ? EColors.Primary
+                        ? EColorTypes.primary
                         : _isHovered
-                            ? EColors.Primary
-                            : EColors.BorderGray,
+                            ? EColorTypes.primary
+                            : EBasicColors.borderGray,
               ),
               borderRadius: BorderRadius.circular(4),
             ),
@@ -302,10 +302,10 @@ class _ESelectState extends State<ESelect> {
                     style: TextStyle(
                       fontSize: _fontSize,
                       color: widget.disabled
-                          ? EColors.TextGray
+                          ? EBasicColors.textGray
                           : _selectedOptions.isNotEmpty
-                              ? EColors.TextGray
-                              : EColors.TextGray,
+                              ? EBasicColors.textGray
+                              : EBasicColors.textGray,
                     ),
                   ),
                 ),
@@ -315,14 +315,14 @@ class _ESelectState extends State<ESelect> {
                     child: Icon(
                       Icons.close,
                       size: _fontSize,
-                      color: EColors.TextGray,
+                      color: EBasicColors.textGray,
                     ),
                   ),
                 const SizedBox(width: 4),
                 Icon(
                   Icons.arrow_drop_down,
                   size: _fontSize,
-                  color: EColors.TextGray,
+                  color: EBasicColors.textGray,
                 ),
               ],
             ),
