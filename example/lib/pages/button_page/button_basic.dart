@@ -8,14 +8,23 @@ class ButtonBasicPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WidgetPreview(
-      widget: buttonBasic(),
+      widget: _viewerContent(),
       code: getCodeUrl('button_page', 'button_basic.dart'),
       title: '基础用法, isPlain, round, icon ',
     );
   }
 }
 
-Widget buttonBasic() {
+class ButtonBasicView extends StatelessWidget {
+  const ButtonBasicView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(child: _viewerContent());
+  }
+}
+
+Widget _viewerContent() {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [

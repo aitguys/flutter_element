@@ -8,14 +8,23 @@ class ButtonDisablePreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WidgetPreview(
-      widget: buttonDisable(),
+      widget: _viewerContent(),
       code: getCodeUrl('button_page', 'button_disable.dart'),
       title: '禁用状态',
     );
   }
 }
 
-Widget buttonDisable() {
+class ButtonDisableView extends StatelessWidget {
+  const ButtonDisableView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(child: _viewerContent());
+  }
+}
+
+Widget _viewerContent() {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [

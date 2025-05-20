@@ -30,11 +30,11 @@ final buttonRoutesPages = [
   ),
   GetPage(
     name: ButtonRoutes.buttonBasic,
-    page: () => const ButtonBasicPreview(),
+    page: () => const ButtonBasicView(),
   ),
   GetPage(
     name: ButtonRoutes.buttonDisable,
-    page: () => const ButtonDisablePreview(),
+    page: () => const ButtonDisableView(),
   ),
   GetPage(
     name: ButtonRoutes.buttonLink,

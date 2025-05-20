@@ -1,16 +1,23 @@
 {
-	"private": true,
-	"type": "module",
-	"scripts": {
-		"docs:dev": "vitepress dev docs",
-		"docs:build": "vitepress build docs",
-		"docs:preview": "vitepress preview docs"
-	},
-	"devDependencies": {
-		"vitepress": "latest"
-	},
-	"dependencies": {
-		"@element-plus/icons-vue": "^2.3.1",
-		"element-plus": "^2.9.10"
-	}
+  "name": "docs",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "docs:dev": "vitepress dev",
+    "docs:build": "vitepress build",
+    "docs:preview": "vitepress preview"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "vitepress": "^1.6.3"
+  },
+  "dependencies": {
+    "@element-plus/icons-vue": "^2.3.1",
+    "element-plus": "^2.9.10",
+    "module": "^1.2.5"
+  }
 }

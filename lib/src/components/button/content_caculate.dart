@@ -34,6 +34,7 @@ Widget calculateButtonContent({
     text ?? '',
     style: TextStyle(
       fontSize: ElememtSize(size: size).getButtonFontSize(),
+      decoration: TextDecoration.none,
       color: calculateContentColor(
         color ?? getButtonColor(type),
         isPlain: isPlain,
