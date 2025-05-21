@@ -13,16 +13,49 @@ jobs:
   deployment:
     runs-on: ubuntu-latest
     environment: production
+
     steps:
       - uses: actions/checkout@v4
+
+      - name: Cache Flutter SDK
+        uses: actions/cache@v3
+        with:
+          path: /opt/hostedtoolcache/flutter
+          key: ${{ runner.os }}-flutter-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-flutter-
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: "stable"
+          cache-key: flutter-3.6.0-stable-${{ hashFiles('**/pubspec.lock') }}
+          cache: true
+
+      - name: Cache pub dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            example/.dart_tool
+            example/.pub-cache
+            example/.pub
+            example/build
+          key: ${{ runner.os }}-pub-${{ hashFiles('example/pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pub-
+
+      - name: Cache Python packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
 
       - name: Install coscmd
-        run: sudo pip install coscmd
+        run: |
+          python -m pip install --upgrade pip
+          pip install coscmd
 
       - name: Configure coscmd
         env:
@@ -40,7 +73,7 @@ jobs:
       - name: Build web
         run: |
           cd example
-          flutter build web
+          flutter build web --release
 
       - name: Clean bucket
         run: |
