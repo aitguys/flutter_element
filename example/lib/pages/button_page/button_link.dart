@@ -8,14 +8,30 @@ class ButtonLinkPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WidgetPreview(
-      widget: buttonLink(),
+      widget: _viewerContent(),
       code: getCodeUrl('button_page', 'button_link.dart'),
       title: '链接按钮',
     );
   }
 }
 
-Widget buttonLink() {
+class ButtonLinkView extends StatelessWidget {
+  const ButtonLinkView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: _viewerContent(),
+        ),
+      ),
+    );
+  }
+}
+
+Widget _viewerContent() {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -28,7 +44,7 @@ Widget buttonLink() {
           EButton(
             text: 'Primary Button',
             type: EButtonType.primary,
-            link: true,
+            isLink: true,
             onPressed: () {
               print('点击了');
             },
@@ -36,31 +52,31 @@ Widget buttonLink() {
           EButton(
             text: 'Success Button',
             type: EButtonType.success,
-            link: true,
+            isLink: true,
             onPressed: () {},
           ),
           EButton(
             text: 'Warning Button',
             type: EButtonType.warning,
-            link: true,
+            isLink: true,
             onPressed: () {},
           ),
           EButton(
             text: 'Danger Button',
             type: EButtonType.danger,
-            link: true,
+            isLink: true,
             onPressed: () {},
           ),
           EButton(
             text: 'Info Button',
             type: EButtonType.info,
-            link: true,
+            isLink: true,
             onPressed: () {},
           ),
           EButton(
             text: 'Default Button',
             type: EButtonType.default_,
-            link: true,
+            isLink: true,
             onPressed: () {},
           ),
         ],
@@ -75,42 +91,42 @@ Widget buttonLink() {
             text: 'Primary Button',
             icon: Icons.edit,
             type: EButtonType.primary,
-            link: true,
+            isLink: true,
             onPressed: () {},
           ),
           EButton(
             text: 'Success Button',
             icon: Icons.check,
             type: EButtonType.success,
-            link: true,
+            isLink: true,
             onPressed: () {},
           ),
           EButton(
             text: 'Warning Button',
             icon: Icons.star,
             type: EButtonType.warning,
-            link: true,
+            isLink: true,
             onPressed: () {},
           ),
           EButton(
             text: 'Danger Button',
             icon: Icons.delete,
             type: EButtonType.danger,
-            link: true,
+            isLink: true,
             onPressed: () {},
           ),
           EButton(
             text: 'Info Button',
             icon: Icons.message,
             type: EButtonType.info,
-            link: true,
+            isLink: true,
             onPressed: () {},
           ),
           EButton(
             text: 'Default Button',
             icon: Icons.search,
             type: EButtonType.default_,
-            link: true,
+            isLink: true,
             onPressed: () {},
           ),
         ],
@@ -124,7 +140,7 @@ Widget buttonLink() {
           EButton(
             text: 'Primary Button',
             type: EButtonType.primary,
-            link: true,
+            isLink: true,
             isDisabled: true,
             onPressed: () {
               print('点击了');
@@ -133,35 +149,35 @@ Widget buttonLink() {
           EButton(
             text: 'Success Button',
             type: EButtonType.success,
-            link: true,
+            isLink: true,
             isDisabled: true,
             onPressed: () {},
           ),
           EButton(
             text: 'Warning Button',
             type: EButtonType.warning,
-            link: true,
+            isLink: true,
             isDisabled: true,
             onPressed: () {},
           ),
           EButton(
             text: 'Danger Button',
             type: EButtonType.danger,
-            link: true,
+            isLink: true,
             isDisabled: true,
             onPressed: () {},
           ),
           EButton(
             text: 'Info Button',
             type: EButtonType.info,
-            link: true,
+            isLink: true,
             isDisabled: true,
             onPressed: () {},
           ),
           EButton(
             text: 'Default Button',
             type: EButtonType.default_,
-            link: true,
+            isLink: true,
             isDisabled: true,
             onPressed: () {},
           ),
@@ -177,7 +193,7 @@ Widget buttonLink() {
             text: 'Primary Button',
             icon: Icons.edit,
             type: EButtonType.primary,
-            link: true,
+            isLink: true,
             isDisabled: true,
             onPressed: () {},
           ),
@@ -185,7 +201,7 @@ Widget buttonLink() {
             text: 'Success Button',
             icon: Icons.check,
             type: EButtonType.success,
-            link: true,
+            isLink: true,
             isDisabled: true,
             onPressed: () {},
           ),
@@ -193,7 +209,7 @@ Widget buttonLink() {
             text: 'Warning Button',
             icon: Icons.star,
             type: EButtonType.warning,
-            link: true,
+            isLink: true,
             isDisabled: true,
             onPressed: () {},
           ),
@@ -201,7 +217,7 @@ Widget buttonLink() {
             text: 'Danger Button',
             icon: Icons.delete,
             type: EButtonType.danger,
-            link: true,
+            isLink: true,
             isDisabled: true,
             onPressed: () {},
           ),
@@ -209,7 +225,7 @@ Widget buttonLink() {
             text: 'Info Button',
             icon: Icons.message,
             type: EButtonType.info,
-            link: true,
+            isLink: true,
             isDisabled: true,
             onPressed: () {},
           ),
@@ -217,7 +233,7 @@ Widget buttonLink() {
             text: 'Default Button',
             icon: Icons.search,
             type: EButtonType.default_,
-            link: true,
+            isLink: true,
             isDisabled: true,
             onPressed: () {},
           ),

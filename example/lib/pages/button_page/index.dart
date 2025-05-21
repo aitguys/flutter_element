@@ -7,8 +7,7 @@ import 'button_custom_color.dart';
 import 'button_icon.dart';
 import 'button_loading.dart';
 import 'button_size.dart';
-import 'package:flutter_element/flutter_element.dart';
-import 'package:get/get.dart';
+import 'button_api.dart';
 
 class ButtonPreview extends StatelessWidget {
   const ButtonPreview({super.key});
@@ -23,25 +22,18 @@ class ButtonPreview extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: SingleChildScrollView(
+      body: const SingleChildScrollView(
         child: Column(
           children: [
-            EButton(
-              text: 'Primary Button',
-              type: EButtonType.primary,
-              onPressed: () {
-                Get.toNamed('/button/basic');
-              },
-            ),
-            const ButtonBasicPreview(),
-            const ButtonDisablePreview(),
-            const ButtonLinkPreview(),
-            const ButtonIconPreview(),
-            const ButtonCustomColorPreview(),
-            const ButtonCustomChildrenPreview(),
-            const ButtonSizePage(),
-            const button_loading_preview(),
-            // button_badge_preview(),
+            ButtonBasicPreview(),
+            ButtonDisablePreview(),
+            ButtonLinkPreview(),
+            ButtonIconPreview(),
+            ButtonCustomColorPreview(),
+            ButtonCustomChildrenPreview(),
+            ButtonSizePreview(),
+            ButtonLoadingPreview(),
+            ButtonApiPreview(),
           ],
         ),
       ),

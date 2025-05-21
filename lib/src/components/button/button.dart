@@ -6,38 +6,39 @@ import 'content_caculate.dart';
 
 class EButton extends StatefulWidget {
   final String? text;
-  final bool link;
-  final IconData? icon;
-  final Widget? child;
-  final ESizeItem size;
+
   final EButtonType type;
-  final Color? textColor;
-  final bool isPlain;
-  final bool round;
+
+  final ESizeItem size;
+  final double? fontSize;
   final Color? color;
+  final bool isLink;
+  final IconData? icon;
+
+  final Widget? child;
+
+  final bool isPlain;
+  final bool isRound;
+
   final bool loading;
   final IconData? loadingIcon;
+
   final bool isDisabled;
-  final double? fontSize;
-  final EdgeInsets? padding;
-  final bool autoFocus;
+
   final VoidCallback? onPressed;
   final VoidCallback? onLongPressed;
   final ValueChanged<bool>? onHover;
-  final ValueChanged<bool>? onFocus;
 
   const EButton({
     super.key,
     this.text,
-    this.link = false,
+    this.isLink = false,
     this.onPressed,
     this.onLongPressed,
     this.onHover,
-    this.onFocus,
     this.type = EButtonType.default_,
-    this.textColor,
     this.isPlain = false,
-    this.round = false,
+    this.isRound = false,
     this.icon,
     this.child,
     this.color,
@@ -46,8 +47,6 @@ class EButton extends StatefulWidget {
     this.isDisabled = false,
     this.size = ESizeItem.medium,
     this.fontSize,
-    this.padding,
-    this.autoFocus = false,
   });
 
   @override
@@ -60,8 +59,6 @@ class _EButtonState extends State<EButton> {
   @override
   Widget build(BuildContext context) {
     final buttonColor = widget.color ?? getButtonColor(widget.type);
-
-    // Calculate padding based on size
 
     final isIconOnly = isOnlyIcon(widget.icon, widget.text, widget.child);
 
@@ -84,7 +81,7 @@ class _EButtonState extends State<EButton> {
           padding: isIconOnly
               ? ElememtSize(size: widget.size).getButtonRoundPadding()
               : ElememtSize(size: widget.size).getButtonPadding(),
-          decoration: widget.link
+          decoration: widget.isLink
               ? null
               : BoxDecoration(
                   color: isHovered
@@ -98,7 +95,7 @@ class _EButtonState extends State<EButton> {
                           isDisabled: widget.isDisabled),
                   borderRadius: isIconOnly
                       ? BorderRadius.circular(100)
-                      : widget.round
+                      : widget.isRound
                           ? BorderRadius.circular(100)
                           : BorderRadius.circular(5),
                   border: Border.all(
@@ -125,10 +122,11 @@ class _EButtonState extends State<EButton> {
                 color: buttonColor,
                 loadingIcon: widget.loadingIcon,
                 isPlain: widget.isPlain,
-                link: widget.link,
+                isLink: widget.isLink,
                 isDisabled: widget.isDisabled,
                 isActive: isHovered,
                 size: widget.size,
+                fontSize: widget.fontSize,
               );
             },
           ),

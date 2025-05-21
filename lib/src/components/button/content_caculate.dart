@@ -15,8 +15,9 @@ Widget calculateButtonContent({
   bool isActive = false,
   bool isPlain = false,
   bool isDisabled = false,
-  bool link = false,
+  bool isLink = false,
   ESizeItem size = ESizeItem.medium,
+  double? fontSize,
 }) {
   Widget content;
   final iconWidget = Icon(
@@ -26,21 +27,21 @@ Widget calculateButtonContent({
       isPlain: isPlain,
       isDisabled: isDisabled,
       isActive: isActive,
-      link: link,
+      isLink: isLink,
     ),
     size: ElememtSize(size: size).getIconSize(),
   );
   final textWidget = Text(
     text ?? '',
     style: TextStyle(
-      fontSize: ElememtSize(size: size).getButtonFontSize(),
+      fontSize: fontSize ?? ElememtSize(size: size).getButtonFontSize(),
       decoration: TextDecoration.none,
       color: calculateContentColor(
         color ?? getButtonColor(type),
         isPlain: isPlain,
         isDisabled: isDisabled,
         isActive: isActive,
-        link: link,
+        isLink: isLink,
       ),
     ),
   );
@@ -82,7 +83,7 @@ Widget calculateButtonContent({
                   isPlain: isPlain,
                   isDisabled: isDisabled,
                   isActive: isActive,
-                  link: link,
+                  isLink: isLink,
                 ),
               )
             : SizedBox(
@@ -95,7 +96,7 @@ Widget calculateButtonContent({
                     isPlain: isPlain,
                     isDisabled: isDisabled,
                     isActive: isActive,
-                    link: link,
+                    isLink: isLink,
                   ),
                 ),
               ),

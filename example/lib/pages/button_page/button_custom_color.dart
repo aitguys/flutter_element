@@ -7,7 +7,7 @@ class ButtonCustomColorPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WidgetPreview(
-      widget: buttonCustomColor(),
+      widget: _viewerContent(),
       code:
           'https://aitmed-public.oss-cn-hangzhou.aliyuncs.com/button_custom_color.dart',
       title: '自定义颜色按钮',
@@ -15,7 +15,23 @@ class ButtonCustomColorPreview extends StatelessWidget {
   }
 }
 
-Widget buttonCustomColor() {
+class ButtonCustomColorView extends StatelessWidget {
+  const ButtonCustomColorView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: _viewerContent(),
+        ),
+      ),
+    );
+  }
+}
+
+Widget _viewerContent() {
   return Wrap(
     spacing: 8,
     runSpacing: 16,
@@ -35,7 +51,7 @@ Widget buttonCustomColor() {
       EButton(
         text: 'Primary Button',
         color: Colors.purple,
-        round: true,
+        isRound: true,
         onPressed: () {},
       ),
       EButton(

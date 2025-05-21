@@ -36,11 +36,11 @@ Color calculateContentColor(
   bool isActive = false,
   bool isPlain = false,
   bool isDisabled = false,
-  bool link = false,
+  bool isLink = false,
 }) {
   late Color contentColor = backgroundColor;
 
-  if (isPlain || link) {
+  if (isPlain || isLink) {
     if (backgroundColor == EColorTypes.default_) {
       contentColor = EBasicColors.textGray;
     } else {
@@ -59,7 +59,7 @@ Color calculateContentColor(
   }
 
   if (isActive && !isDisabled) {
-    if (isPlain || link) {
+    if (isPlain || isLink) {
       if (backgroundColor == EColorTypes.default_) {
         contentColor = EBasicColors.textGray;
       } else {

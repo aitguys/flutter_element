@@ -7,7 +7,7 @@ class ButtonCustomChildrenPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WidgetPreview(
-      widget: buttonCustomChildren(),
+      widget: _viewerContent(),
       code:
           'https://aitmed-public.oss-cn-hangzhou.aliyuncs.com/button_custom_children.dart',
       title: '自定义内容按钮',
@@ -15,7 +15,23 @@ class ButtonCustomChildrenPreview extends StatelessWidget {
   }
 }
 
-Widget buttonCustomChildren() {
+class ButtonCustomChildrenView extends StatelessWidget {
+  const ButtonCustomChildrenView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: _viewerContent(),
+        ),
+      ),
+    );
+  }
+}
+
+Widget _viewerContent() {
   return Wrap(
     spacing: 8,
     runSpacing: 16,

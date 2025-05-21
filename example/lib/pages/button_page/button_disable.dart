@@ -17,10 +17,16 @@ class ButtonDisablePreview extends StatelessWidget {
 
 class ButtonDisableView extends StatelessWidget {
   const ButtonDisableView({super.key});
-
   @override
   Widget build(BuildContext context) {
-    return Expanded(child: _viewerContent());
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: _viewerContent(),
+        ),
+      ),
+    );
   }
 }
 
@@ -127,42 +133,42 @@ Widget _viewerContent() {
           EButton(
             text: 'Primary Button',
             type: EButtonType.primary,
-            round: true,
+            isRound: true,
             isDisabled: true,
             onPressed: () {},
           ),
           EButton(
             text: 'Success Button',
             type: EButtonType.success,
-            round: true,
+            isRound: true,
             isDisabled: true,
             onPressed: () {},
           ),
           EButton(
             text: 'Warning Button',
             type: EButtonType.warning,
-            round: true,
+            isRound: true,
             isDisabled: true,
             onPressed: () {},
           ),
           EButton(
             text: 'Danger Button',
             type: EButtonType.danger,
-            round: true,
+            isRound: true,
             isDisabled: true,
             onPressed: () {},
           ),
           EButton(
             text: 'Info Button',
             type: EButtonType.info,
-            round: true,
+            isRound: true,
             isDisabled: true,
             onPressed: () {},
           ),
           EButton(
             text: 'Default Button',
             type: EButtonType.default_,
-            round: true,
+            isRound: true,
             isDisabled: true,
             onPressed: () {},
           ),
@@ -176,7 +182,7 @@ Widget _viewerContent() {
           EButton(
             text: 'Primary Button',
             type: EButtonType.primary,
-            round: true,
+            isRound: true,
             isPlain: true,
             isDisabled: true,
             onPressed: () {},
@@ -184,7 +190,7 @@ Widget _viewerContent() {
           EButton(
             text: 'Success Button',
             type: EButtonType.success,
-            round: true,
+            isRound: true,
             isPlain: true,
             isDisabled: true,
             onPressed: () {},
@@ -192,7 +198,7 @@ Widget _viewerContent() {
           EButton(
             text: 'Warning Button',
             type: EButtonType.warning,
-            round: true,
+            isRound: true,
             isPlain: true,
             isDisabled: true,
             onPressed: () {},
@@ -200,7 +206,7 @@ Widget _viewerContent() {
           EButton(
             text: 'Danger Button',
             type: EButtonType.danger,
-            round: true,
+            isRound: true,
             isPlain: true,
             isDisabled: true,
             onPressed: () {},
@@ -208,7 +214,7 @@ Widget _viewerContent() {
           EButton(
             text: 'Info Button',
             type: EButtonType.info,
-            round: true,
+            isRound: true,
             isPlain: true,
             isDisabled: true,
             onPressed: () {},
@@ -216,7 +222,7 @@ Widget _viewerContent() {
           EButton(
             text: 'Default Button',
             type: EButtonType.default_,
-            round: true,
+            isRound: true,
             isPlain: true,
             isDisabled: true,
             onPressed: () {},

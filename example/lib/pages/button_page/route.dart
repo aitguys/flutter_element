@@ -3,12 +3,12 @@ import 'index.dart';
 import 'button_basic.dart';
 import 'button_disable.dart';
 import 'button_link.dart';
-import 'button_badge.dart';
 import 'button_custom_children.dart';
 import 'button_custom_color.dart';
 import 'button_icon.dart';
 import 'button_loading.dart';
 import 'button_size.dart';
+import 'button_api.dart';
 
 abstract class ButtonRoutes {
   static const button = '/button';
@@ -21,6 +21,7 @@ abstract class ButtonRoutes {
   static const buttonLoading = '/button/loading';
   static const buttonBadge = '/button/badge';
   static const buttonSize = '/button/size';
+  static const buttonApi = '/button/api';
 }
 
 final buttonRoutesPages = [
@@ -38,30 +39,30 @@ final buttonRoutesPages = [
   ),
   GetPage(
     name: ButtonRoutes.buttonLink,
-    page: () => const ButtonLinkPreview(),
+    page: () => const ButtonLinkView(),
   ),
   GetPage(
     name: ButtonRoutes.buttonIcon,
-    page: () => const ButtonIconPreview(),
+    page: () => const ButtonIconView(),
   ),
   GetPage(
     name: ButtonRoutes.buttonCustomColor,
-    page: () => const ButtonCustomColorPreview(),
+    page: () => const ButtonCustomColorView(),
   ),
   GetPage(
     name: ButtonRoutes.buttonCustomChildren,
-    page: () => const ButtonCustomChildrenPreview(),
+    page: () => const ButtonCustomChildrenView(),
   ),
   GetPage(
     name: ButtonRoutes.buttonLoading,
-    page: () => const button_loading_preview(),
-  ),
-  GetPage(
-    name: ButtonRoutes.buttonBadge,
-    page: () => const button_badge_preview(),
+    page: () => const ButtonLoadingView(),
   ),
   GetPage(
     name: ButtonRoutes.buttonSize,
-    page: () => const ButtonSizePage(),
+    page: () => const ButtonSizeView(),
+  ),
+  GetPage(
+    name: ButtonRoutes.buttonApi,
+    page: () => const ButtonApiView(),
   ),
 ];

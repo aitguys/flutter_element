@@ -7,7 +7,7 @@ class ButtonIconPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WidgetPreview(
-      widget: buttonIcon(),
+      widget: _viewerContent(),
       code:
           'https://aitmed-public.oss-cn-hangzhou.aliyuncs.com/button_icon.dart',
       title: '图标按钮',
@@ -15,7 +15,23 @@ class ButtonIconPreview extends StatelessWidget {
   }
 }
 
-Widget buttonIcon() {
+class ButtonIconView extends StatelessWidget {
+  const ButtonIconView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: _viewerContent(),
+        ),
+      ),
+    );
+  }
+}
+
+Widget _viewerContent() {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -74,42 +90,42 @@ Widget buttonIcon() {
             text: 'Primary Button',
             type: EButtonType.primary,
             icon: Icons.add,
-            round: true,
+            isRound: true,
             onPressed: () {},
           ),
           EButton(
             text: 'Success Button',
             type: EButtonType.success,
             icon: Icons.add,
-            round: true,
+            isRound: true,
             onPressed: () {},
           ),
           EButton(
             text: 'Warning Button',
             type: EButtonType.warning,
             icon: Icons.add,
-            round: true,
+            isRound: true,
             onPressed: () {},
           ),
           EButton(
             text: 'Danger Button',
             type: EButtonType.danger,
             icon: Icons.add,
-            round: true,
+            isRound: true,
             onPressed: () {},
           ),
           EButton(
             type: EButtonType.info,
             text: 'Info Button',
             icon: Icons.add,
-            round: true,
+            isRound: true,
             onPressed: () {},
           ),
           EButton(
             type: EButtonType.default_,
             text: 'Default Button',
             icon: Icons.add,
-            round: true,
+            isRound: true,
             onPressed: () {},
           ),
         ],

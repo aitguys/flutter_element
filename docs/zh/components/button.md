@@ -12,7 +12,6 @@
   height="300px"
 />
 
-
 ## 禁用状态
 
 使用 `disabled` 属性来控制按钮是否为禁用状态。
@@ -28,18 +27,8 @@
 使用 `icon` 属性来为按钮添加图标。
 
 <CodeView
-  codeUrl="https://raw.githubusercontent.com/aitguys/flutter_element/main/example/lib/pages/button_page/button_icon.dart"
-  reviewUrl="http://localhost:59886/#/button/icon"
-  height="300px"
-/>
-
-## 文字按钮
-
-没有边框和背景色的按钮。
-
-<CodeView
-  codeUrl="https://raw.githubusercontent.com/aitguys/flutter_element/main/example/lib/pages/button_page/button_text.dart"
-  reviewUrl="http://localhost:59886/#/button/text"
+  codeUrl="button_page/button_icon.dart"
+  reviewUrl="button/icon"
   height="300px"
 />
 
@@ -48,8 +37,8 @@
 使用 `link` 属性来定义链接按钮。
 
 <CodeView
-  codeUrl="https://raw.githubusercontent.com/aitguys/flutter_element/main/example/lib/pages/button_page/button_link.dart"
-  reviewUrl="http://localhost:59886/#/button/link"
+  codeUrl="button_page/button_link.dart"
+  reviewUrl="button/link"
   height="300px"
 />
 
@@ -58,8 +47,8 @@
 使用 `loading` 属性来显示加载状态。
 
 <CodeView
-  codeUrl="https://raw.githubusercontent.com/aitguys/flutter_element/main/example/lib/pages/button_page/button_loading.dart"
-  reviewUrl="http://localhost:59886/#/button/loading"
+  codeUrl="button_page/button_loading.dart"
+  reviewUrl="button/loading"
   height="300px"
 />
 
@@ -68,8 +57,8 @@
 使用 `size` 属性来定义按钮的尺寸。
 
 <CodeView
-  codeUrl="https://raw.githubusercontent.com/aitguys/flutter_element/main/example/lib/pages/button_page/button_size.dart"
-  reviewUrl="http://localhost:59886/#/button/size"
+  codeUrl="button_page/button_size.dart"
+  reviewUrl="button/size"
   height="300px"
 />
 
@@ -78,18 +67,8 @@
 使用 `color` 属性来自定义按钮的颜色。
 
 <CodeView
-  codeUrl="https://raw.githubusercontent.com/aitguys/flutter_element/main/example/lib/pages/button_page/button_custom_color.dart"
-  reviewUrl="http://localhost:59886/#/button/custom-color"
-  height="300px"
-/>
-
-## 徽章按钮
-
-使用 `badge` 属性来为按钮添加徽章。
-
-<CodeView
-  codeUrl="https://raw.githubusercontent.com/aitguys/flutter_element/main/example/lib/pages/button_page/button_badge.dart"
-  reviewUrl="http://localhost:59886/#/button/badge"
+  codeUrl="button_page/button_custom_color.dart"
+  reviewUrl="button/custom-color"
   height="300px"
 />
 
@@ -98,8 +77,16 @@
 使用 `child` 属性来自定义按钮的内容。
 
 <CodeView
-  codeUrl="https://raw.githubusercontent.com/aitguys/flutter_element/main/example/lib/pages/button_page/button_custom_children.dart"
-  reviewUrl="http://localhost:59886/#/button/custom-children"
+  codeUrl="button_page/button_custom_children.dart"
+  reviewUrl="button/custom-children"
+  height="300px"
+/>
+
+## api 调用
+
+<CodeView
+  codeUrl="button_page/button_api.dart"
+  reviewUrl="button/api"
   height="300px"
 />
 
@@ -107,30 +94,25 @@
 
 ### Button 属性
 
-| 属性名 | 说明 | 类型 | 默认值 |
-|--------|------|------|--------|
-| type | 按钮类型 | `ElementButtonType` | `ElementButtonType.default` |
-| size | 按钮尺寸 | `ElementButtonSize` | `ElementButtonSize.medium` |
-| plain | 是否为朴素按钮 | `boolean` | `false` |
-| round | 是否为圆角按钮 | `boolean` | `false` |
-| circle | 是否为圆形按钮 | `boolean` | `false` |
-| loading | 是否为加载中状态 | `boolean` | `false` |
-| disabled | 是否禁用按钮 | `boolean` | `false` |
-| icon | 图标组件 | `Widget` | - |
-| text | 是否为文字按钮 | `boolean` | `false` |
-| link | 是否为链接按钮 | `boolean` | `false` |
-| color | 自定义按钮颜色 | `Color` | - |
-| badge | 徽章配置 | `ElementBadgeProps` | - |
+| 属性名     | 说明                                               | 类型                | 默认值                      |
+| ---------- | -------------------------------------------------- | ------------------- | --------------------------- |
+| text       | 按钮文字                                           | `String`            | -                           |
+| type       | 按钮类型                                           | `ElementButtonType` | `ElementButtonType.default` |
+| size       | 按钮尺寸                                           | `ElementButtonSize` | `ElementButtonSize.medium`  |
+| fontSize   | 自定义按钮文字大小, 按钮尺寸会根据文字大小自动调整 | `double`            | -                           |
+| color      | 自定义背景颜色，文字颜色会根据背景颜色自动计算     | `Color`             | -                           |
+| link       | 是否为链接按钮                                     | `boolean`           | `false`                     |
+| icon       | 图标                                               | `Widget`            | -                           |
+| child      | 自定义按钮内容，会覆盖 Icon 和 Text，优先级最高    | `Widget`            | -                           |
+| isPlain    | 是否为朴素按钮                                     | `boolean`           | `false`                     |
+| isRound    | 是否为圆角按钮                                     | `boolean`           | `false`                     |
+| loading    | 是否为加载中状态                                   | `boolean`           | `false`                     |
+| isDisabled | 是否禁用按钮                                       | `boolean`           | `false`                     |
 
 ### Button 事件
 
-| 事件名 | 说明 | 参数 |
-|--------|------|------|
-| onPressed | 点击按钮时触发 | `() => void` |
-
-### Button 插槽
-
-| 插槽名 | 说明 |
-|--------|------|
-| default | 按钮内容 |
-| icon | 自定义图标 |
+| 事件名        | 说明                                                                   | 参数                     |
+| ------------- | ---------------------------------------------------------------------- | ------------------------ |
+| onPressed     | 点击按钮时触发                                                         | `() => void`             |
+| onHover       | 鼠标悬停时触发, 鼠标进入时返回 true, 离开时返回 false，只在 web 端有效 | `(bool isHover) => void` |
+| onLongPressed | 长按按钮时触发                                                         | `() => void`             |
