@@ -39,12 +39,12 @@ Widget _viewerContent() {
     children: [
       const EButton(
         text: 'Primary Button',
-        type: EButtonType.primary,
+        type: EColorType.primary,
         loading: true,
       ),
       EButton(
         text: 'autoLoading',
-        type: EButtonType.primary,
+        type: EColorType.primary,
         autoLoading: true,
         onPressed: () async {
           await Future.delayed(const Duration(seconds: 1));
@@ -85,7 +85,7 @@ class _LoadingButtonDemoState extends State<_LoadingButtonDemo> {
       children: [
         EButton(
           text: '手动实现加载',
-          type: EButtonType.primary,
+          type: EColorType.primary,
           loading: isLoading,
           onPressed: _handlePress,
         ),

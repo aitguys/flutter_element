@@ -1,5 +1,6 @@
 library flutter_element;
 
+export 'src/theme/index.dart';
 export 'src/components/button/index.dart';
 export 'src/components/link/index.dart';
 export 'src/components/scrollbar/index.dart';
@@ -7,7 +8,7 @@ export 'src/components/autocomplete/index.dart';
 export 'src/components/checkbox/index.dart';
 export 'src/components/color_picker/index.dart';
 export 'src/components/date_picker/index.dart';
-export 'src/theme/index.dart';
+
 export 'src/components/time_picker/index.dart';
 export 'src/components/input_tag/index.dart';
 export 'src/components/input_number/index.dart';
@@ -41,3 +42,4 @@ export 'src/components/message/index.dart';
 export 'src/components/watermark/index.dart';
 export 'src/components/navItem/index.dart';
 export 'src/components/widgetPreview/index.dart';
+export 'src/components/layout/index.dart';

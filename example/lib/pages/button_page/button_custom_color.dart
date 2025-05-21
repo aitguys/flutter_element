@@ -39,7 +39,7 @@ Widget _viewerContent() {
     children: [
       EButton(
         text: 'Primary Button',
-        type: EButtonType.primary,
+        type: EColorType.primary,
         color: Colors.purple,
         onPressed: () {},
       ),

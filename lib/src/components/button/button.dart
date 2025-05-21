@@ -1,13 +1,12 @@
 // lib/src/components/button/button.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_element/src/theme/index.dart';
-import 'button_style.dart';
 import 'content_caculate.dart';
 
 class EButton extends StatefulWidget {
   final String? text;
 
-  final EButtonType type;
+  final EColorType type;
 
   final ESizeItem size;
   final double? fontSize;
@@ -36,7 +35,7 @@ class EButton extends StatefulWidget {
     this.onPressed,
     this.onLongPressed,
     this.onHover,
-    this.type = EButtonType.default_,
+    this.type = EColorType.default_,
     this.isPlain = false,
     this.isRound = false,
     this.isCircle = false,
@@ -85,7 +84,7 @@ class _EButtonState extends State<EButton> {
 
   @override
   Widget build(BuildContext context) {
-    final buttonColor = widget.color ?? getButtonColor(widget.type);
+    final buttonColor = widget.color ?? getColorByType(widget.type);
 
     final isIconOnly = isOnlyIcon(widget.icon, widget.text, widget.child);
 

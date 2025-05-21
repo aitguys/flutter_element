@@ -43,6 +43,12 @@ import '../pages/message_page/message_page.dart';
 import '../pages/watermark_page/watermark_page.dart';
 import '../pages/nav_item/navItem_page.dart';
 import '../pages/widgetPreview/widget_preview.dart';
+import '../pages/layout_page/index.dart';
+import '../pages/layout_page/layout_basic.dart';
+import '../pages/layout_page/layout_container.dart';
+import '../pages/layout_page/layout_row_col.dart';
+import '../pages/layout_page/layout_api.dart';
+import '../pages/layout_page/route.dart';
 
 abstract class Routes {
   static const home = '/';
@@ -276,6 +282,26 @@ class AppPages {
     GetPage(
       name: Routes.widgetPreview,
       page: () => const WidgetPreviewTestPage(),
+    ),
+    GetPage(
+      name: LayoutRoutes.root,
+      page: () => const LayoutPage(),
+    ),
+    GetPage(
+      name: LayoutRoutes.basic,
+      page: () => const LayoutBasicPage(),
+    ),
+    GetPage(
+      name: LayoutRoutes.container,
+      page: () => const LayoutContainerPage(),
+    ),
+    GetPage(
+      name: LayoutRoutes.rowCol,
+      page: () => const LayoutRowColPage(),
+    ),
+    GetPage(
+      name: LayoutRoutes.api,
+      page: () => const LayoutApiPage(),
     ),
   ];
 }

@@ -1,7 +1,6 @@
 // 传入参数，text icon ，child , child 和 text icon 同时存在的情况下 ，child 优先级最高， 如果child 存在，text icon 不显示， 如果 child 不存在，text icon 显示
 
 import 'package:flutter/material.dart';
-import 'button_style.dart';
 import 'package:flutter_element/src/theme/index.dart';
 
 Widget calculateButtonContent({
@@ -9,7 +8,7 @@ Widget calculateButtonContent({
   IconData? icon,
   Widget? child,
   bool loading = false,
-  EButtonType type = EButtonType.default_,
+  EColorType type = EColorType.default_,
   Color? color,
   bool isActive = false,
   bool isPlain = false,
@@ -22,7 +21,7 @@ Widget calculateButtonContent({
   final iconWidget = Icon(
     icon,
     color: calculateContentColor(
-      color ?? getButtonColor(type),
+      color ?? getColorByType(type),
       isPlain: isPlain,
       isDisabled: isDisabled,
       isActive: isActive,
@@ -36,7 +35,7 @@ Widget calculateButtonContent({
       fontSize: fontSize ?? ElememtSize(size: size).getButtonFontSize(),
       decoration: TextDecoration.none,
       color: calculateContentColor(
-        color ?? getButtonColor(type),
+        color ?? getColorByType(type),
         isPlain: isPlain,
         isDisabled: isDisabled,
         isActive: isActive,
@@ -80,7 +79,7 @@ Widget calculateButtonContent({
           child: CircularProgressIndicator(
             strokeWidth: 2,
             color: calculateContentColor(
-              color ?? getButtonColor(type),
+              color ?? getColorByType(type),
               isPlain: isPlain,
               isDisabled: isDisabled,
               isActive: isActive,

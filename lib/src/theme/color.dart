@@ -125,3 +125,24 @@ Color calculateBorderColor(
   }
   return backgroundColor;
 }
+
+enum EColorType { primary, success, warning, danger, info, default_ }
+
+Color getColorByType(EColorType type) {
+  // 根据 type 和主题生成样式
+  switch (type) {
+    case EColorType.primary:
+      return EColorTypes.primary;
+    // 其他类型...
+    case EColorType.success:
+      return EColorTypes.success;
+    case EColorType.warning:
+      return EColorTypes.warning;
+    case EColorType.danger:
+      return EColorTypes.danger;
+    case EColorType.info:
+      return EColorTypes.info;
+    case EColorType.default_:
+      return EColorTypes.default_;
+  }
+}

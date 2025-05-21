@@ -34,7 +34,7 @@ class EmptyPage extends StatelessWidget {
             EEmpty(
               description: '没有数据',
               child: EButton(
-                type: EButtonType.primary,
+                type: EColorType.primary,
                 text: '重新加载',
                 onPressed: () {},
               ),

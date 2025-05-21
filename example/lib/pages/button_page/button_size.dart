@@ -43,17 +43,17 @@ Widget _viewerContent() {
         children: [
           EButton(
             text: 'Primary',
-            type: EButtonType.primary,
+            type: EColorType.primary,
             size: ESizeItem.large,
           ),
           EButton(
             text: 'Success',
-            type: EButtonType.success,
+            type: EColorType.success,
             size: ESizeItem.medium,
           ),
           EButton(
             text: 'Warning',
-            type: EButtonType.warning,
+            type: EColorType.warning,
             size: ESizeItem.small,
           ),
         ],
@@ -65,19 +65,19 @@ Widget _viewerContent() {
         children: [
           EButton(
             text: 'Primary',
-            type: EButtonType.primary,
+            type: EColorType.primary,
             size: ESizeItem.large,
             isRound: true,
           ),
           EButton(
             text: 'Success',
-            type: EButtonType.success,
+            type: EColorType.success,
             size: ESizeItem.medium,
             isRound: true,
           ),
           EButton(
             text: 'Warning',
-            type: EButtonType.warning,
+            type: EColorType.warning,
             size: ESizeItem.small,
             isRound: true,
           ),
@@ -90,19 +90,19 @@ Widget _viewerContent() {
         children: [
           EButton(
             text: 'Primary',
-            type: EButtonType.primary,
+            type: EColorType.primary,
             size: ESizeItem.large,
             icon: Icons.add,
           ),
           EButton(
             text: 'Success',
-            type: EButtonType.success,
+            type: EColorType.success,
             size: ESizeItem.medium,
             icon: Icons.add,
           ),
           EButton(
             text: 'Warning',
-            type: EButtonType.warning,
+            type: EColorType.warning,
             size: ESizeItem.small,
             icon: Icons.add,
           ),
@@ -118,7 +118,7 @@ Widget _viewerContent() {
             height: 50,
             child: EButton(
               text: 'Primary',
-              type: EButtonType.primary,
+              type: EColorType.primary,
               size: ESizeItem.large,
               icon: Icons.add,
             ),
@@ -127,7 +127,7 @@ Widget _viewerContent() {
             width: 150,
             height: 50,
             child: EButton(
-              type: EButtonType.primary,
+              type: EColorType.primary,
               size: ESizeItem.large,
               icon: Icons.add,
             ),
@@ -142,17 +142,17 @@ Widget _viewerContent() {
         children: [
           EButton(
             text: 'Primary',
-            type: EButtonType.primary,
+            type: EColorType.primary,
             fontSize: 14,
           ),
           EButton(
             text: 'Success',
-            type: EButtonType.success,
+            type: EColorType.success,
             fontSize: 16,
           ),
           EButton(
             text: 'Warning',
-            type: EButtonType.warning,
+            type: EColorType.warning,
             fontSize: 18,
           ),
         ],

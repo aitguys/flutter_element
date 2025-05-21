@@ -42,7 +42,7 @@ Widget _viewerContent() {
         children: [
           EButton(
             text: 'Primary Button',
-            type: EButtonType.primary,
+            type: EColorType.primary,
             onHover: (isHover) {
               print('hover: $isHover');
             },

@@ -73,6 +73,11 @@ class HomePage extends StatelessWidget {
               ),
             ],
           ),
+          ListTile(
+            title: const Text('Layout 布局'),
+            subtitle: const Text('用于快速构建页面布局的组件'),
+            onTap: () => Navigator.pushNamed(context, '/layout'),
+          ),
           // 组件分组1
         ],
       ),

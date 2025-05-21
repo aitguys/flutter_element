@@ -44,7 +44,7 @@ Widget _viewerContent() {
         children: [
           EButton(
             text: 'Primary Button',
-            type: EButtonType.primary,
+            type: EColorType.primary,
             isLink: true,
             onPressed: () {
               print('点击了');
@@ -52,31 +52,31 @@ Widget _viewerContent() {
           ),
           EButton(
             text: 'Success Button',
-            type: EButtonType.success,
+            type: EColorType.success,
             isLink: true,
             onPressed: () {},
           ),
           EButton(
             text: 'Warning Button',
-            type: EButtonType.warning,
+            type: EColorType.warning,
             isLink: true,
             onPressed: () {},
           ),
           EButton(
             text: 'Danger Button',
-            type: EButtonType.danger,
+            type: EColorType.danger,
             isLink: true,
             onPressed: () {},
           ),
           EButton(
             text: 'Info Button',
-            type: EButtonType.info,
+            type: EColorType.info,
             isLink: true,
             onPressed: () {},
           ),
           EButton(
             text: 'Default Button',
-            type: EButtonType.default_,
+            type: EColorType.default_,
             isLink: true,
             onPressed: () {},
           ),
@@ -91,42 +91,42 @@ Widget _viewerContent() {
           EButton(
             text: 'Primary Button',
             icon: Icons.edit,
-            type: EButtonType.primary,
+            type: EColorType.primary,
             isLink: true,
             onPressed: () {},
           ),
           EButton(
             text: 'Success Button',
             icon: Icons.check,
-            type: EButtonType.success,
+            type: EColorType.success,
             isLink: true,
             onPressed: () {},
           ),
           EButton(
             text: 'Warning Button',
             icon: Icons.star,
-            type: EButtonType.warning,
+            type: EColorType.warning,
             isLink: true,
             onPressed: () {},
           ),
           EButton(
             text: 'Danger Button',
             icon: Icons.delete,
-            type: EButtonType.danger,
+            type: EColorType.danger,
             isLink: true,
             onPressed: () {},
           ),
           EButton(
             text: 'Info Button',
             icon: Icons.message,
-            type: EButtonType.info,
+            type: EColorType.info,
             isLink: true,
             onPressed: () {},
           ),
           EButton(
             text: 'Default Button',
             icon: Icons.search,
-            type: EButtonType.default_,
+            type: EColorType.default_,
             isLink: true,
             onPressed: () {},
           ),
@@ -140,7 +140,7 @@ Widget _viewerContent() {
         children: [
           EButton(
             text: 'Primary Button',
-            type: EButtonType.primary,
+            type: EColorType.primary,
             isLink: true,
             isDisabled: true,
             onPressed: () {
@@ -149,35 +149,35 @@ Widget _viewerContent() {
           ),
           EButton(
             text: 'Success Button',
-            type: EButtonType.success,
+            type: EColorType.success,
             isLink: true,
             isDisabled: true,
             onPressed: () {},
           ),
           EButton(
             text: 'Warning Button',
-            type: EButtonType.warning,
+            type: EColorType.warning,
             isLink: true,
             isDisabled: true,
             onPressed: () {},
           ),
           EButton(
             text: 'Danger Button',
-            type: EButtonType.danger,
+            type: EColorType.danger,
             isLink: true,
             isDisabled: true,
             onPressed: () {},
           ),
           EButton(
             text: 'Info Button',
-            type: EButtonType.info,
+            type: EColorType.info,
             isLink: true,
             isDisabled: true,
             onPressed: () {},
           ),
           EButton(
             text: 'Default Button',
-            type: EButtonType.default_,
+            type: EColorType.default_,
             isLink: true,
             isDisabled: true,
             onPressed: () {},
@@ -193,7 +193,7 @@ Widget _viewerContent() {
           EButton(
             text: 'Primary Button',
             icon: Icons.edit,
-            type: EButtonType.primary,
+            type: EColorType.primary,
             isLink: true,
             isDisabled: true,
             onPressed: () {},
@@ -201,7 +201,7 @@ Widget _viewerContent() {
           EButton(
             text: 'Success Button',
             icon: Icons.check,
-            type: EButtonType.success,
+            type: EColorType.success,
             isLink: true,
             isDisabled: true,
             onPressed: () {},
@@ -209,7 +209,7 @@ Widget _viewerContent() {
           EButton(
             text: 'Warning Button',
             icon: Icons.star,
-            type: EButtonType.warning,
+            type: EColorType.warning,
             isLink: true,
             isDisabled: true,
             onPressed: () {},
@@ -217,7 +217,7 @@ Widget _viewerContent() {
           EButton(
             text: 'Danger Button',
             icon: Icons.delete,
-            type: EButtonType.danger,
+            type: EColorType.danger,
             isLink: true,
             isDisabled: true,
             onPressed: () {},
@@ -225,7 +225,7 @@ Widget _viewerContent() {
           EButton(
             text: 'Info Button',
             icon: Icons.message,
-            type: EButtonType.info,
+            type: EColorType.info,
             isLink: true,
             isDisabled: true,
             onPressed: () {},
@@ -233,7 +233,7 @@ Widget _viewerContent() {
           EButton(
             text: 'Default Button',
             icon: Icons.search,
-            type: EButtonType.default_,
+            type: EColorType.default_,
             isLink: true,
             isDisabled: true,
             onPressed: () {},
