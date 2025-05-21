@@ -19,10 +19,11 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: "3.6.0"
           channel: "stable"
+
       - name: Install coscmd
         run: sudo pip Install coscmd
+
       - name: Configure coscmd
         env:
           SECRET_ID: ${{ secrets.TENCENT_SECRET_ID }}
