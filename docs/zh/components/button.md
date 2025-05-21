@@ -2,7 +2,11 @@
 
 常用的操作按钮。
 
-## 基础用法
+## 实现原理
+
+使用 MouseRegion 嵌套 GestureDetector 、Container 、Icon 、Text 等组件实现回调函数及样式
+
+## 基础用法 MouseRegion 
 
 使用 `type`、`isPlain`、`isRound` 属性来定义按钮的样式。
 
