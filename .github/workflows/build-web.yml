@@ -26,9 +26,9 @@ jobs:
 
       - name: Configure coscmd
         env:
-          SECRET_ID: ${{ secrets.TENCENT_SECRET_ID }}
-          SECRET_KEY: ${{ secrets.TENCENT_SECRET_KEY }}
-          BUCKET: ${{ secrets.TENCENT_BUCKETNAME }}
+          SECRET_ID: ${{ env.TENCENT_SECRET_ID }}
+          SECRET_KEY: ${{ env.TENCENT_SECRET_KEY }}
+          BUCKET: ${{ env.TENCENT_BUCKETNAME }}
           REGION: ap-guangzhou
         run: coscmd config -a $SECRET_ID -s $SECRET_KEY -b $BUCKET -r $REGION
 
