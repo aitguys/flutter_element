@@ -10,9 +10,9 @@ on:
     branches: ["main"]
 
 jobs:
-  build:
+  deployment:
     runs-on: ubuntu-latest
-
+    environment: production
     steps:
       - uses: actions/checkout@v4
 
@@ -26,9 +26,9 @@ jobs:
 
       - name: Configure coscmd
         env:
-          SECRET_ID: ${{ env.TENCENT_SECRET_ID }}
-          SECRET_KEY: ${{ env.TENCENT_SECRET_KEY }}
-          BUCKET: ${{ env.TENCENT_BUCKETNAME }}
+          SECRET_ID: ${{ vars.TENCENT_SECRET_ID }}
+          SECRET_KEY: ${{ vars.TENCENT_SECRET_KEY }}
+          BUCKET: ${{ vars.TENCENT_BUCKETNAME }}
           REGION: ap-guangzhou
         run: coscmd config -a $SECRET_ID -s $SECRET_KEY -b $BUCKET -r $REGION
 
