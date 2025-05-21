@@ -1,0 +1,49 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: build and deploy to tencent cos
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.6.0"
+          channel: "stable"
+
+      - name: Install dependencies
+        run: |
+          cd example
+          flutter pub get
+
+      - name: Build web
+        run: |
+          cd example
+          flutter build web
+
+      - name: Configure Tencent Cloud credentials
+        uses: tencentyun/cos-action@v1
+        with:
+          secret-id: ${{ secrets.TENCENT_SECRET_ID }}
+          secret-key: ${{ secrets.TENCENT_SECRET_KEY }}
+          bucket: ${{ secrets.TENCENT_BUCKETNAME }}
+          region: ap-guangzhou
+
+      - name: Clean bucket
+        run: |
+          coscmd delete -r / --force
+
+      - name: Upload to COS
+        run: |
+          coscmd upload -r example/build/web/ /
