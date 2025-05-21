@@ -21,6 +21,15 @@ jobs:
         with:
           flutter-version: "3.6.0"
           channel: "stable"
+      - name: Install coscmd
+        run: sudo pip Install coscmd
+      - name: Configure coscmd
+        env:
+          SECRET_ID: ${{ secrets.TENCENT_SECRET_ID }}
+          SECRET_KEY: ${{ secrets.TENCENT_SECRET_KEY }}
+          BUCKET: ${{ secrets.TENCENT_BUCKETNAME }}
+          REGION: ap-guangzhou
+        run: coscmd config -a $SECRET_ID -s $SECRET_KEY -b $BUCKET -r $REGION
 
       - name: Install dependencies
         run: |
@@ -31,14 +40,6 @@ jobs:
         run: |
           cd example
           flutter build web
-
-      - name: Configure Tencent Cloud credentials
-        uses: tencentyun/cos-action@v1
-        with:
-          secret-id: ${{ secrets.TENCENT_SECRET_ID }}
-          secret-key: ${{ secrets.TENCENT_SECRET_KEY }}
-          bucket: ${{ secrets.TENCENT_BUCKETNAME }}
-          region: ap-guangzhou
 
       - name: Clean bucket
         run: |
