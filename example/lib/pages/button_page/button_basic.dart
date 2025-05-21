@@ -214,33 +214,39 @@ Widget _viewerContent() {
           EButton(
             icon: Icons.edit,
             type: EButtonType.primary,
+            isCircle: true,
             onPressed: () {},
           ),
           EButton(
             icon: Icons.check,
             type: EButtonType.success,
+            isCircle: true,
             onPressed: () {},
           ),
           SizedBox(
             child: EButton(
               icon: Icons.message,
               type: EButtonType.info,
+              isCircle: true,
               onPressed: () {},
             ),
           ),
           EButton(
             icon: Icons.star,
             type: EButtonType.warning,
+            isCircle: true,
             onPressed: () {},
           ),
           EButton(
             icon: Icons.delete,
             type: EButtonType.danger,
+            isCircle: true,
             onPressed: () {},
           ),
           EButton(
             icon: Icons.search,
             type: EButtonType.default_,
+            isCircle: true,
             onPressed: () {},
           ),
         ],
@@ -284,6 +290,7 @@ Widget _viewerContent() {
             icon: Icons.search,
             type: EButtonType.default_,
             isPlain: true,
+            isRound: false,
             onPressed: () {},
           ),
         ],

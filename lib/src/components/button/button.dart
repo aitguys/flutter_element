@@ -19,14 +19,14 @@ class EButton extends StatefulWidget {
 
   final bool isPlain;
   final bool isRound;
-
+  final bool isCircle;
   final bool loading;
-  final IconData? loadingIcon;
+  final bool autoLoading;
 
   final bool isDisabled;
 
-  final VoidCallback? onPressed;
-  final VoidCallback? onLongPressed;
+  final dynamic Function()? onPressed;
+  final dynamic Function()? onLongPressed;
   final ValueChanged<bool>? onHover;
 
   const EButton({
@@ -39,11 +39,12 @@ class EButton extends StatefulWidget {
     this.type = EButtonType.default_,
     this.isPlain = false,
     this.isRound = false,
+    this.isCircle = false,
     this.icon,
     this.child,
     this.color,
     this.loading = false,
-    this.loadingIcon,
+    this.autoLoading = false,
     this.isDisabled = false,
     this.size = ESizeItem.medium,
     this.fontSize,
@@ -55,6 +56,32 @@ class EButton extends StatefulWidget {
 
 class _EButtonState extends State<EButton> {
   bool isHovered = false;
+  bool isLoading = false;
+
+  void _handlePress() async {
+    if (widget.onPressed == null) return;
+
+    if (widget.autoLoading) {
+      setState(() {
+        isLoading = true;
+      });
+
+      try {
+        final result = widget.onPressed!();
+        if (result is Future) {
+          await result;
+        }
+      } finally {
+        if (mounted) {
+          setState(() {
+            isLoading = false;
+          });
+        }
+      }
+    } else {
+      widget.onPressed!();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,10 +102,10 @@ class _EButtonState extends State<EButton> {
         widget.onHover?.call(false);
       },
       child: GestureDetector(
-        onTap: widget.isDisabled ? null : widget.onPressed,
+        onTap: widget.isDisabled ? null : _handlePress,
         onLongPress: widget.isDisabled ? null : widget.onLongPressed,
         child: Container(
-          padding: isIconOnly
+          padding: isIconOnly && widget.isCircle
               ? ElememtSize(size: widget.size).getButtonRoundPadding()
               : ElememtSize(size: widget.size).getButtonPadding(),
           decoration: widget.isLink
@@ -93,7 +120,7 @@ class _EButtonState extends State<EButton> {
                           isPlain: widget.isPlain,
                           isActive: false,
                           isDisabled: widget.isDisabled),
-                  borderRadius: isIconOnly
+                  borderRadius: isIconOnly && widget.isCircle
                       ? BorderRadius.circular(100)
                       : widget.isRound
                           ? BorderRadius.circular(100)
@@ -117,10 +144,9 @@ class _EButtonState extends State<EButton> {
                 text: widget.text,
                 icon: widget.icon,
                 child: widget.child,
-                loading: widget.loading,
+                loading: widget.loading || isLoading,
                 type: widget.type,
                 color: buttonColor,
-                loadingIcon: widget.loadingIcon,
                 isPlain: widget.isPlain,
                 isLink: widget.isLink,
                 isDisabled: widget.isDisabled,

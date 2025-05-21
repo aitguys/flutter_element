@@ -32,21 +32,63 @@ class ButtonLoadingView extends StatelessWidget {
 }
 
 Widget _viewerContent() {
-  return const Wrap(
+  return Wrap(
     spacing: 8,
     runSpacing: 16,
     children: [
-      EButton(
+      const EButton(
         text: 'Primary Button',
         type: EButtonType.primary,
         loading: true,
       ),
       EButton(
-        text: 'Primary Button',
+        text: 'autoLoading',
         type: EButtonType.primary,
-        loading: true,
-        loadingIcon: Icons.add,
+        autoLoading: true,
+        onPressed: () async {
+          await Future.delayed(const Duration(seconds: 1));
+        },
       ),
+      _LoadingButtonDemo()
     ],
   );
+}
+
+class _LoadingButtonDemo extends StatefulWidget {
+  @override
+  _LoadingButtonDemoState createState() => _LoadingButtonDemoState();
+}
+
+class _LoadingButtonDemoState extends State<_LoadingButtonDemo> {
+  bool isLoading = false;
+
+  void _handlePress() {
+    setState(() {
+      isLoading = true;
+    });
+
+    Future.delayed(const Duration(seconds: 1), () {
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      spacing: 8,
+      runSpacing: 16,
+      children: [
+        EButton(
+          text: '手动实现加载',
+          type: EButtonType.primary,
+          loading: isLoading,
+          onPressed: _handlePress,
+        ),
+      ],
+    );
+  }
 }

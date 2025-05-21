@@ -4,7 +4,9 @@
 
 ## 基础用法
 
-使用 `type`、`plain`、`round` 和 `circle` 属性来定义按钮的样式。
+使用 `type`、`isPlain`、`isRound` 属性来定义按钮的样式。
+
+`isCircle` 可以控制组件展示圆形，但是仅在只传入一个Icon的时候生效
 
 <CodeView
   codeUrl="button_page/button_basic.dart"
@@ -15,7 +17,7 @@
 ## 禁用状态
 
 使用 `disabled` 属性来控制按钮是否为禁用状态。
-
+使用 disabled 属性来控制按钮是否为禁用状态。 该属性接受一个 Boolean 类型的值。
 <CodeView
   codeUrl="button_page/button_disable.dart"
   reviewUrl="button/disable"
@@ -24,7 +26,7 @@
 
 ## 图标按钮
 
-使用 `icon` 属性来为按钮添加图标。
+使用 `icon` 属性来为按钮添加图标
 
 <CodeView
   codeUrl="button_page/button_icon.dart"
@@ -46,6 +48,9 @@
 
 使用 `loading` 属性来显示加载状态。
 
+使用 `autoLoading` 属性 控制 onclick 触发时 是否自动调用loading 动画，并在结束时消失，仅在 onclick的函数为异步函数时生效 
+
+当然也可以用状态管理的方式手动实现loading 
 <CodeView
   codeUrl="button_page/button_loading.dart"
   reviewUrl="button/loading"
@@ -107,6 +112,7 @@
 | isPlain    | 是否为朴素按钮                                     | `boolean`           | `false`                     |
 | isRound    | 是否为圆角按钮                                     | `boolean`           | `false`                     |
 | loading    | 是否为加载中状态                                   | `boolean`           | `false`                     |
+| autoLoading | onclick 触发时 是否自动调用loading 动画，并在结束时消失 | `boolean`           | `false`                     |
 | isDisabled | 是否禁用按钮                                       | `boolean`           | `false`                     |
 
 ### Button 事件

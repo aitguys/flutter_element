@@ -11,7 +11,6 @@ Widget calculateButtonContent({
   bool loading = false,
   EButtonType type = EButtonType.default_,
   Color? color,
-  IconData? loadingIcon,
   bool isActive = false,
   bool isPlain = false,
   bool isDisabled = false,
@@ -75,31 +74,20 @@ Widget calculateButtonContent({
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        loadingIcon != null
-            ? Icon(
-                loadingIcon,
-                color: calculateContentColor(
-                  color ?? getButtonColor(type),
-                  isPlain: isPlain,
-                  isDisabled: isDisabled,
-                  isActive: isActive,
-                  isLink: isLink,
-                ),
-              )
-            : SizedBox(
-                width: 16,
-                height: 16,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                  color: calculateContentColor(
-                    color ?? getButtonColor(type),
-                    isPlain: isPlain,
-                    isDisabled: isDisabled,
-                    isActive: isActive,
-                    isLink: isLink,
-                  ),
-                ),
-              ),
+        SizedBox(
+          width: 16,
+          height: 16,
+          child: CircularProgressIndicator(
+            strokeWidth: 2,
+            color: calculateContentColor(
+              color ?? getButtonColor(type),
+              isPlain: isPlain,
+              isDisabled: isDisabled,
+              isActive: isActive,
+              isLink: isLink,
+            ),
+          ),
+        ),
         const SizedBox(width: 8),
         content,
       ],
