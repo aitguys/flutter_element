@@ -22,7 +22,7 @@ jobs:
           channel: "stable"
 
       - name: Install coscmd
-        run: sudo pip Install coscmd
+        run: sudo pip install coscmd
 
       - name: Configure coscmd
         env:
