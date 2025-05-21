@@ -20,7 +20,16 @@ class ButtonBasicView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(child: _viewerContent());
+    return Scaffold(
+      body: Expanded(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: _viewerContent(),
+          ),
+        ),
+      ),
+    );
   }
 }
 
