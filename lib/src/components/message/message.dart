@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
-
-enum MessageType { success, warning, info, error }
+import '../../theme/index.dart';
 
 class EMessage extends StatefulWidget {
   final String message;
-  final MessageType type;
+  final EColorType type;
+  final bool isRound;
+  final ESizeItem size;
   final int duration;
   final bool showClose;
   final VoidCallback? onClose;
   final bool center;
+  final EdgeInsets? padding;
+  final double? fontSize;
   final Widget? icon;
   final double? offset;
   final bool visible;
@@ -16,7 +19,7 @@ class EMessage extends StatefulWidget {
   const EMessage({
     Key? key,
     required this.message,
-    this.type = MessageType.info,
+    this.type = EColorType.info,
     this.duration = 3000,
     this.showClose = false,
     this.onClose,
@@ -24,6 +27,10 @@ class EMessage extends StatefulWidget {
     this.icon,
     this.offset,
     this.visible = true,
+    this.isRound = false,
+    this.size = ESizeItem.medium,
+    this.padding,
+    this.fontSize,
   }) : super(key: key);
 
   @override
@@ -88,35 +95,6 @@ class _EMessageState extends State<EMessage>
     super.dispose();
   }
 
-  Color _getBackgroundColor(BuildContext context) {
-    final theme = Theme.of(context);
-    switch (widget.type) {
-      case MessageType.success:
-        return Colors.green.withOpacity(0.9);
-      case MessageType.warning:
-        return Colors.orange.withOpacity(0.9);
-      case MessageType.error:
-        return Colors.red.withOpacity(0.9);
-      case MessageType.info:
-      default:
-        return theme.primaryColor.withOpacity(0.9);
-    }
-  }
-
-  IconData _getIcon() {
-    switch (widget.type) {
-      case MessageType.success:
-        return Icons.check_circle_outline;
-      case MessageType.warning:
-        return Icons.warning_amber_outlined;
-      case MessageType.error:
-        return Icons.error_outline;
-      case MessageType.info:
-      default:
-        return Icons.info_outline;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     if (!_visible) {
@@ -142,21 +120,24 @@ class _EMessageState extends State<EMessage>
               constraints: const BoxConstraints(maxWidth: 500),
               child: Material(
                 elevation: 4,
-                borderRadius: BorderRadius.circular(4),
-                color: _getBackgroundColor(context),
+                borderRadius: widget.isRound
+                    ? BorderRadius.circular(100)
+                    : BorderRadius.circular(4),
+                color: getMessageBackgroundColor(widget.type),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 10,
+                  padding: ElememtSize(size: widget.size).getMessagePadding(
+                    customPadding: widget.padding,
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       widget.icon ??
                           Icon(
-                            _getIcon(),
+                            getMessageIcon(widget.type),
                             color: Colors.white,
-                            size: 20,
+                            size: ElememtSize(size: widget.size).getIconSize(),
                           ),
                       const SizedBox(width: 10),
                       Flexible(
@@ -164,15 +145,20 @@ class _EMessageState extends State<EMessage>
                           widget.message,
                           style: theme.textTheme.bodyMedium?.copyWith(
                             color: Colors.white,
+                            fontSize: ElememtSize(size: widget.size)
+                                .getMessageFontSize(
+                              customFontSize: widget.fontSize,
+                            ),
                           ),
                         ),
                       ),
                       if (widget.showClose) ...[
                         const SizedBox(width: 10),
                         IconButton(
-                          icon: const Icon(
+                          icon: Icon(
                             Icons.close,
-                            size: 16,
+                            size: ElememtSize(size: widget.size).getIconSize() -
+                                4,
                             color: Colors.white,
                           ),
                           onPressed: _hide,
@@ -198,13 +184,17 @@ class MessageController {
   static void _showMessage({
     required BuildContext context,
     required String message,
-    MessageType type = MessageType.info,
+    EColorType type = EColorType.info,
     int duration = 3000,
     bool showClose = false,
     VoidCallback? onClose,
     bool center = false,
     Widget? icon,
     double? offset,
+    EdgeInsets? padding,
+    double? fontSize,
+    bool isRound = false,
+    ESizeItem size = ESizeItem.medium,
   }) {
     final overlayState = Overlay.of(context);
     final double finalOffset = (offset ?? 20) + (_entries.length * 60);
@@ -224,6 +214,10 @@ class MessageController {
         center: center,
         icon: icon,
         offset: finalOffset,
+        isRound: isRound,
+        size: size,
+        padding: padding,
+        fontSize: fontSize,
       ),
     );
 
@@ -240,17 +234,25 @@ class MessageController {
     bool center = false,
     Widget? icon,
     double? offset = 20,
+    EdgeInsets? padding,
+    double? fontSize,
+    bool isRound = false,
+    ESizeItem size = ESizeItem.medium,
   }) {
     _showMessage(
       context: context,
       message: message,
-      type: MessageType.success,
+      type: EColorType.success,
       duration: duration,
       showClose: showClose,
       onClose: onClose,
       center: center,
       icon: icon,
       offset: offset,
+      isRound: isRound,
+      size: size,
+      padding: padding,
+      fontSize: fontSize,
     );
   }
 
@@ -263,17 +265,25 @@ class MessageController {
     bool center = false,
     Widget? icon,
     double? offset = 20,
+    EdgeInsets? padding,
+    double? fontSize,
+    bool isRound = false,
+    ESizeItem size = ESizeItem.medium,
   }) {
     _showMessage(
       context: context,
       message: message,
-      type: MessageType.warning,
+      type: EColorType.warning,
       duration: duration,
       showClose: showClose,
       onClose: onClose,
       center: center,
       icon: icon,
       offset: offset,
+      isRound: isRound,
+      size: size,
+      padding: padding,
+      fontSize: fontSize,
     );
   }
 
@@ -286,17 +296,25 @@ class MessageController {
     bool center = false,
     Widget? icon,
     double? offset = 20,
+    EdgeInsets? padding,
+    double? fontSize,
+    bool isRound = false,
+    ESizeItem size = ESizeItem.medium,
   }) {
     _showMessage(
       context: context,
       message: message,
-      type: MessageType.error,
+      type: EColorType.danger,
       duration: duration,
       showClose: showClose,
       onClose: onClose,
       center: center,
       icon: icon,
       offset: offset,
+      isRound: isRound,
+      size: size,
+      padding: padding,
+      fontSize: fontSize,
     );
   }
 
@@ -309,17 +327,25 @@ class MessageController {
     bool center = false,
     Widget? icon,
     double? offset = 20,
+    bool isRound = false,
+    ESizeItem size = ESizeItem.medium,
+    EdgeInsets? padding,
+    double? fontSize,
   }) {
     _showMessage(
       context: context,
       message: message,
-      type: MessageType.info,
+      type: EColorType.info,
       duration: duration,
       showClose: showClose,
       onClose: onClose,
       center: center,
       icon: icon,
       offset: offset,
+      isRound: isRound,
+      size: size,
+      padding: padding,
+      fontSize: fontSize,
     );
   }
 }

@@ -49,6 +49,20 @@ class ElememtSize {
     }
   }
 
+  double getMessageFontSize({double? customFontSize}) {
+    if (customFontSize != null) {
+      return customFontSize;
+    }
+    switch (size) {
+      case ESizeItem.large:
+        return 16;
+      case ESizeItem.medium:
+        return 14;
+      case ESizeItem.small:
+        return 12;
+    }
+  }
+
   EdgeInsets getInputPadding() {
     switch (size) {
       case ESizeItem.large:
@@ -57,6 +71,20 @@ class ElememtSize {
         return const EdgeInsets.all(16);
       case ESizeItem.small:
         return const EdgeInsets.symmetric(vertical: 0);
+    }
+  }
+
+  EdgeInsets getMessagePadding({EdgeInsets? customPadding}) {
+    if (customPadding != null) {
+      return customPadding;
+    }
+    switch (size) {
+      case ESizeItem.large:
+        return const EdgeInsets.all(10);
+      case ESizeItem.medium:
+        return const EdgeInsets.all(8);
+      case ESizeItem.small:
+        return const EdgeInsets.all(6);
     }
   }
 

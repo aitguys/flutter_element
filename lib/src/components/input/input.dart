@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element/src/theme/index.dart';
 
-enum EInputSize { small, medium, large }
-
 class EInput extends StatefulWidget {
-  final String? value;
-  final ValueChanged<String>? onChanged;
+  final TextEditingController? textController;
+
   final String? placeholder;
   final bool clearable;
   final bool disabled;
   final bool readOnly;
   final Widget? prefix;
   final Widget? suffix;
-  final EInputSize size;
+  final ESizeItem size;
   final double? width;
   final double? height;
+
+  final ValueChanged<String>? onChanged;
   final VoidCallback? onFocus;
   final VoidCallback? onBlur;
 
   const EInput({
     Key? key,
-    this.value,
+    this.textController,
     this.onChanged,
     this.placeholder = '',
     this.clearable = false,
@@ -28,7 +28,7 @@ class EInput extends StatefulWidget {
     this.readOnly = false,
     this.prefix,
     this.suffix,
-    this.size = EInputSize.medium,
+    this.size = ESizeItem.medium,
     this.width,
     this.height,
     this.onFocus,
@@ -48,7 +48,7 @@ class _EInputState extends State<EInput> {
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController(text: widget.value ?? '');
+    _controller = widget.textController ?? TextEditingController();
     _focusNode = FocusNode();
     _focusNode.addListener(_handleFocusChange);
   }
@@ -56,8 +56,9 @@ class _EInputState extends State<EInput> {
   @override
   void didUpdateWidget(EInput oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.value != oldWidget.value && widget.value != _controller.text) {
-      _controller.text = widget.value ?? '';
+    if (widget.textController != oldWidget.textController &&
+        widget.textController != _controller) {
+      _controller = widget.textController ?? TextEditingController();
     }
   }
 
@@ -84,11 +85,11 @@ class _EInputState extends State<EInput> {
       return widget.height!;
     }
     switch (widget.size) {
-      case EInputSize.small:
+      case ESizeItem.small:
         return 32;
-      case EInputSize.large:
+      case ESizeItem.large:
         return 48;
-      case EInputSize.medium:
+      case ESizeItem.medium:
       default:
         return 40;
     }
@@ -96,11 +97,11 @@ class _EInputState extends State<EInput> {
 
   double get _fontSize {
     switch (widget.size) {
-      case EInputSize.small:
+      case ESizeItem.small:
         return 14;
-      case EInputSize.large:
+      case ESizeItem.large:
         return 18;
-      case EInputSize.medium:
+      case ESizeItem.medium:
       default:
         return 16;
     }

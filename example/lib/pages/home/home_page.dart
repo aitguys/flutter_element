@@ -54,18 +54,65 @@ class HomePage extends StatelessWidget {
                       child: const Text('Button 按钮',
                           style: TextStyle(fontSize: 15)),
                     ),
+                    // FlNavItem(
+                    //   suffix: const Icon(Icons.arrow_forward_ios, size: 16),
+                    //   padding: const EdgeInsets.symmetric(horizontal: 4),
+                    //   onTap: () => Get.toNamed(Routes.navItem),
+                    //   child: const Text('NavItem 导航栏',
+                    //       style: TextStyle(fontSize: 15)),
+                    // ),
+                    // FlNavItem(
+                    //   suffix: const Icon(Icons.arrow_forward_ios, size: 16),
+                    //   padding: const EdgeInsets.symmetric(horizontal: 4),
+                    //   onTap: () => Get.toNamed(Routes.widgetPreview),
+                    //   child: const Text('WidgetPreview 组件预览',
+                    //       style: TextStyle(fontSize: 15)),
+                    // ),
+                  ],
+                ),
+              ),
+              ECollapsePanel(
+                title: const Row(
+                  children: [
+                    Icon(Icons.menu, size: 25),
+                    const SizedBox(width: 12),
+                    Text('表单组件'),
+                  ],
+                ),
+                child: Column(
+                  children: [
                     FlNavItem(
                       suffix: const Icon(Icons.arrow_forward_ios, size: 16),
                       padding: const EdgeInsets.symmetric(horizontal: 4),
-                      onTap: () => Get.toNamed(Routes.navItem),
-                      child: const Text('NavItem 导航栏',
+                      onTap: () => Get.toNamed(Routes.input),
+                      child: const Text('Input 输入框',
                           style: TextStyle(fontSize: 15)),
                     ),
                     FlNavItem(
                       suffix: const Icon(Icons.arrow_forward_ios, size: 16),
                       padding: const EdgeInsets.symmetric(horizontal: 4),
-                      onTap: () => Get.toNamed(Routes.widgetPreview),
-                      child: const Text('WidgetPreview 组件预览',
+                      onTap: () => Get.toNamed(Routes.autoComplete),
+                      child: const Text('AutoComplete 自动补全',
+                          style: TextStyle(fontSize: 15)),
+                    ),
+                  ],
+                ),
+              ),
+              ECollapsePanel(
+                title: const Row(
+                  children: [
+                    Icon(Icons.menu, size: 25),
+                    const SizedBox(width: 12),
+                    Text('反馈组件'),
+                  ],
+                ),
+                child: Column(
+                  children: [
+                    FlNavItem(
+                      suffix: const Icon(Icons.arrow_forward_ios, size: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      onTap: () => Get.toNamed(Routes.message),
+                      child: const Text('Message 消息',
                           style: TextStyle(fontSize: 15)),
                     ),
                   ],
@@ -73,11 +120,7 @@ class HomePage extends StatelessWidget {
               ),
             ],
           ),
-          ListTile(
-            title: const Text('Layout 布局'),
-            subtitle: const Text('用于快速构建页面布局的组件'),
-            onTap: () => Navigator.pushNamed(context, '/layout'),
-          ),
+
           // 组件分组1
         ],
       ),
