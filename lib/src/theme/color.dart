@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+enum EColorType { primary, success, warning, danger, info, default_ }
+
 // Element Plus color type
 class EColorTypes {
   // Primary color - Blue
@@ -126,8 +128,6 @@ Color calculateBorderColor(
   return backgroundColor;
 }
 
-enum EColorType { primary, success, warning, danger, info, default_ }
-
 Color getColorByType(EColorType type) {
   // 根据 type 和主题生成样式
   switch (type) {
@@ -144,5 +144,39 @@ Color getColorByType(EColorType type) {
       return EColorTypes.info;
     case EColorType.default_:
       return EColorTypes.default_;
+  }
+}
+
+Color getMessageBackgroundColor(EColorType type) {
+  switch (type) {
+    case EColorType.primary:
+      return EColorTypes.primary.withValues(alpha: 0.9);
+    case EColorType.success:
+      return EColorTypes.success.withValues(alpha: 0.9);
+    case EColorType.warning:
+      return EColorTypes.warning.withValues(alpha: 0.9);
+    case EColorType.danger:
+      return EColorTypes.danger.withValues(alpha: 0.9);
+    case EColorType.info:
+      return EColorTypes.info.withValues(alpha: 0.9);
+    default:
+      return EColorTypes.primary.withValues(alpha: 0.9);
+  }
+}
+
+IconData getMessageIcon(EColorType type) {
+  switch (type) {
+    case EColorType.primary:
+      return Icons.info_outline;
+    case EColorType.success:
+      return Icons.check_circle_outline;
+    case EColorType.warning:
+      return Icons.warning_amber_outlined;
+    case EColorType.danger:
+      return Icons.error_outline;
+    case EColorType.info:
+      return Icons.info_outline;
+    default:
+      return Icons.info_outline;
   }
 }

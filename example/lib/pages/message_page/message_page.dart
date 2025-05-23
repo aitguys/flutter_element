@@ -134,7 +134,7 @@ class _MessagePageState extends State<MessagePage> {
           if (_visible)
             EMessage(
               message: '这是一条组件式调用的消息',
-              type: MessageType.success,
+              type: EColorType.success,
               onClose: () {
                 setState(() {
                   _visible = false;

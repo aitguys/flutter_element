@@ -1,5 +1,8 @@
 import 'package:get/get.dart';
 import '../pages/button_page/route.dart';
+import '../pages/input_page/route.dart';
+import '../pages/message_page/route.dart';
+import '../pages/autocomplete_page/route.dart';
 import '../pages/segmented/segmented.dart';
 import '../pages/table_page/table_page.dart';
 import '../pages/tag_page/tag_page.dart';
@@ -9,12 +12,10 @@ import '../pages/home/home_page.dart';
 import '../pages/tree/tree.dart';
 import '../pages/link_page/link_page.dart';
 import '../pages/scrollbar_page/scrollbar_page.dart';
-import '../pages/autocomplete_page/autocomplete_page.dart';
 import '../pages/checkbox_page/checkbox_page.dart';
 import '../pages/color_picker_page/color_picker_page.dart';
 import '../pages/datePicker/date_picker.dart';
 import '../pages/time_picker_page/time_picker_page.dart';
-import '../pages/input_page/input_page.dart';
 import '../pages/input_number_page/input_number_page.dart';
 import '../pages/inputTag/input_tag.dart';
 import '../pages/mention_page/mention_page.dart';
@@ -43,12 +44,6 @@ import '../pages/message_page/message_page.dart';
 import '../pages/watermark_page/watermark_page.dart';
 import '../pages/nav_item/navItem_page.dart';
 import '../pages/widgetPreview/widget_preview.dart';
-import '../pages/layout_page/index.dart';
-import '../pages/layout_page/layout_basic.dart';
-import '../pages/layout_page/layout_container.dart';
-import '../pages/layout_page/layout_row_col.dart';
-import '../pages/layout_page/layout_api.dart';
-import '../pages/layout_page/route.dart';
 
 abstract class Routes {
   static const home = '/';
@@ -67,14 +62,21 @@ abstract class Routes {
   static const buttonBadge = ButtonRoutes.buttonBadge;
   static const buttonLink = ButtonRoutes.buttonLink;
   static const buttonSize = ButtonRoutes.buttonSize;
+  static const autoComplete = AutoCompleteRoutes.autoComplete;
+  static const autoCompleteBasic = AutoCompleteRoutes.autoCompleteBasic;
+  static const input = InputRoutes.input;
+  static const inputBasic = InputRoutes.inputBasic;
+  static const message = MessageRoutes.message;
+  static const messageBasic = MessageRoutes.messageBasic;
+  static const messageSize = MessageRoutes.messageSize;
+  static const messageRound = MessageRoutes.messageRound;
   static const link = '/link';
   static const scrollbar = '/scrollbar';
-  static const autocomplete = '/autocomplete';
   static const checkbox = '/checkbox';
   static const colorPicker = '/color_picker';
   static const datePicker = '/date_picker';
   static const timePicker = '/time_picker';
-  static const input = '/input';
+
   static const inputNumber = '/input_number';
   static const inputTag = '/input_tag';
   static const mention = '/mention';
@@ -99,7 +101,6 @@ abstract class Routes {
   static const alert = '/alert';
   static const dialog = '/dialog';
   static const drawer = '/drawer';
-  static const message = '/message';
   static const watermark = '/watermark';
   static const navItem = '/nav_item';
   static const backTop = '/back_top';
@@ -139,6 +140,9 @@ class AppPages {
       page: () => const TreePage(),
     ),
     ...buttonRoutesPages,
+    ...autoCompleteRoutesPages,
+    ...inputRoutesPages,
+    ...messageRoutesPages,
     GetPage(
       name: Routes.link,
       page: () => const LinkPage(),
@@ -146,10 +150,6 @@ class AppPages {
     GetPage(
       name: Routes.scrollbar,
       page: () => const ScrollbarPage(),
-    ),
-    GetPage(
-      name: Routes.autocomplete,
-      page: () => const AutocompletePage(),
     ),
     GetPage(
       name: Routes.checkbox,
@@ -166,10 +166,6 @@ class AppPages {
     GetPage(
       name: Routes.timePicker,
       page: () => const TimePickerPage(),
-    ),
-    GetPage(
-      name: Routes.input,
-      page: () => const InputPage(),
     ),
     GetPage(
       name: Routes.inputNumber,
@@ -282,26 +278,6 @@ class AppPages {
     GetPage(
       name: Routes.widgetPreview,
       page: () => const WidgetPreviewTestPage(),
-    ),
-    GetPage(
-      name: LayoutRoutes.root,
-      page: () => const LayoutPage(),
-    ),
-    GetPage(
-      name: LayoutRoutes.basic,
-      page: () => const LayoutBasicPage(),
-    ),
-    GetPage(
-      name: LayoutRoutes.container,
-      page: () => const LayoutContainerPage(),
-    ),
-    GetPage(
-      name: LayoutRoutes.rowCol,
-      page: () => const LayoutRowColPage(),
-    ),
-    GetPage(
-      name: LayoutRoutes.api,
-      page: () => const LayoutApiPage(),
     ),
   ];
 }
