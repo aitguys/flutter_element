@@ -2,21 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_element/flutter_element.dart';
 import '../../const/index.dart';
 
-class MessageSizePreview extends StatelessWidget {
-  const MessageSizePreview({super.key});
+class MessageApiPreview extends StatelessWidget {
+  const MessageApiPreview({super.key});
 
   @override
   Widget build(BuildContext context) {
     return WidgetPreview(
       widget: _viewerContent(context),
-      code: getCodeUrl('message_page', 'message_size.dart'),
-      title: '不同尺寸消息， size 和 padding 和 fontSize ',
+      code: getCodeUrl('message_page', 'message_showClose.dart'),
+      title: '手动关闭',
     );
   }
 }
 
-class MessageSizeView extends StatelessWidget {
-  const MessageSizeView({super.key});
+class MessageApiView extends StatelessWidget {
+  const MessageApiView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -42,34 +42,34 @@ Widget _viewerContent(BuildContext context) {
           EMessageController.success(
             context,
             '这是一条消息提示',
-            size: ESizeItem.large,
+            duration: 1000,
+            showClose: true,
+            onClose: () {
+              EMessageController.success(
+                context,
+                '消息自动关闭了',
+              );
+            },
           );
         },
-        child: const Text('成功消息-large'),
+        child: const Text('自动关闭'),
       ),
-      const SizedBox(height: 16),
       ElevatedButton(
         onPressed: () {
           EMessageController.success(
             context,
-            '这是一条失败消息',
-            size: ESizeItem.medium,
+            '这是一条消息提示',
+            duration: 0,
+            showClose: true,
+            onClose: () {
+              EMessageController.success(
+                context,
+                '消息手动关闭了',
+              );
+            },
           );
         },
-        child: const Text('失败消息-medium （默认）'),
-      ),
-      const SizedBox(height: 16),
-      ElevatedButton(
-        onPressed: () {
-          EMessageController.success(
-            context,
-            '这是一条警告消息',
-            size: ESizeItem.small,
-            padding: const EdgeInsets.all(20),
-            fontSize: 20,
-          );
-        },
-        child: const Text('通过自定义padding 和 fontSize 来改变消息大小'),
+        child: const Text('手动关闭'),
       ),
     ],
   );

@@ -8,13 +8,12 @@ class EMessage extends StatefulWidget {
   final ESizeItem size;
   final int duration;
   final bool showClose;
-  final VoidCallback? onClose;
-  final bool center;
   final EdgeInsets? padding;
   final double? fontSize;
   final Widget? icon;
   final double? offset;
   final bool visible;
+  final VoidCallback? onClose;
 
   const EMessage({
     Key? key,
@@ -23,7 +22,6 @@ class EMessage extends StatefulWidget {
     this.duration = 3000,
     this.showClose = false,
     this.onClose,
-    this.center = false,
     this.icon,
     this.offset,
     this.visible = true,
@@ -178,7 +176,7 @@ class _EMessageState extends State<EMessage>
   }
 }
 
-class MessageController {
+class EMessageController {
   static final List<OverlayEntry> _entries = [];
 
   static void _showMessage({
@@ -188,7 +186,6 @@ class MessageController {
     int duration = 3000,
     bool showClose = false,
     VoidCallback? onClose,
-    bool center = false,
     Widget? icon,
     double? offset,
     EdgeInsets? padding,
@@ -211,7 +208,6 @@ class MessageController {
           _entries.remove(entry);
           onClose?.call();
         },
-        center: center,
         icon: icon,
         offset: finalOffset,
         isRound: isRound,
@@ -231,7 +227,6 @@ class MessageController {
     int duration = 3000,
     bool showClose = false,
     VoidCallback? onClose,
-    bool center = false,
     Widget? icon,
     double? offset = 20,
     EdgeInsets? padding,
@@ -246,7 +241,6 @@ class MessageController {
       duration: duration,
       showClose: showClose,
       onClose: onClose,
-      center: center,
       icon: icon,
       offset: offset,
       isRound: isRound,
@@ -262,7 +256,6 @@ class MessageController {
     int duration = 3000,
     bool showClose = false,
     VoidCallback? onClose,
-    bool center = false,
     Widget? icon,
     double? offset = 20,
     EdgeInsets? padding,
@@ -277,7 +270,6 @@ class MessageController {
       duration: duration,
       showClose: showClose,
       onClose: onClose,
-      center: center,
       icon: icon,
       offset: offset,
       isRound: isRound,
@@ -293,7 +285,6 @@ class MessageController {
     int duration = 3000,
     bool showClose = false,
     VoidCallback? onClose,
-    bool center = false,
     Widget? icon,
     double? offset = 20,
     EdgeInsets? padding,
@@ -308,7 +299,6 @@ class MessageController {
       duration: duration,
       showClose: showClose,
       onClose: onClose,
-      center: center,
       icon: icon,
       offset: offset,
       isRound: isRound,
@@ -324,7 +314,6 @@ class MessageController {
     int duration = 3000,
     bool showClose = false,
     VoidCallback? onClose,
-    bool center = false,
     Widget? icon,
     double? offset = 20,
     bool isRound = false,
@@ -339,7 +328,6 @@ class MessageController {
       duration: duration,
       showClose: showClose,
       onClose: onClose,
-      center: center,
       icon: icon,
       offset: offset,
       isRound: isRound,

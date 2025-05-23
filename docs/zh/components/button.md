@@ -6,11 +6,11 @@
 
 使用 MouseRegion 嵌套 GestureDetector 、Container 、Icon 、Text 等组件实现回调函数及样式
 
-## 基础用法 MouseRegion 
+## 基础用法 MouseRegion
 
 使用 `type`、`isPlain`、`isRound` 属性来定义按钮的样式。
 
-`isCircle` 可以控制组件展示圆形，但是仅在只传入一个Icon的时候生效
+`isCircle` 可以控制组件展示圆形，但是仅在只传入一个 Icon 的时候生效
 
 <CodeView
   codeUrl="button_page/button_basic.dart"
@@ -52,9 +52,9 @@
 
 使用 `loading` 属性来显示加载状态。
 
-使用 `autoLoading` 属性 控制 onclick 触发时 是否自动调用loading 动画，并在结束时消失，仅在 onclick的函数为异步函数时生效 
+使用 `autoLoading` 属性 控制 onclick 触发时 是否自动调用 loading 动画，并在结束时消失，仅在 onclick 的函数为异步函数时生效
 
-当然也可以用状态管理的方式手动实现loading 
+当然也可以用状态管理的方式手动实现 loading
 <CodeView
   codeUrl="button_page/button_loading.dart"
   reviewUrl="button/loading"
@@ -103,21 +103,21 @@
 
 ### Button 属性
 
-| 属性名     | 说明                                               | 类型                | 默认值                      |
-| ---------- | -------------------------------------------------- | ------------------- | --------------------------- |
-| text       | 按钮文字                                           | `String`            | -                           |
-| type       | 按钮类型                                           | `ElementButtonType` | `ElementButtonType.default` |
-| size       | 按钮尺寸                                           | `ElementButtonSize` | `ElementButtonSize.medium`  |
-| fontSize   | 自定义按钮文字大小, 按钮尺寸会根据文字大小自动调整 | `double`            | -                           |
-| color      | 自定义背景颜色，文字颜色会根据背景颜色自动计算     | `Color`             | -                           |
-| link       | 是否为链接按钮                                     | `boolean`           | `false`                     |
-| icon       | 图标                                               | `Widget`            | -                           |
-| child      | 自定义按钮内容，会覆盖 Icon 和 Text，优先级最高    | `Widget`            | -                           |
-| isPlain    | 是否为朴素按钮                                     | `boolean`           | `false`                     |
-| isRound    | 是否为圆角按钮                                     | `boolean`           | `false`                     |
-| loading    | 是否为加载中状态                                   | `boolean`           | `false`                     |
-| autoLoading | onclick 触发时 是否自动调用loading 动画，并在结束时消失 | `boolean`           | `false`                     |
-| isDisabled | 是否禁用按钮                                       | `boolean`           | `false`                     |
+| 属性名      | 说明                                                     | 类型                | 默认值                      |
+| ----------- | -------------------------------------------------------- | ------------------- | --------------------------- |
+| text        | 按钮文字                                                 | `String`            | -                           |
+| type        | 按钮类型                                                 | `ElementButtonType` | `ElementButtonType.default` |
+| size        | 按钮尺寸                                                 | `ElementButtonSize` | `ElementButtonSize.medium`  |
+| fontSize    | 自定义按钮文字大小, 按钮尺寸会根据文字大小自动调整       | `double`            | -                           |
+| color       | 自定义背景颜色，文字颜色会根据背景颜色自动计算           | `Color`             | -                           |
+| link        | 是否为链接按钮                                           | `boolean`           | `false`                     |
+| icon        | 图标                                                     | `Widget`            | -                           |
+| child       | 自定义按钮内容，会覆盖 Icon 和 Text，优先级最高          | `Widget`            | -                           |
+| isPlain     | 是否为朴素按钮                                           | `boolean`           | `false`                     |
+| isRound     | 是否为圆角按钮                                           | `boolean`           | `false`                     |
+| loading     | 是否为加载中状态                                         | `boolean`           | `false`                     |
+| autoLoading | onclick 触发时 是否自动调用 loading 动画，并在结束时消失 | `boolean`           | `false`                     |
+| isDisabled  | 是否禁用按钮                                             | `boolean`           | `false`                     |
 
 ### Button 事件
 

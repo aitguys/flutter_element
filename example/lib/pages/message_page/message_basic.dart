@@ -39,7 +39,7 @@ Widget _viewerContent(BuildContext context) {
     children: [
       ElevatedButton(
         onPressed: () {
-          MessageController.success(
+          EMessageController.success(
             context,
             '这是一条消息提示',
           );
@@ -49,7 +49,7 @@ Widget _viewerContent(BuildContext context) {
       const SizedBox(height: 16),
       ElevatedButton(
         onPressed: () {
-          MessageController.error(
+          EMessageController.error(
             context,
             '这是一条失败消息',
           );
@@ -59,7 +59,7 @@ Widget _viewerContent(BuildContext context) {
       const SizedBox(height: 16),
       ElevatedButton(
         onPressed: () {
-          MessageController.warning(
+          EMessageController.warning(
             context,
             '这是一条警告消息',
           );
@@ -69,7 +69,7 @@ Widget _viewerContent(BuildContext context) {
       const SizedBox(height: 16),
       ElevatedButton(
         onPressed: () {
-          MessageController.info(
+          EMessageController.info(
             context,
             '这是一条信息消息',
           );

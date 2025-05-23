@@ -70,6 +70,10 @@ abstract class Routes {
   static const messageBasic = MessageRoutes.messageBasic;
   static const messageSize = MessageRoutes.messageSize;
   static const messageRound = MessageRoutes.messageRound;
+  static const messageDuration = MessageRoutes.messageDuration;
+  static const messageIcon = MessageRoutes.messageIcon;
+  static const messageShowClose = MessageRoutes.messageShowClose;
+  static const messageApi = MessageRoutes.messageApi;
   static const link = '/link';
   static const scrollbar = '/scrollbar';
   static const checkbox = '/checkbox';

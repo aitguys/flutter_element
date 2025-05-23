@@ -30,7 +30,7 @@ class _MessagePageState extends State<MessagePage> {
                 const SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: () {
-                    MessageController.info(
+                    EMessageController.info(
                       context,
                       '这是一条消息提示',
                     );
@@ -48,7 +48,7 @@ class _MessagePageState extends State<MessagePage> {
                   children: [
                     ElevatedButton(
                       onPressed: () {
-                        MessageController.success(
+                        EMessageController.success(
                           context,
                           '成功提示的文案',
                         );
@@ -57,7 +57,7 @@ class _MessagePageState extends State<MessagePage> {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        MessageController.warning(
+                        EMessageController.warning(
                           context,
                           '警告提示的文案',
                         );
@@ -66,7 +66,7 @@ class _MessagePageState extends State<MessagePage> {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        MessageController.info(
+                        EMessageController.info(
                           context,
                           '消息提示的文案',
                         );
@@ -75,7 +75,7 @@ class _MessagePageState extends State<MessagePage> {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        MessageController.error(
+                        EMessageController.error(
                           context,
                           '错误提示的文案',
                         );
@@ -91,7 +91,7 @@ class _MessagePageState extends State<MessagePage> {
                 const SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: () {
-                    MessageController.info(
+                    EMessageController.info(
                       context,
                       '这是一条可关闭的消息提示',
                       showClose: true,
@@ -107,7 +107,7 @@ class _MessagePageState extends State<MessagePage> {
                 const SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: () {
-                    MessageController.success(
+                    EMessageController.success(
                       context,
                       '这条消息将在 10 秒后消失',
                       duration: 10000,

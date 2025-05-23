@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'message_basic.dart';
 import 'message_round.dart';
 import 'message_size.dart';
+import 'message_duration.dart';
+import 'message_icon.dart';
+import 'message_showClose.dart';
+import 'message_api.dart';
 
 class MessagePreview extends StatelessWidget {
   const MessagePreview({super.key});
@@ -10,7 +14,7 @@ class MessagePreview extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('按钮组件'),
+        title: const Text('消息组件'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
@@ -22,6 +26,10 @@ class MessagePreview extends StatelessWidget {
             MessageBasicPreview(),
             MessageRoundPreview(),
             MessageSizePreview(),
+            MessageDurationPreview(),
+            MessageIconPreview(),
+            MessageShowClosePreview(),
+            MessageApiPreview(),
           ],
         ),
       ),

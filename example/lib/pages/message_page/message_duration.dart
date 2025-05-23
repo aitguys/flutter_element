@@ -2,21 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_element/flutter_element.dart';
 import '../../const/index.dart';
 
-class MessageRoundPreview extends StatelessWidget {
-  const MessageRoundPreview({super.key});
+class MessageDurationPreview extends StatelessWidget {
+  const MessageDurationPreview({super.key});
 
   @override
   Widget build(BuildContext context) {
     return WidgetPreview(
       widget: _viewerContent(context),
-      code: getCodeUrl('message_page', 'message_basic.dart'),
-      title: '圆角消息 - isRound',
+      code: getCodeUrl('message_page', 'message_duration.dart'),
+      title: '控制自动自动关闭时长',
     );
   }
 }
 
-class MessageRoundView extends StatelessWidget {
-  const MessageRoundView({super.key});
+class MessageDurationView extends StatelessWidget {
+  const MessageDurationView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -42,43 +42,41 @@ Widget _viewerContent(BuildContext context) {
           EMessageController.success(
             context,
             '这是一条消息提示',
-            isRound: true,
+            duration: 1000,
           );
         },
-        child: const Text('成功消息-success'),
+        child: const Text('一秒自动关闭'),
       ),
-      const SizedBox(height: 16),
       ElevatedButton(
         onPressed: () {
-          EMessageController.error(
+          EMessageController.success(
             context,
-            '这是一条失败消息',
-            isRound: true,
+            '这是一条消息提示',
+            duration: 2000,
           );
         },
-        child: const Text('失败消息-error'),
+        child: const Text('两秒自动关闭'),
       ),
-      const SizedBox(height: 16),
       ElevatedButton(
         onPressed: () {
-          EMessageController.warning(
+          EMessageController.success(
             context,
-            '这是一条警告消息',
-            isRound: true,
+            '这是一条消息提示',
+            duration: 3000,
           );
         },
-        child: const Text('警告消息-warning'),
+        child: const Text('三秒自动关闭'),
       ),
-      const SizedBox(height: 16),
       ElevatedButton(
         onPressed: () {
-          EMessageController.info(
+          EMessageController.success(
             context,
-            '这是一条信息消息',
-            isRound: true,
+            '这是一条消息提示',
+            duration: 0,
+            showClose: true,
           );
         },
-        child: const Text('信息消息-info'),
+        child: const Text('duration = 0， 手动触发关闭， 否则永不关闭'),
       ),
     ],
   );
