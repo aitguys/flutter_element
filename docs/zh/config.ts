@@ -45,11 +45,11 @@ export const zhConfig = {
 				{
 					text: "反馈组件",
 					items: [
-						// { text: 'Dialog', link: '/zh/components/dialog' },
+						{ text: 'Dialog', link: '/zh/components/dialog' },
 						{ text: "Message", link: "/zh/components/message" },
 						// { text: 'Notification', link: '/zh/components/notification' },
 						// { text: 'Loading', link: '/zh/components/loading' },
-						// { text: 'Alert', link: '/zh/components/alert' },
+						{ text: 'Alert', link: '/zh/components/alert' },
 					],
 				},
 				// {

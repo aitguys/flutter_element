@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import '../pages/button_page/route.dart';
 import '../pages/input_page/route.dart';
 import '../pages/message_page/route.dart';
+import '../pages/alert_page/route.dart';
 import '../pages/autocomplete_page/route.dart';
 import '../pages/segmented/segmented.dart';
 import '../pages/table_page/table_page.dart';
@@ -37,8 +38,7 @@ import '../pages/result_page/result_page.dart';
 import '../pages/skeleton_page/skeleton_page.dart';
 import '../pages/steps_page/steps_page.dart';
 import '../pages/tabs_page/tabs_page.dart';
-import '../pages/alert_page/alert_page.dart';
-import '../pages/dialog_page/dialog_page.dart';
+import '../pages/dialog_page/route.dart';
 import '../pages/drawer_page/drawer_page.dart';
 import '../pages/message_page/message_page.dart';
 import '../pages/watermark_page/watermark_page.dart';
@@ -74,6 +74,13 @@ abstract class Routes {
   static const messageIcon = MessageRoutes.messageIcon;
   static const messageShowClose = MessageRoutes.messageShowClose;
   static const messageApi = MessageRoutes.messageApi;
+  static const alert = AlertRoutes.alert;
+  static const alertBasic = AlertRoutes.alertBasic;
+  static const alertTheme = AlertRoutes.alertTheme;
+  static const alertClose = AlertRoutes.alertClose;
+  static const alertDescription = AlertRoutes.alertDescription;
+  static const alertCenter = AlertRoutes.alertCenter;
+  static const alertApi = AlertRoutes.alertApi;
   static const link = '/link';
   static const scrollbar = '/scrollbar';
   static const checkbox = '/checkbox';
@@ -102,8 +109,11 @@ abstract class Routes {
   static const skeleton = '/skeleton';
   static const steps = '/steps';
   static const tabs = '/tabs';
-  static const alert = '/alert';
-  static const dialog = '/dialog';
+  static const dialog = DialogRoutes.dialog;
+  static const dialogBasic = DialogRoutes.dialogBasic;
+  static const dialogCustomContent = DialogRoutes.dialogCustomContent;
+  static const dialogComponent = DialogRoutes.dialogComponent;
+  static const dialogDraggable = DialogRoutes.dialogDraggable;
   static const drawer = '/drawer';
   static const watermark = '/watermark';
   static const navItem = '/nav_item';
@@ -147,6 +157,7 @@ class AppPages {
     ...autoCompleteRoutesPages,
     ...inputRoutesPages,
     ...messageRoutesPages,
+    ...alertRoutesPages,
     GetPage(
       name: Routes.link,
       page: () => const LinkPage(),
@@ -256,14 +267,6 @@ class AppPages {
       page: () => const TabsPage(),
     ),
     GetPage(
-      name: Routes.alert,
-      page: () => const AlertPage(),
-    ),
-    GetPage(
-      name: Routes.dialog,
-      page: () => const DialogPage(),
-    ),
-    GetPage(
       name: Routes.drawer,
       page: () => const DrawerPage(),
     ),
@@ -283,5 +286,6 @@ class AppPages {
       name: Routes.widgetPreview,
       page: () => const WidgetPreviewTestPage(),
     ),
+    ...dialogRoutesPages,
   ];
 }

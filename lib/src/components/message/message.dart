@@ -133,7 +133,7 @@ class _EMessageState extends State<EMessage>
                     children: [
                       widget.icon ??
                           Icon(
-                            getMessageIcon(widget.type),
+                            getDefaultIconByType(widget.type),
                             color: Colors.white,
                             size: ElememtSize(size: widget.size).getIconSize(),
                           ),
