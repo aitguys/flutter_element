@@ -2,27 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_element/flutter_element.dart';
 import '../../const/index.dart';
 
-class InputBasicPreview extends StatelessWidget {
-  const InputBasicPreview({super.key});
+class InputClearablePreview extends StatelessWidget {
+  const InputClearablePreview({super.key});
 
   @override
   Widget build(BuildContext context) {
     return WidgetPreview(
       widget: _viewerContent(),
-      code: getCodeUrl('input_page', 'input_basic.dart'),
-      title: '基础用法, 通过size控制输入框大小 ',
+      code: getCodeUrl('input_page', 'input_clearable.dart'),
+      title: 'clearable 可以清除输入框内容 ',
     );
   }
 }
 
-class InputBasicView extends StatefulWidget {
-  const InputBasicView({super.key});
+class InputClearableView extends StatefulWidget {
+  const InputClearableView({super.key});
 
   @override
-  State<InputBasicView> createState() => _InputBasicViewState();
+  State<InputClearableView> createState() => _InputClearableViewState();
 }
 
-class _InputBasicViewState extends State<InputBasicView> {
+class _InputClearableViewState extends State<InputClearableView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,15 +44,12 @@ Widget _viewerContent() {
       const SizedBox(height: 10),
       EInput(
         textController: textController,
-        size: ESizeItem.small,
-        placeholder: '请输入内容',
-      ),
-      const SizedBox(height: 10),
-      EInput(
-        textController: textController,
         size: ESizeItem.medium,
-        placeholder: '请输入内容',
+        placeholder: '请输入内容 clearable',
+        clearable: true,
       ),
+      // showPlaceholderOnTop 可以指定输入框的placeholder是否显示在输入框的顶部
+      // api onFocus, onBlur， onChanged
     ],
   );
 }

@@ -2,27 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_element/flutter_element.dart';
 import '../../const/index.dart';
 
-class InputBasicPreview extends StatelessWidget {
-  const InputBasicPreview({super.key});
+class InputColorPreview extends StatelessWidget {
+  const InputColorPreview({super.key});
 
   @override
   Widget build(BuildContext context) {
     return WidgetPreview(
       widget: _viewerContent(),
-      code: getCodeUrl('input_page', 'input_basic.dart'),
-      title: '基础用法, 通过size控制输入框大小 ',
+      code: getCodeUrl('input_page', 'input_color.dart'),
+      title: 'colorType 可以指定输入框的颜色类型, 也可以通过customColor指定颜色 ',
     );
   }
 }
 
-class InputBasicView extends StatefulWidget {
-  const InputBasicView({super.key});
+class InputColorView extends StatefulWidget {
+  const InputColorView({super.key});
 
   @override
-  State<InputBasicView> createState() => _InputBasicViewState();
+  State<InputColorView> createState() => _InputColorViewState();
 }
 
-class _InputBasicViewState extends State<InputBasicView> {
+class _InputColorViewState extends State<InputColorView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,17 +41,19 @@ Widget _viewerContent() {
   TextEditingController textController = TextEditingController();
   return Column(
     children: [
+      const Text('defaultColor 可以指定输入框的默认颜色'),
       const SizedBox(height: 10),
       EInput(
         textController: textController,
-        size: ESizeItem.small,
         placeholder: '请输入内容',
+        colorType: EColorType.success,
+        defaultColor: Colors.purple,
       ),
       const SizedBox(height: 10),
       EInput(
         textController: textController,
-        size: ESizeItem.medium,
         placeholder: '请输入内容',
+        customColor: Colors.red,
       ),
     ],
   );

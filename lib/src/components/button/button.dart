@@ -84,7 +84,7 @@ class _EButtonState extends State<EButton> {
 
   @override
   Widget build(BuildContext context) {
-    final buttonColor = widget.color ?? getColorByType(widget.type);
+    final buttonColor = widget.color ?? getColorByType(type: widget.type);
 
     final isIconOnly = isOnlyIcon(widget.icon, widget.text, widget.child);
 

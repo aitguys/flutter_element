@@ -130,7 +130,11 @@ Color calculateBorderColor(
   return backgroundColor;
 }
 
-Color getColorByType(EColorType type) {
+Color getColorByType(
+    {EColorType type = EColorType.primary, Color? customColor}) {
+  if (customColor != null) {
+    return customColor;
+  }
   // 根据 type 和主题生成样式
   switch (type) {
     case EColorType.primary:
@@ -188,7 +192,7 @@ Color getDefaultContentColorByTypeAndTheme(
     EThemeType theme = EThemeType.light,
     Color? customColor}) {
   if (theme == EThemeType.light) {
-    return customColor ?? getColorByType(type);
+    return customColor ?? getColorByType(type: type);
   } else {
     return Colors.white;
   }
@@ -200,8 +204,8 @@ Color getBackGroundColorByTypeAndTheme({
   Color? customColor,
 }) {
   if (theme == EThemeType.light) {
-    return (customColor ?? getColorByType(type)).withValues(alpha: 0.3);
+    return (customColor ?? getColorByType(type: type)).withValues(alpha: 0.3);
   } else {
-    return customColor ?? getColorByType(type);
+    return customColor ?? getColorByType(type: type);
   }
 }

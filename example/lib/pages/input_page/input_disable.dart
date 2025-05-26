@@ -2,27 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_element/flutter_element.dart';
 import '../../const/index.dart';
 
-class InputBasicPreview extends StatelessWidget {
-  const InputBasicPreview({super.key});
+class InputDisablePreview extends StatelessWidget {
+  const InputDisablePreview({super.key});
 
   @override
   Widget build(BuildContext context) {
     return WidgetPreview(
       widget: _viewerContent(),
-      code: getCodeUrl('input_page', 'input_basic.dart'),
-      title: '基础用法, 通过size控制输入框大小 ',
+      code: getCodeUrl('input_page', 'input_disable.dart'),
+      title: 'readOnly 和 disabled 可以限制输入框的只读状态，区别如下',
     );
   }
 }
 
-class InputBasicView extends StatefulWidget {
-  const InputBasicView({super.key});
+class InputDisableView extends StatefulWidget {
+  const InputDisableView({super.key});
 
   @override
-  State<InputBasicView> createState() => _InputBasicViewState();
+  State<InputDisableView> createState() => _InputDisableViewState();
 }
 
-class _InputBasicViewState extends State<InputBasicView> {
+class _InputDisableViewState extends State<InputDisableView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,14 +44,16 @@ Widget _viewerContent() {
       const SizedBox(height: 10),
       EInput(
         textController: textController,
-        size: ESizeItem.small,
-        placeholder: '请输入内容',
+        size: ESizeItem.medium,
+        placeholder: '请输入内容 readOnly',
+        readOnly: true,
       ),
       const SizedBox(height: 10),
       EInput(
         textController: textController,
         size: ESizeItem.medium,
-        placeholder: '请输入内容',
+        placeholder: '请输入内容 disabled',
+        disabled: true,
       ),
     ],
   );
