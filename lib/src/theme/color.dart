@@ -91,7 +91,6 @@ Color calculateBackgroundColor(
   bool isDisabled = false,
   bool isPlain = false,
 }) {
-  late Color backColor = backgroundColor;
   if (isPlain) {
     if (isDisabled) {
       return backgroundColor.withValues(alpha: 0.1);
