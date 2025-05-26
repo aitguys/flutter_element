@@ -1,7 +1,11 @@
 name: flutter_element
-description: "A new Flutter package project."
+description: "A comprehensive Flutter UI component library that provides a collection of customizable and reusable widgets, and internationalization support. Perfect for building modern, responsive Flutter applications with consistent design patterns."
 version: 0.0.1
-homepage:
+# author:
+#   - name: AIT
+#     email: aitguys@gmail.com
+#     url: https://github.com/aitguys
+homepage: https://github.com/aitguys/flutter_element
 
 environment:
   sdk: ^3.6.1
