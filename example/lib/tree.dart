@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element/flutter_element.dart';
-
+import 'package:logger/logger.dart';
 class TreePage extends StatefulWidget {
-  const TreePage({Key? key}) : super(key: key);
+  const TreePage({super.key});
 
   @override
   State<TreePage> createState() => _TreePageState();
@@ -10,7 +10,7 @@ class TreePage extends StatefulWidget {
 
 class _TreePageState extends State<TreePage> {
   final List<FlTreeNode> data = [
-    FlTreeNode(
+    const FlTreeNode(
       label: '一级 1',
       value: '1',
       children: [
@@ -24,7 +24,7 @@ class _TreePageState extends State<TreePage> {
         ),
       ],
     ),
-    FlTreeNode(
+    const FlTreeNode(
       label: '一级 2',
       value: '2',
       children: [
@@ -48,7 +48,7 @@ class _TreePageState extends State<TreePage> {
   ];
 
   void _onCheck(List<dynamic> checkedKeys) {
-    print('选中的节点: $checkedKeys');
+    Logger().d('选中的节点: $checkedKeys');
   }
 
   @override
@@ -130,17 +130,17 @@ class _TreePageState extends State<TreePage> {
                 FlTreeNode(
                   label: '一级 1',
                   value: '1',
-                  icon: const Icon(Icons.folder, color: Colors.orange),
+                  icon: Icon(Icons.folder, color: Colors.orange),
                   children: [
                     FlTreeNode(
                       label: '二级 1-1',
                       value: '1-1',
-                      icon: const Icon(Icons.folder, color: Colors.orange),
+                      icon: Icon(Icons.folder, color: Colors.orange),
                       children: [
                         FlTreeNode(
                           label: '三级 1-1-1',
                           value: '1-1-1',
-                          icon: const Icon(Icons.insert_drive_file),
+                          icon: Icon(Icons.insert_drive_file),
                         ),
                       ],
                     ),
@@ -158,7 +158,8 @@ class _TreePageState extends State<TreePage> {
               data: data,
               draggable: true,
               onDragEnd: (source, target) {
-                print('拖拽源节点: ${source.label}, 目标节点: ${target.label}');
+                Logger().d(
+                    '拖拽源节点: ${source.label}, 目标节点: ${target.label}');
               },
             ),
           ],

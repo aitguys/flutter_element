@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element/flutter_element.dart';
-import 'package:flutter_element/src/components/carousel/carousel.dart';
 
 class CarouselPage extends StatelessWidget {
-  const CarouselPage({Key? key}) : super(key: key);
+  const CarouselPage({super.key});
 
   @override
   Widget build(BuildContext context) {

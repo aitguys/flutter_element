@@ -24,7 +24,7 @@ class ETabs extends StatefulWidget {
   final bool stretch;
 
   const ETabs({
-    Key? key,
+    super.key,
     required this.tabs,
     this.initialActive = 0,
     this.type = ETabType.card,
@@ -33,7 +33,7 @@ class ETabs extends StatefulWidget {
     this.onChange,
     this.tabWidth,
     this.stretch = false,
-  }) : super(key: key);
+  });
 
   @override
   State<ETabs> createState() => _ETabsState();

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_element/flutter_element.dart';
 
 class NavItemTestPage extends StatelessWidget {
-  const NavItemTestPage({Key? key}) : super(key: key);
+  const NavItemTestPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,15 +17,15 @@ class NavItemTestPage extends StatelessWidget {
                 .showSnackBar(const SnackBar(content: Text('点击返回'))),
           ),
           const Divider(),
-          FlNavItem(
-            child: const Text('中间内容', style: TextStyle(fontSize: 18)),
-            suffix: const Icon(Icons.more_vert),
+          const FlNavItem(
+            suffix: Icon(Icons.more_vert),
+            child: Text('中间内容', style: TextStyle(fontSize: 18)),
           ),
           const Divider(),
-          FlNavItem(
-            prefix: const CircleAvatar(child: Text('A')),
-            child: const Text('带头像的导航项', style: TextStyle(fontSize: 18)),
-            suffix: const Icon(Icons.chevron_right),
+          const FlNavItem(
+            prefix: CircleAvatar(child: Text('A')),
+            suffix: Icon(Icons.chevron_right),
+            child: Text('带头像的导航项', style: TextStyle(fontSize: 18)),
           ),
         ],
       ),

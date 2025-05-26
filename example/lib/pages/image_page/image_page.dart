@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element/flutter_element.dart';
-import 'package:flutter_element/src/components/image/image.dart';
 
 class ImagePage extends StatelessWidget {
-  const ImagePage({Key? key}) : super(key: key);
+  const ImagePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +15,7 @@ class ImagePage extends StatelessWidget {
           children: [
             const Text('基础用法'),
             const SizedBox(height: 16),
-            EImage(
+            const EImage(
               src: 'https://element-plus.org/images/element-plus-logo.svg',
               width: 120,
               height: 120,
@@ -24,7 +23,7 @@ class ImagePage extends StatelessWidget {
             const SizedBox(height: 32),
             const Text('不同 fit'),
             const SizedBox(height: 16),
-            Row(
+            const Row(
               children: [
                 EImage(
                   src:
@@ -33,7 +32,7 @@ class ImagePage extends StatelessWidget {
                   height: 80,
                   fit: BoxFit.fill,
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16),
                 EImage(
                   src:
                       'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
@@ -41,7 +40,7 @@ class ImagePage extends StatelessWidget {
                   height: 80,
                   fit: BoxFit.contain,
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16),
                 EImage(
                   src:
                       'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
@@ -49,7 +48,7 @@ class ImagePage extends StatelessWidget {
                   height: 80,
                   fit: BoxFit.cover,
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16),
                 EImage(
                   src:
                       'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
@@ -57,7 +56,7 @@ class ImagePage extends StatelessWidget {
                   height: 80,
                   fit: BoxFit.none,
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16),
                 EImage(
                   src:
                       'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
@@ -70,7 +69,7 @@ class ImagePage extends StatelessWidget {
             const SizedBox(height: 32),
             const Text('圆角图片'),
             const SizedBox(height: 16),
-            EImage(
+            const EImage(
               src: 'https://element-plus.org/images/element-plus-logo.svg',
               width: 120,
               height: 120,
@@ -109,7 +108,7 @@ class ImagePage extends StatelessWidget {
             const SizedBox(height: 32),
             const Text('图片预览'),
             const SizedBox(height: 16),
-            EImage(
+            const EImage(
               src:
                   'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
               width: 120,

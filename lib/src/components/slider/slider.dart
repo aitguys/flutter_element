@@ -23,7 +23,7 @@ class ESlider extends StatefulWidget {
   final String Function(double)? formatTooltip;
 
   const ESlider({
-    Key? key,
+    super.key,
     required this.value,
     this.min = 0,
     this.max = 100,
@@ -41,7 +41,7 @@ class ESlider extends StatefulWidget {
     this.onChange,
     this.onInput,
     this.formatTooltip,
-  }) : super(key: key);
+  });
 
   @override
   State<ESlider> createState() => _ESliderState();
@@ -149,7 +149,7 @@ class _ESliderState extends State<ESlider> {
         : [
             BoxShadow(
               color: EColorTypes.primary
-                  .withOpacity(_isDragging || _isHover ? 0.15 : 0.08),
+                  .withValues(alpha: _isDragging || _isHover ? 0.15 : 0.08),
               blurRadius: 4,
               offset: const Offset(0, 2),
             ),

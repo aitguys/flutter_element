@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_element/src/components/input_tag/input_tag.dart';
+import 'package:flutter_element/flutter_element.dart';
 
 class InputTagPage extends StatefulWidget {
-  const InputTagPage({Key? key}) : super(key: key);
+  const InputTagPage({super.key});
 
   @override
   State<InputTagPage> createState() => _InputTagPageState();

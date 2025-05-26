@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_element/flutter_element.dart';
 
 class MessagePage extends StatefulWidget {
-  const MessagePage({Key? key}) : super(key: key);
+  const MessagePage({super.key});
 
   @override
   State<MessagePage> createState() => _MessagePageState();

@@ -20,7 +20,7 @@ class EDialog extends StatefulWidget {
   final Widget? customFooter;
 
   const EDialog({
-    Key? key,
+    super.key,
     this.title,
     this.content,
     this.actions,
@@ -38,7 +38,7 @@ class EDialog extends StatefulWidget {
     this.draggable = false,
     this.customHeader,
     this.customFooter,
-  }) : super(key: key);
+  });
 
   @override
   State<EDialog> createState() => _EDialogState();

@@ -62,21 +62,21 @@ class EBasicTextField extends TextField {
             hintText: placeholder,
             isCollapsed: true,
             isDense: true,
-            hintStyle: TextStyle(color: EBasicColors.borderGray),
+            hintStyle: const TextStyle(color: EBasicColors.borderGray),
             contentPadding: ElememtSize(size: size).getInputPadding(),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(4),
               borderSide:
-                  BorderSide(color: EBasicColors.borderGray, width: 1.0),
+                  const BorderSide(color: EBasicColors.borderGray, width: 1.0),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(4),
               borderSide:
-                  BorderSide(color: EBasicColors.borderGray, width: 1.0),
+                  const BorderSide(color: EBasicColors.borderGray, width: 1.0),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(4),
-              borderSide: BorderSide(color: EColorTypes.primary, width: 1.0),
+              borderSide: const BorderSide(color: EColorTypes.primary, width: 1.0),
             ),
           ),
         );

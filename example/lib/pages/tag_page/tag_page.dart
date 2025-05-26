@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_element/flutter_element.dart';
 
 class TagPage extends StatefulWidget {
-  const TagPage({Key? key}) : super(key: key);
+  const TagPage({super.key});
 
   @override
   State<TagPage> createState() => _TagPageState();
@@ -28,10 +28,10 @@ class _TagPageState extends State<TagPage> {
         children: [
           _buildSection(
             title: '基础用法',
-            child: Wrap(
+            child: const Wrap(
               spacing: 8,
               runSpacing: 8,
-              children: const [
+              children: [
                 ETag(text: '标签一'),
                 ETag(text: '标签二', type: ETagType.success),
                 ETag(text: '标签三', type: ETagType.info),
@@ -56,11 +56,11 @@ class _TagPageState extends State<TagPage> {
           ),
           _buildSection(
             title: '不同尺寸',
-            child: Wrap(
+            child: const Wrap(
               spacing: 8,
               runSpacing: 8,
               crossAxisAlignment: WrapCrossAlignment.center,
-              children: const [
+              children: [
                 ETag(text: '大型标签', size: ETagSize.large),
                 ETag(text: '默认标签'),
                 ETag(text: '小型标签', size: ETagSize.small),
@@ -69,10 +69,10 @@ class _TagPageState extends State<TagPage> {
           ),
           _buildSection(
             title: '主题',
-            child: Wrap(
+            child: const Wrap(
               spacing: 8,
               runSpacing: 8,
-              children: const [
+              children: [
                 ETag(text: '默认标签'),
                 ETag(text: '圆角标签', round: true),
                 ETag(text: '标记标签', type: ETagType.primary, hit: true),
@@ -93,7 +93,7 @@ class _TagPageState extends State<TagPage> {
                 ETag(
                   text: '自定义边框',
                   color: Colors.purple,
-                  backgroundColor: Colors.purple.withOpacity(0.1),
+                  backgroundColor: Colors.purple.withValues(alpha: 0.1),
                   hit: true,
                 ),
               ],
@@ -101,10 +101,10 @@ class _TagPageState extends State<TagPage> {
           ),
           _buildSection(
             title: '带图标',
-            child: Wrap(
+            child: const Wrap(
               spacing: 8,
               runSpacing: 8,
-              children: const [
+              children: [
                 ETag(
                   text: '标签',
                   icon: Icon(Icons.check_circle),

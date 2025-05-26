@@ -76,7 +76,7 @@ class _ERadioState extends State<ERadio> {
                         : isChecked
                             ? EColorTypes.primary
                             : _isHovered
-                                ? EColorTypes.primary.withOpacity(0.5)
+                                ? EColorTypes.primary.withValues(alpha: 0.5)
                                 : EBasicColors.borderGray,
                   ),
                   borderRadius: BorderRadius.circular(4),
@@ -96,7 +96,7 @@ class _ERadioState extends State<ERadio> {
                         : isChecked
                             ? EColorTypes.primary
                             : _isHovered
-                                ? EColorTypes.primary.withOpacity(0.5)
+                                ? EColorTypes.primary.withValues(alpha: 0.5)
                                 : EBasicColors.borderGray,
                     width: 1,
                   ),
@@ -146,13 +146,13 @@ class RadioGroup extends InheritedWidget {
   final ERadioSize size;
 
   const RadioGroup({
-    Key? key,
-    required Widget child,
+    super.key,
+    required super.child,
     this.value,
     this.disabled = false,
     this.onChanged,
     this.size = ERadioSize.medium,
-  }) : super(key: key, child: child);
+  });
 
   static RadioGroup? of(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<RadioGroup>();
@@ -174,13 +174,13 @@ class ERadioGroup extends StatefulWidget {
   final List<Widget> children;
 
   const ERadioGroup({
-    Key? key,
+    super.key,
     this.value,
     this.disabled = false,
     this.onChanged,
     this.size = ERadioSize.medium,
     required this.children,
-  }) : super(key: key);
+  });
 
   @override
   State<ERadioGroup> createState() => _ERadioGroupState();

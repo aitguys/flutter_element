@@ -27,32 +27,32 @@ class LinkPage extends StatelessWidget {
               children: [
                 ELink(
                   text: 'Default Link',
-                  type: ELinkType.Default,
+                  type: ELinkType.defaultType,
                   onPressed: () {},
                 ),
                 ELink(
                   text: 'Primary Link',
-                  type: ELinkType.Primary,
+                  type: ELinkType.primary,
                   onPressed: () {},
                 ),
                 ELink(
                   text: 'Success Link',
-                  type: ELinkType.Success,
+                  type: ELinkType.success,
                   onPressed: () {},
                 ),
                 ELink(
                   text: 'Warning Link',
-                  type: ELinkType.Warning,
+                  type: ELinkType.warning,
                   onPressed: () {},
                 ),
                 ELink(
                   text: 'Danger Link',
-                  type: ELinkType.Danger,
+                  type: ELinkType.danger,
                   onPressed: () {},
                 ),
                 ELink(
                   text: 'Info Link',
-                  type: ELinkType.Info,
+                  type: ELinkType.info,
                   onPressed: () {},
                 ),
               ],
@@ -66,37 +66,37 @@ class LinkPage extends StatelessWidget {
               children: [
                 ELink(
                   text: 'Default Link',
-                  type: ELinkType.Default,
+                  type: ELinkType.defaultType,
                   disabled: true,
                   onPressed: () {},
                 ),
                 ELink(
                   text: 'Primary Link',
-                  type: ELinkType.Primary,
+                  type: ELinkType.primary,
                   disabled: true,
                   onPressed: () {},
                 ),
                 ELink(
                   text: 'Success Link',
-                  type: ELinkType.Success,
+                  type: ELinkType.success,
                   disabled: true,
                   onPressed: () {},
                 ),
                 ELink(
                   text: 'Warning Link',
-                  type: ELinkType.Warning,
+                  type: ELinkType.warning,
                   disabled: true,
                   onPressed: () {},
                 ),
                 ELink(
                   text: 'Danger Link',
-                  type: ELinkType.Danger,
+                  type: ELinkType.danger,
                   disabled: true,
                   onPressed: () {},
                 ),
                 ELink(
                   text: 'Info Link',
-                  type: ELinkType.Info,
+                  type: ELinkType.info,
                   disabled: true,
                   onPressed: () {},
                 ),
@@ -111,19 +111,19 @@ class LinkPage extends StatelessWidget {
               children: [
                 ELink(
                   text: 'Edit',
-                  type: ELinkType.Primary,
+                  type: ELinkType.primary,
                   icon: Icons.edit,
                   onPressed: () {},
                 ),
                 ELink(
                   text: 'Delete',
-                  type: ELinkType.Danger,
+                  type: ELinkType.danger,
                   icon: Icons.delete,
                   onPressed: () {},
                 ),
                 ELink(
                   text: 'View',
-                  type: ELinkType.Info,
+                  type: ELinkType.info,
                   icon: Icons.visibility,
                   onPressed: () {},
                 ),
@@ -138,19 +138,19 @@ class LinkPage extends StatelessWidget {
               children: [
                 ELink(
                   text: 'Default Link',
-                  type: ELinkType.Default,
+                  type: ELinkType.defaultType,
                   underline: false,
                   onPressed: () {},
                 ),
                 ELink(
                   text: 'Primary Link',
-                  type: ELinkType.Primary,
+                  type: ELinkType.primary,
                   underline: false,
                   onPressed: () {},
                 ),
                 ELink(
                   text: 'Success Link',
-                  type: ELinkType.Success,
+                  type: ELinkType.success,
                   underline: false,
                   onPressed: () {},
                 ),

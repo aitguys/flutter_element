@@ -11,7 +11,7 @@ class FlNavItem extends StatelessWidget {
   final EdgeInsetsGeometry margin;
 
   const FlNavItem({
-    Key? key,
+    super.key,
     this.prefix,
     this.suffix,
     this.child,
@@ -20,7 +20,7 @@ class FlNavItem extends StatelessWidget {
     this.backgroundColor,
     this.height = 48.0,
     this.margin = EdgeInsets.zero,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

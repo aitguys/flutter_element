@@ -14,7 +14,7 @@ class EBadge extends StatelessWidget {
   final Widget? child;
 
   const EBadge({
-    Key? key,
+    super.key,
     this.value,
     this.max,
     this.isDot = false,
@@ -26,7 +26,7 @@ class EBadge extends StatelessWidget {
     this.textStyle,
     this.badgeStyle,
     this.child,
-  }) : super(key: key);
+  });
 
   Color get _bgColor {
     if (color != null) return color!;

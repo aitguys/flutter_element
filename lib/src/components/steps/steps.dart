@@ -22,7 +22,7 @@ class ESteps extends StatelessWidget {
   final bool finishStatus;
 
   const ESteps({
-    Key? key,
+    super.key,
     required this.steps,
     this.active = 0,
     this.direction = EStepDirection.horizontal,
@@ -30,7 +30,7 @@ class ESteps extends StatelessWidget {
     this.space,
     this.progressDot = false,
     this.finishStatus = true,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -123,7 +123,7 @@ class EStepItem extends StatelessWidget {
   final double? space;
 
   const EStepItem({
-    Key? key,
+    super.key,
     required this.title,
     this.description,
     this.icon,
@@ -132,7 +132,7 @@ class EStepItem extends StatelessWidget {
     required this.progressDot,
     required this.isLast,
     this.space,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -246,7 +246,7 @@ class EStepItem extends StatelessWidget {
       );
     }
     return Text(
-      '${title[0]}',
+      title[0],
       style: TextStyle(
         fontSize: 14,
         color: status == EStepStatus.wait ? _getIconColor(theme) : Colors.white,
@@ -281,6 +281,6 @@ class EStepItem extends StatelessWidget {
   Color _getLineColor(ThemeData theme) {
     return status == EStepStatus.wait
         ? theme.dividerColor
-        : theme.primaryColor.withOpacity(0.3);
+        : theme.primaryColor.withValues(alpha: 0.3);
   }
 }

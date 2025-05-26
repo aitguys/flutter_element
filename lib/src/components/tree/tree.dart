@@ -31,7 +31,7 @@ class FlTree extends StatefulWidget {
   final Function(FlTreeNode, FlTreeNode)? onDragEnd;
 
   const FlTree({
-    Key? key,
+    super.key,
     required this.data,
     this.showCheckbox = false,
     this.defaultExpandAll = false,
@@ -42,7 +42,7 @@ class FlTree extends StatefulWidget {
     this.onNodeClick,
     this.draggable = false,
     this.onDragEnd,
-  }) : super(key: key);
+  });
 
   @override
   State<FlTree> createState() => _FlTreeState();
@@ -51,7 +51,7 @@ class FlTree extends StatefulWidget {
 class _FlTreeState extends State<FlTree> {
   Set<dynamic> _expandedKeys = {};
   Set<dynamic> _checkedKeys = {};
-  Set<dynamic> _halfCheckedKeys = {};
+  final Set<dynamic> _halfCheckedKeys = {};
 
   @override
   void initState() {

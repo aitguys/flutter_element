@@ -16,7 +16,7 @@ class EMessage extends StatefulWidget {
   final VoidCallback? onClose;
 
   const EMessage({
-    Key? key,
+    super.key,
     required this.message,
     this.type = EColorType.info,
     this.duration = 3000,
@@ -29,7 +29,7 @@ class EMessage extends StatefulWidget {
     this.size = ESizeItem.medium,
     this.padding,
     this.fontSize,
-  }) : super(key: key);
+  });
 
   @override
   State<EMessage> createState() => _EMessageState();

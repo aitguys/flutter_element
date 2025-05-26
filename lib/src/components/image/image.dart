@@ -11,7 +11,7 @@ class EImage extends StatelessWidget {
   final bool preview;
 
   const EImage({
-    Key? key,
+    super.key,
     required this.src,
     this.fit = BoxFit.cover,
     this.width,
@@ -20,7 +20,7 @@ class EImage extends StatelessWidget {
     this.placeholder,
     this.errorWidget,
     this.preview = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +59,7 @@ class EImage extends StatelessWidget {
         onTap: () {
           showDialog(
             context: context,
-            barrierColor: Colors.black.withOpacity(0.85),
+            barrierColor: Colors.black.withValues(alpha: 0.85),
             builder: (_) => _ImagePreviewDialog(src: src),
           );
         },
@@ -119,7 +119,7 @@ class _ImagePreviewDialogState extends State<_ImagePreviewDialog> {
     final actions = Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.4),
+        color: Colors.black.withValues(alpha: 0.4),
         borderRadius: BorderRadius.circular(24),
       ),
       child: Row(
@@ -176,7 +176,7 @@ class _ImagePreviewDialogState extends State<_ImagePreviewDialog> {
     );
     if (_fullscreen) {
       return Scaffold(
-        backgroundColor: Colors.black.withOpacity(0.95),
+        backgroundColor: Colors.black.withValues(alpha: 0.95),
         body: SafeArea(child: body),
       );
     }

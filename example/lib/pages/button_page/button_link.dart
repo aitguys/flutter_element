@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element/flutter_element.dart';
 import '../../const/index.dart';
-
+import 'package:logger/logger.dart';
 class ButtonLinkPreview extends StatelessWidget {
   const ButtonLinkPreview({super.key});
 
@@ -47,7 +47,7 @@ Widget _viewerContent() {
             type: EColorType.primary,
             isLink: true,
             onPressed: () {
-              print('点击了');
+              Logger().d('点击了');
             },
           ),
           EButton(
@@ -144,7 +144,7 @@ Widget _viewerContent() {
             isLink: true,
             isDisabled: true,
             onPressed: () {
-              print('点击了');
+              Logger().d('点击了');
             },
           ),
           EButton(

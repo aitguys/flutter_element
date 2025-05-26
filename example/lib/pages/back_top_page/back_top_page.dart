@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_element/flutter_element.dart';
 
 class BackTopPage extends StatefulWidget {
-  const BackTopPage({Key? key}) : super(key: key);
+  const BackTopPage({super.key});
 
   @override
   State<BackTopPage> createState() => _BackTopPageState();

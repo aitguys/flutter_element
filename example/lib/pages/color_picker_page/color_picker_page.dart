@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element/flutter_element.dart';
-
+import 'package:logger/logger.dart';
 class ColorPickerPage extends StatefulWidget {
-  const ColorPickerPage({Key? key}) : super(key: key);
+  const ColorPickerPage({super.key});
 
   @override
   State<ColorPickerPage> createState() => _ColorPickerPageState();
@@ -10,7 +10,7 @@ class ColorPickerPage extends StatefulWidget {
 
 class _ColorPickerPageState extends State<ColorPickerPage> {
   Color _color = Colors.green;
-  Color _colorWithAlpha = Colors.blue.withOpacity(0.5);
+  Color _colorWithAlpha = Colors.blue.withValues(alpha: 0.5);
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,7 @@ class _ColorPickerPageState extends State<ColorPickerPage> {
               pickerColor: _colorWithAlpha,
               showAlpha: true,
               onColorChanged: (color) {
-                print('color change1: $color');
+                Logger().d('color change1: $color');
                 setState(() => _colorWithAlpha = color);
               },
             ),
@@ -47,16 +47,16 @@ class _ColorPickerPageState extends State<ColorPickerPage> {
             const SizedBox(height: 16),
             EColorPicker(
               onColorChanged: (color) {
-                print('onColorChanged: $color');
-                print('color: $_color');
+                Logger().d('onColorChanged: $color');
+                Logger().d('color: $_color');
               },
               onConfirm: (color) {
-                print('color confirm: $color');
-                print('color: $_color');
+                Logger().d('color confirm: $color');
+                Logger().d('color: $_color');
               },
               onCancel: () {
-                print('color cancel');
-                print('color: $_color');
+                Logger().d('color cancel');
+                Logger().d('color: $_color');
               },
               pickerColor: _color,
               showAlpha: true,

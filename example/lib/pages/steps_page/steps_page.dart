@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_element/flutter_element.dart';
 
 class StepsPage extends StatefulWidget {
-  const StepsPage({Key? key}) : super(key: key);
+  const StepsPage({super.key});
 
   @override
   State<StepsPage> createState() => _StepsPageState();

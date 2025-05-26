@@ -17,7 +17,7 @@ class EAvatar extends StatelessWidget {
   final Widget? child;
 
   const EAvatar({
-    Key? key,
+    super.key,
     this.src,
     this.icon,
     this.text,
@@ -28,7 +28,7 @@ class EAvatar extends StatelessWidget {
     this.alt,
     this.fallback,
     this.child,
-  }) : super(key: key);
+  });
 
   double get _size {
     if (size != null) return size!;

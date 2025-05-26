@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_element/flutter_element.dart';
 
 class TimelinePage extends StatelessWidget {
-  const TimelinePage({Key? key}) : super(key: key);
+  const TimelinePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,8 +15,8 @@ class TimelinePage extends StatelessWidget {
         children: [
           _buildSection(
             title: '基础用法',
-            child: ETimeline(
-              items: const [
+            child: const ETimeline(
+              items: [
                 ETimelineItem(
                   content: Text('活动按期开始'),
                 ),
@@ -31,8 +31,8 @@ class TimelinePage extends StatelessWidget {
           ),
           _buildSection(
             title: '带时间戳',
-            child: ETimeline(
-              items: const [
+            child: const ETimeline(
+              items: [
                 ETimelineItem(
                   timestamp: '2024-03-20',
                   content: Text('创建成功'),
@@ -50,8 +50,8 @@ class TimelinePage extends StatelessWidget {
           ),
           _buildSection(
             title: '时间戳位置',
-            child: ETimeline(
-              items: const [
+            child: const ETimeline(
+              items: [
                 ETimelineItem(
                   timestamp: '2024-03-20',
                   content: Text('创建成功'),
@@ -69,8 +69,8 @@ class TimelinePage extends StatelessWidget {
           ),
           _buildSection(
             title: '不同类型',
-            child: ETimeline(
-              items: const [
+            child: const ETimeline(
+              items: [
                 ETimelineItem(
                   type: ETimelineItemType.primary,
                   content: Text('主要类型'),
@@ -127,7 +127,7 @@ class TimelinePage extends StatelessWidget {
                     width: 24,
                     height: 24,
                     decoration: BoxDecoration(
-                      color: Colors.blue.withOpacity(0.1),
+                      color: Colors.blue.withValues(alpha: 0.1),
                       shape: BoxShape.circle,
                     ),
                     child: const Center(
@@ -147,8 +147,8 @@ class TimelinePage extends StatelessWidget {
           ),
           _buildSection(
             title: '空心圆点',
-            child: ETimeline(
-              items: const [
+            child: const ETimeline(
+              items: [
                 ETimelineItem(
                   hollow: true,
                   type: ETimelineItemType.primary,
@@ -202,7 +202,7 @@ class TimelinePage extends StatelessWidget {
                   content: Container(
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: Colors.blue.withOpacity(0.1),
+                      color: Colors.blue.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(4),
                     ),
                     child: const Text('自定义背景内容'),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_element/flutter_element.dart';
 
 class TabsPage extends StatefulWidget {
-  const TabsPage({Key? key}) : super(key: key);
+  const TabsPage({super.key});
 
   @override
   State<TabsPage> createState() => _TabsPageState();
@@ -10,42 +10,42 @@ class TabsPage extends StatefulWidget {
 
 class _TabsPageState extends State<TabsPage> {
   final List<ETabPane> _tabs = [
-    ETabPane(
+    const ETabPane(
       label: '用户管理',
       icon: Icons.person,
-      content: const Center(child: Text('用户管理内容')),
+      content: Center(child: Text('用户管理内容')),
     ),
-    ETabPane(
+    const ETabPane(
       label: '配置管理',
       icon: Icons.settings,
-      content: const Center(child: Text('配置管理内容')),
+      content: Center(child: Text('配置管理内容')),
     ),
-    ETabPane(
+    const ETabPane(
       label: '角色管理',
       icon: Icons.security,
-      content: const Center(child: Text('角色管理内容')),
+      content: Center(child: Text('角色管理内容')),
     ),
-    ETabPane(
+    const ETabPane(
       label: '定时任务补偿',
-      content: const Center(child: Text('定时任务补偿内容')),
+      content: Center(child: Text('定时任务补偿内容')),
     ),
   ];
 
   final List<ETabPane> _closableTabs = [
-    ETabPane(
+    const ETabPane(
       label: 'Tab 1',
       closable: true,
-      content: const Center(child: Text('Tab 1 内容')),
+      content: Center(child: Text('Tab 1 内容')),
     ),
-    ETabPane(
+    const ETabPane(
       label: 'Tab 2',
       closable: true,
-      content: const Center(child: Text('Tab 2 内容')),
+      content: Center(child: Text('Tab 2 内容')),
     ),
-    ETabPane(
+    const ETabPane(
       label: 'Tab 3',
       closable: true,
-      content: const Center(child: Text('Tab 3 内容')),
+      content: Center(child: Text('Tab 3 内容')),
     ),
   ];
 

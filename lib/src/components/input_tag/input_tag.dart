@@ -39,7 +39,7 @@ class EInputTag extends StatefulWidget {
   final VoidCallback? onClear;
 
   const EInputTag({
-    Key? key,
+    super.key,
     this.value,
     this.onChanged,
     this.max,
@@ -70,7 +70,7 @@ class EInputTag extends StatefulWidget {
     this.onAddTag,
     this.onRemoveTag,
     this.onClear,
-  }) : super(key: key);
+  });
 
   @override
   State<EInputTag> createState() => _EInputTagState();
@@ -122,8 +122,9 @@ class _EInputTagState extends State<EInputTag> {
 
   void _addTag(String tag) {
     if (tag.isEmpty) return;
-    if (widget.max != null && (widget.value?.length ?? 0) >= widget.max!)
+    if (widget.max != null && (widget.value?.length ?? 0) >= widget.max!) {
       return;
+    }
 
     // 检查标签是否已存在（不区分大小写）
 

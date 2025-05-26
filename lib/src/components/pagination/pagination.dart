@@ -11,7 +11,7 @@ class EPagination extends StatelessWidget {
   final bool showJumper;
 
   const EPagination({
-    Key? key,
+    super.key,
     required this.total,
     this.pageSize = 10,
     this.currentPage = 1,
@@ -20,7 +20,7 @@ class EPagination extends StatelessWidget {
     this.onPageSizeChange,
     this.showSizeChanger = false,
     this.showJumper = false,
-  }) : super(key: key);
+  });
 
   int get pageCount => (total / pageSize).ceil();
 

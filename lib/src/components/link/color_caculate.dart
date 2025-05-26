@@ -6,17 +6,17 @@ import 'link_style.dart';
 
 Color getLinkColor(ELinkType type) {
   switch (type) {
-    case ELinkType.Primary:
+    case ELinkType.primary:
       return EColorTypes.primary;
-    case ELinkType.Success:
+    case ELinkType.success:
       return EColorTypes.success;
-    case ELinkType.Warning:
+    case ELinkType.warning:
       return EColorTypes.warning;
-    case ELinkType.Danger:
+    case ELinkType.danger:
       return EColorTypes.danger;
-    case ELinkType.Info:
+    case ELinkType.info:
       return EColorTypes.info;
-    case ELinkType.Default:
+    case ELinkType.defaultType:
       return EColorTypes.default_;
   }
 }
@@ -32,7 +32,7 @@ Color calculateForegroundColor(
     return EBasicColors.textGray;
   } else {
     if (isDisabled) {
-      return backgroundColor.withOpacity(0.5);
+      return backgroundColor.withValues(alpha: 0.5);
     }
     return backgroundColor;
   }

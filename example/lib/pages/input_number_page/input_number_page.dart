@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_element/src/components/input_number/input_number.dart';
+import 'package:flutter_element/flutter_element.dart';
+import 'package:logger/logger.dart';
 
 class InputNumberPage extends StatefulWidget {
-  const InputNumberPage({Key? key}) : super(key: key);
+  const InputNumberPage({super.key});
 
   @override
   State<InputNumberPage> createState() => _InputNumberPageState();
@@ -39,7 +40,7 @@ class _InputNumberPageState extends State<InputNumberPage> {
             EInputNumber(
               value: value1,
               onChanged: (v) {
-                print('onChange: $v');
+                Logger().d('onChange: $v');
                 setState(() => value1 = v);
               },
             ),

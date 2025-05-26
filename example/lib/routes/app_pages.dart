@@ -43,7 +43,7 @@ import '../pages/dialog_page/route.dart';
 import '../pages/drawer_page/drawer_page.dart';
 import '../pages/message_page/message_page.dart';
 import '../pages/watermark_page/watermark_page.dart';
-import '../pages/nav_item/navItem_page.dart';
+import '../pages/nav_item/nav_item_page.dart';
 import '../pages/widgetPreview/widget_preview.dart';
 
 abstract class Routes {

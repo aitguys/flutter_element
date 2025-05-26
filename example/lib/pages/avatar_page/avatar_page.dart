@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_element/flutter_element.dart';
 
 class AvatarPage extends StatelessWidget {
-  const AvatarPage({Key? key}) : super(key: key);
+  const AvatarPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,14 +15,14 @@ class AvatarPage extends StatelessWidget {
           children: [
             const Text('基础用法'),
             const SizedBox(height: 16),
-            Row(
+            const Row(
               children: [
                 EAvatar(
                   src:
                       'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
                   size: 50,
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16),
                 EAvatar(
                   src:
                       'https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png',
@@ -34,20 +34,20 @@ class AvatarPage extends StatelessWidget {
             const SizedBox(height: 32),
             const Text('不同尺寸'),
             const SizedBox(height: 16),
-            Row(
+            const Row(
               children: [
                 EAvatar(
                   src:
                       'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
                   avatarSize: EAvatarSize.small,
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16),
                 EAvatar(
                   src:
                       'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
                   avatarSize: EAvatarSize.medium,
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16),
                 EAvatar(
                   src:
                       'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
@@ -58,16 +58,16 @@ class AvatarPage extends StatelessWidget {
             const SizedBox(height: 32),
             const Text('展示类型'),
             const SizedBox(height: 16),
-            Row(
+            const Row(
               children: [
                 EAvatar(icon: Icons.person, size: 40),
-                const SizedBox(width: 16),
+                SizedBox(width: 16),
                 EAvatar(
                   src:
                       'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
                   size: 40,
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16),
                 EAvatar(text: 'user', size: 40),
               ],
             ),
@@ -83,13 +83,13 @@ class AvatarPage extends StatelessWidget {
                       'https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png'),
                 ),
                 const SizedBox(width: 16),
-                EAvatar(
+                const EAvatar(
                   src: 'https://empty',
                   size: 60,
                   icon: Icons.person,
                 ),
                 const SizedBox(width: 16),
-                EAvatar(
+                const EAvatar(
                   src: 'https://empty',
                   size: 60,
                   text: 'A',
@@ -99,7 +99,7 @@ class AvatarPage extends StatelessWidget {
             const SizedBox(height: 32),
             const Text('fit 适应容器'),
             const SizedBox(height: 16),
-            Row(
+            const Row(
               children: [
                 EAvatar(
                   src:
@@ -108,7 +108,7 @@ class AvatarPage extends StatelessWidget {
                   shape: EAvatarShape.square,
                   fit: BoxFit.fill,
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16),
                 EAvatar(
                   src:
                       'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
@@ -116,7 +116,7 @@ class AvatarPage extends StatelessWidget {
                   shape: EAvatarShape.square,
                   fit: BoxFit.contain,
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16),
                 EAvatar(
                   src:
                       'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
@@ -124,7 +124,7 @@ class AvatarPage extends StatelessWidget {
                   shape: EAvatarShape.square,
                   fit: BoxFit.cover,
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16),
                 EAvatar(
                   src:
                       'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
@@ -132,7 +132,7 @@ class AvatarPage extends StatelessWidget {
                   shape: EAvatarShape.square,
                   fit: BoxFit.none,
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16),
                 EAvatar(
                   src:
                       'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',

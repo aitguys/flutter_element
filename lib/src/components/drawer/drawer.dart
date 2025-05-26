@@ -19,7 +19,7 @@ class EDrawer extends StatefulWidget {
   final double? size;
 
   const EDrawer({
-    Key? key,
+    super.key,
     this.title,
     this.content,
     this.visible = false,
@@ -36,7 +36,7 @@ class EDrawer extends StatefulWidget {
     this.customHeader,
     this.backgroundColor,
     this.size,
-  }) : super(key: key);
+  });
 
   @override
   State<EDrawer> createState() => _EDrawerState();

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_element/flutter_element.dart';
 
 class SegmentedPage extends StatefulWidget {
-  const SegmentedPage({Key? key}) : super(key: key);
+  const SegmentedPage({super.key});
 
   @override
   State<SegmentedPage> createState() => _SegmentedPageState();

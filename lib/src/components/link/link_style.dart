@@ -1,8 +1,8 @@
 enum ELinkType {
-  Default,
-  Primary,
-  Success,
-  Warning,
-  Danger,
-  Info,
+  defaultType,
+  primary,
+  success,
+  warning,
+  danger,
+  info,
 }

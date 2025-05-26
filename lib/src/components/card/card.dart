@@ -17,7 +17,7 @@ class ECard extends StatefulWidget {
   final double? height;
 
   const ECard({
-    Key? key,
+    super.key,
     this.header,
     this.footer,
     this.child,
@@ -30,7 +30,7 @@ class ECard extends StatefulWidget {
     this.padding,
     this.width,
     this.height,
-  }) : super(key: key);
+  });
 
   @override
   State<ECard> createState() => _ECardState();

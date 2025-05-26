@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element/flutter_element.dart';
-import 'package:flutter_element/src/components/pagination/pagination.dart';
 
 class PaginationPage extends StatefulWidget {
-  const PaginationPage({Key? key}) : super(key: key);
+  const PaginationPage({super.key});
 
   @override
   State<PaginationPage> createState() => _PaginationPageState();
 }
 
 class _PaginationPageState extends State<PaginationPage> {
-  int _total = 105;
+  final int _total = 105;
   int _pageSize = 10;
   int _currentPage = 1;
 

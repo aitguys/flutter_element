@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_element/src/components/affix/affix.dart';
+import 'package:flutter_element/flutter_element.dart';
 
 class AffixPage extends StatelessWidget {
-  const AffixPage({Key? key}) : super(key: key);
+  const AffixPage({super.key});
 
   @override
   Widget build(BuildContext context) {

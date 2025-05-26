@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_element/src/components/time_picker/time_picker.dart';
-import 'package:flutter_element/src/theme/index.dart';
+import 'package:flutter_element/flutter_element.dart';
+import 'package:logger/logger.dart';
 
 class TimePickerPage extends StatefulWidget {
-  const TimePickerPage({Key? key}) : super(key: key);
+  const TimePickerPage({super.key});
 
   @override
   State<TimePickerPage> createState() => _TimePickerPageState();
@@ -27,7 +27,7 @@ class _TimePickerPageState extends State<TimePickerPage> {
               onChange: (time) {
                 setState(() {
                   _selectedTime = time;
-                  print('time: $_selectedTime');
+                  Logger().d('time: $_selectedTime');
                 });
               },
               placeholder: '请选择时间',

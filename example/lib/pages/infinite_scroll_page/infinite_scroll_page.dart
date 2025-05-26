@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element/flutter_element.dart';
-import 'package:flutter_element/src/components/infinite_scroll/infinite_scroll.dart';
 
 class InfiniteScrollPage extends StatefulWidget {
-  const InfiniteScrollPage({Key? key}) : super(key: key);
+  const InfiniteScrollPage({super.key});
 
   @override
   State<InfiniteScrollPage> createState() => _InfiniteScrollPageState();
 }
 
 class _InfiniteScrollPageState extends State<InfiniteScrollPage> {
-  List<int> _items = List.generate(20, (i) => i);
+  final List<int> _items = List.generate(20, (i) => i);
   bool _hasMore = true;
 
   Future<void> _loadMore() async {

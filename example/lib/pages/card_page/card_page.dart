@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element/flutter_element.dart';
-import 'package:flutter_element/src/components/card/card.dart';
 
 class CardPage extends StatelessWidget {
-  const CardPage({Key? key}) : super(key: key);
+  const CardPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -61,32 +60,32 @@ class CardPage extends StatelessWidget {
             const SizedBox(height: 32),
             const Text('带有阴影效果的卡片'),
             const SizedBox(height: 16),
-            Row(
+            const Row(
               children: [
-                Container(
+                SizedBox(
                   width: 120,
                   child: ECard(
-                    header: const Text('Always'),
+                    header: Text('Always'),
                     shadow: ECardShadow.always,
-                    child: const SizedBox(height: 60),
+                    child: SizedBox(height: 60),
                   ),
                 ),
-                const SizedBox(width: 16),
-                Container(
+                SizedBox(width: 16),
+                SizedBox(
                   width: 120,
                   child: ECard(
-                    header: const Text('Hover'),
+                    header: Text('Hover'),
                     shadow: ECardShadow.hover,
-                    child: const SizedBox(height: 60),
+                    child: SizedBox(height: 60),
                   ),
                 ),
-                const SizedBox(width: 16),
-                Container(
+                SizedBox(width: 16),
+                SizedBox(
                   width: 120,
                   child: ECard(
-                    header: const Text('Never'),
+                    header: Text('Never'),
                     shadow: ECardShadow.never,
-                    child: const SizedBox(height: 60),
+                    child: SizedBox(height: 60),
                   ),
                 ),
               ],

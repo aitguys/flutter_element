@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_element/flutter_element.dart';
 
 class TablePage extends StatefulWidget {
-  const TablePage({Key? key}) : super(key: key);
+  const TablePage({super.key});
 
   @override
   State<TablePage> createState() => _TablePageState();
@@ -54,7 +54,7 @@ class _TablePageState extends State<TablePage> {
       render: (value) => Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
         decoration: BoxDecoration(
-          color: Colors.blue.withOpacity(0.1),
+          color: Colors.blue.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(4),
         ),
         child: Text(

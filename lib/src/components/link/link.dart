@@ -15,7 +15,7 @@ class ELink extends StatelessWidget {
   const ELink({
     super.key,
     required this.text,
-    this.type = ELinkType.Default,
+    this.type = ELinkType.defaultType,
     this.disabled = false,
     this.underline = true,
     this.icon,

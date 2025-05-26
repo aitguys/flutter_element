@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_element/flutter_element.dart';
 
 class StatisticPage extends StatelessWidget {
-  const StatisticPage({Key? key}) : super(key: key);
+  const StatisticPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -61,9 +61,9 @@ class StatisticPage extends StatelessWidget {
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20),
-            Row(
+            const Row(
               children: [
-                const Expanded(
+                Expanded(
                   child: FlStatistic(
                     title: '价格',
                     value: 568.9,
@@ -71,14 +71,14 @@ class StatisticPage extends StatelessWidget {
                     precision: 2,
                   ),
                 ),
-                const SizedBox(width: 20),
+                SizedBox(width: 20),
                 Expanded(
                   child: FlStatistic(
                     title: '变化率',
                     value: 6.7,
                     precision: 2,
                     suffix: '%',
-                    prefixIcon: const Icon(
+                    prefixIcon: Icon(
                       Icons.arrow_upward,
                       color: Colors.green,
                       size: 16,
@@ -124,24 +124,24 @@ class StatisticPage extends StatelessWidget {
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20),
-            Row(
+            const Row(
               children: [
                 Expanded(
                   child: FlStatistic(
                     title: '自定义',
                     value: 9999,
-                    titleStyle: const TextStyle(
+                    titleStyle: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                       color: Colors.blue,
                     ),
-                    valueStyle: const TextStyle(
+                    valueStyle: TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
                       color: Colors.red,
                     ),
                     suffix: '次',
-                    suffixStyle: const TextStyle(
+                    suffixStyle: TextStyle(
                       fontSize: 20,
                       color: Colors.red,
                     ),

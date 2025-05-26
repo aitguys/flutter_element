@@ -48,7 +48,7 @@ Widget _viewerContent() {
               content: const SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
-                  children: const [
+                  children: [
                     TextField(
                       decoration: InputDecoration(
                         labelText: '用户名',

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_element/flutter_element.dart';
 
 class DrawerPage extends StatefulWidget {
-  const DrawerPage({Key? key}) : super(key: key);
-
+  const DrawerPage({super.key});
+  
   @override
   State<DrawerPage> createState() => _DrawerPageState();
 }

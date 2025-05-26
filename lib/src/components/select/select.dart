@@ -184,7 +184,7 @@ class _ESelectState extends State<ESelect> {
                                   vertical: 8,
                                 ),
                                 color: isSelected
-                                    ? EColorTypes.primary.withOpacity(0.1)
+                                    ? EColorTypes.primary.withValues(alpha: 0.1)
                                     : null,
                                 child: Row(
                                   children: [

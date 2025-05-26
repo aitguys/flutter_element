@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element/flutter_element.dart';
-import 'package:flutter_element/src/components/collapse/collapse.dart';
 
 class CollapsePage extends StatefulWidget {
-  const CollapsePage({Key? key}) : super(key: key);
+  const CollapsePage({super.key});
 
   @override
   State<CollapsePage> createState() => _CollapsePageState();

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_element/flutter_element.dart';
 
 class SkeletonPage extends StatefulWidget {
-  const SkeletonPage({Key? key}) : super(key: key);
+  const SkeletonPage({super.key});
 
   @override
   State<SkeletonPage> createState() => _SkeletonPageState();
@@ -22,7 +22,7 @@ class _SkeletonPageState extends State<SkeletonPage> {
         children: [
           _buildSection(
             title: '基础用法',
-            child: Column(
+            child: const Column(
               children: [
                 ESkeleton(height: 40),
                 SizedBox(height: 12),
@@ -34,7 +34,7 @@ class _SkeletonPageState extends State<SkeletonPage> {
           ),
           _buildSection(
             title: '动画效果',
-            child: ESkeleton(
+            child: const ESkeleton(
               height: 40,
               animated: true,
               active: true,
@@ -50,8 +50,8 @@ class _SkeletonPageState extends State<SkeletonPage> {
                   height: 80,
                   borderRadius: BorderRadius.circular(40),
                 ),
-                SizedBox(width: 16),
-                Expanded(
+                const SizedBox(width: 16),
+                const Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -74,7 +74,7 @@ class _SkeletonPageState extends State<SkeletonPage> {
                 ESkeleton(
                   loading: _loading,
                   child: Container(
-                    padding: EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
                       border: Border.all(color: Colors.grey.shade300),
                       borderRadius: BorderRadius.circular(4),
@@ -86,7 +86,7 @@ class _SkeletonPageState extends State<SkeletonPage> {
                           '这是一个标题',
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         Text(
                           '这是一段内容描述文字，当加载完成时才会显示。这里可以放置任意的实际内容。',
                           style: Theme.of(context).textTheme.bodyMedium,
@@ -95,7 +95,7 @@ class _SkeletonPageState extends State<SkeletonPage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: () {
                     setState(() {

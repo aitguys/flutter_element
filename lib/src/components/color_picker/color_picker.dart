@@ -119,7 +119,7 @@ class _EColorPickerState extends State<EColorPicker> {
                 child: Container(
                   width: widget.width ??
                       min(400, MediaQuery.of(context).size.width * 0.8),
-                  constraints: BoxConstraints(maxHeight: 480),
+                  constraints: const BoxConstraints(maxHeight: 480),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -273,7 +273,7 @@ class _EColorPickerState extends State<EColorPicker> {
   }
 
   Widget _buildPredefinEColorTypes() {
-    if (widget.predefine == null) return SizedBox.shrink();
+    if (widget.predefine == null) return const SizedBox.shrink();
 
     return Wrap(
       spacing: 8,

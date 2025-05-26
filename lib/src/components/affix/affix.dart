@@ -8,13 +8,13 @@ class EAffix extends StatefulWidget {
   final VoidCallback? onChange;
 
   const EAffix({
-    Key? key,
+    super.key,
     this.offsetTop,
     this.offsetBottom,
     this.zIndex,
     required this.child,
     this.onChange,
-  }) : super(key: key);
+  });
 
   @override
   State<EAffix> createState() => _EAffixState();

@@ -134,7 +134,7 @@ class _FlSegmentedState<T> extends State<FlSegmented<T>>
                 decoration: BoxDecoration(
                   color: isSelected
                       ? (widget.selectedBackgroundColor ??
-                          theme.colorScheme.primary.withOpacity(0.1))
+                          theme.colorScheme.primary.withValues(alpha: 0.1))
                       : Colors.transparent,
                   borderRadius: BorderRadius.circular(widget.borderRadius - 1),
                 ),

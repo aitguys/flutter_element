@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element/flutter_element.dart';
 import '../../const/index.dart';
-
+import 'package:logger/logger.dart';
 class AutoCompleteBasicPreview extends StatelessWidget {
   const AutoCompleteBasicPreview({super.key});
 
@@ -47,7 +47,7 @@ Widget _viewerContent() {
         size: ESizeItem.small,
         triggerOnFocus: true,
         onChange: (value) {
-          print('onChange: $value');
+          Logger().d('onChange: $value');
         },
         fetchSuggestions: (query, callback) {
           final suggestions = [
@@ -70,7 +70,7 @@ Widget _viewerContent() {
               .toList());
         },
         onSelect: (item) {
-          print('Selected: ${item}');
+          Logger().d('Selected: $item');
         },
       ),
       const SizedBox(height: 32),
@@ -101,7 +101,7 @@ Widget _viewerContent() {
               .toList());
         },
         onSelect: (item) {
-          print('Selected: ${item['value']}');
+          Logger().d('Selected: ${item['value']}');
         },
         prefix: const Icon(Icons.search),
         suffix: const Icon(Icons.edit),
@@ -136,7 +136,7 @@ Widget _viewerContent() {
               .toList());
         },
         onSelect: (item) {
-          print('Selected: ${item['value']}');
+          Logger().d('Selected: ${item['value']}');
         },
       ),
     ],

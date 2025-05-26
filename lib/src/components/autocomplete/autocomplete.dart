@@ -249,9 +249,9 @@ class _EAutocompleteState extends State<EAutocomplete> {
                                 width: double.infinity,
                                 decoration: BoxDecoration(
                                   color: isHighlighted
-                                      ? EColorTypes.primary.withOpacity(0.1)
+                                      ? EColorTypes.primary.withValues(alpha: 0.1)
                                       : null,
-                                  border: Border(
+                                  border: const Border(
                                     bottom: BorderSide(
                                       color: EBasicColors.borderGray,
                                       width: 0.5,
@@ -324,21 +324,21 @@ class _EAutocompleteState extends State<EAutocomplete> {
               enabled: !widget.disabled,
               decoration: InputDecoration(
                 hintText: widget.placeholder,
-                hintStyle: TextStyle(color: EBasicColors.borderGray),
+                hintStyle: const TextStyle(color: EBasicColors.borderGray),
                 prefixIcon: widget.prefix,
                 contentPadding:
                     ElememtSize(size: widget.size).getInputPadding(),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(4),
-                  borderSide: BorderSide(color: EBasicColors.borderGray),
+                  borderSide: const BorderSide(color: EBasicColors.borderGray),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(4),
-                  borderSide: BorderSide(color: EBasicColors.borderGray),
+                  borderSide: const BorderSide(color: EBasicColors.borderGray),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(4),
-                  borderSide: BorderSide(color: EColorTypes.primary),
+                  borderSide: const BorderSide(color: EColorTypes.primary),
                 ),
                 suffixIcon: Row(
                   mainAxisSize: MainAxisSize.min,

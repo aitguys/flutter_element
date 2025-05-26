@@ -16,7 +16,7 @@ class EAlert extends StatefulWidget {
   final EThemeType theme;
 
   const EAlert({
-    Key? key,
+    super.key,
     required this.title,
     this.description,
     this.type = EColorType.info,
@@ -29,7 +29,7 @@ class EAlert extends StatefulWidget {
     this.closeButton,
     this.padding,
     this.theme = EThemeType.dark,
-  }) : super(key: key);
+  });
 
   @override
   State<EAlert> createState() => _EAlertState();

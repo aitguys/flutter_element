@@ -798,7 +798,7 @@ class _EDatePickerState extends State<EDatePicker> {
                         isDense: true,
                         isCollapsed: true,
                         hintText: widget.placeholder,
-                        hintStyle: TextStyle(color: EBasicColors.borderGray),
+                        hintStyle: const TextStyle(color: EBasicColors.borderGray),
                         border: InputBorder.none,
                       ),
                     ),
@@ -811,7 +811,7 @@ class _EDatePickerState extends State<EDatePicker> {
                       cursor: SystemMouseCursors.click,
                       child: Container(
                         padding: const EdgeInsets.all(4),
-                        child: Icon(
+                        child: const Icon(
                           Icons.close,
                           size: 16,
                           color: EColorTypes.primary,

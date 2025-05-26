@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_element/flutter_element.dart';
 
 class DialogPage extends StatefulWidget {
-  const DialogPage({Key? key}) : super(key: key);
+  const DialogPage({super.key});
 
   @override
   State<DialogPage> createState() => _DialogPageState();
@@ -58,16 +58,16 @@ class _DialogPageState extends State<DialogPage> {
                     showEDialog(
                       context: context,
                       title: '自定义内容',
-                      content: Column(
+                      content: const Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const TextField(
+                          TextField(
                             decoration: InputDecoration(
                               labelText: '用户名',
                             ),
                           ),
-                          const SizedBox(height: 16),
-                          const TextField(
+                          SizedBox(height: 16),
+                          TextField(
                             decoration: InputDecoration(
                               labelText: '密码',
                             ),

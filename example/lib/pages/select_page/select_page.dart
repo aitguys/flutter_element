@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_element/src/components/select/select.dart';
+import 'package:flutter_element/flutter_element.dart';
+import 'package:logger/logger.dart';
 
 class SelectPage extends StatefulWidget {
-  const SelectPage({Key? key}) : super(key: key);
+  const SelectPage({super.key});
 
   @override
   State<SelectPage> createState() => _SelectPageState();
@@ -55,7 +56,7 @@ class _SelectPageState extends State<SelectPage> {
                 placeholder: '请选择',
                 onChanged: (value) => {
                   setState(() => _value1 = value),
-                  print('value: $value'),
+                  Logger().d('value: $value'),
                 },
               ),
             ),

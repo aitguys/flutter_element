@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element/flutter_element.dart';
-
+import 'package:logger/logger.dart';
 class CheckboxPage extends StatelessWidget {
   const CheckboxPage({super.key});
 
@@ -27,14 +27,14 @@ class CheckboxPage extends StatelessWidget {
                 ECheckbox(
                   label: 'Option 1',
                   onChange: (value) {
-                    print('Option 1: $value');
+                    Logger().d('Option 1: $value');
                   },
                 ),
                 const SizedBox(width: 16),
                 ECheckbox(
                   label: 'Option 2',
                   onChange: (value) {
-                    print('Option 2: $value');
+                    Logger().d('Option 2: $value');
                   },
                 ),
               ],
@@ -49,14 +49,14 @@ class CheckboxPage extends StatelessWidget {
                   label: 'Disabled',
                   disabled: true,
                   onChange: (value) {
-                    print('Disabled: $value');
+                    Logger().d('Disabled: $value');
                   },
                 ),
                 const SizedBox(width: 16),
                 ECheckbox(
                   label: 'Not disabled',
                   onChange: (value) {
-                    print('Not disabled: $value');
+                    Logger().d('Not disabled: $value');
                   },
                 ),
               ],
@@ -68,14 +68,14 @@ class CheckboxPage extends StatelessWidget {
             ECheckboxGroup(
               value: ['Option A'],
               onChange: (values) {
-                print('Selected values: $values');
+                Logger().d('Selected values: $values');
               },
               children: [
-                ECheckbox(label: 'Option A'),
-                ECheckbox(label: 'Option B'),
-                ECheckbox(label: 'Option C'),
-                ECheckbox(label: 'Disabled', disabled: true),
-                ECheckbox(label: 'Selected and disabled', disabled: true),
+                const ECheckbox(label: 'Option A'),
+                const ECheckbox(label: 'Option B'),
+                const ECheckbox(label: 'Option C'),
+                const ECheckbox(label: 'Disabled', disabled: true),
+                const ECheckbox(label: 'Selected and disabled', disabled: true),
               ],
             ),
             const SizedBox(height: 32),
@@ -88,7 +88,7 @@ class CheckboxPage extends StatelessWidget {
                   label: 'Check all',
                   indeterminate: true,
                   onChange: (value) {
-                    print('Check all: $value');
+                    Logger().d('Check all: $value');
                   },
                 ),
               ],
@@ -103,7 +103,7 @@ class CheckboxPage extends StatelessWidget {
                   label: 'Option 1',
                   border: true,
                   onChange: (value) {
-                    print('Option 1 with border: $value');
+                    Logger().d('Option 1 with border: $value');
                   },
                 ),
                 const SizedBox(width: 16),
@@ -111,7 +111,7 @@ class CheckboxPage extends StatelessWidget {
                   label: 'Option 2',
                   border: true,
                   onChange: (value) {
-                    print('Option 2 with border: $value');
+                    Logger().d('Option 2 with border: $value');
                   },
                 ),
               ],

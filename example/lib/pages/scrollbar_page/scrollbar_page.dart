@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element/flutter_element.dart';
+import 'package:logger/logger.dart';
 
 class ScrollbarPage extends StatelessWidget {
   const ScrollbarPage({super.key});
@@ -21,7 +22,7 @@ class ScrollbarPage extends StatelessWidget {
           children: [
             EScrollbar(
               onScroll: (scrollController) {
-                print(scrollController.position);
+                Logger().d(scrollController.position);
               },
               maxHeight: 400,
               native: true,
@@ -32,13 +33,13 @@ class ScrollbarPage extends StatelessWidget {
                     height: 50,
                     margin: const EdgeInsets.symmetric(vertical: 5),
                     decoration: BoxDecoration(
-                      color: EColorTypes.primary.withOpacity(0.1),
+                      color: EColorTypes.primary.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(4),
                     ),
                     child: Center(
                       child: Text(
                         'Item ${index + 1}',
-                        style: TextStyle(color: EColorTypes.primary),
+                        style: const TextStyle(color: EColorTypes.primary),
                       ),
                     ),
                   ),
@@ -51,7 +52,7 @@ class ScrollbarPage extends StatelessWidget {
             EScrollbar(
               height: 200,
               onScroll: (scrollController) {
-                print(scrollController.position);
+                Logger().d(scrollController.position);
               },
               child: Column(
                 children: List.generate(
@@ -60,13 +61,13 @@ class ScrollbarPage extends StatelessWidget {
                     height: 50,
                     margin: const EdgeInsets.symmetric(vertical: 5),
                     decoration: BoxDecoration(
-                      color: EColorTypes.primary.withOpacity(0.1),
+                      color: EColorTypes.primary.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(4),
                     ),
                     child: Center(
                       child: Text(
                         'Item ${index + 1}',
-                        style: TextStyle(color: EColorTypes.primary),
+                        style: const TextStyle(color: EColorTypes.primary),
                       ),
                     ),
                   ),
@@ -89,13 +90,13 @@ class ScrollbarPage extends StatelessWidget {
                       width: 100,
                       margin: const EdgeInsets.symmetric(horizontal: 5),
                       decoration: BoxDecoration(
-                        color: EColorTypes.danger.withOpacity(0.1),
+                        color: EColorTypes.danger.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(4),
                       ),
                       child: Center(
                         child: Text(
                           'Item ${index + 1}',
-                          style: TextStyle(color: EColorTypes.danger),
+                          style: const TextStyle(color: EColorTypes.danger),
                         ),
                       ),
                     ),
@@ -116,13 +117,13 @@ class ScrollbarPage extends StatelessWidget {
                     height: 50,
                     margin: const EdgeInsets.symmetric(vertical: 5),
                     decoration: BoxDecoration(
-                      color: EColorTypes.success.withOpacity(0.1),
+                      color: EColorTypes.success.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(4),
                     ),
                     child: Center(
                       child: Text(
                         'Item ${index + 1}',
-                        style: TextStyle(color: EColorTypes.success),
+                        style: const TextStyle(color: EColorTypes.success),
                       ),
                     ),
                   ),
@@ -143,13 +144,13 @@ class ScrollbarPage extends StatelessWidget {
                     height: 50,
                     margin: const EdgeInsets.symmetric(vertical: 5),
                     decoration: BoxDecoration(
-                      color: EColorTypes.warning.withOpacity(0.1),
+                      color: EColorTypes.warning.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(4),
                     ),
                     child: Center(
                       child: Text(
                         'Item ${index + 1}',
-                        style: TextStyle(color: EColorTypes.warning),
+                        style: const TextStyle(color: EColorTypes.warning),
                       ),
                     ),
                   ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_element/flutter_element.dart';
 
 class ResultPage extends StatelessWidget {
-  const ResultPage({Key? key}) : super(key: key);
+  const ResultPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -10,10 +10,10 @@ class ResultPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Result 结果'),
       ),
-      body: SingleChildScrollView(
+      body: const SingleChildScrollView(
         child: Column(
           children: [
-            const EResult(
+            EResult(
               status: EResultStatus.success,
               title: '提交成功',
               subTitle: '请耐心等待审核',
@@ -32,20 +32,20 @@ class ResultPage extends StatelessWidget {
                 ],
               ),
             ),
-            const Divider(),
-            const EResult(
+            Divider(),
+            EResult(
               status: EResultStatus.warning,
               title: '警告提示',
               subTitle: '请注意相关信息',
             ),
-            const Divider(),
-            const EResult(
+            Divider(),
+            EResult(
               status: EResultStatus.info,
               title: '信息提示',
               subTitle: '这是一条信息',
             ),
-            const Divider(),
-            const EResult(
+            Divider(),
+            EResult(
               status: EResultStatus.error,
               title: '错误提示',
               subTitle: '请检查并修改以下信息后，再重新提交。',

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_element/flutter_element.dart';
 
 class WatermarkPage extends StatelessWidget {
-  const WatermarkPage({Key? key}) : super(key: key);
+  const WatermarkPage({super.key});
 
   @override
   Widget build(BuildContext context) {

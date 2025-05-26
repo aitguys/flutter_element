@@ -1,4 +1,4 @@
-library flutter_element;
+library;
 
 export 'src/theme/index.dart';
 export 'src/components/button/index.dart';

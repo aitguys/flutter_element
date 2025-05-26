@@ -127,12 +127,12 @@ class _EMentionState extends State<EMention> {
         child: CompositedTransformFollower(
           link: _layerLink,
           showWhenUnlinked: false,
-          offset: Offset(0, 40),
+          offset: const Offset(0, 40),
           child: Material(
             elevation: 4,
             borderRadius: BorderRadius.circular(4),
             child: Container(
-              constraints: BoxConstraints(maxHeight: 200),
+              constraints: const BoxConstraints(maxHeight: 200),
               child: ListView.builder(
                 shrinkWrap: true,
                 itemCount: _filteredOptions.length,
@@ -214,10 +214,7 @@ class _EMentionState extends State<EMention> {
     if (option.disabled) return;
 
     String text = _controller.text;
-    String newText = text.substring(0, _prefixStart + 1) +
-        option.value +
-        ' ' + // 添加空格
-        text.substring(_prefixStart + 1 + _currentPrefix.length);
+    String newText = '${text.substring(0, _prefixStart + 1)}${option.value} ${text.substring(_prefixStart + 1 + _currentPrefix.length)}';
 
     _controller.text = newText;
     // 只设置光标位置，不选中文本
@@ -302,11 +299,11 @@ class _EMentionState extends State<EMention> {
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(4),
-              borderSide: BorderSide(color: EBasicColors.borderGray),
+              borderSide: const BorderSide(color: EBasicColors.borderGray),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(4),
-              borderSide: BorderSide(color: EColorTypes.primary),
+              borderSide: const BorderSide(color: EColorTypes.primary),
             ),
           ),
           onChanged: _handleTextChanged,

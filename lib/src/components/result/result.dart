@@ -10,13 +10,13 @@ class EResult extends StatelessWidget {
   final Widget? extra;
 
   const EResult({
-    Key? key,
+    super.key,
     required this.status,
     required this.title,
     this.subTitle,
     this.icon,
     this.extra,
-  }) : super(key: key);
+  });
 
   IconData get _defaultIcon {
     switch (status) {

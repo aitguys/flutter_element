@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element/flutter_element.dart';
+import 'package:logger/logger.dart';
 
 class MentionPage extends StatefulWidget {
   const MentionPage({super.key});
@@ -32,10 +33,10 @@ class _MentionPageState extends State<MentionPage> {
               placeholder: '请输入 @ 触发提及',
               whole: true,
               onSearch: (query) {
-                print('搜索: $query');
+                Logger().d('搜索: $query');
               },
               onSelect: (option) {
-                print('选择: ${option.value}');
+                Logger().d('选择: ${option.value}');
               },
             ),
             const SizedBox(height: 32),

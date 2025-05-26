@@ -21,7 +21,7 @@ class ETag extends StatelessWidget {
   final TextStyle? textStyle;
 
   const ETag({
-    Key? key,
+    super.key,
     required this.text,
     this.type,
     this.size = ETagSize.default_,
@@ -36,7 +36,7 @@ class ETag extends StatelessWidget {
     this.borderRadius,
     this.round = false,
     this.textStyle,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -69,23 +69,23 @@ class ETag extends StatelessWidget {
     } else if (type != null) {
       switch (type!) {
         case ETagType.primary:
-          bgColor = theme.colorScheme.primary.withOpacity(0.1);
+          bgColor = theme.colorScheme.primary.withValues(alpha: 0.1);
           textColor = theme.colorScheme.primary;
           break;
         case ETagType.success:
-          bgColor = Colors.green.withOpacity(0.1);
+          bgColor = Colors.green.withValues(alpha: 0.1);
           textColor = Colors.green;
           break;
         case ETagType.warning:
-          bgColor = Colors.orange.withOpacity(0.1);
+          bgColor = Colors.orange.withValues(alpha: 0.1);
           textColor = Colors.orange;
           break;
         case ETagType.info:
-          bgColor = Colors.blue.withOpacity(0.1);
+          bgColor = Colors.blue.withValues(alpha: 0.1);
           textColor = Colors.blue;
           break;
         case ETagType.danger:
-          bgColor = Colors.red.withOpacity(0.1);
+          bgColor = Colors.red.withValues(alpha: 0.1);
           textColor = Colors.red;
           break;
       }
@@ -120,18 +120,18 @@ class ETag extends StatelessWidget {
               ),
               child: icon!,
             ),
-            SizedBox(width: 4),
+            const SizedBox(width: 4),
           ],
           Text(
             text,
-            style: (textStyle ?? TextStyle()).copyWith(
+            style: (textStyle ?? const TextStyle()).copyWith(
               color: textColor,
               fontSize: fontSize,
               height: 1.5,
             ),
           ),
           if (closable) ...[
-            SizedBox(width: 4),
+            const SizedBox(width: 4),
             InkWell(
               onTap: onClose,
               child: Icon(

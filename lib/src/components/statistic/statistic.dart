@@ -20,7 +20,7 @@ class FlStatistic extends StatelessWidget {
   final Color? valueColor;
 
   const FlStatistic({
-    Key? key,
+    super.key,
     required this.title,
     required this.value,
     this.prefix,
@@ -37,7 +37,7 @@ class FlStatistic extends StatelessWidget {
     this.prefixIcon,
     this.suffixIcon,
     this.valueColor,
-  }) : super(key: key);
+  });
 
   String _formatNumber(dynamic value) {
     if (value == null) return '0';
@@ -149,14 +149,14 @@ class FlCountdown extends StatefulWidget {
   final String format;
 
   const FlCountdown({
-    Key? key,
+    super.key,
     required this.title,
     required this.value,
     this.titleStyle,
     this.valueStyle,
     this.onFinish,
     this.format = 'HH:mm:ss',
-  }) : super(key: key);
+  });
 
   @override
   State<FlCountdown> createState() => _FlCountdownState();

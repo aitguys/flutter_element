@@ -31,10 +31,10 @@ class ETimeline extends StatelessWidget {
   final bool reverse;
 
   const ETimeline({
-    Key? key,
+    super.key,
     required this.items,
     this.reverse = false,
-  }) : super(key: key);
+  });
 
   Color _getColor(ETimelineItem item) {
     if (item.color != null) return item.color!;

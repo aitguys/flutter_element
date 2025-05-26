@@ -19,7 +19,7 @@ class ECarousel extends StatefulWidget {
   final CarouselChangeCallback? onChange;
 
   const ECarousel({
-    Key? key,
+    super.key,
     required this.items,
     this.height = 200,
     this.initialIndex = 0,
@@ -30,7 +30,7 @@ class ECarousel extends StatefulWidget {
     this.showIndicator = true,
     this.arrow = ECarouselArrow.hover,
     this.onChange,
-  }) : super(key: key);
+  });
 
   @override
   State<ECarousel> createState() => _ECarouselState();
@@ -180,11 +180,11 @@ class _ECarouselState extends State<ECarousel> {
           width: 32,
           height: 32,
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.7),
+            color: Colors.white.withValues(alpha: 0.7),
             shape: BoxShape.circle,
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.08),
+                color: Colors.black.withValues(alpha: 0.08),
                 blurRadius: 4,
               ),
             ],

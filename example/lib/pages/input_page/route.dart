@@ -5,8 +5,8 @@ import 'input_color.dart';
 import 'input_fix.dart';
 import 'input_clearable.dart';
 import 'input_disable.dart';
-import 'input_defaultColor.dart';
-import 'input_showPlaceholder.dart';
+import 'input_default_color.dart';
+import 'input_show_placeholder.dart';
 import 'input_api.dart';
 
 abstract class InputRoutes {

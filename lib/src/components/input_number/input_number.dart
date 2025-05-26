@@ -27,7 +27,7 @@ class EInputNumber extends StatefulWidget {
   final VoidCallback? onBlur;
 
   const EInputNumber({
-    Key? key,
+    super.key,
     this.value,
     this.onChanged,
     this.min,
@@ -47,7 +47,7 @@ class EInputNumber extends StatefulWidget {
     this.increaseIcon,
     this.onFocus,
     this.onBlur,
-  }) : super(key: key);
+  });
 
   @override
   State<EInputNumber> createState() => _EInputNumberState();

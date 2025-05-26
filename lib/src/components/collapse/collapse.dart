@@ -10,13 +10,13 @@ class ECollapse extends StatefulWidget {
   final ECollapsePanelPosition position;
 
   const ECollapse({
-    Key? key,
+    super.key,
     required this.panels,
     this.activeIndexes,
     this.accordion = false,
     this.onChange,
     this.position = ECollapsePanelPosition.right,
-  }) : super(key: key);
+  });
 
   @override
   State<ECollapse> createState() => _ECollapseState();
@@ -55,12 +55,12 @@ class _ECollapseState extends State<ECollapse> {
         final isActive = _activeIndexes.contains(i);
         return _CollapsePanelWidget(
           title: panel.title,
-          child: panel.child,
           isActive: isActive,
           disabled: panel.disabled,
           onTap: () => _handlePanelTap(i, panel.disabled),
           position: widget.position,
           expandIcon: panel.expandIcon,
+          child: panel.child,
         );
       }),
     );

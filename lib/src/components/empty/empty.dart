@@ -8,13 +8,13 @@ class EEmpty extends StatelessWidget {
   final Widget? imageWidget;
 
   const EEmpty({
-    Key? key,
+    super.key,
     this.description,
     this.image,
     this.imageSize = 120,
     this.child,
     this.imageWidget,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

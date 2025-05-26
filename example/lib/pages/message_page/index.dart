@@ -4,7 +4,7 @@ import 'message_round.dart';
 import 'message_size.dart';
 import 'message_duration.dart';
 import 'message_icon.dart';
-import 'message_showClose.dart';
+import 'message_show_close.dart';
 import 'message_api.dart';
 
 class MessagePreview extends StatelessWidget {

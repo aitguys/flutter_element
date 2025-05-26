@@ -10,7 +10,7 @@ class ESkeleton extends StatelessWidget {
   final bool loading;
 
   const ESkeleton({
-    Key? key,
+    super.key,
     this.active = false,
     this.animated = true,
     this.width,
@@ -18,7 +18,7 @@ class ESkeleton extends StatelessWidget {
     this.borderRadius,
     this.child,
     this.loading = true,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,7 @@ class ESkeleton extends StatelessWidget {
                     height: double.infinity,
                     decoration: BoxDecoration(
                       borderRadius: borderRadius ?? BorderRadius.circular(4),
-                      color: Colors.white.withOpacity(0.2),
+                      color: Colors.white.withValues(alpha: 0.2),
                     ),
                   ),
                 )
@@ -56,7 +56,7 @@ class ESkeleton extends StatelessWidget {
 class _ShimmerEffect extends StatefulWidget {
   final Widget child;
 
-  const _ShimmerEffect({Key? key, required this.child}) : super(key: key);
+  const _ShimmerEffect({required this.child});
 
   @override
   _ShimmerEffectState createState() => _ShimmerEffectState();
@@ -119,11 +119,11 @@ class ESkeletonItem extends StatelessWidget {
   final BorderRadius? borderRadius;
 
   const ESkeletonItem({
-    Key? key,
+    super.key,
     this.width,
     this.height,
     this.borderRadius,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

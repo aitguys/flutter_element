@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element/flutter_element.dart';
-
+import 'package:logger/logger.dart';
 class DatePickerPage extends StatelessWidget {
   const DatePickerPage({super.key});
 
@@ -27,7 +27,7 @@ class DatePickerPage extends StatelessWidget {
               type: DatePickerType.date,
               value: DateTime.now(),
               onChange: (date) {
-                print('Selected date: $date');
+                Logger().d('Selected date: $date');
               },
             ),
             const Text('基础日期选择 medium',
@@ -38,7 +38,7 @@ class DatePickerPage extends StatelessWidget {
               type: DatePickerType.date,
               value: DateTime.now(),
               onChange: (date) {
-                print('Selected date: $date');
+                Logger().d('Selected date: $date');
               },
             ),
             const Text('基础日期选择 small',
@@ -49,7 +49,7 @@ class DatePickerPage extends StatelessWidget {
               type: DatePickerType.date,
               value: DateTime.now(),
               onChange: (date) {
-                print('Selected date: $date');
+                Logger().d('Selected date: $date');
               },
             ),
             const Text('基础日期(s)选择 small',
@@ -60,7 +60,7 @@ class DatePickerPage extends StatelessWidget {
               type: DatePickerType.dates,
               value: DateTime.now(),
               onChange: (date) {
-                print('Selected date: $date');
+                Logger().d('Selected date: $date');
               },
             ),
             const Text('基础年选择 small',
@@ -71,7 +71,7 @@ class DatePickerPage extends StatelessWidget {
               type: DatePickerType.year,
               value: DateTime.now(),
               onChange: (date) {
-                print('Selected date: $date');
+                Logger().d('Selected date: $date');
               },
             ),
             const Text('基础年(s)选择 small',
@@ -82,7 +82,7 @@ class DatePickerPage extends StatelessWidget {
               type: DatePickerType.years,
               value: DateTime.now(),
               onChange: (date) {
-                print('Selected date: $date');
+                Logger().d('Selected date: $date');
               },
             ),
             const Text('基础月份选择 small',
@@ -93,7 +93,7 @@ class DatePickerPage extends StatelessWidget {
               type: DatePickerType.month,
               value: DateTime.now(),
               onChange: (date) {
-                print('Selected date: $date');
+                Logger().d('Selected date: $date');
               },
             ),
             const Text('基础月份s选择 small',
@@ -104,7 +104,7 @@ class DatePickerPage extends StatelessWidget {
               type: DatePickerType.months,
               value: DateTime.now(),
               onChange: (date) {
-                print('Selected date: $date');
+                Logger().d('Selected date: $date');
               },
             ),
             const Text('显示times small',
@@ -116,7 +116,7 @@ class DatePickerPage extends StatelessWidget {
               showtimeSelect: true,
               value: DateTime.now(),
               onChange: (date) {
-                print('Selected date: $date');
+                Logger().d('Selected date: $date');
               },
             ),
             // EDatePicker(

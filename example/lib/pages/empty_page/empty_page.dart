@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element/flutter_element.dart';
-import 'package:flutter_element/src/components/empty/empty.dart';
 
 class EmptyPage extends StatelessWidget {
-  const EmptyPage({Key? key}) : super(key: key);
+  const EmptyPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,15 +15,15 @@ class EmptyPage extends StatelessWidget {
           children: [
             const Text('基础用法'),
             const SizedBox(height: 16),
-            EEmpty(),
+            const EEmpty(),
             const SizedBox(height: 32),
             const Text('自定义描述'),
             const SizedBox(height: 16),
-            EEmpty(description: '没有找到相关数据'),
+            const EEmpty(description: '没有找到相关数据'),
             const SizedBox(height: 32),
             const Text('自定义图片'),
             const SizedBox(height: 16),
-            EEmpty(
+            const EEmpty(
               image: 'https://element-plus.org/images/empty-image.png',
               description: '暂无内容',
             ),

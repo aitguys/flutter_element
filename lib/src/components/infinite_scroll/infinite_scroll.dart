@@ -10,7 +10,7 @@ class EInfiniteScroll extends StatefulWidget {
   final EdgeInsetsGeometry? padding;
 
   const EInfiniteScroll({
-    Key? key,
+    super.key,
     required this.itemBuilder,
     required this.itemCount,
     this.onLoadMore,
@@ -18,7 +18,7 @@ class EInfiniteScroll extends StatefulWidget {
     this.loadingWidget,
     this.noMoreWidget,
     this.padding,
-  }) : super(key: key);
+  });
 
   @override
   State<EInfiniteScroll> createState() => _EInfiniteScrollState();

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_element/flutter_element.dart';
 
 class WidgetPreviewTestPage extends StatelessWidget {
-  const WidgetPreviewTestPage({Key? key}) : super(key: key);
+  const WidgetPreviewTestPage({super.key});
 
   @override
   Widget build(BuildContext context) {
