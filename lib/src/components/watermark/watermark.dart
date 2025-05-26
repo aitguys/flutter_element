@@ -21,14 +21,14 @@ class WatermarkPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = color.withOpacity(opacity)
+      ..color = color.withValues(alpha: opacity)
       ..style = PaintingStyle.fill;
-
+    print('color: $paint');
     final textPainter = TextPainter(
       text: TextSpan(
         text: content,
         style: TextStyle(
-          color: color.withOpacity(opacity),
+          color: color.withValues(alpha: opacity),
           fontSize: fontSize,
         ),
       ),
@@ -78,7 +78,7 @@ class Watermark extends StatelessWidget {
   final bool zIndex;
 
   const Watermark({
-    Key? key,
+    super.key,
     required this.content,
     required this.child,
     this.rotate = -45,
@@ -87,7 +87,7 @@ class Watermark extends StatelessWidget {
     this.gap = 100,
     this.opacity = 0.15,
     this.zIndex = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

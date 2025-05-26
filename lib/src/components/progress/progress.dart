@@ -15,7 +15,7 @@ class EProgress extends StatelessWidget {
   final String? text;
 
   const EProgress({
-    Key? key,
+    super.key,
     required this.percentage,
     this.type = EProgressType.line,
     this.strokeWidth = 6,
@@ -24,7 +24,7 @@ class EProgress extends StatelessWidget {
     this.color,
     this.showText = true,
     this.text,
-  }) : super(key: key);
+  });
 
   Color get _progressColor {
     if (color != null) return color!;
@@ -36,7 +36,6 @@ class EProgress extends StatelessWidget {
       case EProgressStatus.warning:
         return Colors.orange;
       case EProgressStatus.normal:
-      default:
         return Colors.blue;
     }
   }

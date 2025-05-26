@@ -59,7 +59,7 @@ Color calculateContentColor(
   }
 
   if (isDisabled) {
-    return contentColor.withOpacity(0.4);
+    return contentColor.withValues(alpha: 0.4);
   }
 
   if (isActive && !isDisabled) {

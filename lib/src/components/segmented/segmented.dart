@@ -29,7 +29,7 @@ class FlSegmented<T> extends StatefulWidget {
   final EdgeInsetsGeometry? padding;
 
   const FlSegmented({
-    Key? key,
+    super.key,
     required this.options,
     this.value,
     this.onChange,
@@ -42,7 +42,7 @@ class FlSegmented<T> extends StatefulWidget {
     this.borderColor,
     this.borderRadius = 4.0,
     this.padding,
-  }) : super(key: key);
+  });
 
   @override
   State<FlSegmented<T>> createState() => _FlSegmentedState<T>();
@@ -67,7 +67,7 @@ class _FlSegmentedState<T> extends State<FlSegmented<T>>
       parent: _controller,
       curve: Curves.easeInOut,
     );
-
+    print('widget.value: ${_animation}');
     if (widget.value != null) {
       _selectedIndex =
           widget.options.indexWhere((option) => option.value == widget.value);

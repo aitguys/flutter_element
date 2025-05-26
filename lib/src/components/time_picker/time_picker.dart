@@ -8,13 +8,13 @@ class ETimePicker extends StatefulWidget {
   final Widget? prefix;
   final ESizeItem size;
   const ETimePicker({
-    Key? key,
+    super.key,
     this.value,
     this.onChange,
     this.placeholder = '请选择时间',
     this.prefix,
     this.size = ESizeItem.medium,
-  }) : super(key: key);
+  });
 
   @override
   State<ETimePicker> createState() => _ETimePickerState();
@@ -47,6 +47,8 @@ class _ETimePickerState extends State<ETimePicker> {
     _controller = TextEditingController(
       text: _formatTime(_selected),
     );
+    print('widget.value: $_isHovered');
+    print('widget.value: $_isFocused');
     _focusNode.addListener(_handleFocusChange);
     _hourController = FixedExtentScrollController(initialItem: _selectedHour);
     _minuteController =
@@ -81,9 +83,6 @@ class _ETimePickerState extends State<ETimePicker> {
     if (_overlayEntry != null) {
       return;
     }
-
-    final RenderBox renderBox = context.findRenderObject() as RenderBox;
-    final size = renderBox.size;
 
     final int initialHour = _selectedHour;
     final int initialMinute = _selectedMinute;
