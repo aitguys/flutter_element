@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element/src/theme/index.dart';
-
-enum ERadioSize { small, medium, large }
+import 'radio_style.dart';
 
 class ERadio extends StatefulWidget {
   final String? value;
   final String? label;
   final bool disabled;
   final bool border;
-  final ERadioSize size;
+  final ERadioSize? size;
   final String? name;
   final ValueChanged<String>? onChanged;
 
@@ -18,7 +17,7 @@ class ERadio extends StatefulWidget {
     this.label,
     this.disabled = false,
     this.border = false,
-    this.size = ERadioSize.medium,
+    this.size,
     this.name,
     this.onChanged,
   }) : super(key: key);
@@ -30,8 +29,8 @@ class ERadio extends StatefulWidget {
 class _ERadioState extends State<ERadio> {
   bool _isHovered = false;
 
-  double get _size {
-    switch (widget.size) {
+  double getSize(ERadioSize size) {
+    switch (size) {
       case ERadioSize.small:
         return 14;
       case ERadioSize.large:
@@ -42,8 +41,8 @@ class _ERadioState extends State<ERadio> {
     }
   }
 
-  double get _fontSize {
-    switch (widget.size) {
+  double getFontSize(ERadioSize size) {
+    switch (size) {
       case ERadioSize.small:
         return 12;
       case ERadioSize.large:
@@ -57,6 +56,7 @@ class _ERadioState extends State<ERadio> {
   @override
   Widget build(BuildContext context) {
     final radioGroup = RadioGroup.of(context);
+    final ERadioSize effectiveSize = widget.size ?? radioGroup?.size ?? ERadioSize.medium;
     final isChecked = radioGroup?.value == widget.value;
     final isDisabled = widget.disabled || radioGroup?.disabled == true;
 
@@ -68,7 +68,7 @@ class _ERadioState extends State<ERadio> {
             ? null
             : () => radioGroup?.onChanged?.call(widget.value ?? ''),
         child: Container(
-          padding: EdgeInsets.all(4),
+          padding: const EdgeInsets.all(4),
           decoration: widget.border
               ? BoxDecoration(
                   border: Border.all(
@@ -87,8 +87,8 @@ class _ERadioState extends State<ERadio> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
-                width: _size,
-                height: _size,
+                width: getSize(effectiveSize),
+                height: getSize(effectiveSize),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
@@ -105,8 +105,8 @@ class _ERadioState extends State<ERadio> {
                 child: isChecked
                     ? Center(
                         child: Container(
-                          width: _size * 0.5,
-                          height: _size * 0.5,
+                          width: getSize(effectiveSize) * 0.5,
+                          height: getSize(effectiveSize) * 0.5,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color: isDisabled
@@ -123,7 +123,7 @@ class _ERadioState extends State<ERadio> {
                   child: Text(
                     widget.label!,
                     style: TextStyle(
-                      fontSize: _fontSize,
+                      fontSize: getFontSize(effectiveSize),
                       color: isDisabled
                           ? EBasicColors.textGray
                           : EColorTypes.primary,

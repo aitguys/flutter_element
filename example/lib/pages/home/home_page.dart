@@ -41,7 +41,7 @@ class HomePage extends StatelessWidget {
                 title: const Row(
                   children: [
                     Icon(Icons.menu, size: 25),
-                    const SizedBox(width: 12),
+                    SizedBox(width: 12),
                     Text('基础组件'),
                   ],
                 ),
@@ -75,7 +75,7 @@ class HomePage extends StatelessWidget {
                 title: const Row(
                   children: [
                     Icon(Icons.menu, size: 25),
-                    const SizedBox(width: 12),
+                    SizedBox(width: 12),
                     Text('表单组件'),
                   ],
                 ),
@@ -95,6 +95,13 @@ class HomePage extends StatelessWidget {
                       child: const Text('AutoComplete 自动补全',
                           style: TextStyle(fontSize: 15)),
                     ),
+                    FlNavItem(
+                      suffix: const Icon(Icons.arrow_forward_ios, size: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      onTap: () => Get.toNamed(Routes.radio),
+                      child: const Text('Radio 单选框',
+                          style: TextStyle(fontSize: 15)),
+                    ),
                   ],
                 ),
               ),
@@ -102,7 +109,7 @@ class HomePage extends StatelessWidget {
                 title: const Row(
                   children: [
                     Icon(Icons.menu, size: 25),
-                    const SizedBox(width: 12),
+                    SizedBox(width: 12),
                     Text('反馈组件'),
                   ],
                 ),
@@ -127,6 +134,26 @@ class HomePage extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 4),
                       onTap: () => Get.toNamed(Routes.dialog),
                       child: const Text('Dialog 对话框',
+                          style: TextStyle(fontSize: 15)),
+                    ),
+                  ],
+                ),
+              ),
+              ECollapsePanel(
+                title: const Row(
+                  children: [
+                    Icon(Icons.menu, size: 25),
+                    SizedBox(width: 12),
+                    Text('其他组件'),
+                  ],
+                ),
+                child: Column(
+                  children: [
+                    FlNavItem(
+                      suffix: const Icon(Icons.arrow_forward_ios, size: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      onTap: () => Get.toNamed(Routes.datePicker),
+                      child: const Text('DatePicker 日期选择器',
                           style: TextStyle(fontSize: 15)),
                     ),
                   ],
