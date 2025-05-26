@@ -93,6 +93,14 @@
 
 ## api 调用
 
+使用 `onHover`、`onPressed`、`onLongPressed` 属性来定义按钮的回调函数。
+
+`onHover` 属性会在鼠标悬停时触发，鼠标进入时返回 true, 离开时返回 false，只在 web 端有效
+
+`onPressed` 属性会在按钮被点击时触发
+
+`onLongPressed` 属性会在按钮被长按时触发
+
 <CodeView
   codeUrl="button_page/button_api.dart"
   reviewUrl="button/api"

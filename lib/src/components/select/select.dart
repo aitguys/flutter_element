@@ -31,7 +31,7 @@ class ESelect extends StatefulWidget {
   final VoidCallback? onClear;
 
   const ESelect({
-    Key? key,
+    super.key,
     this.value,
     required this.options,
     this.disabled = false,
@@ -43,7 +43,7 @@ class ESelect extends StatefulWidget {
     this.header,
     this.onChanged,
     this.onClear,
-  }) : super(key: key);
+  });
 
   @override
   State<ESelect> createState() => _ESelectState();
@@ -63,7 +63,6 @@ class _ESelectState extends State<ESelect> {
       case ESelectSize.large:
         return 40;
       case ESelectSize.medium:
-      default:
         return 32;
     }
   }
@@ -75,7 +74,6 @@ class _ESelectState extends State<ESelect> {
       case ESelectSize.large:
         return 16;
       case ESelectSize.medium:
-      default:
         return 14;
     }
   }
@@ -154,7 +152,7 @@ class _ESelectState extends State<ESelect> {
                       if (widget.header != null)
                         Container(
                           padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             border: Border(
                               bottom: BorderSide(
                                 color: EBasicColors.borderGray,

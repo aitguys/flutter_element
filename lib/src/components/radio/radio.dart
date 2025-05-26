@@ -12,7 +12,7 @@ class ERadio extends StatefulWidget {
   final ValueChanged<String>? onChanged;
 
   const ERadio({
-    Key? key,
+    super.key,
     this.value,
     this.label,
     this.disabled = false,
@@ -20,7 +20,7 @@ class ERadio extends StatefulWidget {
     this.size,
     this.name,
     this.onChanged,
-  }) : super(key: key);
+  });
 
   @override
   State<ERadio> createState() => _ERadioState();
@@ -36,7 +36,6 @@ class _ERadioState extends State<ERadio> {
       case ERadioSize.large:
         return 18;
       case ERadioSize.medium:
-      default:
         return 16;
     }
   }
@@ -48,7 +47,6 @@ class _ERadioState extends State<ERadio> {
       case ERadioSize.large:
         return 16;
       case ERadioSize.medium:
-      default:
         return 14;
     }
   }
@@ -56,7 +54,8 @@ class _ERadioState extends State<ERadio> {
   @override
   Widget build(BuildContext context) {
     final radioGroup = RadioGroup.of(context);
-    final ERadioSize effectiveSize = widget.size ?? radioGroup?.size ?? ERadioSize.medium;
+    final ERadioSize effectiveSize =
+        widget.size ?? radioGroup?.size ?? ERadioSize.medium;
     final isChecked = radioGroup?.value == widget.value;
     final isDisabled = widget.disabled || radioGroup?.disabled == true;
 

@@ -30,7 +30,7 @@ class ETable extends StatefulWidget {
   final Function(String, bool)? onSort;
 
   const ETable({
-    Key? key,
+    super.key,
     required this.data,
     required this.columns,
     this.stripe = false,
@@ -40,7 +40,7 @@ class ETable extends StatefulWidget {
     this.onRowTap,
     this.onRowLongPress,
     this.onSort,
-  }) : super(key: key);
+  });
 
   @override
   State<ETable> createState() => _ETableState();
@@ -157,12 +157,11 @@ class _ETableState extends State<ETable> {
     return widget.data.asMap().entries.map((entry) {
       final index = entry.key;
       final row = entry.value;
-      final isLast = index == widget.data.length - 1;
 
       return TableRow(
         decoration: BoxDecoration(
           color: widget.stripe && index.isOdd
-              ? Theme.of(context).colorScheme.surface.withOpacity(0.3)
+              ? Theme.of(context).colorScheme.surface.withValues(alpha: 0.3)
               : null,
         ),
         children: widget.columns.asMap().entries.map((colEntry) {

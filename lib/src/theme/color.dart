@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 enum EColorType { primary, success, warning, danger, info, default_ }
 
+enum EThemeType { light, dark }
+
 // Element Plus color type
 class EColorTypes {
   // Primary color - Blue
@@ -57,7 +59,7 @@ Color calculateContentColor(
   }
 
   if (isDisabled) {
-    return contentColor.withOpacity(0.4);
+    return contentColor.withValues(alpha: 0.4);
   }
 
   if (isActive && !isDisabled) {
@@ -89,7 +91,6 @@ Color calculateBackgroundColor(
   bool isDisabled = false,
   bool isPlain = false,
 }) {
-  late Color backColor = backgroundColor;
   if (isPlain) {
     if (isDisabled) {
       return backgroundColor.withValues(alpha: 0.1);
@@ -128,7 +129,11 @@ Color calculateBorderColor(
   return backgroundColor;
 }
 
-Color getColorByType(EColorType type) {
+Color getColorByType(
+    {EColorType type = EColorType.primary, Color? customColor}) {
+  if (customColor != null) {
+    return customColor;
+  }
   // 根据 type 和主题生成样式
   switch (type) {
     case EColorType.primary:
@@ -164,7 +169,7 @@ Color getMessageBackgroundColor(EColorType type) {
   }
 }
 
-IconData getMessageIcon(EColorType type) {
+IconData getDefaultIconByType(EColorType type, {IconData? customIcon}) {
   switch (type) {
     case EColorType.primary:
       return Icons.info_outline;
@@ -177,6 +182,29 @@ IconData getMessageIcon(EColorType type) {
     case EColorType.info:
       return Icons.info_outline;
     default:
-      return Icons.info_outline;
+      return customIcon ?? Icons.info_outline;
+  }
+}
+
+Color getDefaultContentColorByTypeAndTheme(
+    {EColorType type = EColorType.primary,
+    EThemeType theme = EThemeType.light,
+    Color? customColor}) {
+  if (theme == EThemeType.light) {
+    return customColor ?? getColorByType(type: type);
+  } else {
+    return Colors.white;
+  }
+}
+
+Color getBackGroundColorByTypeAndTheme({
+  EColorType type = EColorType.primary,
+  EThemeType theme = EThemeType.light,
+  Color? customColor,
+}) {
+  if (theme == EThemeType.light) {
+    return (customColor ?? getColorByType(type: type)).withValues(alpha: 0.3);
+  } else {
+    return customColor ?? getColorByType(type: type);
   }
 }

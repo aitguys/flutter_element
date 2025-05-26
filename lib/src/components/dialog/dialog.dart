@@ -127,32 +127,32 @@ class _EDialogState extends State<EDialog> with SingleTickerProviderStateMixin {
                   offset: _dragOffset,
                   child: Padding(
                     padding: widget.margin,
-                    child: Material(
-                      color: theme.dialogBackgroundColor,
-                      borderRadius: BorderRadius.circular(4),
-                      child: Container(
-                        width: dialogWidth,
-                        height: widget.height,
-                        padding: widget.padding ?? const EdgeInsets.all(20),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            // Header with drag handle
-                            GestureDetector(
-                              onPanStart: widget.draggable ? (_) {} : null,
-                              onPanUpdate: widget.draggable
-                                  ? (details) {
-                                      setState(() {
-                                        _dragOffset += details.delta;
-                                      });
-                                    }
-                                  : null,
-                              child: MouseRegion(
-                                cursor: widget.draggable
-                                    ? SystemMouseCursors.move
-                                    : SystemMouseCursors.basic,
-                                child: widget.customHeader ??
+                    child: GestureDetector(
+                      onPanStart: widget.draggable ? (_) {} : null,
+                      onPanUpdate: widget.draggable
+                          ? (details) {
+                              setState(() {
+                                _dragOffset += details.delta;
+                              });
+                            }
+                          : null,
+                      child: MouseRegion(
+                        cursor: widget.draggable
+                            ? SystemMouseCursors.move
+                            : SystemMouseCursors.basic,
+                        child: Material(
+                          color: theme.dialogBackgroundColor,
+                          borderRadius: BorderRadius.circular(4),
+                          child: Container(
+                            width: dialogWidth,
+                            height: widget.height,
+                            padding: widget.padding ?? const EdgeInsets.all(20),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                // Header
+                                widget.customHeader ??
                                     Row(
                                       children: [
                                         if (widget.title != null)
@@ -171,32 +171,33 @@ class _EDialogState extends State<EDialog> with SingleTickerProviderStateMixin {
                                           ),
                                       ],
                                     ),
-                              ),
-                            ),
-                            if (widget.title != null ||
-                                widget.customHeader != null)
-                              const SizedBox(height: 20),
-                            // Content
-                            if (widget.content != null)
-                              Flexible(
-                                child: SingleChildScrollView(
-                                  physics: widget.lockScroll
-                                      ? const NeverScrollableScrollPhysics()
-                                      : null,
-                                  child: widget.content!,
-                                ),
-                              ),
-                            // Footer
-                            if (widget.actions != null ||
-                                widget.customFooter != null) ...[
-                              const SizedBox(height: 20),
-                              widget.customFooter ??
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: widget.actions!,
+                                if (widget.title != null ||
+                                    widget.customHeader != null)
+                                  const SizedBox(height: 20),
+                                // Content
+                                if (widget.content != null)
+                                  Flexible(
+                                    child: SingleChildScrollView(
+                                      physics: widget.lockScroll
+                                          ? const NeverScrollableScrollPhysics()
+                                          : null,
+                                      child: widget.content!,
+                                    ),
                                   ),
-                            ],
-                          ],
+                                // Footer
+                                if (widget.actions != null ||
+                                    widget.customFooter != null) ...[
+                                  const SizedBox(height: 20),
+                                  widget.customFooter ??
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: widget.actions!,
+                                      ),
+                                ],
+                              ],
+                            ),
+                          ),
                         ),
                       ),
                     ),

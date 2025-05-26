@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_element/src/components/mention/mention.dart';
+import 'package:flutter_element/flutter_element.dart';
 
 class MentionPage extends StatefulWidget {
-  const MentionPage({Key? key}) : super(key: key);
+  const MentionPage({super.key});
 
   @override
   State<MentionPage> createState() => _MentionPageState();
 }
 
 class _MentionPageState extends State<MentionPage> {
-  // String _value = '';
   bool _loading = false;
   final List<MentionOption> _options = [
     const MentionOption(value: 'Fuphoenixes', label: 'Fuphoenixes'),

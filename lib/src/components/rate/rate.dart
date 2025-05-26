@@ -19,7 +19,7 @@ class ERate extends StatefulWidget {
   final ValueChanged<double>? onChanged;
 
   const ERate({
-    Key? key,
+    super.key,
     this.value = 0,
     this.max = 5,
     this.disabled = false,
@@ -32,7 +32,7 @@ class ERate extends StatefulWidget {
     this.scoreTemplate,
     this.colors,
     this.onChanged,
-  }) : super(key: key);
+  });
 
   @override
   State<ERate> createState() => _ERateState();
@@ -64,7 +64,6 @@ class _ERateState extends State<ERate> {
       case ERateSize.large:
         return 24;
       case ERateSize.medium:
-      default:
         return 20;
     }
   }
@@ -76,7 +75,6 @@ class _ERateState extends State<ERate> {
       case ERateSize.large:
         return 16;
       case ERateSize.medium:
-      default:
         return 14;
     }
   }

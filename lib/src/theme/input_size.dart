@@ -26,6 +26,49 @@ class ElememtSize {
     }
   }
 
+  // Input 输入框
+  double getInputFontSize({double? customFontSize}) {
+    if (customFontSize != null) {
+      return customFontSize;
+    }
+    switch (size) {
+      case ESizeItem.small:
+        return 14;
+      case ESizeItem.large:
+        return 18;
+      case ESizeItem.medium:
+        return 16;
+    }
+  }
+
+  double getInputHeight({double? customHeight}) {
+    if (customHeight != null) {
+      return customHeight;
+    }
+    switch (size) {
+      case ESizeItem.large:
+        return 48;
+      case ESizeItem.medium:
+        return 40;
+      case ESizeItem.small:
+        return 32;
+    }
+  }
+
+  double getInputBorderRadius({double? customBorderRadius}) {
+    if (customBorderRadius != null) {
+      return customBorderRadius;
+    }
+    switch (size) {
+      case ESizeItem.large:
+        return 6;
+      case ESizeItem.medium:
+        return 4;
+      case ESizeItem.small:
+        return 2;
+    }
+  }
+
   EdgeInsets getButtonRoundPadding() {
     switch (size) {
       case ESizeItem.large:

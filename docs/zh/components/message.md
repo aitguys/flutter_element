@@ -13,7 +13,7 @@
 <CodeView
   codeUrl="message_page/message_basic.dart"
   reviewUrl="message/basic"
-  height="300px"
+  height="100px"
 />
 
 ## 圆角消息
@@ -23,7 +23,7 @@
 <CodeView
   codeUrl="message_page/message_round.dart"
   reviewUrl="message/round"
-  height="300px"
+  height="100px"
 />
 
 ## 消息尺寸
@@ -33,7 +33,7 @@
 <CodeView
   codeUrl="message_page/message_size.dart"
   reviewUrl="message/size"
-  height="300px"
+  height="100px"
 />
 
 ## 显示时长
@@ -43,7 +43,7 @@
 <CodeView
   codeUrl="message_page/message_duration.dart"
   reviewUrl="message/duration"
-  height="300px"
+  height="100px"
 />
 
 ## 自定义图标
@@ -53,7 +53,7 @@
 <CodeView
   codeUrl="message_page/message_icon.dart"
   reviewUrl="message/icon"
-  height="300px"
+  height="100px"
 />
 
 ## 可关闭的消息
@@ -63,15 +63,17 @@
 <CodeView
   codeUrl="message_page/message_showClose.dart"
   reviewUrl="message/showClose"
-  height="300px"
+  height="100px"
 />
 
 ## API 调用
 
+自动关闭和手动关闭都会触发 `onClose`
+
 <CodeView
   codeUrl="message_page/message_api.dart"
   reviewUrl="message/api"
-  height="300px"
+  height="100px"
 />
 
 ## API

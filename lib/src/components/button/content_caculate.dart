@@ -21,7 +21,7 @@ Widget calculateButtonContent({
   final iconWidget = Icon(
     icon,
     color: calculateContentColor(
-      color ?? getColorByType(type),
+      color ?? getColorByType(type: type),
       isPlain: isPlain,
       isDisabled: isDisabled,
       isActive: isActive,
@@ -35,7 +35,7 @@ Widget calculateButtonContent({
       fontSize: fontSize ?? ElememtSize(size: size).getButtonFontSize(),
       decoration: TextDecoration.none,
       color: calculateContentColor(
-        color ?? getColorByType(type),
+        color ?? getColorByType(type: type),
         isPlain: isPlain,
         isDisabled: isDisabled,
         isActive: isActive,
@@ -79,7 +79,7 @@ Widget calculateButtonContent({
           child: CircularProgressIndicator(
             strokeWidth: 2,
             color: calculateContentColor(
-              color ?? getColorByType(type),
+              color ?? getColorByType(type: type),
               isPlain: isPlain,
               isDisabled: isDisabled,
               isActive: isActive,

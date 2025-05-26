@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'input_basic.dart';
+import 'input_color.dart';
+import 'input_fix.dart';
+import 'input_clearable.dart';
+import 'input_disable.dart';
+import 'input_defaultColor.dart';
 
 class InputPreview extends StatelessWidget {
   const InputPreview({super.key});
@@ -18,6 +23,11 @@ class InputPreview extends StatelessWidget {
         child: Column(
           children: [
             InputBasicPreview(),
+            InputColorPreview(),
+            InputFixPreview(),
+            InputClearablePreview(),
+            InputDisablePreview(),
+            InputDefaultColorPreview(),
           ],
         ),
       ),

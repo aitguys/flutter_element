@@ -31,6 +31,10 @@ export const zhConfig = {
 						// { text: 'Rate', link: '/zh/components/rate' },
 					],
 				},
+				{
+					text: "表单组件",
+					items: [{ text: "Input", link: "/zh/components/input" }],
+				},
 				// {
 				//   text: '数据展示',
 				//   items: [
@@ -45,11 +49,11 @@ export const zhConfig = {
 				{
 					text: "反馈组件",
 					items: [
-						// { text: 'Dialog', link: '/zh/components/dialog' },
+						{ text: "Dialog", link: "/zh/components/dialog" },
 						{ text: "Message", link: "/zh/components/message" },
 						// { text: 'Notification', link: '/zh/components/notification' },
 						// { text: 'Loading', link: '/zh/components/loading' },
-						// { text: 'Alert', link: '/zh/components/alert' },
+						{ text: "Alert", link: "/zh/components/alert" },
 					],
 				},
 				// {

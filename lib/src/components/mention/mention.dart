@@ -37,7 +37,7 @@ class EMention extends StatefulWidget {
   final Function(MentionOption)? onSelect;
 
   const EMention({
-    Key? key,
+    super.key,
     this.value,
     this.onChanged,
     this.options = const [],
@@ -58,7 +58,7 @@ class EMention extends StatefulWidget {
     this.suffixIcon,
     this.onSearch,
     this.onSelect,
-  }) : super(key: key);
+  });
 
   @override
   State<EMention> createState() => _EMentionState();
@@ -68,7 +68,6 @@ class _EMentionState extends State<EMention> {
   late TextEditingController _controller;
   late FocusNode _focusNode;
   bool _isFocused = false;
-  bool _showDropdown = false;
   List<MentionOption> _filteredOptions = [];
   int _selectedIndex = 0;
   String _currentPrefix = '';
