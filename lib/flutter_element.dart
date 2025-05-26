@@ -42,3 +42,4 @@ export 'src/components/message/index.dart';
 export 'src/components/watermark/index.dart';
 export 'src/components/navItem/index.dart';
 export 'src/components/widgetPreview/index.dart';
+export 'src/components/radio/index.dart';

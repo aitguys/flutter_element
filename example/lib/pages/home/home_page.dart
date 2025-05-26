@@ -41,7 +41,7 @@ class HomePage extends StatelessWidget {
                 title: const Row(
                   children: [
                     Icon(Icons.menu, size: 25),
-                    const SizedBox(width: 12),
+                    SizedBox(width: 12),
                     Text('基础组件'),
                   ],
                 ),
@@ -75,7 +75,7 @@ class HomePage extends StatelessWidget {
                 title: const Row(
                   children: [
                     Icon(Icons.menu, size: 25),
-                    const SizedBox(width: 12),
+                    SizedBox(width: 12),
                     Text('表单组件'),
                   ],
                 ),
@@ -109,7 +109,7 @@ class HomePage extends StatelessWidget {
                 title: const Row(
                   children: [
                     Icon(Icons.menu, size: 25),
-                    const SizedBox(width: 12),
+                    SizedBox(width: 12),
                     Text('反馈组件'),
                   ],
                 ),

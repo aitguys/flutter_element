@@ -19,7 +19,8 @@ import '../pages/time_picker_page/time_picker_page.dart';
 import '../pages/input_number_page/input_number_page.dart';
 import '../pages/inputTag/input_tag.dart';
 import '../pages/mention_page/mention_page.dart';
-import '../pages/radio_page/radio_page.dart';
+// import '../pages/radio_page/radio_page.dart';
+import '../pages/radio_page/route.dart';
 import '../pages/rate_page/rate_page.dart';
 import '../pages/select_page/select_page.dart';
 import '../pages/slider_page/slider_page.dart';
@@ -147,6 +148,7 @@ class AppPages {
     ...autoCompleteRoutesPages,
     ...inputRoutesPages,
     ...messageRoutesPages,
+    ...radioRoutesPages,
     GetPage(
       name: Routes.link,
       page: () => const LinkPage(),
@@ -183,10 +185,10 @@ class AppPages {
       name: Routes.mention,
       page: () => const MentionPage(),
     ),
-    GetPage(
-      name: Routes.radio,
-      page: () => const RadioPage(),
-    ),
+    // GetPage(
+    //   name: Routes.radio,
+    //   page: () => const RadioPage(),
+    // ),
     GetPage(
       name: Routes.rate,
       page: () => const RatePage(),

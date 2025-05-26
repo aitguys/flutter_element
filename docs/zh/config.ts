@@ -24,7 +24,7 @@ export const zhConfig = {
 						{ text: "Button", link: "/zh/components/button" },
 						// { text: 'Input', link: '/zh/components/input' },
 						// { text: 'Select', link: '/zh/components/select' },
-						// { text: 'Radio', link: '/zh/components/radio' },
+						{ text: 'Radio', link: '/zh/components/radio' },
 						// { text: 'Checkbox', link: '/zh/components/checkbox' },
 						// { text: 'Switch', link: '/zh/components/switch' },
 						// { text: 'Slider', link: '/zh/components/slider' },
