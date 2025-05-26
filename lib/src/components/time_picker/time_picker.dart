@@ -25,9 +25,11 @@ class _ETimePickerState extends State<ETimePicker> {
   late TextEditingController _controller;
   OverlayEntry? _overlayEntry;
   final LayerLink _layerLink = LayerLink();
+  // ignore: unused_field
   bool _isHovered = false;
   bool _isOpen = false;
   final FocusNode _focusNode = FocusNode();
+  // ignore: unused_field
   bool _isFocused = false;
   int _selectedHour = 0;
   int _selectedMinute = 0;
@@ -47,8 +49,6 @@ class _ETimePickerState extends State<ETimePicker> {
     _controller = TextEditingController(
       text: _formatTime(_selected),
     );
-    print('widget.value: $_isHovered');
-    print('widget.value: $_isFocused');
     _focusNode.addListener(_handleFocusChange);
     _hourController = FixedExtentScrollController(initialItem: _selectedHour);
     _minuteController =

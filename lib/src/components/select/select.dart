@@ -54,6 +54,7 @@ class _ESelectState extends State<ESelect> {
   OverlayEntry? _overlayEntry;
   final FocusNode _focusNode = FocusNode();
   bool _isHovered = false;
+  // ignore: prefer_final_fields
   bool _isFocused = false;
   List<String> _selectedValues = [];
   double get _height {

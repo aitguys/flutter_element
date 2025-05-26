@@ -161,7 +161,6 @@ class _EMentionState extends State<EMention> {
   }
 
   void _handleTextChanged(String text) {
-    print('_handleTextChanged: $text');
     widget.onChanged?.call(text);
 
     // 如果文本为空，隐藏弹窗
@@ -210,11 +209,11 @@ class _EMentionState extends State<EMention> {
   }
 
   void _handleOptionSelected(MentionOption option) {
-    print('_handleOptionSelected: $option');
     if (option.disabled) return;
 
     String text = _controller.text;
-    String newText = '${text.substring(0, _prefixStart + 1)}${option.value} ${text.substring(_prefixStart + 1 + _currentPrefix.length)}';
+    String newText =
+        '${text.substring(0, _prefixStart + 1)}${option.value} ${text.substring(_prefixStart + 1 + _currentPrefix.length)}';
 
     _controller.text = newText;
     // 只设置光标位置，不选中文本

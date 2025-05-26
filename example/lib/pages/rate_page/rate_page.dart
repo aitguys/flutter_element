@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_element/src/components/rate/rate.dart';
+import 'package:flutter_element/flutter_element.dart';
 
 class RatePage extends StatefulWidget {
   const RatePage({super.key});

@@ -102,7 +102,7 @@ class _EAutocompleteState extends State<EAutocomplete> {
   bool _isFocused = false;
   final int _highlightedIndex = -1;
   OverlayEntry? _overlayEntry;
-  dynamic _selectedItem;
+  // dynamic _selectedItem;
   bool _isSelecting = false;
   final LayerLink _layerLink = LayerLink();
   Timer? _debounceTimer;
@@ -144,7 +144,7 @@ class _EAutocompleteState extends State<EAutocomplete> {
       if (widget.onChange != null) {
         widget.onChange!(value);
       }
-      _selectedItem = null;
+      // _selectedItem = null;
       _fetchSuggestions(value);
     });
   }
@@ -249,7 +249,8 @@ class _EAutocompleteState extends State<EAutocomplete> {
                                 width: double.infinity,
                                 decoration: BoxDecoration(
                                   color: isHighlighted
-                                      ? EColorTypes.primary.withValues(alpha: 0.1)
+                                      ? EColorTypes.primary
+                                          .withValues(alpha: 0.1)
                                       : null,
                                   border: const Border(
                                     bottom: BorderSide(
@@ -283,10 +284,8 @@ class _EAutocompleteState extends State<EAutocomplete> {
       ),
     );
 
-    final BuildContext? currentContext = context;
-    if (currentContext != null) {
-      Overlay.of(currentContext).insert(_overlayEntry!);
-    }
+    final BuildContext currentContext = context;
+    Overlay.of(currentContext).insert(_overlayEntry!);
   }
 
   void _removeOverlay() {
@@ -296,7 +295,7 @@ class _EAutocompleteState extends State<EAutocomplete> {
 
   void _handleSelect(dynamic item) {
     setState(() {
-      _selectedItem = item;
+      // _selectedItem = item;
       _controller.text = item[widget.valueKey].toString();
     });
     _removeOverlay(); // Ensure overlay is closed upon selection
@@ -362,8 +361,7 @@ class _EAutocompleteState extends State<EAutocomplete> {
                         onPressed: () {
                           _controller.clear();
                           setState(() {
-                            _selectedItem = null;
-                            print('$_selectedItem');
+                            // _selectedItem = null;
                             _suggestions = [];
                           });
                           if (widget.onClear != null) {

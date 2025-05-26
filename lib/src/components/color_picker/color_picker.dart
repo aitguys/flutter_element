@@ -34,7 +34,9 @@ class EColorPicker extends StatefulWidget {
 
 String _colorToHex(Color color, bool showAlpha) {
   final hex = showAlpha
+      // ignore: deprecated_member_use
       ? color.value.toRadixString(16)
+      // ignore: deprecated_member_use
       : color.value.toRadixString(16).substring(2);
   return hex;
   // if (showAlpha) {
@@ -204,7 +206,7 @@ class _EColorPickerState extends State<EColorPicker> {
                           _currentColor = color;
                         });
                       } catch (e) {
-                        print('Invalid hex color');
+                        throw Exception('Invalid hex color');
                       }
                     }
                   },

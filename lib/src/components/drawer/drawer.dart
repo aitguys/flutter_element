@@ -138,6 +138,7 @@ class _EDrawerState extends State<EDrawer> with SingleTickerProviderStateMixin {
     final size = _getSize();
     final isVertical = widget.direction == 'ttb' || widget.direction == 'btt';
 
+    // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async {
         if (widget.closeOnPressEscape) {
@@ -170,6 +171,7 @@ class _EDrawerState extends State<EDrawer> with SingleTickerProviderStateMixin {
                 width: isVertical ? MediaQuery.of(context).size.width : size,
                 height: isVertical ? size : MediaQuery.of(context).size.height,
                 child: Material(
+                  // ignore: deprecated_member_use
                   color: widget.backgroundColor ?? theme.dialogBackgroundColor,
                   elevation: 16,
                   child: Column(

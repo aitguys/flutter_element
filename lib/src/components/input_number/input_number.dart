@@ -56,6 +56,7 @@ class EInputNumber extends StatefulWidget {
 class _EInputNumberState extends State<EInputNumber> {
   late TextEditingController _controller;
   late FocusNode _focusNode;
+  // ignore: unused_field
   bool _isHovered = false;
   bool _isFocused = false;
 
@@ -137,7 +138,7 @@ class _EInputNumberState extends State<EInputNumber> {
       case EInputNumberSize.large:
         return 48;
       case EInputNumberSize.medium:
-      // default:
+        // default:
         return 40;
     }
   }
@@ -149,7 +150,7 @@ class _EInputNumberState extends State<EInputNumber> {
       case EInputNumberSize.large:
         return 18;
       case EInputNumberSize.medium:
-      // default:
+        // default:
         return 16;
     }
   }
@@ -170,13 +171,11 @@ class _EInputNumberState extends State<EInputNumber> {
         onEnter: (_) {
           setState(() {
             _isHovered = true;
-            print('onEnter: $_isHovered');
           });
         },
         onExit: (_) {
           setState(() {
             _isHovered = false;
-            print('onExit: $_isHovered');
           });
         },
         child: Container(
@@ -217,10 +216,12 @@ class _EInputNumberState extends State<EInputNumber> {
                   onChanged: (value) {
                     double? newValue = double.tryParse(value);
                     if (newValue != null) {
-                      if (widget.min != null && newValue < widget.min!)
+                      if (widget.min != null && newValue < widget.min!) {
                         newValue = widget.min!;
-                      if (widget.max != null && newValue > widget.max!)
+                      }
+                      if (widget.max != null && newValue > widget.max!) {
                         newValue = widget.max!;
+                      }
                       if (widget.stepStrictly) {
                         newValue =
                             (newValue / widget.step).round() * widget.step;

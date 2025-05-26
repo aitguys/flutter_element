@@ -171,9 +171,9 @@ class _FlTreeState extends State<FlTree> {
             ),
           ),
           child: DragTarget<FlTreeNode>(
-            onAccept: (data) {
+            onAcceptWithDetails: (data) {
               if (widget.onDragEnd != null) {
-                widget.onDragEnd!(data, node);
+                widget.onDragEnd!(data.data, node);
               }
             },
             builder: (context, candidateData, rejectedData) {

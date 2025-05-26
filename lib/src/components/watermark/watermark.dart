@@ -20,10 +20,9 @@ class WatermarkPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()
+    Paint()
       ..color = color.withValues(alpha: opacity)
       ..style = PaintingStyle.fill;
-    print('color: $paint');
     final textPainter = TextPainter(
       text: TextSpan(
         text: content,

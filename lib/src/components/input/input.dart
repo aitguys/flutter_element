@@ -51,6 +51,7 @@ class EInput extends StatefulWidget {
 class _EInputState extends State<EInput> {
   late TextEditingController _controller;
   late FocusNode _focusNode;
+  // ignore: unused_field
   bool _isHovered = false;
   bool _isFocused = false;
   bool _hasValue = false;
@@ -123,11 +124,9 @@ class _EInputState extends State<EInput> {
           child: MouseRegion(
             onEnter: (_) => setState(() {
               _isHovered = true;
-              print('onEnter: $_isHovered');
             }),
             onExit: (_) => setState(() {
               _isHovered = false;
-              print('onExit: $_isHovered');
             }),
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 8),

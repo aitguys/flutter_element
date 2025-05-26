@@ -43,3 +43,6 @@ export 'src/components/watermark/index.dart';
 export 'src/components/navItem/index.dart';
 export 'src/components/widgetPreview/index.dart';
 export 'src/components/radio/index.dart';
+export 'src/components/progress/index.dart';
+export 'src/components/rate/index.dart';
+export 'src/components/slider/index.dart';

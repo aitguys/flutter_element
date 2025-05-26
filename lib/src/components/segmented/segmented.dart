@@ -51,7 +51,6 @@ class FlSegmented<T> extends StatefulWidget {
 class _FlSegmentedState<T> extends State<FlSegmented<T>>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
-  late Animation<double> _animation;
   int _selectedIndex = 0;
   final GlobalKey _segmentedKey = GlobalKey();
   final List<GlobalKey> _optionKeys = [];
@@ -63,11 +62,10 @@ class _FlSegmentedState<T> extends State<FlSegmented<T>>
       duration: const Duration(milliseconds: 200),
       vsync: this,
     );
-    _animation = CurvedAnimation(
+    CurvedAnimation(
       parent: _controller,
       curve: Curves.easeInOut,
     );
-    print('widget.value: ${_animation}');
     if (widget.value != null) {
       _selectedIndex =
           widget.options.indexWhere((option) => option.value == widget.value);

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_element/src/components/slider/slider.dart';
+import 'package:flutter_element/flutter_element.dart';
 
 class SliderPage extends StatefulWidget {
   const SliderPage({super.key});
@@ -87,8 +87,7 @@ class _SliderPageState extends State<SliderPage> {
                 Expanded(
                   child: ESlider(
                     value: _value4,
-                    formatTooltip: (value) =>
-                        (value / 100).toStringAsFixed(2),
+                    formatTooltip: (value) => (value / 100).toStringAsFixed(2),
                     onChange: (value) {
                       setState(() {
                         _value4 = value;

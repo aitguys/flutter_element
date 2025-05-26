@@ -98,6 +98,7 @@ class _EDialogState extends State<EDialog> with SingleTickerProviderStateMixin {
     final dialogWidth =
         widget.width.clamp(0.0, MediaQuery.of(context).size.width);
 
+    // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async {
         if (widget.closeOnPressEscape) {
@@ -141,6 +142,7 @@ class _EDialogState extends State<EDialog> with SingleTickerProviderStateMixin {
                             ? SystemMouseCursors.move
                             : SystemMouseCursors.basic,
                         child: Material(
+                          // ignore: deprecated_member_use
                           color: theme.dialogBackgroundColor,
                           borderRadius: BorderRadius.circular(4),
                           child: Container(

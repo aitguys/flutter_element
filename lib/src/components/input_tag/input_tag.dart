@@ -79,6 +79,7 @@ class EInputTag extends StatefulWidget {
 class _EInputTagState extends State<EInputTag> {
   late TextEditingController _controller;
   late FocusNode _focusNode;
+  // ignore: unused_field
   bool _isHovered = false;
   bool _isFocused = false;
   String? _hoveredTag;
@@ -149,7 +150,7 @@ class _EInputTagState extends State<EInputTag> {
       case EInputTagSize.large:
         return 48;
       case EInputTagSize.medium:
-      // default:
+        // default:
         return 40;
     }
   }
@@ -161,7 +162,7 @@ class _EInputTagState extends State<EInputTag> {
       case EInputTagSize.large:
         return 18;
       case EInputTagSize.medium:
-      // default:
+        // default:
         return 16;
     }
   }
@@ -183,11 +184,9 @@ class _EInputTagState extends State<EInputTag> {
       child: MouseRegion(
         onEnter: (_) => setState(() {
           _isHovered = true;
-          print('onEnter: $_isHovered');
         }),
         onExit: (_) => setState(() {
           _isHovered = false;
-          print('onExit: $_isHovered');
         }),
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -263,7 +262,6 @@ class _EInputTagState extends State<EInputTag> {
                           }
                         },
                         onSubmitted: (value) {
-                          print('onSubmitted: $value');
                           _focusNode.requestFocus(); // 保持焦点
                         },
                       ),
