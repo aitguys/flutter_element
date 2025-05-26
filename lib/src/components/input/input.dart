@@ -121,14 +121,20 @@ class _EInputState extends State<EInput> {
           height: ElememtSize(size: widget.size)
               .getInputHeight(customHeight: widget.customHeight),
           child: MouseRegion(
-            onEnter: (_) => setState(() => _isHovered = true),
-            onExit: (_) => setState(() => _isHovered = false),
+            onEnter: (_) => setState(() {
+              _isHovered = true;
+              print('onEnter: $_isHovered');
+            }),
+            onExit: (_) => setState(() {
+              _isHovered = false;
+              print('onExit: $_isHovered');
+            }),
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 8),
               decoration: BoxDecoration(
                 border: Border.all(
                   color: widget.disabled
-                      ? widget.defaultColor!
+                      ? widget.defaultColor
                       : _isFocused
                           ? getColorByType(
                               type: widget.colorType,
