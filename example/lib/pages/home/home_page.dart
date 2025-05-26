@@ -95,6 +95,13 @@ class HomePage extends StatelessWidget {
                       child: const Text('AutoComplete 自动补全',
                           style: TextStyle(fontSize: 15)),
                     ),
+                    FlNavItem(
+                      suffix: const Icon(Icons.arrow_forward_ios, size: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      onTap: () => Get.toNamed(Routes.radio),
+                      child: const Text('Radio 单选框',
+                          style: TextStyle(fontSize: 15)),
+                    ),
                   ],
                 ),
               ),
