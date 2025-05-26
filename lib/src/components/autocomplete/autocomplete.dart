@@ -100,7 +100,7 @@ class _EAutocompleteState extends State<EAutocomplete> {
   List<dynamic> _suggestions = [];
   bool _isLoading = false;
   bool _isFocused = false;
-  int _highlightedIndex = -1;
+  final int _highlightedIndex = -1;
   OverlayEntry? _overlayEntry;
   dynamic _selectedItem;
   bool _isSelecting = false;
@@ -344,8 +344,8 @@ class _EAutocompleteState extends State<EAutocomplete> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     if (_isLoading && !widget.hideLoading)
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
+                      const Padding(
+                        padding: EdgeInsets.all(8.0),
                         child: SizedBox(
                           width: 20,
                           height: 20,
@@ -363,6 +363,7 @@ class _EAutocompleteState extends State<EAutocomplete> {
                           _controller.clear();
                           setState(() {
                             _selectedItem = null;
+                            print('$_selectedItem');
                             _suggestions = [];
                           });
                           if (widget.onClear != null) {

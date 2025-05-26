@@ -148,7 +148,7 @@ class _EInputTagState extends State<EInputTag> {
       case EInputTagSize.large:
         return 48;
       case EInputTagSize.medium:
-      default:
+      // default:
         return 40;
     }
   }
@@ -160,7 +160,7 @@ class _EInputTagState extends State<EInputTag> {
       case EInputTagSize.large:
         return 18;
       case EInputTagSize.medium:
-      default:
+      // default:
         return 16;
     }
   }
@@ -180,8 +180,14 @@ class _EInputTagState extends State<EInputTag> {
         minHeight: _height,
       ),
       child: MouseRegion(
-        onEnter: (_) => setState(() => _isHovered = true),
-        onExit: (_) => setState(() => _isHovered = false),
+        onEnter: (_) => setState(() {
+          _isHovered = true;
+          print('onEnter: $_isHovered');
+        }),
+        onExit: (_) => setState(() {
+          _isHovered = false;
+          print('onExit: $_isHovered');
+        }),
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
           decoration: BoxDecoration(

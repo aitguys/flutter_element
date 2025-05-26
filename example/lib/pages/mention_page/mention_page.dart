@@ -9,9 +9,9 @@ class MentionPage extends StatefulWidget {
 }
 
 class _MentionPageState extends State<MentionPage> {
-  String _value = '';
+  // String _value = '';
   bool _loading = false;
-  List<MentionOption> _options = [
+  final List<MentionOption> _options = [
     const MentionOption(value: 'Fuphoenixes', label: 'Fuphoenixes'),
     const MentionOption(value: 'kooriookami', label: 'kooriookami'),
     const MentionOption(value: 'Jeremy', label: 'Jeremy'),

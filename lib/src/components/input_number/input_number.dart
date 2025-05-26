@@ -137,7 +137,7 @@ class _EInputNumberState extends State<EInputNumber> {
       case EInputNumberSize.large:
         return 48;
       case EInputNumberSize.medium:
-      default:
+      // default:
         return 40;
     }
   }
@@ -149,7 +149,7 @@ class _EInputNumberState extends State<EInputNumber> {
       case EInputNumberSize.large:
         return 18;
       case EInputNumberSize.medium:
-      default:
+      // default:
         return 16;
     }
   }
@@ -167,8 +167,18 @@ class _EInputNumberState extends State<EInputNumber> {
     return SizedBox(
       height: _height,
       child: MouseRegion(
-        onEnter: (_) => setState(() => _isHovered = true),
-        onExit: (_) => setState(() => _isHovered = false),
+        onEnter: (_) {
+          setState(() {
+            _isHovered = true;
+            print('onEnter: $_isHovered');
+          });
+        },
+        onExit: (_) {
+          setState(() {
+            _isHovered = false;
+            print('onExit: $_isHovered');
+          });
+        },
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 8),
           decoration: BoxDecoration(
@@ -234,7 +244,7 @@ class _EInputNumberState extends State<EInputNumber> {
                     cursor: SystemMouseCursors.click,
                     child: Container(
                       padding: const EdgeInsets.all(4),
-                      child: Icon(Icons.close,
+                      child: const Icon(Icons.close,
                           size: 16, color: EColorTypes.primary),
                     ),
                   ),
@@ -255,19 +265,19 @@ class _EInputNumberState extends State<EInputNumber> {
 
   Widget _buildDecreaseButton() {
     return IconButton(
-      icon: widget.decreaseIcon ?? Icon(Icons.remove, size: 16),
+      icon: widget.decreaseIcon ?? const Icon(Icons.remove, size: 16),
       onPressed: widget.disabled || widget.readOnly ? null : _handleDecrease,
       padding: EdgeInsets.zero,
-      constraints: BoxConstraints(),
+      constraints: const BoxConstraints(),
     );
   }
 
   Widget _buildIncreaseButton() {
     return IconButton(
-      icon: widget.increaseIcon ?? Icon(Icons.add, size: 16),
+      icon: widget.increaseIcon ?? const Icon(Icons.add, size: 16),
       onPressed: widget.disabled || widget.readOnly ? null : _handleIncrease,
       padding: EdgeInsets.zero,
-      constraints: BoxConstraints(),
+      constraints: const BoxConstraints(),
     );
   }
 }

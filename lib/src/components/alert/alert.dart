@@ -66,7 +66,7 @@ class _EAlertState extends State<EAlert> with SingleTickerProviderStateMixin {
   }
 
   Color _getBackgroundColor(BuildContext context) {
-    final theme = Theme.of(context);
+    // final theme = Theme.of(context);
     switch (widget.type) {
       case EAlertType.success:
         return Colors.green[50] ?? Colors.green.withOpacity(0.1);
@@ -80,7 +80,7 @@ class _EAlertState extends State<EAlert> with SingleTickerProviderStateMixin {
   }
 
   Color _getIconColor(BuildContext context) {
-    final theme = Theme.of(context);
+    // final theme = Theme.of(context);
     switch (widget.type) {
       case EAlertType.success:
         return Colors.green;

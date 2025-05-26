@@ -59,7 +59,7 @@ class _EDatePickerState extends State<EDatePicker> {
   bool _isFocused = false;
   bool _isHovered = false;
   late DateTime _currentMonth;
-  late DateTime _currentYear;
+  // late DateTime _currentYear;
   DateTime? _hoveredDate;
   Widget? _defaultPrefix;
 
@@ -110,6 +110,8 @@ class _EDatePickerState extends State<EDatePicker> {
       _selectedRange = widget.rangeValue;
       _updateController();
     }
+    print('widget.rangeValue: $_selectedRange ?? "null"');
+    print('widget.rangeValue: $_hoveredDate ?? "null"');
   }
 
   void _updateController() {
@@ -205,6 +207,7 @@ class _EDatePickerState extends State<EDatePicker> {
     Overlay.of(context).insert(_overlayEntry!);
     setState(() {
       _isOpen = true;
+      print('isOpen: $_isOpen');
     });
   }
 
@@ -532,6 +535,7 @@ class _EDatePickerState extends State<EDatePicker> {
         isSelected = _selectedDates?.any(
                 (d) => d.year == _currentMonth.year && d.month == month) ??
             false;
+        print('isSelected: $isSelected');
       } else {
         isSelected = _selectedDate?.year == _currentMonth.year &&
             _selectedDate?.month == month;

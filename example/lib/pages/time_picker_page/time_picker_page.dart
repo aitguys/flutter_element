@@ -27,6 +27,7 @@ class _TimePickerPageState extends State<TimePickerPage> {
               onChange: (time) {
                 setState(() {
                   _selectedTime = time;
+                  print('time: $_selectedTime');
                 });
               },
               placeholder: '请选择时间',
@@ -41,7 +42,7 @@ class _TimePickerPageState extends State<TimePickerPage> {
             const SizedBox(height: 24),
             const Text('size large'),
             const SizedBox(height: 16),
-            ETimePicker(
+            const ETimePicker(
               size: ESizeItem.large,
             ),
           ],

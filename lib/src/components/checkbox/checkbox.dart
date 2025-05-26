@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_element/src/theme/index.dart';
 
 class ECheckbox extends StatefulWidget {
-  late bool? value;
+  final bool? value;
   final String? label;
   final bool disabled;
   final bool border;
@@ -16,7 +16,7 @@ class ECheckbox extends StatefulWidget {
   final String? ariaControls;
   final Function(bool?)? onChange;
 
-  ECheckbox({
+  const ECheckbox({
     super.key,
     this.value,
     this.label,
@@ -57,7 +57,7 @@ class _ECheckboxState extends State<ECheckbox> {
   void _handleTap() {
     if (widget.disabled) return;
     setState(() {
-      widget.value = _isChecked;
+      // widget.value = _isChecked;
       _isChecked = !_isChecked;
     });
     if (widget.onChange != null) {
@@ -68,10 +68,10 @@ class _ECheckboxState extends State<ECheckbox> {
   @override
   Widget build(BuildContext context) {
     final checkboxSize = ElememtSize(size: widget.size).getCheckboxSize();
-    final backgroundColor =
-        widget.disabled ? EBasicColors.borderGray : EColorTypes.primary;
+    // final backgroundColor =
+    //     widget.disabled ? EBasicColors.borderGray : EColorTypes.primary;
 
-    Widget checkbox = Container(
+    Widget checkbox = SizedBox(
       width: checkboxSize,
       height: checkboxSize,
       // decoration: BoxDecoration(

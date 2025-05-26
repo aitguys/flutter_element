@@ -19,7 +19,7 @@ class EInput extends StatefulWidget {
   final VoidCallback? onBlur;
 
   const EInput({
-    Key? key,
+    super.key,
     this.textController,
     this.onChanged,
     this.placeholder = '',
@@ -33,7 +33,7 @@ class EInput extends StatefulWidget {
     this.height,
     this.onFocus,
     this.onBlur,
-  }) : super(key: key);
+  });
 
   @override
   State<EInput> createState() => _EInputState();
@@ -90,7 +90,7 @@ class _EInputState extends State<EInput> {
       case ESizeItem.large:
         return 48;
       case ESizeItem.medium:
-      default:
+      // default:
         return 40;
     }
   }
@@ -102,7 +102,7 @@ class _EInputState extends State<EInput> {
       case ESizeItem.large:
         return 18;
       case ESizeItem.medium:
-      default:
+      // default:
         return 16;
     }
   }
@@ -120,8 +120,18 @@ class _EInputState extends State<EInput> {
     return SizedBox(
       height: _height,
       child: MouseRegion(
-        onEnter: (_) => setState(() => _isHovered = true),
-        onExit: (_) => setState(() => _isHovered = false),
+        onEnter: (_) {
+          setState(() {
+            _isHovered = true;
+            print('onEnter: $_isHovered');
+          });
+        },
+        onExit: (_) {
+          setState(() {
+            _isHovered = false;
+            print('onExit: $_isHovered');
+          });
+        },
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 8),
           decoration: BoxDecoration(
@@ -168,7 +178,7 @@ class _EInputState extends State<EInput> {
                     cursor: SystemMouseCursors.click,
                     child: Container(
                       padding: const EdgeInsets.all(4),
-                      child: Icon(Icons.close,
+                      child: const Icon(Icons.close,
                           size: 16, color: EColorTypes.primary),
                     ),
                   ),

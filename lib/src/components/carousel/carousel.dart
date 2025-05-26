@@ -39,10 +39,10 @@ class ECarousel extends StatefulWidget {
 class _ECarouselState extends State<ECarousel> {
   late PageController _controller;
   late int _currentIndex;
-  bool _showArrow = false;
+  // bool _showArrow = false;
   late List<Widget> _items;
   late bool _isHover;
-  late bool _isAutoPlaying;
+  // late bool _isAutoPlaying;
 
   @override
   void initState() {
@@ -51,7 +51,7 @@ class _ECarouselState extends State<ECarousel> {
     _controller = PageController(initialPage: _currentIndex);
     _items = widget.items;
     _isHover = false;
-    _isAutoPlaying = widget.autoplay;
+    // _isAutoPlaying = widget.autoplay;
     if (widget.autoplay) {
       WidgetsBinding.instance.addPostFrameCallback((_) => _startAutoPlay());
     }

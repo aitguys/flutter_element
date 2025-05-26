@@ -63,7 +63,7 @@ class _EColorPickerState extends State<EColorPicker> {
 
   @override
   void dispose() {
-    _hexInputController?.dispose();
+    _hexInputController.dispose();
     super.dispose();
   }
 
@@ -345,7 +345,8 @@ class _EColorPickerState extends State<EColorPicker> {
                   borderRadius: BorderRadius.circular(4),
                 ),
               ),
-              if (widget.disabled && widget.pickerColor != null)
+              // if (widget.disabled && widget.pickerColor != null)
+              if (widget.disabled)
                 Icon(
                   Icons.close,
                   size: widget.size == 'large'

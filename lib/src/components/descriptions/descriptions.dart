@@ -27,7 +27,7 @@ class EDescriptions extends StatelessWidget {
       case EDescriptionsSize.small:
         return 13;
       case EDescriptionsSize.medium:
-      default:
+      // default:
         return 14;
     }
   }

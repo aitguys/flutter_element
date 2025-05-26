@@ -22,8 +22,8 @@ class EAffix extends StatefulWidget {
 
 class _EAffixState extends State<EAffix> {
   final GlobalKey _key = GlobalKey();
-  double? _top;
-  double? _bottom;
+  // double? _top;
+  // double? _bottom;
   bool _affixed = false;
 
   @override
