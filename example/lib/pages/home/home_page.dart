@@ -125,6 +125,26 @@ class HomePage extends StatelessWidget {
                   ],
                 ),
               ),
+              ECollapsePanel(
+                title: const Row(
+                  children: [
+                    Icon(Icons.menu, size: 25),
+                    SizedBox(width: 12),
+                    Text('其他组件'),
+                  ],
+                ),
+                child: Column(
+                  children: [
+                    FlNavItem(
+                      suffix: const Icon(Icons.arrow_forward_ios, size: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      onTap: () => Get.toNamed(Routes.datePicker),
+                      child: const Text('DatePicker 日期选择器',
+                          style: TextStyle(fontSize: 15)),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
 
