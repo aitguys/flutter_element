@@ -1,25 +1,99 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element_plus/src/theme/index.dart';
 
-enum ESliderSize { small, medium, large }
+/// Defines the available sizes for the slider component.
+enum ESliderSize {
+  /// Small size with smaller track and thumb
+  small,
+  /// Medium size (default)
+  medium,
+  /// Large size with larger track and thumb
+  large,
+}
 
+/// A slider component that allows users to select a value within a range.
+/// It follows Element Plus design guidelines and provides features like:
+/// - Customizable range (min/max)
+/// - Step increments
+/// - Tooltip display
+/// - Input box for direct value entry
+/// - Stop marks at step points
+/// - Vertical orientation
+/// - Disabled state
+/// - Range selection (two thumbs)
+///
+/// Example:
+/// ```dart
+/// ESlider(
+///   value: 50,
+///   min: 0,
+///   max: 100,
+///   step: 1,
+///   showInput: true,
+///   showTooltip: true,
+///   onChange: (value) {
+///     print('Slider value: $value');
+///   },
+/// )
+/// ```
 class ESlider extends StatefulWidget {
+  /// The current value of the slider.
   final double value;
+
+  /// The minimum value of the slider.
+  /// Default is 0.
   final double? min;
+
+  /// The maximum value of the slider.
+  /// Default is 100.
   final double? max;
+
+  /// The step increment of the slider.
+  /// Default is 1.
   final double? step;
+
+  /// Whether the slider is disabled.
+  /// When disabled, the slider cannot be interacted with.
   final bool disabled;
+
+  /// Whether to show an input box for direct value entry.
   final bool showInput;
+
+  /// Whether to show stop marks at step points.
   final bool showStops;
+
+  /// Whether to show a tooltip with the current value.
   final bool showTooltip;
+
+  /// Whether to enable range selection with two thumbs.
   final bool range;
+
+  /// Whether to display the slider vertically.
   final bool vertical;
+
+  /// The height of the slider when in vertical mode.
   final double? height;
+
+  /// The size of the slider.
+  /// Affects the track and thumb sizes.
   final ESliderSize size;
+
+  /// Custom CSS class for the tooltip.
   final String? tooltipClass;
+
+  /// The placement of the tooltip relative to the slider.
   final String? placement;
+
+  /// Callback function when the slider value changes.
+  /// This is called when the user finishes dragging the slider.
   final Function(double)? onChange;
+
+  /// Callback function when the slider value is being changed.
+  /// This is called continuously while the user is dragging the slider.
   final Function(double)? onInput;
+
+  /// Custom function to format the tooltip text.
+  /// If not provided, the value is displayed as an integer.
   final String Function(double)? formatTooltip;
 
   const ESlider({

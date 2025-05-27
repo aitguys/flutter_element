@@ -1,13 +1,61 @@
 import 'package:flutter/material.dart';
 
+/// A pagination component that follows Element Plus design guidelines.
+/// 
+/// The [EPagination] widget provides a customizable pagination interface with features like:
+/// - Page navigation with previous/next buttons
+/// - Page number display with ellipsis for long ranges
+/// - Page size selection
+/// - Page jumper
+/// - Total count display
+/// 
+/// Example:
+/// ```dart
+/// EPagination(
+///   total: 100,
+///   pageSize: 10,
+///   currentPage: 1,
+///   pageSizes: [10, 20, 50, 100],
+///   showSizeChanger: true,
+///   showJumper: true,
+///   onPageChange: (page) {
+///     print('Page changed to: $page');
+///   },
+///   onPageSizeChange: (size) {
+///     print('Page size changed to: $size');
+///   },
+/// )
+/// ```
 class EPagination extends StatelessWidget {
+  /// The total number of items to paginate.
   final int total;
+
+  /// The number of items per page.
+  /// Default is 10.
   final int pageSize;
+
+  /// The current active page.
+  /// Default is 1.
   final int currentPage;
+
+  /// The available page size options.
+  /// Default is [10, 20, 50, 100].
   final List<int> pageSizes;
+
+  /// Callback function when the page changes.
+  /// The callback receives the new page number.
   final ValueChanged<int>? onPageChange;
+
+  /// Callback function when the page size changes.
+  /// The callback receives the new page size.
   final ValueChanged<int>? onPageSizeChange;
+
+  /// Whether to show the page size selector.
+  /// Default is false.
   final bool showSizeChanger;
+
+  /// Whether to show the page jumper input.
+  /// Default is false.
   final bool showJumper;
 
   const EPagination({
@@ -22,8 +70,16 @@ class EPagination extends StatelessWidget {
     this.showJumper = false,
   });
 
+  /// Calculates the total number of pages based on total items and page size.
   int get pageCount => (total / pageSize).ceil();
 
+  /// Generates the list of page numbers to display, including ellipsis for long ranges.
+  /// 
+  /// The list includes:
+  /// - First page
+  /// - Ellipsis (...) if needed
+  /// - Pages around the current page
+  /// - Last page
   List<int> get pageList {
     if (pageCount <= 7) {
       return List.generate(pageCount, (i) => i + 1);
@@ -102,9 +158,19 @@ class EPagination extends StatelessWidget {
   }
 }
 
+/// A widget for jumping to a specific page number.
+/// 
+/// The [_Jumper] provides a text input field where users can enter a page number
+/// to jump to. It validates the input and calls the provided callback when a
+/// valid page number is entered.
 class _Jumper extends StatefulWidget {
+  /// The total number of pages available.
   final int pageCount;
+
+  /// Callback function when a valid page number is entered.
+  /// The callback receives the target page number.
   final ValueChanged<int> onJump;
+
   const _Jumper({required this.pageCount, required this.onJump});
   @override
   State<_Jumper> createState() => _JumperState();

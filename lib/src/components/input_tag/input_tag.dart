@@ -2,40 +2,145 @@ import 'package:flutter/material.dart';
 import 'package:flutter_element_plus/src/theme/index.dart';
 import 'package:flutter/services.dart';
 
-enum EInputTagSize { small, medium, large }
+/// Defines the available sizes for the input tag component.
+enum EInputTagSize {
+  /// Small size (32px height, 14px font)
+  small,
+  /// Medium size (40px height, 16px font)
+  medium,
+  /// Large size (48px height, 18px font)
+  large,
+}
 
-enum EInputTagTrigger { enter, space }
+/// Defines the trigger events for adding a new tag.
+enum EInputTagTrigger {
+  /// Add tag when Enter key is pressed
+  enter,
+  /// Add tag when Space key is pressed
+  space,
+}
 
+/// An input component that allows users to enter and manage multiple tags.
+/// It follows Element Plus design guidelines and provides features like:
+/// - Multiple tag input and display
+/// - Customizable tag appearance
+/// - Tag validation
+/// - Maximum tag limit
+/// - Drag and drop reordering
+/// - Clearable input
+/// - Disabled state
+/// - Custom tag builder
+/// - Prefix and suffix icons
+///
+/// Example:
+/// ```dart
+/// EInputTag(
+///   value: ['tag1', 'tag2'],
+///   placeholder: 'Enter tags',
+///   trigger: EInputTagTrigger.enter,
+///   max: 5,
+///   onChanged: (tags) {
+///     print('Tags: $tags');
+///   },
+///   onAddTag: (tag) {
+///     print('Added tag: $tag');
+///   },
+///   onRemoveTag: (tag) {
+///     print('Removed tag: $tag');
+///   },
+/// )
+/// ```
 class EInputTag extends StatefulWidget {
+  /// The list of current tags.
   final List<String>? value;
+
+  /// Callback function when the tags list changes.
   final ValueChanged<List<String>?>? onChanged;
+
+  /// Maximum number of tags allowed.
   final int? max;
+
+  /// The type of tag to display (e.g., 'success', 'warning', 'danger').
   final String? tagType;
+
+  /// The effect style of the tag (e.g., 'dark', 'light', 'plain').
   final String? tagEffect;
+
+  /// The trigger event for adding a new tag.
+  /// Default is [EInputTagTrigger.enter].
   final EInputTagTrigger trigger;
+
+  /// Whether tags can be reordered by drag and drop.
   final bool draggable;
+
+  /// The delimiter character used to split input into multiple tags.
   final String? delimiter;
+
+  /// The size of the input tag component.
+  /// Affects the height and font size.
   final EInputTagSize size;
+
+  /// Whether to save the current input as a tag when the input loses focus.
   final bool saveOnBlur;
+
+  /// Whether to show a clear button when the input has content.
   final bool clearable;
+
+  /// Whether the input tag component is disabled.
   final bool disabled;
+
+  /// Whether to trigger validation events.
   final bool validateEvent;
+
+  /// Whether the input is read-only.
   final bool readOnly;
+
+  /// Whether the input should be focused on mount.
   final bool autofocus;
+
+  /// The unique identifier for the input element.
   final String? id;
+
+  /// The tab index of the input element.
   final dynamic tabindex;
+
+  /// Maximum length of input text.
   final dynamic maxlength;
+
+  /// Minimum length of input text.
   final dynamic minlength;
+
+  /// Placeholder text when the input is empty.
   final String? placeholder;
+
+  /// Autocomplete attribute for the input element.
   final String? autocomplete;
+
+  /// ARIA label for accessibility.
   final String? ariaLabel;
+
+  /// Widget to display before the input.
   final Widget? prefix;
+
+  /// Widget to display after the input.
   final Widget? suffix;
+
+  /// Custom builder function for rendering tags.
   final Widget Function(BuildContext, String)? tagBuilder;
+
+  /// Callback function when the input gains focus.
   final VoidCallback? onFocus;
+
+  /// Callback function when the input loses focus.
   final VoidCallback? onBlur;
+
+  /// Callback function when a new tag is added.
   final Function(String)? onAddTag;
+
+  /// Callback function when a tag is removed.
   final Function(String)? onRemoveTag;
+
+  /// Callback function when the input is cleared.
   final VoidCallback? onClear;
 
   const EInputTag({

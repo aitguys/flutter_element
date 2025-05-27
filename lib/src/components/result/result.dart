@@ -1,12 +1,57 @@
 import 'package:flutter/material.dart';
 
-enum EResultStatus { success, warning, info, error }
+/// The status of the result component.
+/// 
+/// This enum defines the different visual styles available for [EResult].
+enum EResultStatus {
+  /// Success status (green)
+  success,
+  /// Warning status (orange)
+  warning,
+  /// Info status (blue)
+  info,
+  /// Error status (red)
+  error,
+}
 
+/// A result component that follows Element Plus design guidelines.
+/// 
+/// The [EResult] widget provides a feedback page for displaying the result
+/// of an operation. It supports different status types, custom icons, and
+/// additional content.
+/// 
+/// ## Example
+/// 
+/// ```dart
+/// EResult(
+///   status: EResultStatus.success,
+///   title: 'Success',
+///   subTitle: 'Your operation has been completed successfully',
+///   extra: ElevatedButton(
+///     onPressed: () {},
+///     child: Text('Back to Home'),
+///   ),
+/// )
+/// ```
 class EResult extends StatelessWidget {
+  /// The status of the result, which determines its visual style.
+  /// This affects both the icon and colors used.
   final EResultStatus status;
+
+  /// The main title text of the result.
+  /// This is displayed prominently below the icon.
   final String title;
+
+  /// Optional subtitle text to provide additional information.
+  /// This is displayed below the title in a smaller font size.
   final String? subTitle;
+
+  /// A custom icon to display in the result.
+  /// If provided, this overrides the default icon for the status.
   final Widget? icon;
+
+  /// Additional content to display below the result.
+  /// This can be used to add buttons or other widgets.
   final Widget? extra;
 
   const EResult({

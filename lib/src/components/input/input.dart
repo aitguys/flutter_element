@@ -1,27 +1,113 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element_plus/src/theme/index.dart';
 
+/// A text input component that follows Element Plus design guidelines.
+/// 
+/// The [EInput] widget provides a customizable text input field with various
+/// features like clearable input, prefix/suffix icons, and different states.
+/// 
+/// ## Example
+/// 
+/// ```dart
+/// EInput(
+///   placeholder: 'Enter your name',
+///   clearable: true,
+///   prefix: Icon(Icons.person),
+///   onChanged: (value) => print('Input: $value'),
+/// )
+/// ```
 class EInput extends StatefulWidget {
+  /// The controller for the text input.
+  /// 
+  /// If not provided, a new [TextEditingController] will be created.
   final TextEditingController? textController;
 
+  /// The placeholder text to display when the input is empty.
   final String? placeholder;
+
+  /// Whether to show a clear button when the input has text.
+  /// 
+  /// When true, a clear button will appear when the input has text,
+  /// allowing users to quickly clear the input.
   final bool clearable;
+
+  /// Whether the input is disabled.
+  /// 
+  /// When true, the input cannot be edited and will show a disabled style.
   final bool disabled;
+
+  /// Whether the input is read-only.
+  /// 
+  /// When true, the input can be focused but cannot be edited.
   final bool readOnly;
+
+  /// A widget to display before the input text.
+  /// 
+  /// Typically an [Icon] or other small widget.
   final Widget? prefix;
+
+  /// A widget to display after the input text.
+  /// 
+  /// Typically an [Icon] or other small widget.
   final Widget? suffix;
+
+  /// The color type of the input.
+  /// 
+  /// This determines the color scheme used for the input's border and focus state.
+  /// Defaults to [EColorType.primary].
   final EColorType colorType;
+
+  /// The size of the input.
+  /// 
+  /// This affects the height, font size, and border radius of the input.
+  /// Defaults to [ESizeItem.medium].
   final ESizeItem size;
+
+  /// A custom color to use for the input.
+  /// 
+  /// If provided, this overrides the color determined by [colorType].
   final Color? customColor;
+
+  /// The default color for the input's border.
+  /// 
+  /// This is used when the input is not focused and not disabled.
+  /// Defaults to [EBasicColors.borderGray].
   final Color defaultColor;
+
+  /// A custom height for the input.
+  /// 
+  /// If provided, this overrides the height determined by [size].
   final double? customHeight;
+
+  /// A custom font size for the input text.
+  /// 
+  /// If provided, this overrides the font size determined by [size].
   final double? customFontSize;
+
+  /// A custom border radius for the input.
+  /// 
+  /// If provided, this overrides the border radius determined by [size].
   final double? customBorderRadius;
+
+  /// Whether to show the placeholder text above the input when focused.
+  /// 
+  /// When true, the placeholder will move above the input when it is focused.
   final bool showPlaceholderOnTop;
+
+  /// Callback function when the input text changes.
+  /// 
+  /// The callback receives the new text value.
   final ValueChanged<String>? onChanged;
+
+  /// Callback function when the input gains focus.
   final VoidCallback? onFocus;
+
+  /// Callback function when the input loses focus.
   final VoidCallback? onBlur;
 
+  /// Creates an [EInput] widget.
+  /// 
+  /// The [placeholder] argument defaults to an empty string.
   const EInput({
     super.key,
     this.textController,

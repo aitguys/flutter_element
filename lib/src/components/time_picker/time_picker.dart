@@ -1,12 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element_plus/src/theme/index.dart';
 
+/// A time picker component that allows users to select a time of day.
+/// It follows Element Plus design guidelines and provides features like:
+/// - Hour, minute, and second selection
+/// - Customizable placeholder text
+/// - Custom prefix icon
+/// - Different sizes
+/// - Dropdown picker interface
+///
+/// Example:
+/// ```dart
+/// ETimePicker(
+///   value: DateTime.now(),
+///   placeholder: 'Select time',
+///   onChange: (time) {
+///     print('Selected time: ${time.hour}:${time.minute}');
+///   },
+/// )
+/// ```
 class ETimePicker extends StatefulWidget {
+  /// The currently selected time.
+  /// If null, the current time will be used as default.
   final DateTime? value;
+
+  /// Callback function when the selected time changes.
+  /// The callback receives a TimeOfDay object with the selected hour and minute.
   final ValueChanged<TimeOfDay>? onChange;
+
+  /// The placeholder text to display when no time is selected.
+  /// Default is '请选择时间'.
   final String? placeholder;
+
+  /// A custom widget to display before the time input.
+  /// If not provided, a clock icon will be used as default.
   final Widget? prefix;
+
+  /// The size of the time picker.
+  /// Affects the height and font size of the component.
   final ESizeItem size;
+
   const ETimePicker({
     super.key,
     this.value,

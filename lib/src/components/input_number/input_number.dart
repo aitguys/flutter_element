@@ -1,29 +1,115 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element_plus/src/theme/index.dart';
 
-enum EInputNumberSize { small, medium, large }
+/// Defines the available sizes for the input number component.
+enum EInputNumberSize {
+  /// Small size (32px height, 14px font)
+  small,
+  /// Medium size (40px height, 16px font)
+  medium,
+  /// Large size (48px height, 18px font)
+  large,
+}
 
-enum EInputNumberControlsPosition { left, right }
+/// Defines the position of the increment/decrement controls.
+enum EInputNumberControlsPosition {
+  /// Controls appear on the left side of the input
+  left,
+  /// Controls appear on the right side of the input
+  right,
+}
 
+/// An input component for entering numbers with increment/decrement controls.
+/// It follows Element Plus design guidelines and provides features like:
+/// - Minimum and maximum value constraints
+/// - Step increment/decrement
+/// - Decimal precision control
+/// - Strict step mode
+/// - Disabled and read-only states
+/// - Clearable input
+/// - Custom prefix and suffix
+/// - Custom control icons
+/// - Focus and blur callbacks
+///
+/// Example:
+/// ```dart
+/// EInputNumber(
+///   value: 1,
+///   min: 0,
+///   max: 100,
+///   step: 1,
+///   precision: 2,
+///   controlsPosition: EInputNumberControlsPosition.right,
+///   onChanged: (value) {
+///     print('Value: $value');
+///   },
+/// )
+/// ```
 class EInputNumber extends StatefulWidget {
+  /// The current value of the input.
   final double? value;
+
+  /// Callback function when the value changes.
   final ValueChanged<double?>? onChanged;
+
+  /// The minimum allowed value.
   final double? min;
+
+  /// The maximum allowed value.
   final double? max;
+
+  /// The step increment/decrement value.
+  /// Default is 1.
   final double step;
+
+  /// The number of decimal places to display.
+  /// If null, no decimal places are shown.
   final int? precision;
+
+  /// Whether to strictly enforce step increments.
+  /// When true, the value will always be a multiple of the step.
   final bool stepStrictly;
+
+  /// Placeholder text when the input is empty.
   final String? placeholder;
+
+  /// Whether the input is disabled.
+  /// When disabled, the input cannot be interacted with.
   final bool disabled;
+
+  /// Whether the input is read-only.
+  /// When read-only, the value can be displayed but not changed.
   final bool readOnly;
+
+  /// Whether to show a clear button when the input has content.
   final bool clearable;
+
+  /// The size of the input number component.
+  /// Affects the height and font size.
   final EInputNumberSize size;
+
+  /// The position of the increment/decrement controls.
+  /// Default is [EInputNumberControlsPosition.right].
   final EInputNumberControlsPosition controlsPosition;
+
+  /// Widget to display before the input.
   final Widget? prefix;
+
+  /// Widget to display after the input.
   final Widget? suffix;
+
+  /// Custom icon for the decrease button.
+  /// If not provided, a minus sign (-) is used.
   final Widget? decreaseIcon;
+
+  /// Custom icon for the increase button.
+  /// If not provided, a plus sign (+) is used.
   final Widget? increaseIcon;
+
+  /// Callback function when the input gains focus.
   final VoidCallback? onFocus;
+
+  /// Callback function when the input loses focus.
   final VoidCallback? onBlur;
 
   const EInputNumber({

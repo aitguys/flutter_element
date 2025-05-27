@@ -1,25 +1,132 @@
 import 'package:flutter/material.dart';
 
-enum ETagType { primary, success, warning, info, danger }
+/// The type of tag, which determines its color scheme.
+/// 
+/// This enum defines the different color schemes available for [ETag].
+enum ETagType {
+  /// Primary tag style with brand colors.
+  primary,
 
-enum ETagSize { large, default_, small }
+  /// Success tag style with green colors.
+  success,
 
+  /// Warning tag style with yellow/orange colors.
+  warning,
+
+  /// Info tag style with blue colors.
+  info,
+
+  /// Danger tag style with red colors.
+  danger
+}
+
+/// The size of the tag.
+/// 
+/// This enum defines the different size options available for [ETag].
+enum ETagSize {
+  /// Large tag size.
+  large,
+
+  /// Default tag size.
+  default_,
+
+  /// Small tag size.
+  small
+}
+
+/// A tag component that follows Element Plus design guidelines.
+/// 
+/// The [ETag] widget provides a customizable tag that can be used to
+/// display labels, categories, or status indicators. It supports different
+/// types, sizes, and features like closable tags and custom icons.
+/// 
+/// ## Example
+/// 
+/// ```dart
+/// ETag(
+///   text: 'New',
+///   type: ETagType.success,
+///   closable: true,
+///   onClose: () => print('Tag closed'),
+/// )
+/// ```
 class ETag extends StatelessWidget {
+  /// The text to display in the tag.
   final String text;
+
+  /// The type of tag, which determines its color scheme.
+  /// 
+  /// If not provided, the tag will use the default theme colors.
   final ETagType? type;
+
+  /// The size of the tag.
+  /// 
+  /// Defaults to [ETagSize.default_].
   final ETagSize size;
+
+  /// Whether the tag can be closed by the user.
+  /// 
+  /// When true, a close button will be shown in the tag.
+  /// Defaults to false.
   final bool closable;
+
+  /// Whether to disable the fade transition when the tag is removed.
+  /// 
+  /// When true, the tag will be removed immediately without animation.
+  /// Defaults to false.
   final bool disableTransitions;
+
+  /// Whether the tag has a hit effect.
+  /// 
+  /// When true, the tag will have a border in its text color.
+  /// Defaults to false.
   final bool hit;
+
+  /// A custom color for the tag text.
+  /// 
+  /// If provided, this overrides the text color determined by [type].
   final Color? color;
+
+  /// A custom background color for the tag.
+  /// 
+  /// If provided, this overrides the background color determined by [type].
   final Color? backgroundColor;
+
+  /// Callback function when the tag is closed.
+  /// 
+  /// This is called when the user clicks the close button.
   final VoidCallback? onClose;
+
+  /// A custom icon to display in the tag.
+  /// 
+  /// If provided, the icon will be shown before the text.
   final Widget? icon;
+
+  /// Custom padding for the tag content.
+  /// 
+  /// If not provided, a default padding based on the tag size will be used.
   final EdgeInsetsGeometry? padding;
+
+  /// Custom border radius for the tag.
+  /// 
+  /// If not provided, a default border radius of 4.0 will be used,
+  /// unless [round] is true.
   final double? borderRadius;
+
+  /// Whether the tag should have fully rounded corners.
+  /// 
+  /// When true, the tag will have a pill-like appearance.
+  /// Defaults to false.
   final bool round;
+
+  /// Custom text style for the tag text.
+  /// 
+  /// If provided, this will be merged with the default text style.
   final TextStyle? textStyle;
 
+  /// Creates an [ETag] widget.
+  /// 
+  /// The [text] argument is required.
   const ETag({
     super.key,
     required this.text,

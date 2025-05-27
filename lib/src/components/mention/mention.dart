@@ -2,9 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_element_plus/src/theme/index.dart';
 import 'package:flutter/services.dart';
 
+/// Represents an option in the mention component.
 class MentionOption {
+  /// The value of the mention option.
   final String value;
+
+  /// The display label for the mention option.
+  /// If not provided, the value will be used as the label.
   final String? label;
+
+  /// Whether this mention option is disabled.
+  /// Disabled options cannot be selected.
   final bool disabled;
 
   const MentionOption({
@@ -14,26 +22,102 @@ class MentionOption {
   });
 }
 
+/// A mention component that allows users to mention other users or entities
+/// by typing a trigger prefix (e.g., @) followed by text.
+/// It follows Element Plus design guidelines and provides features like:
+/// - Customizable trigger prefixes
+/// - Filterable options
+/// - Loading state
+/// - Custom option filtering
+/// - Dropdown placement control
+/// - Search callback
+/// - Selection callback
+///
+/// Example:
+/// ```dart
+/// EMention(
+///   value: 'Hello @John',
+///   options: [
+///     MentionOption(value: 'John', label: 'John Doe'),
+///     MentionOption(value: 'Jane', label: 'Jane Smith'),
+///   ],
+///   triggerPrefixes: ['@'],
+///   onSearch: (query) {
+///     print('Searching for: $query');
+///   },
+///   onSelect: (option) {
+///     print('Selected: ${option.label}');
+///   },
+///   onChanged: (value) {
+///     print('Input value: $value');
+///   },
+/// )
+/// ```
 class EMention extends StatefulWidget {
+  /// The current value of the input.
   final String? value;
+
+  /// Callback function when the input value changes.
   final ValueChanged<String>? onChanged;
+
+  /// The list of mention options to display in the dropdown.
   final List<MentionOption> options;
+
+  /// The list of characters that trigger the mention dropdown.
+  /// Default is ['@'].
   final List<String>? triggerPrefixes;
+
+  /// The character used to split the input text.
+  /// Default is space (' ').
   final String? split;
+
+  /// Custom function to filter mention options.
+  /// If not provided, a default case-insensitive contains search is used.
   final bool Function(String, String)? filterOption;
+
+  /// The placement of the dropdown relative to the input.
+  /// Default is 'bottom'.
   final String placement;
+
+  /// Whether to show an arrow pointing to the input.
   final bool showArrow;
+
+  /// The offset of the dropdown from the input.
   final double offset;
+
+  /// Whether to match the whole word when filtering options.
   final bool whole;
+
+  /// Custom function to check if a word is whole.
   final bool Function(String, String)? checkIsWhole;
+
+  /// Whether to show a loading state in the dropdown.
   final bool loading;
+
+  /// Placeholder text when the input is empty.
   final String? placeholder;
+
+  /// Whether the mention component is disabled.
   final bool disabled;
+
+  /// Whether the input is read-only.
   final bool readOnly;
+
+  /// Whether the input should be focused on mount.
   final bool autofocus;
+
+  /// Widget to display before the input.
   final Widget? prefixIcon;
+
+  /// Widget to display after the input.
   final Widget? suffixIcon;
+
+  /// Callback function when searching for mention options.
+  /// Called with the current search query.
   final Function(String)? onSearch;
+
+  /// Callback function when a mention option is selected.
+  /// Called with the selected option.
   final Function(MentionOption)? onSelect;
 
   const EMention({

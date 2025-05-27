@@ -1,11 +1,24 @@
 import 'package:flutter/material.dart';
 
+/// A tree component that displays hierarchical data in a tree structure.
+/// It supports features like checkboxes, node expansion, and drag-and-drop.
 class FlTreeNode {
+  /// The label text to display for this node.
   final String label;
+
+  /// The value associated with this node.
   final dynamic value;
+
+  /// The child nodes of this node.
   final List<FlTreeNode>? children;
+
+  /// Whether this node is disabled.
   final bool disabled;
+
+  /// Whether this node is a leaf node.
   final bool isLeaf;
+
+  /// A custom icon widget to display before the node label.
   final Widget? icon;
 
   const FlTreeNode({
@@ -18,16 +31,37 @@ class FlTreeNode {
   });
 }
 
+/// A tree widget that displays hierarchical data in a tree structure.
+/// It follows Element Plus design guidelines.
 class FlTree extends StatefulWidget {
+  /// The data to display in the tree structure.
   final List<FlTreeNode> data;
+
+  /// Whether to show checkboxes for node selection.
   final bool showCheckbox;
+
+  /// Whether to expand all nodes by default.
   final bool defaultExpandAll;
+
+  /// The keys of nodes that should be checked by default.
   final List<dynamic>? defaultCheckedKeys;
+
+  /// The keys of nodes that should be expanded by default.
   final List<dynamic>? defaultExpandedKeys;
+
+  /// Whether to enable strict checking mode.
   final bool checkStrictly;
+
+  /// Callback function when the checked state of nodes changes.
   final Function(List<dynamic>)? onCheck;
+
+  /// Callback function when a node is clicked.
   final Function(dynamic, bool)? onNodeClick;
+
+  /// Whether to enable drag and drop functionality.
   final bool draggable;
+
+  /// Callback function when a node is dropped onto another node.
   final Function(FlTreeNode, FlTreeNode)? onDragEnd;
 
   const FlTree({

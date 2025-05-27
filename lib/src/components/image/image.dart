@@ -1,13 +1,58 @@
 import 'package:flutter/material.dart';
 
+/// An image component that follows Element Plus design guidelines.
+/// 
+/// The [EImage] widget provides a customizable image display with features like:
+/// - Custom fit and dimensions
+/// - Border radius
+/// - Loading placeholder
+/// - Error widget
+/// - Image preview with zoom, rotate, and fullscreen capabilities
+/// 
+/// Example:
+/// ```dart
+/// EImage(
+///   src: 'https://example.com/image.jpg',
+///   width: 200,
+///   height: 200,
+///   borderRadius: 8,
+///   preview: true,
+///   placeholder: CircularProgressIndicator(),
+///   errorWidget: Icon(Icons.error),
+/// )
+/// ```
 class EImage extends StatelessWidget {
+  /// The URL of the image to display.
   final String src;
+
+  /// How the image should be inscribed into the space.
+  /// Default is [BoxFit.cover].
   final BoxFit fit;
+
+  /// The width of the image.
+  /// If null, the image will take the available width.
   final double? width;
+
+  /// The height of the image.
+  /// If null, the image will take the available height.
   final double? height;
+
+  /// The border radius of the image.
+  /// Default is 0 (no border radius).
   final double borderRadius;
+
+  /// Widget to display while the image is loading.
+  /// If not provided, a default loading indicator will be shown.
   final Widget? placeholder;
+
+  /// Widget to display when the image fails to load.
+  /// If not provided, a default error icon will be shown.
   final Widget? errorWidget;
+
+  /// Whether to enable image preview functionality.
+  /// When true, tapping the image will open a preview dialog with zoom,
+  /// rotate, and fullscreen capabilities.
+  /// Default is false.
   final bool preview;
 
   const EImage({
@@ -70,7 +115,17 @@ class EImage extends StatelessWidget {
   }
 }
 
+/// A dialog widget for previewing images with interactive features.
+/// 
+/// The [_ImagePreviewDialog] provides:
+/// - Zoom in/out functionality
+/// - Image rotation
+/// - Fullscreen toggle
+/// - Close button
+/// 
+/// This is used internally by [EImage] when [preview] is enabled.
 class _ImagePreviewDialog extends StatefulWidget {
+  /// The URL of the image to preview.
   final String src;
   const _ImagePreviewDialog({required this.src});
 

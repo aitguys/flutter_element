@@ -1,12 +1,27 @@
 import 'package:flutter/material.dart';
 
+/// The position of the expand icon in a collapse panel.
 enum ECollapsePanelPosition { left, right }
 
+/// A collapsible panel component that follows Element Plus design guidelines.
+/// 
+/// The [ECollapse] widget provides a container that can be expanded or collapsed
+/// to show or hide content. It supports multiple panels, accordion mode, and
+/// custom expand icons.
 class ECollapse extends StatefulWidget {
+  /// The list of panels to display in the collapse component.
   final List<ECollapsePanel> panels;
+
+  /// The indexes of the currently active panels.
   final List<int>? activeIndexes;
+
+  /// Whether to enable accordion mode.
   final bool accordion;
+
+  /// Callback function when the active panels change.
   final ValueChanged<List<int>>? onChange;
+
+  /// The position of the expand icon in the panels.
   final ECollapsePanelPosition position;
 
   const ECollapse({
@@ -67,10 +82,18 @@ class _ECollapseState extends State<ECollapse> {
   }
 }
 
+/// A panel in a collapse component.
 class ECollapsePanel {
+  /// The title widget to display in the panel header.
   final Widget title;
+
+  /// The content widget to display when the panel is expanded.
   final Widget child;
+
+  /// Whether the panel is disabled.
   final bool disabled;
+
+  /// A custom icon to use for expanding/collapsing the panel.
   final Widget? expandIcon;
 
   ECollapsePanel({

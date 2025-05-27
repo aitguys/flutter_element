@@ -1,12 +1,31 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
+/// A custom painter that draws a watermark pattern on a canvas.
+/// The watermark consists of repeated text with customizable rotation, color,
+/// size, spacing, and opacity.
 class WatermarkPainter extends CustomPainter {
+  /// The text content to display as watermark.
   final String content;
+
+  /// The rotation angle of the watermark text in degrees.
+  /// Default is -45 degrees.
   final double rotate;
+
+  /// The color of the watermark text.
+  /// Default is black.
   final Color color;
+
+  /// The font size of the watermark text.
+  /// Default is 14.
   final double fontSize;
+
+  /// The gap between watermark text elements.
+  /// Default is 100.
   final double gap;
+
+  /// The opacity of the watermark text.
+  /// Default is 0.15.
   final double opacity;
 
   WatermarkPainter({
@@ -66,14 +85,53 @@ class WatermarkPainter extends CustomPainter {
   }
 }
 
+/// A widget that adds a watermark overlay to its child widget.
+/// The watermark is created by repeating text with customizable properties
+/// like rotation, color, size, spacing, and opacity.
+///
+/// Example:
+/// ```dart
+/// Watermark(
+///   content: 'Confidential',
+///   child: YourWidget(),
+///   rotate: -45,
+///   color: Colors.black,
+///   fontSize: 14,
+///   gap: 100,
+///   opacity: 0.15,
+///   zIndex: false,
+/// )
+/// ```
 class Watermark extends StatelessWidget {
+  /// The text content to display as watermark.
   final String content;
+
+  /// The child widget to display with the watermark overlay.
   final Widget child;
+
+  /// The rotation angle of the watermark text in degrees.
+  /// Default is -45 degrees.
   final double rotate;
+
+  /// The color of the watermark text.
+  /// Default is black.
   final Color color;
+
+  /// The font size of the watermark text.
+  /// Default is 14.
   final double fontSize;
+
+  /// The gap between watermark text elements.
+  /// Default is 100.
   final double gap;
+
+  /// The opacity of the watermark text.
+  /// Default is 0.15.
   final double opacity;
+
+  /// Whether to display the watermark above the child widget.
+  /// If false, the watermark will be displayed below the child.
+  /// Default is false.
   final bool zIndex;
 
   const Watermark({

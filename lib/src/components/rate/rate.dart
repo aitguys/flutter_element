@@ -2,20 +2,93 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_element_plus/src/theme/index.dart';
 
-enum ERateSize { small, medium, large }
+/// Defines the available sizes for the rate component.
+enum ERateSize {
+  /// Small size (16px icon, 12px font)
+  small,
+  /// Medium size (20px icon, 14px font)
+  medium,
+  /// Large size (24px icon, 16px font)
+  large,
+}
 
+/// A rate component that allows users to rate items using stars.
+/// It follows Element Plus design guidelines and provides features like:
+/// - Customizable maximum score
+/// - Half-star ratings
+/// - Disabled state
+/// - Text descriptions
+/// - Score display
+/// - Clearable ratings
+/// - Custom colors
+/// - Hover effects
+///
+/// Example:
+/// ```dart
+/// ERate(
+///   value: 3.5,
+///   max: 5,
+///   allowHalf: true,
+///   showText: true,
+///   texts: ['Terrible', 'Bad', 'Normal', 'Good', 'Excellent'],
+///   colors: [Colors.red, Colors.orange, Colors.green],
+///   onChanged: (value) {
+///     print('Rating: $value');
+///   },
+/// )
+/// ```
 class ERate extends StatefulWidget {
+  /// The current rating value.
+  /// Default is 0.
   final double value;
+
+  /// The maximum rating value.
+  /// Default is 5.
   final double max;
+
+  /// Whether the rate component is disabled.
+  /// When disabled, the component cannot be interacted with.
   final bool disabled;
+
+  /// Whether to allow half-star ratings.
+  /// When true, users can select half stars by clicking on the left half of a star.
   final bool allowHalf;
+
+  /// Whether to show text descriptions for each rating value.
+  /// Requires [texts] to be provided.
   final bool showText;
+
+  /// Whether to show the current score.
+  /// The score can be formatted using [scoreTemplate].
   final bool showScore;
+
+  /// Whether the rating can be cleared by clicking on the current value.
   final bool clearable;
+
+  /// The size of the rate component.
+  /// Affects the icon and font sizes.
   final ERateSize size;
+
+  /// The list of text descriptions for each rating value.
+  /// Used when [showText] is true.
   final List<String>? texts;
+
+  /// Template string for displaying the score.
+  /// Use {value} as a placeholder for the current rating.
+  /// Example: 'Score: {value}'
   final String? scoreTemplate;
+
+  /// The list of colors to use for different rating ranges.
+  /// If provided, colors will be used based on the rating value:
+  /// - First color: 0-2 stars
+  /// - Second color: 2-4 stars
+  /// - Third color: 4-5 stars
+  /// If only one color is provided, it will be used for all stars.
+  /// If not provided, the primary theme color will be used.
   final List<Color>? colors;
+
+  /// Callback function when the rating value changes.
+  /// Called with the new rating value.
   final ValueChanged<double>? onChanged;
 
   const ERate({

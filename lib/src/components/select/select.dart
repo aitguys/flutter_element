@@ -1,12 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element_plus/src/theme/index.dart';
 
-enum ESelectSize { small, medium, large }
+/// Defines the available sizes for the select component.
+enum ESelectSize {
+  /// Small size (24px height, 12px font)
+  small,
+  /// Medium size (32px height, 14px font)
+  medium,
+  /// Large size (40px height, 16px font)
+  large,
+}
 
+/// Represents an option in the select component.
 class SelectOption {
+  /// The value associated with this option.
   final String value;
+
+  /// The text label to display for this option.
   final String label;
+
+  /// Whether this option is disabled.
+  /// Disabled options cannot be selected.
   final bool disabled;
+
+  /// Additional data associated with this option.
   final dynamic extra;
 
   const SelectOption({
@@ -17,17 +34,72 @@ class SelectOption {
   });
 }
 
+/// A select component that allows users to choose from a list of options.
+/// It follows Element Plus design guidelines and provides features like:
+/// - Single and multiple selection modes
+/// - Clearable selection
+/// - Disabled state
+/// - Customizable size
+/// - Placeholder text
+/// - Empty state text
+/// - Custom header
+///
+/// Example:
+/// ```dart
+/// ESelect(
+///   value: '1',
+///   options: [
+///     SelectOption(value: '1', label: 'Option 1'),
+///     SelectOption(value: '2', label: 'Option 2', disabled: true),
+///     SelectOption(value: '3', label: 'Option 3'),
+///   ],
+///   placeholder: 'Please select',
+///   clearable: true,
+///   onChanged: (value) {
+///     print('Selected value: $value');
+///   },
+/// )
+/// ```
 class ESelect extends StatefulWidget {
-  final dynamic value; // 可以是 String 或 List<String>
+  /// The currently selected value(s).
+  /// For single select, this should be a String.
+  /// For multiple select, this should be a List<String>.
+  final dynamic value;
+
+  /// The list of options to display in the dropdown.
   final List<SelectOption> options;
+
+  /// Whether the select component is disabled.
+  /// When disabled, the component cannot be interacted with.
   final bool disabled;
+
+  /// Whether the selected value can be cleared.
+  /// When true, a clear button appears when a value is selected.
   final bool clearable;
+
+  /// Whether multiple options can be selected.
+  /// When true, the component allows selecting multiple values.
   final bool multiple;
+
+  /// The size of the select component.
+  /// Affects the height and font size of the component.
   final ESelectSize size;
+
+  /// The placeholder text to display when no value is selected.
   final String? placeholder;
+
+  /// The text to display when there are no options available.
   final String? emptyText;
+
+  /// A custom widget to display at the top of the dropdown.
   final Widget? header;
+
+  /// Callback function when the selected value(s) change.
+  /// For single select, the callback receives a String.
+  /// For multiple select, the callback receives a List<String>.
   final ValueChanged<dynamic>? onChanged;
+
+  /// Callback function when the clear button is clicked.
   final VoidCallback? onClear;
 
   const ESelect({

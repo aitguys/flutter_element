@@ -1,16 +1,86 @@
 import 'package:flutter/material.dart';
 
+/// A badge component that follows Element Plus design guidelines.
+/// 
+/// The [EBadge] widget provides a small badge that can be used to display
+/// notifications, counts, or status indicators. It can be used as a standalone
+/// element or attached to other widgets.
+/// 
+/// ## Example
+/// 
+/// ```dart
+/// // Badge with a number
+/// EBadge(
+///   value: 5,
+///   max: 99,
+///   child: Icon(Icons.notifications),
+/// )
+/// 
+/// // Dot badge
+/// EBadge(
+///   isDot: true,
+///   type: 'danger',
+///   child: Icon(Icons.mail),
+/// )
+/// 
+/// // Custom styled badge
+/// EBadge(
+///   value: 'New',
+///   color: Colors.purple,
+///   textStyle: TextStyle(color: Colors.white),
+///   badgeStyle: BoxDecoration(
+///     borderRadius: BorderRadius.circular(10),
+///   ),
+///   child: Text('Messages'),
+/// )
+/// ```
 class EBadge extends StatelessWidget {
-  final dynamic value; // String/num
+  /// The value to display in the badge.
+  /// This can be a number or a string.
+  /// If null and [isDot] is false, no badge will be shown.
+  final dynamic value;
+
+  /// The maximum value to display.
+  /// If [value] exceeds this number, it will be displayed as "{max}+".
+  /// Only applies when [value] is a number.
   final int? max;
+
+  /// Whether to display the badge as a dot.
+  /// When true, [value] will be ignored and a small dot will be shown instead.
   final bool isDot;
+
+  /// Whether to hide the badge.
+  /// When true, no badge will be shown regardless of other properties.
   final bool hidden;
-  final String? type; // 'primary', 'success', 'warning', 'danger', 'info'
+
+  /// The type of badge, which determines its color scheme.
+  /// Available types: 'primary', 'success', 'warning', 'danger', 'info'.
+  /// If not provided, the default color will be used.
+  final String? type;
+
+  /// Whether to show the badge when [value] is 0.
+  /// When false, the badge will be hidden when [value] is 0.
+  /// Only applies when [value] is a number.
   final bool showZero;
+
+  /// A custom color for the badge.
+  /// If provided, this overrides the color determined by [type].
   final Color? color;
-  final List<double>? offset; // [x, y]
+
+  /// The offset of the badge from its child.
+  /// This is a list of two numbers: [x, y] offset in logical pixels.
+  final List<double>? offset;
+
+  /// Custom text style for the badge value.
+  /// If not provided, a default style will be used.
   final TextStyle? textStyle;
+
+  /// Custom decoration for the badge.
+  /// If provided, this overrides the default badge appearance.
   final BoxDecoration? badgeStyle;
+
+  /// The widget to attach the badge to.
+  /// If null, the badge will be displayed as a standalone element.
   final Widget? child;
 
   const EBadge({
