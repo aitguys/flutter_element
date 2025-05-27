@@ -62,8 +62,8 @@ class SelectOption {
 /// ```
 class ESelect extends StatefulWidget {
   /// The currently selected value(s).
-  /// For single select, this should be a String.
-  /// For multiple select, this should be a List<String>.
+  /// For single select, this should be a `String`.
+  /// For multiple select, this should be a `List<String>`.
   final dynamic value;
 
   /// The list of options to display in the dropdown.
@@ -95,8 +95,8 @@ class ESelect extends StatefulWidget {
   final Widget? header;
 
   /// Callback function when the selected value(s) change.
-  /// For single select, the callback receives a String.
-  /// For multiple select, the callback receives a List<String>.
+  /// For single select, the callback receives a `String`.
+  /// For multiple select, the callback receives a `List<String>`.
   final ValueChanged<dynamic>? onChanged;
 
   /// Callback function when the clear button is clicked.
