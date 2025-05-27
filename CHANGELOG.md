@@ -1,3 +1,7 @@
+## 0.0.10
+
+Add document comments
+
 ## 0.0.9
 
 Test for auto publish
