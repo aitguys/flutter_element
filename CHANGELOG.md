@@ -1,3 +1,7 @@
+## 0.0.7
+
+Test for auto publish
+
 ## 0.0.6
 
 Test for auto publish
