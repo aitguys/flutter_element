@@ -5,7 +5,7 @@
 大概结构如下
 ``` dart
 import 'package:flutter/material.dart';
-import 'package:flutter_element/flutter_element_plus.dart';
+import 'package:flutter_element_plus/flutter_element_plus.dart';
 import '../../const/index.dart';
 
 class ****Preview extends StatelessWidget {

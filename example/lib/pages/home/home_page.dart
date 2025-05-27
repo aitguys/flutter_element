@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:flutter_element/flutter_element_plus.dart';
+import 'package:flutter_element_plus/flutter_element_plus.dart';
 import '../../routes/app_pages.dart';
 
 class HomePage extends StatelessWidget {

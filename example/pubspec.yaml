@@ -5,7 +5,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_element:
+  flutter_element_plus:
     path: ../
   get: ^4.6.6
   logger: ^2.5.0

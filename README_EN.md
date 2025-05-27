@@ -40,7 +40,7 @@ dependencies:
 ## 🎯 Quick Start
 
 ```dart
-import 'package:flutter_element/flutter_element_plus.dart';
+import 'package:flutter_element_plus/flutter_element_plus.dart';
 
 // Button component example
 ElementButton(

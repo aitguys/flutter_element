@@ -40,7 +40,7 @@ dependencies:
 ## 🎯 快速开始
 
 ```dart
-import 'package:flutter_element/flutter_element_plus.dart';
+import 'package:flutter_element_plus/flutter_element_plus.dart';
 
 // 使用按钮组件示例
 ElementButton(
