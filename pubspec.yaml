@@ -59,3 +59,10 @@ flutter:
   #
   # For details regarding fonts in packages, see
   # https://flutter.dev/to/font-from-package
+platforms:
+  android:
+  ios:
+  linux:
+  macos:
+  web:
+  windows:
