@@ -15,18 +15,18 @@ class _RadioBasicPreviewState extends State<RadioBasicPreview> {
   Widget build(BuildContext context) {
     return WidgetPreview(
       widget: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ERadioGroup(
-              value: value,
-              onChanged: (v) => setState(() => value = v),
-              children: [
-                const ERadio(value: '1', label: 'option1'),
-                const ERadio(value: '2', label: 'option2'),
-              ],
-            ),
-          ],
-        ),
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ERadioGroup(
+            value: value,
+            onChanged: (v) => setState(() => value = v),
+            children: [
+              const ERadio(value: '1', label: 'option1'),
+              const ERadio(value: '2', label: 'option2'),
+            ],
+          ),
+        ],
+      ),
       code: getCodeUrl('radio_page', 'radio_basic.dart'),
       title: '基础用法',
     );

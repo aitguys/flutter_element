@@ -31,8 +31,7 @@ Widget _viewerContent() {
     builder: (context) => const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-            'Alert 组件提供了两个不同的主题：light 和 dark。通过设置 effect 属性来改变主题，默认为 dark',
+        Text('Alert 组件提供了两个不同的主题：light 和 dark。通过设置 effect 属性来改变主题，默认为 dark',
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
         SizedBox(height: 16),
         EAlert(

@@ -76,7 +76,8 @@ class EBasicTextField extends TextField {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(4),
-              borderSide: const BorderSide(color: EColorTypes.primary, width: 1.0),
+              borderSide:
+                  const BorderSide(color: EColorTypes.primary, width: 1.0),
             ),
           ),
         );

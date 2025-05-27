@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element_plus/flutter_element_plus.dart';
 import 'package:logger/logger.dart';
+
 class CheckboxPage extends StatelessWidget {
   const CheckboxPage({super.key});
 

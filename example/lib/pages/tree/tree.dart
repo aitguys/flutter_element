@@ -159,8 +159,7 @@ class _TreePageState extends State<TreePage> {
               data: data,
               draggable: true,
               onDragEnd: (source, target) {
-                Logger().d(
-                    '拖拽源节点: ${source.label}, 目标节点: ${target.label}');
+                Logger().d('拖拽源节点: ${source.label}, 目标节点: ${target.label}');
               },
             ),
           ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element_plus/flutter_element_plus.dart';
 import 'package:logger/logger.dart';
+
 class TreePage extends StatefulWidget {
   const TreePage({super.key});
 
@@ -158,8 +159,7 @@ class _TreePageState extends State<TreePage> {
               data: data,
               draggable: true,
               onDragEnd: (source, target) {
-                Logger().d(
-                    '拖拽源节点: ${source.label}, 目标节点: ${target.label}');
+                Logger().d('拖拽源节点: ${source.label}, 目标节点: ${target.label}');
               },
             ),
           ],

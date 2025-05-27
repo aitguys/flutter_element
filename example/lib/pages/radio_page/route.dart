@@ -46,4 +46,4 @@ final radioRoutesPages = [
     name: RadioRoutes.radioApi,
     page: () => const RadioApiView(),
   ),
-]; 
+];
