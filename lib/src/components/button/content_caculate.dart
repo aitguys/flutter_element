@@ -1,7 +1,7 @@
 // 传入参数，text icon ，child , child 和 text icon 同时存在的情况下 ，child 优先级最高， 如果child 存在，text icon 不显示， 如果 child 不存在，text icon 显示
 
 import 'package:flutter/material.dart';
-import 'package:flutter_element/src/theme/index.dart';
+import 'package:flutter_element_plus/src/theme/index.dart';
 
 Widget calculateButtonContent({
   String? text,

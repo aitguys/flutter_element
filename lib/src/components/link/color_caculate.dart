@@ -1,7 +1,7 @@
 // 根据 backgroundColor 计算 active情况下 foregroundColor 和 hover情况下 foregroundColor
 
 import 'package:flutter/material.dart';
-import 'package:flutter_element/src/theme/color.dart';
+import 'package:flutter_element_plus/src/theme/color.dart';
 import 'link_style.dart';
 
 Color getLinkColor(ELinkType type) {

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'dart:math';
-import 'package:flutter_element/src/methods/index.dart';
+import 'package:flutter_element_plus/src/methods/index.dart';
 
 class EColorPicker extends StatefulWidget {
   final Color pickerColor;

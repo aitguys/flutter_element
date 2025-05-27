@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_element/src/theme/index.dart';
+import 'package:flutter_element_plus/src/theme/index.dart';
 
 enum EInputNumberSize { small, medium, large }
 

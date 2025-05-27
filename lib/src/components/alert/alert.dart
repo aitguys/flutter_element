@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_element/flutter_element.dart';
+import 'package:flutter_element_plus/src/theme/index.dart';
 
 class EAlert extends StatefulWidget {
   final String title;
