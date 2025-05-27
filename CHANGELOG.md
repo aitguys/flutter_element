@@ -2,8 +2,6 @@
 
 Test for auto publish
 
-# Changelog
-
 ## 0.0.5
 
 * TODO: Test.
