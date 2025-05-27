@@ -25,6 +25,8 @@ jobs:
           channel: stable
       - name: Install dependencies
         run: flutter pub get
+      - name: Generate changelog
+        run: npx standard-version
       # Here you can insert custom steps you need
       # - run: dart tool/generate-code.dart
       - name: Publish
