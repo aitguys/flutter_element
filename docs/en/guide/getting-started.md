@@ -32,7 +32,7 @@ flutter pub get
 3. 在你的代码中导入：
 
 ```dart
-import 'package:flutter_element/flutter_element.dart';
+import 'package:flutter_element/flutter_element_plus.dart';
 ```
 
 ## 基础用法
@@ -41,7 +41,7 @@ import 'package:flutter_element/flutter_element.dart';
 
 ```dart
 import 'package:flutter/material.dart';
-import 'package:flutter_element/flutter_element.dart';
+import 'package:flutter_element/flutter_element_plus.dart';
 
 class MyApp extends StatelessWidget {
   @override
@@ -78,6 +78,7 @@ class MyApp extends StatelessWidget {
   }
 }
 ```
+
 # button
 
 // 引入 iframe http://localhost:61703/#/button/basic 
@@ -88,7 +89,7 @@ class MyApp extends StatelessWidget {
 Flutter Element 提供了灵活的主题定制能力：
 
 ```dart
-import 'package:flutter_element/flutter_element.dart';
+import 'package:flutter_element/flutter_element_plus.dart';
 
 void main() {
   runApp(

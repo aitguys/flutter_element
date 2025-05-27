@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_element/flutter_element.dart';
+import 'package:flutter_element/flutter_element_plus.dart';
 
 class AffixPage extends StatelessWidget {
   const AffixPage({super.key});

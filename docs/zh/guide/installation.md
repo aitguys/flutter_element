@@ -47,7 +47,7 @@ flutter pub get
 在你的代码中导入并使用：
 
 ```dart
-import 'package:flutter_element/flutter_element.dart';
+import 'package:flutter_element/flutter_element_plus.dart';
 
 // 使用按钮组件
 ElButton(

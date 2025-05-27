@@ -40,7 +40,7 @@ dependencies:
 ## 🎯 Quick Start
 
 ```dart
-import 'package:flutter_element/flutter_element.dart';
+import 'package:flutter_element/flutter_element_plus.dart';
 
 // Button component example
 ElementButton(
@@ -55,6 +55,7 @@ ElementButton(
 ## 📚 Component List
 
 ### Basic Components
+
 - [x] [Button](example/lib/pages/button_page/index.dart)
 - [x] [Input](example/lib/pages/input_page/index.dart)
 - [x] [Select](example/lib/pages/select_page/index.dart)
@@ -65,6 +66,7 @@ ElementButton(
 - [x] [Rate](example/lib/pages/rate_page/index.dart)
 
 ### Data Display
+
 - [x] [Tag](example/lib/pages/tag_page/index.dart)
 - [x] [Progress](example/lib/pages/progress_page/index.dart)
 - [x] [Table](example/lib/pages/table_page/index.dart)
@@ -73,6 +75,7 @@ ElementButton(
 - [x] [Tree](example/lib/pages/tree_page/index.dart)
 
 ### Feedback Components
+
 - [x] [Dialog](example/lib/pages/dialog_page/index.dart)
 - [x] [Message](example/lib/pages/message_page/index.dart)
 - [x] [Notification](example/lib/pages/notification_page/index.dart)
@@ -80,6 +83,7 @@ ElementButton(
 - [x] [Alert](example/lib/pages/alert_page/index.dart)
 
 ### Navigation Components
+
 - [x] [Menu](example/lib/pages/menu_page/index.dart)
 - [x] [Tabs](example/lib/pages/tabs_page/index.dart)
 - [x] [Breadcrumb](example/lib/pages/breadcrumb_page/index.dart)
@@ -87,6 +91,7 @@ ElementButton(
 - [x] [Dropdown](example/lib/pages/dropdown_page/index.dart)
 
 ### Other Components
+
 - [x] [Calendar](example/lib/pages/calendar_page/index.dart)
 - [x] [DatePicker](example/lib/pages/date_picker_page/index.dart)
 - [x] [TimePicker](example/lib/pages/time_picker_page/index.dart)
