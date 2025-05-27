@@ -1,3 +1,7 @@
+## 0.0.6
+
+Test for auto publish
+
 # Changelog
 
 ## 0.0.5
