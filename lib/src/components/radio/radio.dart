@@ -3,12 +3,12 @@ import 'package:flutter_element_plus/src/theme/index.dart';
 import 'radio_style.dart';
 
 /// A radio button component that follows Element Plus design guidelines.
-/// 
+///
 /// The [ERadio] widget provides a single radio button that can be used independently
 /// or as part of a [ERadioGroup]. It supports different sizes, states, and styles.
-/// 
+///
 /// ## Example
-/// 
+///
 /// ```dart
 /// // Single radio button
 /// ERadio(
@@ -16,7 +16,7 @@ import 'radio_style.dart';
 ///   label: 'Option 1',
 ///   onChanged: (value) => print('Selected: $value'),
 /// )
-/// 
+///
 /// // Radio group
 /// ERadioGroup(
 ///   value: '1',
@@ -29,7 +29,7 @@ import 'radio_style.dart';
 /// ```
 class ERadio extends StatefulWidget {
   /// The value of the radio button.
-  /// 
+  ///
   /// This value is used to identify the radio button in a group.
   final String? value;
 
@@ -37,28 +37,28 @@ class ERadio extends StatefulWidget {
   final String? label;
 
   /// Whether the radio button is disabled.
-  /// 
+  ///
   /// When true, the radio button cannot be selected and will show a disabled style.
   final bool disabled;
 
   /// Whether to show a border around the radio button.
-  /// 
+  ///
   /// When true, the radio button will be displayed with a border.
   final bool border;
 
   /// The size of the radio button.
-  /// 
+  ///
   /// If not provided, the size will be inherited from the parent [ERadioGroup]
   /// or default to [ERadioSize.medium].
   final ERadioSize? size;
 
   /// The name of the radio button.
-  /// 
+  ///
   /// This is used for form submission and accessibility.
   final String? name;
 
   /// Callback function when the radio button is selected.
-  /// 
+  ///
   /// The callback receives the [value] of the selected radio button.
   final ValueChanged<String>? onChanged;
 
@@ -192,7 +192,7 @@ class _ERadioState extends State<ERadio> {
 }
 
 /// An inherited widget that provides radio group state to its descendants.
-/// 
+///
 /// This widget is used internally by [ERadioGroup] to manage the state of
 /// a group of radio buttons.
 class RadioGroup extends InheritedWidget {
@@ -219,7 +219,7 @@ class RadioGroup extends InheritedWidget {
   });
 
   /// Returns the nearest [RadioGroup] widget in the widget tree.
-  /// 
+  ///
   /// This method is used by [ERadio] widgets to access the group's state.
   static RadioGroup? of(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<RadioGroup>();
@@ -234,12 +234,12 @@ class RadioGroup extends InheritedWidget {
 }
 
 /// A group of radio buttons that work together.
-/// 
+///
 /// The [ERadioGroup] widget manages a group of [ERadio] widgets, ensuring that
 /// only one radio button can be selected at a time.
-/// 
+///
 /// ## Example
-/// 
+///
 /// ```dart
 /// ERadioGroup(
 ///   value: '1',
@@ -265,12 +265,12 @@ class ERadioGroup extends StatefulWidget {
   final ERadioSize size;
 
   /// The list of radio buttons in the group.
-  /// 
+  ///
   /// Each child should be an [ERadio] widget.
   final List<Widget> children;
 
   /// Creates an [ERadioGroup] widget.
-  /// 
+  ///
   /// The [children] argument must not be null and must contain [ERadio] widgets.
   const ERadioGroup({
     super.key,

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 /// A dialog component that follows Element Plus design guidelines.
-/// 
+///
 /// The [EDialog] widget provides a modal dialog with customizable header,
 /// content, and footer sections. It supports various features like draggable
 /// dialogs, custom close behavior, and scroll locking.
-/// 
+///
 /// ## Example
-/// 
+///
 /// ```dart
 /// EDialog(
 ///   title: 'Dialog Title',
@@ -28,100 +28,100 @@ import 'package:flutter/material.dart';
 /// ```
 class EDialog extends StatefulWidget {
   /// The title text to display in the dialog header.
-  /// 
+  ///
   /// If not provided, no title will be shown.
   final String? title;
 
   /// The main content of the dialog.
-  /// 
+  ///
   /// This is displayed in the body section of the dialog.
   final Widget? content;
 
   /// The action buttons to display in the dialog footer.
-  /// 
+  ///
   /// These are typically buttons like "Cancel" and "Confirm".
   final List<Widget>? actions;
 
   /// Whether the dialog is visible.
-  /// 
+  ///
   /// When true, the dialog will be shown with an animation.
   /// Defaults to false.
   final bool visible;
 
   /// Callback function when the dialog is closed.
-  /// 
+  ///
   /// This is called when the user clicks the close button or the modal backdrop.
   final VoidCallback? onClose;
 
   /// Whether to show the close button in the header.
-  /// 
+  ///
   /// When true, a close button will be shown in the top-right corner.
   /// Defaults to true.
   final bool showClose;
 
   /// The width of the dialog.
-  /// 
+  ///
   /// Defaults to 420 logical pixels.
   final double width;
 
   /// The height of the dialog.
-  /// 
+  ///
   /// If not provided, the dialog will size itself based on its content.
   final double? height;
 
   /// Custom padding for the dialog content.
-  /// 
+  ///
   /// If not provided, a default padding of 20 pixels on all sides is used.
   final EdgeInsets? padding;
 
   /// The margin around the dialog.
-  /// 
+  ///
   /// This determines the space between the dialog and the screen edges.
   /// Defaults to 16 pixels on the left and right sides.
   final EdgeInsets margin;
 
   /// Whether to center the dialog content.
-  /// 
+  ///
   /// When true, the title and content will be centered.
   /// Defaults to false.
   final bool center;
 
   /// Whether to prevent scrolling of the dialog content.
-  /// 
+  ///
   /// When true, the content will not be scrollable.
   /// Defaults to true.
   final bool lockScroll;
 
   /// Whether to close the dialog when clicking the modal backdrop.
-  /// 
+  ///
   /// When true, clicking outside the dialog will close it.
   /// Defaults to true.
   final bool closeOnClickModal;
 
   /// Whether to close the dialog when pressing the escape key.
-  /// 
+  ///
   /// When true, pressing the escape key will close the dialog.
   /// Defaults to true.
   final bool closeOnPressEscape;
 
   /// Whether the dialog can be dragged.
-  /// 
+  ///
   /// When true, the dialog can be moved by dragging its header.
   /// Defaults to false.
   final bool draggable;
 
   /// A custom widget to use as the dialog header.
-  /// 
+  ///
   /// If provided, this overrides the default header with title and close button.
   final Widget? customHeader;
 
   /// A custom widget to use as the dialog footer.
-  /// 
+  ///
   /// If provided, this overrides the default footer with action buttons.
   final Widget? customFooter;
 
   /// Creates an [EDialog] widget.
-  /// 
+  ///
   /// The [visible] argument defaults to false.
   const EDialog({
     super.key,

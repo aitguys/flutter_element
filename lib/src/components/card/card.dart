@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 /// The shadow style of the card.
-/// 
+///
 /// This enum defines the different shadow behaviors available for [ECard].
 enum ECardShadow {
   /// Always show the shadow.
@@ -15,13 +15,13 @@ enum ECardShadow {
 }
 
 /// A card component that follows Element Plus design guidelines.
-/// 
+///
 /// The [ECard] widget provides a container with a header, body, and footer
 /// sections. It supports different shadow styles and can be customized with
 /// various styles and dimensions.
-/// 
+///
 /// ## Example
-/// 
+///
 /// ```dart
 /// ECard(
 ///   header: Text('Card Title'),
@@ -32,68 +32,68 @@ enum ECardShadow {
 /// ```
 class ECard extends StatefulWidget {
   /// The widget to display in the card header.
-  /// 
+  ///
   /// This is displayed at the top of the card with default padding.
   final Widget? header;
 
   /// The widget to display in the card footer.
-  /// 
+  ///
   /// This is displayed at the bottom of the card with default padding.
   final Widget? footer;
 
   /// The main content of the card.
-  /// 
+  ///
   /// This is displayed in the body section of the card.
   final Widget? child;
 
   /// Custom decoration for the card body.
-  /// 
+  ///
   /// This can be used to customize the appearance of the body section.
   final BoxDecoration? bodyStyle;
 
   /// Custom CSS class for the header section.
-  /// 
+  ///
   /// This is used for styling the header in web applications.
   final String? headerClass;
 
   /// Custom CSS class for the body section.
-  /// 
+  ///
   /// This is used for styling the body in web applications.
   final String? bodyClass;
 
   /// Custom CSS class for the footer section.
-  /// 
+  ///
   /// This is used for styling the footer in web applications.
   final String? footerClass;
 
   /// The shadow style of the card.
-  /// 
+  ///
   /// This determines when and how the card's shadow is displayed.
   /// Defaults to [ECardShadow.always].
   final ECardShadow shadow;
 
   /// The margin around the card.
-  /// 
+  ///
   /// If not provided, no margin is applied.
   final EdgeInsetsGeometry? margin;
 
   /// The padding inside the card body.
-  /// 
+  ///
   /// If not provided, a default padding of 16 pixels on all sides is used.
   final EdgeInsetsGeometry? padding;
 
   /// The width of the card.
-  /// 
+  ///
   /// If not provided, the card will expand to fill its container's width.
   final double? width;
 
   /// The height of the card.
-  /// 
+  ///
   /// If not provided, the card will size itself based on its content.
   final double? height;
 
   /// Creates an [ECard] widget.
-  /// 
+  ///
   /// The [shadow] argument defaults to [ECardShadow.always].
   const ECard({
     super.key,

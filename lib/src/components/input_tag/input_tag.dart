@@ -6,8 +6,10 @@ import 'package:flutter/services.dart';
 enum EInputTagSize {
   /// Small size (32px height, 14px font)
   small,
+
   /// Medium size (40px height, 16px font)
   medium,
+
   /// Large size (48px height, 18px font)
   large,
 }
@@ -16,6 +18,7 @@ enum EInputTagSize {
 enum EInputTagTrigger {
   /// Add tag when Enter key is pressed
   enter,
+
   /// Add tag when Space key is pressed
   space,
 }

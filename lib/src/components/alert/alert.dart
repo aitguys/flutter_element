@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_element_plus/src/theme/index.dart';
 
 /// An alert component that follows Element Plus design guidelines.
-/// 
+///
 /// The [EAlert] widget provides a customizable alert message with various
 /// types, themes, and features like closable alerts and custom icons.
-/// 
+///
 /// ## Example
-/// 
+///
 /// ```dart
 /// EAlert(
 ///   title: 'Success',
@@ -19,71 +19,71 @@ import 'package:flutter_element_plus/src/theme/index.dart';
 /// ```
 class EAlert extends StatefulWidget {
   /// The main title text of the alert.
-  /// 
+  ///
   /// This is the primary message displayed in the alert.
   final String title;
 
   /// Optional description text to provide additional information.
-  /// 
+  ///
   /// This is displayed below the title in a smaller font size.
   final String? description;
 
   /// The type of alert, which determines its color scheme.
-  /// 
+  ///
   /// Defaults to [EColorType.info].
   final EColorType type;
 
   /// A custom color to use for the alert.
-  /// 
+  ///
   /// If provided, this overrides the color determined by [type].
   final Color? customColor;
 
   /// Whether the alert can be closed by the user.
-  /// 
+  ///
   /// When true, a close button will be shown in the alert.
   /// Defaults to true.
   final bool closable;
 
   /// Whether to show the default icon for the alert type.
-  /// 
+  ///
   /// When true, an icon corresponding to the alert type will be shown.
   /// Defaults to true.
   final bool showIcon;
 
   /// A custom icon to display in the alert.
-  /// 
+  ///
   /// If provided, this overrides the default icon for the alert type.
   final IconData? icon;
 
   /// Callback function when the alert is closed.
-  /// 
+  ///
   /// This is called when the user clicks the close button.
   final VoidCallback? onClose;
 
   /// Whether to center the alert content.
-  /// 
+  ///
   /// When true, the title and description will be centered.
   /// Defaults to false.
   final bool center;
 
   /// A custom widget to use as the close button.
-  /// 
+  ///
   /// If provided, this overrides the default close button.
   final Widget? closeButton;
 
   /// Custom padding for the alert content.
-  /// 
+  ///
   /// If not provided, a default padding of 12 pixels on all sides is used.
   final EdgeInsets? padding;
 
   /// The theme of the alert.
-  /// 
+  ///
   /// This determines whether the alert uses a light or dark color scheme.
   /// Defaults to [EThemeType.dark].
   final EThemeType theme;
 
   /// Creates an [EAlert] widget.
-  /// 
+  ///
   /// The [title] argument is required.
   const EAlert({
     super.key,
@@ -229,13 +229,13 @@ class _EAlertState extends State<EAlert> with SingleTickerProviderStateMixin {
 }
 
 /// Shows an alert dialog that overlays the current screen.
-/// 
+///
 /// This function creates a temporary overlay alert that can be used to
 /// display important messages to the user. The alert can be configured
 /// with various options like type, theme, and auto-close duration.
-/// 
+///
 /// ## Example
-/// 
+///
 /// ```dart
 /// showAlert(
 ///   context: context,
@@ -245,7 +245,7 @@ class _EAlertState extends State<EAlert> with SingleTickerProviderStateMixin {
 ///   autoCloseDuration: Duration(seconds: 3),
 /// )
 /// ```
-/// 
+///
 /// See also:
 /// * [EAlert] for the underlying widget implementation
 Future<void> showAlert({

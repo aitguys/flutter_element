@@ -19,8 +19,7 @@ class DescriptionsPage extends StatelessWidget {
               title: '用户信息',
               items: [
                 EDescriptionItem(label: '用户名', content: Text('张三')),
-                EDescriptionItem(
-                    label: '手机号', content: Text('12345678901')),
+                EDescriptionItem(label: '手机号', content: Text('12345678901')),
                 EDescriptionItem(label: '住址', content: Text('北京市朝阳区')),
                 EDescriptionItem(label: '备注', content: Text('VIP用户')),
               ],
@@ -32,10 +31,8 @@ class DescriptionsPage extends StatelessWidget {
               title: '订单信息',
               border: true,
               items: [
-                EDescriptionItem(
-                    label: '订单号', content: Text('20240601001')),
-                EDescriptionItem(
-                    label: '下单时间', content: Text('2024-06-01')),
+                EDescriptionItem(label: '订单号', content: Text('20240601001')),
+                EDescriptionItem(label: '下单时间', content: Text('2024-06-01')),
                 EDescriptionItem(label: '状态', content: Text('已支付')),
                 EDescriptionItem(label: '金额', content: Text('¥100.00')),
               ],
@@ -47,8 +44,7 @@ class DescriptionsPage extends StatelessWidget {
               title: '商品信息',
               column: 2,
               items: [
-                EDescriptionItem(
-                    label: '商品名', content: Text('iPhone 15')),
+                EDescriptionItem(label: '商品名', content: Text('iPhone 15')),
                 EDescriptionItem(label: '颜色', content: Text('黑色')),
                 EDescriptionItem(label: '容量', content: Text('256GB')),
                 EDescriptionItem(label: '价格', content: Text('¥6999')),

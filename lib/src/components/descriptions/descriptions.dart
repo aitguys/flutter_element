@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 
 /// The size of the descriptions component.
-/// 
+///
 /// This enum defines the different sizes available for [EDescriptions].
 enum EDescriptionsSize {
   /// Medium size (default)
   medium,
+
   /// Small size
   small,
+
   /// Mini size
   mini,
 }
 
 /// An item in the descriptions component.
-/// 
+///
 /// The [EDescriptionItem] class defines a label-value pair to be displayed
 /// in the descriptions list.
 class EDescriptionItem {
@@ -66,13 +68,13 @@ class EDescriptionItem {
 }
 
 /// A descriptions component that follows Element Plus design guidelines.
-/// 
+///
 /// The [EDescriptions] widget provides a way to display a list of label-value
 /// pairs in a structured format. It supports different sizes, column layouts,
 /// and borders.
-/// 
+///
 /// ## Example
-/// 
+///
 /// ```dart
 /// EDescriptions(
 ///   title: 'User Information',

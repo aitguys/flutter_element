@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 /// A column definition for the [ETable] component.
-/// 
+///
 /// The [ETableColumn] class defines how a column should be displayed in the table,
 /// including its label, width, alignment, and custom rendering.
-/// 
+///
 /// ## Example
-/// 
+///
 /// ```dart
 /// ETableColumn(
 ///   prop: 'name',
@@ -51,7 +51,7 @@ class ETableColumn {
 }
 
 /// A table component that follows Element Plus design guidelines.
-/// 
+///
 /// The [ETable] widget provides a data table with features like:
 /// - Customizable columns with sorting
 /// - Striped rows
@@ -59,9 +59,9 @@ class ETableColumn {
 /// - Row click and long press events
 /// - Custom cell rendering
 /// - Fixed header
-/// 
+///
 /// ## Example
-/// 
+///
 /// ```dart
 /// ETable(
 ///   data: [

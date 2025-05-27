@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_element_plus/src/theme/index.dart';
 
 /// A checkbox component that follows Element Plus design guidelines.
-/// 
+///
 /// The [ECheckbox] widget provides a checkbox input that can be used to select
 /// or deselect an option. It supports different sizes, states, and styles.
-/// 
+///
 /// ## Example
-/// 
+///
 /// ```dart
 /// ECheckbox(
 ///   label: 'Accept terms and conditions',
@@ -17,7 +17,7 @@ import 'package:flutter_element_plus/src/theme/index.dart';
 /// ```
 class ECheckbox extends StatefulWidget {
   /// The value of the checkbox.
-  /// 
+  ///
   /// This is used for form submission and accessibility.
   final bool? value;
 
@@ -25,64 +25,64 @@ class ECheckbox extends StatefulWidget {
   final String? label;
 
   /// Whether the checkbox is disabled.
-  /// 
+  ///
   /// When true, the checkbox cannot be selected and will show a disabled style.
   final bool disabled;
 
   /// Whether to show a border around the checkbox.
-  /// 
+  ///
   /// When true, the checkbox will be displayed with a border.
   final bool border;
 
   /// The size of the checkbox.
-  /// 
+  ///
   /// Defaults to [ESizeItem.medium].
   final ESizeItem size;
 
   /// The name of the checkbox.
-  /// 
+  ///
   /// This is used for form submission and accessibility.
   final String? name;
 
   /// Whether the checkbox is checked.
-  /// 
+  ///
   /// This controls the initial checked state of the checkbox.
   final bool checked;
 
   /// Whether the checkbox is in an indeterminate state.
-  /// 
+  ///
   /// When true, the checkbox will show a different style to indicate
   /// that it is neither checked nor unchecked.
   final bool indeterminate;
 
   /// Whether to trigger validation events.
-  /// 
+  ///
   /// When true, the checkbox will trigger form validation when its state changes.
   final bool validateEvent;
 
   /// The tab index of the checkbox.
-  /// 
+  ///
   /// This is used for keyboard navigation and accessibility.
   final String? tabindex;
 
   /// The unique identifier of the checkbox.
-  /// 
+  ///
   /// This is used for accessibility and testing.
   final String? id;
 
   /// The ARIA controls attribute of the checkbox.
-  /// 
+  ///
   /// This is used for accessibility to indicate which elements
   /// are controlled by this checkbox.
   final String? ariaControls;
 
   /// Callback function when the checkbox state changes.
-  /// 
+  ///
   /// The callback receives the new checked state of the checkbox.
   final Function(bool?)? onChange;
 
   /// Creates an [ECheckbox] widget.
-  /// 
+  ///
   /// The [checked] argument defaults to false.
   const ECheckbox({
     super.key,

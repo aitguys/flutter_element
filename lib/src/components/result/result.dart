@@ -1,27 +1,30 @@
 import 'package:flutter/material.dart';
 
 /// The status of the result component.
-/// 
+///
 /// This enum defines the different visual styles available for [EResult].
 enum EResultStatus {
   /// Success status (green)
   success,
+
   /// Warning status (orange)
   warning,
+
   /// Info status (blue)
   info,
+
   /// Error status (red)
   error,
 }
 
 /// A result component that follows Element Plus design guidelines.
-/// 
+///
 /// The [EResult] widget provides a feedback page for displaying the result
 /// of an operation. It supports different status types, custom icons, and
 /// additional content.
-/// 
+///
 /// ## Example
-/// 
+///
 /// ```dart
 /// EResult(
 ///   status: EResultStatus.success,

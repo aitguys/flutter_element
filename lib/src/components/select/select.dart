@@ -5,8 +5,10 @@ import 'package:flutter_element_plus/src/theme/index.dart';
 enum ESelectSize {
   /// Small size (24px height, 12px font)
   small,
+
   /// Medium size (32px height, 14px font)
   medium,
+
   /// Large size (40px height, 16px font)
   large,
 }

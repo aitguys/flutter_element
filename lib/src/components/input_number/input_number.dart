@@ -5,8 +5,10 @@ import 'package:flutter_element_plus/src/theme/index.dart';
 enum EInputNumberSize {
   /// Small size (32px height, 14px font)
   small,
+
   /// Medium size (40px height, 16px font)
   medium,
+
   /// Large size (48px height, 18px font)
   large,
 }
@@ -15,6 +17,7 @@ enum EInputNumberSize {
 enum EInputNumberControlsPosition {
   /// Controls appear on the left side of the input
   left,
+
   /// Controls appear on the right side of the input
   right,
 }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 enum EProgressType {
   /// A horizontal line progress bar
   line,
+
   /// A circular progress indicator
   circle,
 }
@@ -12,16 +13,19 @@ enum EProgressType {
 enum EProgressStatus {
   /// Normal progress state (blue)
   normal,
+
   /// Success state (green)
   success,
+
   /// Error state (red)
   exception,
+
   /// Warning state (orange)
   warning,
 }
 
 /// A progress component that follows Element Plus design guidelines.
-/// 
+///
 /// The [EProgress] widget provides a customizable progress indicator with features like:
 /// - Line and circle types
 /// - Different statuses (normal, success, exception, warning)
@@ -29,7 +33,7 @@ enum EProgressStatus {
 /// - Percentage text display
 /// - Custom stroke width
 /// - Custom dimensions
-/// 
+///
 /// Example:
 /// ```dart
 /// // Line progress
@@ -39,7 +43,7 @@ enum EProgressStatus {
 ///   status: EProgressStatus.success,
 ///   showText: true,
 /// )
-/// 
+///
 /// // Circle progress
 /// EProgress(
 ///   percentage: 50,

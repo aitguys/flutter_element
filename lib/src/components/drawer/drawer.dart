@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 /// A drawer component that follows Element Plus design guidelines.
-/// 
+///
 /// The [EDrawer] widget provides a sliding panel that can be shown from any
 /// side of the screen. It supports various features like modal backdrop,
 /// custom close behavior, and different directions.
-/// 
+///
 /// ## Example
-/// 
+///
 /// ```dart
 /// EDrawer(
 ///   title: 'Drawer Title',
@@ -19,51 +19,51 @@ import 'package:flutter/material.dart';
 /// ```
 class EDrawer extends StatefulWidget {
   /// The title text to display in the drawer header.
-  /// 
+  ///
   /// If not provided, no title will be shown.
   final String? title;
 
   /// The main content of the drawer.
-  /// 
+  ///
   /// This is displayed in the body section of the drawer.
   final Widget? content;
 
   /// Whether the drawer is visible.
-  /// 
+  ///
   /// When true, the drawer will be shown with a sliding animation.
   /// Defaults to false.
   final bool visible;
 
   /// Callback function when the drawer is closed.
-  /// 
+  ///
   /// This is called when the user clicks the close button or the modal backdrop.
   final VoidCallback? onClose;
 
   /// Whether to show the close button in the header.
-  /// 
+  ///
   /// When true, a close button will be shown in the top-right corner.
   /// Defaults to true.
   final bool showClose;
 
   /// The width of the drawer when in horizontal mode.
-  /// 
+  ///
   /// This is used when [direction] is 'ltr' or 'rtl'.
   /// Defaults to 420 logical pixels.
   final double width;
 
   /// The height of the drawer when in vertical mode.
-  /// 
+  ///
   /// This is used when [direction] is 'ttb' or 'btt'.
   /// If not provided, it will be 30% of the screen height.
   final double? height;
 
   /// Custom padding for the drawer content.
-  /// 
+  ///
   /// If not provided, no padding is applied.
   final EdgeInsets? padding;
 
   /// The direction from which the drawer slides in.
-  /// 
+  ///
   /// Possible values are:
   /// * 'ltr' - slides in from the left
   /// * 'rtl' - slides in from the right (default)
@@ -72,48 +72,48 @@ class EDrawer extends StatefulWidget {
   final String direction;
 
   /// Whether to show a modal backdrop behind the drawer.
-  /// 
+  ///
   /// When true, a semi-transparent backdrop will be shown and clicking it
   /// will close the drawer.
   /// Defaults to true.
   final bool modal;
 
   /// Whether to prevent scrolling of the drawer content.
-  /// 
+  ///
   /// When true, the content will not be scrollable.
   /// Defaults to true.
   final bool lockScroll;
 
   /// Whether to close the drawer when clicking the modal backdrop.
-  /// 
+  ///
   /// When true, clicking outside the drawer will close it.
   /// Defaults to true.
   final bool closeOnClickModal;
 
   /// Whether to close the drawer when pressing the escape key.
-  /// 
+  ///
   /// When true, pressing the escape key will close the drawer.
   /// Defaults to true.
   final bool closeOnPressEscape;
 
   /// A custom widget to use as the drawer header.
-  /// 
+  ///
   /// If provided, this overrides the default header with title and close button.
   final Widget? customHeader;
 
   /// The background color of the drawer.
-  /// 
+  ///
   /// If not provided, the theme's dialog background color will be used.
   final Color? backgroundColor;
 
   /// A custom size for the drawer.
-  /// 
+  ///
   /// This overrides both [width] and [height] when provided.
   /// The actual dimension used depends on the [direction].
   final double? size;
 
   /// Creates an [EDrawer] widget.
-  /// 
+  ///
   /// The [visible] argument defaults to false, and [direction] defaults to 'rtl'.
   const EDrawer({
     super.key,

@@ -4,13 +4,13 @@ import 'package:flutter_element_plus/src/theme/index.dart';
 import 'content_caculate.dart';
 
 /// A customizable button component that follows Element Plus design guidelines.
-/// 
+///
 /// The [EButton] widget provides a flexible button implementation with various
 /// styles, states, and behaviors. It supports different types, sizes, and
 /// interactive states like hover, loading, and disabled.
-/// 
+///
 /// ## Example
-/// 
+///
 /// ```dart
 /// EButton(
 ///   text: 'Click me',
@@ -18,83 +18,83 @@ import 'content_caculate.dart';
 ///   onPressed: () => print('Button pressed'),
 /// )
 /// ```
-/// 
+///
 /// See also:
 /// * [EColorType] for available button types
 /// * [ESizeItem] for available button sizes
 class EButton extends StatefulWidget {
   /// The text to display on the button.
-  /// 
+  ///
   /// If both [text] and [child] are provided, [child] takes precedence.
   final String? text;
 
   /// The type of button, which determines its color scheme.
-  /// 
+  ///
   /// Defaults to [EColorType.default_].
   final EColorType type;
 
   /// The size of the button.
-  /// 
+  ///
   /// Defaults to [ESizeItem.medium].
   final ESizeItem size;
 
   /// Custom font size for the button text.
-  /// 
+  ///
   /// If not provided, the size will be determined by [size].
   final double? fontSize;
 
   /// Custom color for the button.
-  /// 
+  ///
   /// If provided, this overrides the color determined by [type].
   final Color? color;
 
   /// Whether the button should be rendered as a link.
-  /// 
+  ///
   /// When true, the button will have no background or border.
   final bool isLink;
 
   /// The icon to display on the button.
-  /// 
+  ///
   /// If provided, the icon will be shown before the text.
   final IconData? icon;
 
   /// A custom widget to display inside the button.
-  /// 
+  ///
   /// If provided, this takes precedence over [text].
   final Widget? child;
 
   /// Whether the button should have a plain style.
-  /// 
+  ///
   /// When true, the button will have a transparent background with a border.
   final bool isPlain;
 
   /// Whether the button should have rounded corners.
-  /// 
+  ///
   /// When true, the button will have fully rounded corners.
   final bool isRound;
 
   /// Whether the button should be circular.
-  /// 
+  ///
   /// When true, the button will be rendered as a circle, typically used for icon-only buttons.
   final bool isCircle;
 
   /// Whether the button is in a loading state.
-  /// 
+  ///
   /// When true, a loading spinner will be shown instead of the button content.
   final bool loading;
 
   /// Whether the button should automatically show loading state when pressed.
-  /// 
+  ///
   /// When true, the button will show a loading spinner while the [onPressed] callback is executing.
   final bool autoLoading;
 
   /// Whether the button is disabled.
-  /// 
+  ///
   /// When true, the button cannot be pressed and will show a disabled style.
   final bool isDisabled;
 
   /// Callback function when the button is pressed.
-  /// 
+  ///
   /// If [autoLoading] is true, this callback can return a [Future] and the button
   /// will show a loading state until the future completes.
   final dynamic Function()? onPressed;
@@ -103,12 +103,12 @@ class EButton extends StatefulWidget {
   final dynamic Function()? onLongPressed;
 
   /// Callback function when the button's hover state changes.
-  /// 
+  ///
   /// The callback receives a boolean indicating whether the button is being hovered.
   final ValueChanged<bool>? onHover;
 
   /// Creates an [EButton] widget.
-  /// 
+  ///
   /// The [text] and [child] arguments are optional, but at least one should be provided
   /// to give the button content.
   const EButton({

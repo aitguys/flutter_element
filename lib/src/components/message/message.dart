@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import '../../theme/index.dart';
 
 /// A message component that follows Element Plus design guidelines.
-/// 
+///
 /// The [EMessage] widget provides a non-disruptive notification that appears
 /// at the top of the screen. It supports different types, sizes, and features
 /// like auto-close and custom icons.
-/// 
+///
 /// ## Example
-/// 
+///
 /// ```dart
 /// // Using the widget directly
 /// EMessage(
@@ -17,7 +17,7 @@ import '../../theme/index.dart';
 ///   duration: 3000,
 ///   onClose: () => print('Message closed'),
 /// )
-/// 
+///
 /// // Using the controller
 /// EMessageController.showSuccess(
 ///   context: context,
@@ -26,74 +26,74 @@ import '../../theme/index.dart';
 /// ```
 class EMessage extends StatefulWidget {
   /// The message text to display.
-  /// 
+  ///
   /// This is the main content of the message.
   final String message;
 
   /// The type of message, which determines its color scheme.
-  /// 
+  ///
   /// This affects both the background color and the icon.
   /// Defaults to [EColorType.info].
   final EColorType type;
 
   /// Whether the message should have rounded corners.
-  /// 
+  ///
   /// When true, the message will have fully rounded corners.
   /// Defaults to false.
   final bool isRound;
 
   /// The size of the message.
-  /// 
+  ///
   /// This affects the padding, font size, and icon size.
   /// Defaults to [ESizeItem.medium].
   final ESizeItem size;
 
   /// The duration in milliseconds before the message automatically closes.
-  /// 
+  ///
   /// If set to 0, the message will not auto-close.
   /// Defaults to 3000 milliseconds (3 seconds).
   final int duration;
 
   /// Whether to show a close button.
-  /// 
+  ///
   /// When true, a close button will be shown on the right side of the message.
   /// Defaults to false.
   final bool showClose;
 
   /// Custom padding for the message content.
-  /// 
+  ///
   /// If not provided, the padding will be determined by [size].
   final EdgeInsets? padding;
 
   /// Custom font size for the message text.
-  /// 
+  ///
   /// If not provided, the font size will be determined by [size].
   final double? fontSize;
 
   /// A custom icon to display in the message.
-  /// 
+  ///
   /// If not provided, a default icon based on [type] will be used.
   final Widget? icon;
 
   /// The vertical offset from the top of the screen.
-  /// 
+  ///
   /// This determines how far from the top the message appears.
   /// Defaults to 20 logical pixels.
   final double? offset;
 
   /// Whether the message is visible.
-  /// 
+  ///
   /// When true, the message will be shown with an animation.
   /// Defaults to true.
   final bool visible;
 
   /// Callback function when the message is closed.
-  /// 
+  ///
   /// This is called when the message is closed either manually or automatically.
   final VoidCallback? onClose;
 
   /// Creates an [EMessage] widget.
-  /// 
+  ///
   /// The [message] argument is required.
   const EMessage({
     super.key,
@@ -257,19 +257,19 @@ class _EMessageState extends State<EMessage>
 }
 
 /// A controller for showing messages using an overlay.
-/// 
+///
 /// The [EMessageController] provides static methods to show different types
 /// of messages without needing to manage the widget state manually.
-/// 
+///
 /// ## Example
-/// 
+///
 /// ```dart
 /// // Show a success message
 /// EMessageController.showSuccess(
 ///   context: context,
 ///   message: 'Operation completed successfully',
 /// )
-/// 
+///
 /// // Show an error message
 /// EMessageController.showError(
 ///   context: context,
@@ -281,7 +281,7 @@ class EMessageController {
   static final List<OverlayEntry> _entries = [];
 
   /// Shows a message with the specified parameters.
-  /// 
+  ///
   /// This is the base method used by all other show methods.
   /// It creates an overlay entry and displays it at the top of the screen.
   static void _showMessage({

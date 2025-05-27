@@ -4,10 +4,13 @@ import 'package:flutter/material.dart';
 class FlSegmentedOption<T> {
   /// The text label to display.
   final String label;
+
   /// The value associated with this option.
   final T value;
+
   /// Optional icon to display before the label.
   final Widget? icon;
+
   /// Whether this option is disabled.
   final bool disabled;
 
@@ -23,26 +26,37 @@ class FlSegmentedOption<T> {
 class FlSegmented<T> extends StatefulWidget {
   /// The list of options to display.
   final List<FlSegmentedOption<T>> options;
+
   /// The currently selected value.
   final T? value;
+
   /// Callback when selection changes.
   final ValueChanged<T>? onChange;
+
   /// Whether to use full width.
   final bool block;
+
   /// The size of the control.
   final Size? size;
+
   /// Text style for unselected options.
   final TextStyle? textStyle;
+
   /// Text style for selected option.
   final TextStyle? selectedTextStyle;
+
   /// Background color of the control.
   final Color? backgroundColor;
+
   /// Background color of selected option.
   final Color? selectedBackgroundColor;
+
   /// Border color of the control.
   final Color? borderColor;
+
   /// Border radius of the control.
   final double borderRadius;
+
   /// Padding around each option.
   final EdgeInsetsGeometry? padding;
 

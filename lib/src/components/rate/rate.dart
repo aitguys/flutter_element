@@ -6,8 +6,10 @@ import 'package:flutter_element_plus/src/theme/index.dart';
 enum ERateSize {
   /// Small size (16px icon, 12px font)
   small,
+
   /// Medium size (20px icon, 14px font)
   medium,
+
   /// Large size (24px icon, 16px font)
   large,
 }

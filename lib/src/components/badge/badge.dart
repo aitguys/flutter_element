@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 /// A badge component that follows Element Plus design guidelines.
-/// 
+///
 /// The [EBadge] widget provides a small badge that can be used to display
 /// notifications, counts, or status indicators. It can be used as a standalone
 /// element or attached to other widgets.
-/// 
+///
 /// ## Example
-/// 
+///
 /// ```dart
 /// // Badge with a number
 /// EBadge(
@@ -15,14 +15,14 @@ import 'package:flutter/material.dart';
 ///   max: 99,
 ///   child: Icon(Icons.notifications),
 /// )
-/// 
+///
 /// // Dot badge
 /// EBadge(
 ///   isDot: true,
 ///   type: 'danger',
 ///   child: Icon(Icons.mail),
 /// )
-/// 
+///
 /// // Custom styled badge
 /// EBadge(
 ///   value: 'New',

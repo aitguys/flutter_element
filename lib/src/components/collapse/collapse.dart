@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 enum ECollapsePanelPosition { left, right }
 
 /// A collapsible panel component that follows Element Plus design guidelines.
-/// 
+///
 /// The [ECollapse] widget provides a container that can be expanded or collapsed
 /// to show or hide content. It supports multiple panels, accordion mode, and
 /// custom expand icons.

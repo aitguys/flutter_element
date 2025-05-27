@@ -5,8 +5,10 @@ import 'package:flutter_element_plus/src/theme/index.dart';
 enum ESliderSize {
   /// Small size with smaller track and thumb
   small,
+
   /// Medium size (default)
   medium,
+
   /// Large size with larger track and thumb
   large,
 }

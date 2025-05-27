@@ -3,7 +3,7 @@ import 'link_style.dart';
 import 'color_caculate.dart';
 
 /// A link component that follows Element Plus design guidelines.
-/// 
+///
 /// The [ELink] widget provides a customizable link with features like:
 /// - Different types (default, primary, success, warning, danger)
 /// - Disabled state
@@ -11,7 +11,7 @@ import 'color_caculate.dart';
 /// - Icon support
 /// - Click handling
 /// - URL navigation
-/// 
+///
 /// Example:
 /// ```dart
 /// ELink(
@@ -22,7 +22,7 @@ import 'color_caculate.dart';
 ///     print('Link clicked');
 ///   },
 /// )
-/// 
+///
 /// // With URL
 /// ELink(
 ///   text: 'Visit website',

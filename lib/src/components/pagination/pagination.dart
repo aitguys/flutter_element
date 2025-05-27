@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 /// A pagination component that follows Element Plus design guidelines.
-/// 
+///
 /// The [EPagination] widget provides a customizable pagination interface with features like:
 /// - Page navigation with previous/next buttons
 /// - Page number display with ellipsis for long ranges
 /// - Page size selection
 /// - Page jumper
 /// - Total count display
-/// 
+///
 /// Example:
 /// ```dart
 /// EPagination(
@@ -74,7 +74,7 @@ class EPagination extends StatelessWidget {
   int get pageCount => (total / pageSize).ceil();
 
   /// Generates the list of page numbers to display, including ellipsis for long ranges.
-  /// 
+  ///
   /// The list includes:
   /// - First page
   /// - Ellipsis (...) if needed
@@ -159,7 +159,7 @@ class EPagination extends StatelessWidget {
 }
 
 /// A widget for jumping to a specific page number.
-/// 
+///
 /// The [_Jumper] provides a text input field where users can enter a page number
 /// to jump to. It validates the input and calls the provided callback when a
 /// valid page number is entered.

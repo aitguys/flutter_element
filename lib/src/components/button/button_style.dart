@@ -1,5 +1,5 @@
 /// The shape of the button.
-/// 
+///
 /// This enum defines the different shape options available for [EButton].
 enum EButtonShape {
   /// Default shape with slightly rounded corners.
@@ -13,7 +13,7 @@ enum EButtonShape {
 }
 
 /// The type of loading indicator to display on the button.
-/// 
+///
 /// This enum defines the different loading indicator styles available for [EButton].
 enum EButtonLoadingType {
   /// A spinning loading indicator.
@@ -24,7 +24,7 @@ enum EButtonLoadingType {
 }
 
 /// The current state of the button.
-/// 
+///
 /// This enum defines the different states a button can be in.
 enum EButtonStatus {
   /// The default state of the button.
@@ -41,7 +41,7 @@ enum EButtonStatus {
 }
 
 /// The visual variant of the button.
-/// 
+///
 /// This enum defines the different color schemes available for [EButton].
 enum EButtonVariant {
   /// Default button style with neutral colors.

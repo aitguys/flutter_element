@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 /// An image component that follows Element Plus design guidelines.
-/// 
+///
 /// The [EImage] widget provides a customizable image display with features like:
 /// - Custom fit and dimensions
 /// - Border radius
 /// - Loading placeholder
 /// - Error widget
 /// - Image preview with zoom, rotate, and fullscreen capabilities
-/// 
+///
 /// Example:
 /// ```dart
 /// EImage(
@@ -116,13 +116,13 @@ class EImage extends StatelessWidget {
 }
 
 /// A dialog widget for previewing images with interactive features.
-/// 
+///
 /// The [_ImagePreviewDialog] provides:
 /// - Zoom in/out functionality
 /// - Image rotation
 /// - Fullscreen toggle
 /// - Close button
-/// 
+///
 /// This is used internally by [EImage] when [preview] is enabled.
 class _ImagePreviewDialog extends StatefulWidget {
   /// The URL of the image to preview.
