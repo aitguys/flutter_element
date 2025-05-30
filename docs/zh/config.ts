@@ -66,16 +66,16 @@ export const zhConfig = {
 				//     { text: 'Dropdown', link: '/zh/components/dropdown' },
 				//   ]
 				// },
-				// {
-				//   text: '其他组件',
-				//   items: [
+				{
+				  text: '其他组件',
+				  items: [
 				//     { text: 'Calendar', link: '/zh/components/calendar' },
-				//     { text: 'DatePicker', link: '/zh/components/date-picker' },
+				    { text: 'DatePicker', link: '/zh/components/date_picker' },
 				//     { text: 'TimePicker', link: '/zh/components/time-picker' },
 				//     { text: 'Upload', link: '/zh/components/upload' },
 				//     { text: 'Form', link: '/zh/components/form' },
-				//   ]
-				// }
+				  ]
+				}
 			],
 			"/zh/guide/": [
 				{
