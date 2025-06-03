@@ -14,7 +14,7 @@ import '../pages/home/home_page.dart';
 import '../pages/tree/tree.dart';
 import '../pages/link_page/link_page.dart';
 import '../pages/scrollbar_page/scrollbar_page.dart';
-import '../pages/checkbox_page/checkbox_page.dart';
+import '../pages/checkbox_page/route.dart';
 import '../pages/color_picker_page/color_picker_page.dart';
 // import '../pages/datePicker/date_picker.dart';
 import '../pages/datePicker/route.dart';
@@ -68,6 +68,7 @@ abstract class Routes {
   static const input = InputRoutes.input;
   static const inputBasic = InputRoutes.inputBasic;
   static const autocomplete = AutocompleteRoutes.autocomplete;
+  static const inputPassword = InputRoutes.inputPassword;
   static const message = MessageRoutes.message;
   static const messageBasic = MessageRoutes.messageBasic;
   static const messageSize = MessageRoutes.messageSize;
@@ -85,7 +86,14 @@ abstract class Routes {
   static const alertApi = AlertRoutes.alertApi;
   static const link = '/link';
   static const scrollbar = '/scrollbar';
-  static const checkbox = '/checkbox';
+  static const checkbox = CheckboxRoutes.checkbox;
+  static const checkboxBasic = CheckboxRoutes.checkboxBasic;
+  static const checkboxTheme = CheckboxRoutes.checkboxTheme;
+  static const checkboxSize = CheckboxRoutes.checkboxSize;
+  static const checkboxDisable = CheckboxRoutes.checkboxDisable;
+  static const checkboxGroup = CheckboxRoutes.checkboxGroup;
+  static const checkboxBorder = CheckboxRoutes.checkboxBorder;
+  static const checkboxSelectAll = CheckboxRoutes.checkboxSelectAll;
   static const colorPicker = '/color_picker';
   static const datePicker = '/datePicker';
   static const timePicker = '/time_picker';
@@ -162,6 +170,7 @@ class AppPages {
     ...alertRoutesPages,
     ...radioRoutesPages,
     ...datePickerRoutesPages,
+    ...checkboxRoutesPages,
     GetPage(
       name: Routes.link,
       page: () => const LinkPage(),
@@ -169,10 +178,6 @@ class AppPages {
     GetPage(
       name: Routes.scrollbar,
       page: () => const ScrollbarPage(),
-    ),
-    GetPage(
-      name: Routes.checkbox,
-      page: () => const CheckboxPage(),
     ),
     GetPage(
       name: Routes.colorPicker,
