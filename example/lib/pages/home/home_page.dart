@@ -91,7 +91,7 @@ class HomePage extends StatelessWidget {
                     FlNavItem(
                       suffix: const Icon(Icons.arrow_forward_ios, size: 16),
                       padding: const EdgeInsets.symmetric(horizontal: 4),
-                      onTap: () => Get.toNamed(Routes.autoComplete),
+                      onTap: () => Get.toNamed(Routes.autocomplete),
                       child: const Text('AutoComplete 自动补全',
                           style: TextStyle(fontSize: 15)),
                     ),

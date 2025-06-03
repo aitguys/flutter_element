@@ -4,6 +4,7 @@ import '../pages/input_page/route.dart';
 import '../pages/message_page/route.dart';
 import '../pages/alert_page/route.dart';
 import '../pages/autocomplete_page/route.dart';
+
 import '../pages/segmented/segmented.dart';
 import '../pages/table_page/table_page.dart';
 import '../pages/tag_page/tag_page.dart';
@@ -64,10 +65,9 @@ abstract class Routes {
   static const buttonBadge = ButtonRoutes.buttonBadge;
   static const buttonLink = ButtonRoutes.buttonLink;
   static const buttonSize = ButtonRoutes.buttonSize;
-  static const autoComplete = AutoCompleteRoutes.autoComplete;
-  static const autoCompleteBasic = AutoCompleteRoutes.autoCompleteBasic;
   static const input = InputRoutes.input;
   static const inputBasic = InputRoutes.inputBasic;
+  static const autocomplete = AutocompleteRoutes.autocomplete;
   static const message = MessageRoutes.message;
   static const messageBasic = MessageRoutes.messageBasic;
   static const messageSize = MessageRoutes.messageSize;
@@ -156,7 +156,7 @@ class AppPages {
       page: () => const TreePage(),
     ),
     ...buttonRoutesPages,
-    ...autoCompleteRoutesPages,
+    ...autocompleteRoutesPages,
     ...inputRoutesPages,
     ...messageRoutesPages,
     ...alertRoutesPages,

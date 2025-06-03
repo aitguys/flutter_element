@@ -1,24 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_element_example/logger/logger.dart';
 import 'package:flutter_element_plus/flutter_element_plus.dart';
 import '../../const/index.dart';
-import 'package:logger/logger.dart';
 
-class AutoCompleteBasicPreview extends StatelessWidget {
-  const AutoCompleteBasicPreview({super.key});
+class AutocompleteBasicPreview extends StatelessWidget {
+  const AutocompleteBasicPreview({super.key});
 
   @override
   Widget build(BuildContext context) {
     return WidgetPreview(
       widget: _viewerContent(),
       code: getCodeUrl('autocomplete_page', 'autocomplete_basic.dart'),
-      title: '基础用法, isPlain, isRound, icon ',
+      title:
+          '基础用法, 通过size （ ESizeItem） 控制输入框大小， 同样可以使用 customHeight 和 customFontSize 自定义输入框高度和字体大小，customHeight 和 customFontSize 会覆盖 size 的设置',
     );
   }
 }
 
-class AutoCompleteBasicView extends StatelessWidget {
-  const AutoCompleteBasicView({super.key});
+class AutocompleteBasicView extends StatefulWidget {
+  const AutocompleteBasicView({super.key});
 
+  @override
+  State<AutocompleteBasicView> createState() => _AutocompleteBasicViewState();
+}
+
+class _AutocompleteBasicViewState extends State<AutocompleteBasicView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,110 +40,93 @@ class AutoCompleteBasicView extends StatelessWidget {
 }
 
 Widget _viewerContent() {
+  TextEditingController textController1 = TextEditingController();
+  TextEditingController textController2 = TextEditingController();
+  TextEditingController textController3 = TextEditingController();
+
   return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      const Text('Basic Autocomplete',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-      const SizedBox(height: 16),
+      const SizedBox(height: 10),
       EAutocomplete(
-        placeholder: 'Please input',
-        clearable: true,
-        disabled: false,
-        debounce: 1000,
+        textController: textController1,
         size: ESizeItem.small,
-        triggerOnFocus: true,
+        placeholder: '请输入内容',
+        clearable: true,
+        fetchSuggestions: (query, callback) {
+          callback([
+            {'value': 'nihao'},
+            {'value': 'nihao2'},
+            {'value': 'nihao3'},
+          ]);
+        },
+        onFocus: () {
+          Loglevel.d('onFocus');
+        },
+        onBlur: () {
+          Loglevel.d('onBlur');
+        },
         onChange: (value) {
-          Logger().d('onChange: $value');
+          Loglevel.d('onChange: $value');
         },
-        fetchSuggestions: (query, callback) {
-          final suggestions = [
-            {'value': 'vue', 'link': 'https://github.com/vuejs/vue'},
-            {'value': 'element', 'link': 'https://github.com/ElemeFE/element'},
-            {'value': 'cooking', 'link': 'https://github.com/ElemeFE/cooking'},
-            {'value': 'mint-ui', 'link': 'https://github.com/ElemeFE/mint-ui'},
-            {'value': 'vuex', 'link': 'https://github.com/vuejs/vuex'},
-            {
-              'value': 'vue-router',
-              'link': 'https://github.com/vuejs/vue-router'
-            },
-            {'value': 'babel', 'link': 'https://github.com/babel/babel'},
-          ];
-          callback(suggestions
-              .where((item) => item['value']
-                  .toString()
-                  .toLowerCase()
-                  .contains(query.toLowerCase()))
-              .toList());
+        onSelect: (value) {
+          Loglevel.d('onSelect: $value');
         },
-        onSelect: (item) {
-          Logger().d('Selected: $item');
+        onClear: () {
+          Loglevel.d('onClear');
         },
       ),
-      const SizedBox(height: 32),
-      const Text('Custom Template',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-      const SizedBox(height: 16),
+      const SizedBox(height: 10),
       EAutocomplete(
-        placeholder: 'Please input',
-        clearable: true,
+        textController: textController2,
+        size: ESizeItem.medium,
+        placeholder: '请输入内容',
         fetchSuggestions: (query, callback) {
-          final suggestions = [
-            {'value': 'vue', 'link': 'https://github.com/vuejs/vue'},
-            {'value': 'element', 'link': 'https://github.com/ElemeFE/element'},
-            {'value': 'cooking', 'link': 'https://github.com/ElemeFE/cooking'},
-            {'value': 'mint-ui', 'link': 'https://github.com/ElemeFE/mint-ui'},
-            {'value': 'vuex', 'link': 'https://github.com/vuejs/vuex'},
-            {
-              'value': 'vue-router',
-              'link': 'https://github.com/vuejs/vue-router'
-            },
-            {'value': 'babel', 'link': 'https://github.com/babel/babel'},
-          ];
-          callback(suggestions
-              .where((item) => item['value']
-                  .toString()
-                  .toLowerCase()
-                  .contains(query.toLowerCase()))
-              .toList());
+          callback([
+            {'value': '1'},
+            {'value': '2'},
+            {'value': '3'},
+          ]);
         },
-        onSelect: (item) {
-          Logger().d('Selected: ${item['value']}');
-        },
-        prefix: const Icon(Icons.search),
-        suffix: const Icon(Icons.edit),
       ),
-      const SizedBox(height: 32),
-      const Text('Remote Search',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-      const SizedBox(height: 16),
+      const SizedBox(height: 10),
       EAutocomplete(
-        placeholder: 'Please input',
-        clearable: true,
-        fetchSuggestions: (query, callback) async {
-          // Simulate remote search
-          await Future.delayed(const Duration(milliseconds: 500));
-          final suggestions = [
-            {'value': 'vue', 'link': 'https://github.com/vuejs/vue'},
-            {'value': 'element', 'link': 'https://github.com/ElemeFE/element'},
-            {'value': 'cooking', 'link': 'https://github.com/ElemeFE/cooking'},
-            {'value': 'mint-ui', 'link': 'https://github.com/ElemeFE/mint-ui'},
-            {'value': 'vuex', 'link': 'https://github.com/vuejs/vuex'},
-            {
-              'value': 'vue-router',
-              'link': 'https://github.com/vuejs/vue-router'
-            },
-            {'value': 'babel', 'link': 'https://github.com/babel/babel'},
-          ];
-          callback(suggestions
-              .where((item) => item['value']
-                  .toString()
-                  .toLowerCase()
-                  .contains(query.toLowerCase()))
-              .toList());
+        textController: textController3,
+        size: ESizeItem.large,
+        placeholder: '请输入内容',
+        fetchSuggestions: (query, callback) {
+          callback([
+            {'value': '1'},
+            {'value': '2'},
+            {'value': '3'},
+          ]);
         },
-        onSelect: (item) {
-          Logger().d('Selected: ${item['value']}');
+      ),
+      // 自定义hight
+      EAutocomplete(
+        textController: textController3,
+        size: ESizeItem.large,
+        customHeight: 100,
+        placeholder: '请输入内容',
+        fetchSuggestions: (query, callback) {
+          callback([
+            {'value': '1'},
+            {'value': '2'},
+            {'value': '3'},
+          ]);
+        },
+      ),
+      EAutocomplete(
+        textController: textController3,
+        size: ESizeItem.large,
+        customHeight: 100,
+        customFontSize: 30,
+        placeholder: '请输入内容',
+        fetchSuggestions: (query, callback) {
+          callback([
+            {'value': '1'},
+            {'value': '2'},
+            {'value': '3'},
+          ]);
         },
       ),
     ],
