@@ -52,7 +52,7 @@ Widget _viewerContent() {
               SizedBox(
                 width: 240,
                 child: EDatePicker(
-                  type: DatePickerType.date,
+                  type: CalendarType.date,
                   placeholder: '选择日期',
                   onChange: (date) {
                     debugPrint('Selected date: $date');
@@ -64,18 +64,16 @@ Widget _viewerContent() {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('基础日期范围选择',
+              const Text('月份选择',
                   style: TextStyle(fontSize: 14, color: Colors.grey)),
               const SizedBox(height: 8),
               SizedBox(
-                width: 360,
+                width: 240,
                 child: EDatePicker(
-                  type: DatePickerType.daterange,
+                  type: CalendarType.month,
                   placeholder: '选择日期范围',
                   onChange: (dates) {
-                    if (dates is List<DateTime>) {
-                      debugPrint('Selected range: ${dates[0]} to ${dates[1]}');
-                    }
+                    debugPrint('Selected date: $dates');
                   },
                 ),
               ),
@@ -84,13 +82,67 @@ Widget _viewerContent() {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('基础日期时间选择',
+              const Text('年份选择',
                   style: TextStyle(fontSize: 14, color: Colors.grey)),
               const SizedBox(height: 8),
               SizedBox(
                 width: 240,
                 child: EDatePicker(
-                  type: DatePickerType.datetime,
+                  type: CalendarType.year,
+                  placeholder: '选择日期时间',
+                  onChange: (date) {
+                    debugPrint('Selected datetime: $date');
+                  },
+                ),
+              ),
+            ],
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('基础日期选择',
+                  style: TextStyle(fontSize: 14, color: Colors.grey)),
+              const SizedBox(height: 8),
+              SizedBox(
+                width: 240,
+                child: EDatePicker(
+                  type: CalendarType.dates,
+                  placeholder: '选择日期',
+                  onChange: (date) {
+                    debugPrint('Selected date: $date');
+                  },
+                ),
+              ),
+            ],
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('月份选择',
+                  style: TextStyle(fontSize: 14, color: Colors.grey)),
+              const SizedBox(height: 8),
+              SizedBox(
+                width: 240,
+                child: EDatePicker(
+                  type: CalendarType.months,
+                  placeholder: '选择日期范围',
+                  onChange: (dates) {
+                    debugPrint('Selected date: $dates');
+                  },
+                ),
+              ),
+            ],
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('年份选择',
+                  style: TextStyle(fontSize: 14, color: Colors.grey)),
+              const SizedBox(height: 8),
+              SizedBox(
+                width: 240,
+                child: EDatePicker(
+                  type: CalendarType.years,
                   placeholder: '选择日期时间',
                   onChange: (date) {
                     debugPrint('Selected datetime: $date');
@@ -103,4 +155,4 @@ Widget _viewerContent() {
       ),
     ],
   );
-} 
+}

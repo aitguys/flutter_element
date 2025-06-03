@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'date_picker_basic.dart';
-import 'date_picker_size.dart';
-import 'date_picker_format.dart';
-import 'date_picker_disabled.dart';
+// import 'date_picker_size.dart';
+// import 'date_picker_format.dart';
+// import 'date_picker_disabled.dart';
 // import 'date_picker_api.dart';
 
 class DatePickerPreview extends StatelessWidget {
@@ -22,13 +22,13 @@ class DatePickerPreview extends StatelessWidget {
         child: Column(
           children: [
             DatePickerBasicPreview(),
-            DatePickerSizePreview(),
-            DatePickerFormatPreview(),
-            DatePickerDisabledPreview(),
+            // DatePickerSizePreview(),
+            // DatePickerFormatPreview(),
+            // DatePickerDisabledPreview(),
             // DatePickerApiPreview(),
           ],
         ),
       ),
     );
   }
-} 
+}
