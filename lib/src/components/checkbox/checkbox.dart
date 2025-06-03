@@ -71,6 +71,11 @@ class ECheckbox extends StatefulWidget {
   /// If provided, this overrides the font size determined by [size].
   final double? customFontSize;
 
+  /// A custom size for the checkbox.
+  ///
+  /// If provided, this overrides the size determined by [size].
+  final double? customIconSize;
+
   /// Callback function when the checkbox state changes.
   ///
   /// The callback receives the new checked state of the checkbox.
@@ -92,6 +97,7 @@ class ECheckbox extends StatefulWidget {
     this.iconColorType = EColorType.primary,
     this.iconCustomColor,
     this.customFontSize,
+    this.customIconSize,
     this.onChange,
   });
 
@@ -129,7 +135,8 @@ class _ECheckboxState extends State<ECheckbox> {
 
   @override
   Widget build(BuildContext context) {
-    final checkboxSize = ElememtSize(size: widget.size).getCheckboxSize();
+    final checkboxSize = ElememtSize(size: widget.size)
+        .getCheckboxSize(customSize: widget.customIconSize);
 
     Widget checkbox = MouseRegion(
       onEnter: (_) => setState(() => _isHovered = true),
@@ -159,34 +166,34 @@ class _ECheckboxState extends State<ECheckbox> {
               : null,
           child: Row(
             mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
                 width: checkboxSize,
                 height: checkboxSize,
-                child: Center(
-                  child: _isChecked
-                      ? Icon(
-                          Icons.check_box,
-                          size: checkboxSize + 4,
-                          color: widget.disabled
-                              ? EBasicColors.borderGray
-                              : getColorByType(
-                                  type: widget.iconColorType,
-                                  customColor: widget.iconCustomColor),
-                        )
-                      : Icon(
-                          Icons.check_box_outline_blank,
-                          size: checkboxSize + 4,
-                          color: widget.disabled
-                              ? EBasicColors.borderGray
-                              : _isHovered
-                                  ? getColorByType(
-                                          type: widget.iconColorType,
-                                          customColor: widget.iconCustomColor)
-                                      .withValues(alpha: 0.5)
-                                  : EBasicColors.borderGray,
-                        ),
-                ),
+                child: _isChecked
+                    ? Icon(
+                        Icons.check_box,
+                        size: checkboxSize,
+                        color: widget.disabled
+                            ? EBasicColors.borderGray
+                            : getColorByType(
+                                type: widget.iconColorType,
+                                customColor: widget.iconCustomColor),
+                      )
+                    : Icon(
+                        Icons.check_box_outline_blank,
+                        size: checkboxSize,
+                        color: widget.disabled
+                            ? EBasicColors.borderGray
+                            : _isHovered
+                                ? getColorByType(
+                                        type: widget.iconColorType,
+                                        customColor: widget.iconCustomColor)
+                                    .withValues(alpha: 0.5)
+                                : EBasicColors.borderGray,
+                      ),
               ),
               if (widget.label != null)
                 Padding(

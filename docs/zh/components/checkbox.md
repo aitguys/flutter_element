@@ -28,7 +28,7 @@
 
 ## 尺寸/字体
 
-通过 `size` 属性设置多选框尺寸，通过 `customFontSize` 自定义字体大小。
+通过 `size` 属性设置多选框尺寸，通过 `customFontSize` 自定义字体大小, `customIconSize` 自定义图标大小。
 
 <CodeView
   codeUrl="checkbox_page/checkbox_size.dart"
@@ -93,6 +93,7 @@
 | iconColorType   | 图标颜色类型   | `EColorType` | `primary` |
 | iconCustomColor | 自定义图标颜色 | `Color?`     | -         |
 | customFontSize  | 自定义字体大小 | `double?`    | -         |
+| customIconSize  | 自定义图标大小 | `double?`    | -         |
 
 ### Checkbox 事件
 

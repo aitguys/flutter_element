@@ -60,6 +60,7 @@ Widget _viewerContent() {
       ECheckbox(
         label: 'Option 2',
         customFontSize: 30,
+        customIconSize: 30,
         onChange: (value) {
           Logger().d('Option 2: $value');
         },
