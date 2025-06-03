@@ -22,7 +22,7 @@ export const zhConfig = {
 					text: "基础组件",
 					items: [
 						{ text: "Button", link: "/zh/components/button" },
-						{ text: "Checkbox", link: "/zh/components/checkbox" },
+
 						// { text: 'Input', link: '/zh/components/input' },
 						// { text: 'Select', link: '/zh/components/select' },
 						// { text: 'Switch', link: '/zh/components/switch' },
@@ -36,6 +36,7 @@ export const zhConfig = {
 						{ text: "Input", link: "/zh/components/input" },
 						{ text: "Autocomplete", link: "/zh/components/autocomplete" },
 						{ text: "Radio", link: "/zh/components/radio" },
+						{ text: "Checkbox", link: "/zh/components/checkbox" },
 					],
 				},
 				// {
