@@ -41,7 +41,7 @@ import { Refresh, CopyDocument } from "@element-plus/icons-vue";
 const basicCodeRepoUrl =
 	"https://raw.githubusercontent.com/aitguys/flutter_element/main/example/lib/pages/";
 // const previewUrl = "https://flutter.freedevtool.cn/#/";
-const previewUrl = "http://localhost:57658/#/";
+const previewUrl = "http://localhost:50082/#/";
 const props = defineProps({
 	reviewUrl: {
 		type: String,

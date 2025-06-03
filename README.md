@@ -4,9 +4,9 @@
 
 基于 [Element Plus](https://element-plus.org/) 设计风格的 Flutter UI 组件库，旨在加速 Flutter 应用开发。
 
-
 ## 🚧 正在开发
-初始版本5月底发布
+
+该组件仍然在开发状态，预计 6 月底有稳定版本上线
 
 ## 🚀 特性
 
@@ -26,15 +26,13 @@
 - [ ] 单元测试
 - [ ] 性能优化
 
-
-
 ## 📦 安装
 
 在 `pubspec.yaml` 中添加依赖：
 
 ```yaml
 dependencies:
-  flutter_element: ^0.1.0  # 版本号待定
+  flutter_element: ^0.1.0 # 版本号待定
 ```
 
 ## 🎯 快速开始
@@ -55,6 +53,7 @@ ElementButton(
 ## 📚 组件列表
 
 ### 基础组件
+
 - [x] [Button 按钮](example/lib/pages/button_page/index.dart)
 - [x] [Input 输入框](example/lib/pages/input_page/index.dart)
 - [x] [Select 选择器](example/lib/pages/select_page/index.dart)
@@ -65,6 +64,7 @@ ElementButton(
 - [x] [Rate 评分](example/lib/pages/rate_page/index.dart)
 
 ### 数据展示
+
 - [x] [Tag 标签](example/lib/pages/tag_page/index.dart)
 - [x] [Progress 进度条](example/lib/pages/progress_page/index.dart)
 - [x] [Table 表格](example/lib/pages/table_page/index.dart)
@@ -73,6 +73,7 @@ ElementButton(
 - [x] [Tree 树形控件](example/lib/pages/tree_page/index.dart)
 
 ### 反馈组件
+
 - [x] [Dialog 对话框](example/lib/pages/dialog_page/index.dart)
 - [x] [Message 消息提示](example/lib/pages/message_page/index.dart)
 - [x] [Notification 通知](example/lib/pages/notification_page/index.dart)
@@ -80,6 +81,7 @@ ElementButton(
 - [x] [Alert 警告](example/lib/pages/alert_page/index.dart)
 
 ### 导航组件
+
 - [x] [Menu 菜单](example/lib/pages/menu_page/index.dart)
 - [x] [Tabs 标签页](example/lib/pages/tabs_page/index.dart)
 - [x] [Breadcrumb 面包屑](example/lib/pages/breadcrumb_page/index.dart)
@@ -87,6 +89,7 @@ ElementButton(
 - [x] [Dropdown 下拉菜单](example/lib/pages/dropdown_page/index.dart)
 
 ### 其他组件
+
 - [x] [Calendar 日历](example/lib/pages/calendar_page/index.dart)
 - [x] [DatePicker 日期选择器](example/lib/pages/date_picker_page/index.dart)
 - [x] [TimePicker 时间选择器](example/lib/pages/time_picker_page/index.dart)

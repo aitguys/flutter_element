@@ -102,6 +102,13 @@ class HomePage extends StatelessWidget {
                       child: const Text('Radio 单选框',
                           style: TextStyle(fontSize: 15)),
                     ),
+                    FlNavItem(
+                      suffix: const Icon(Icons.arrow_forward_ios, size: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      onTap: () => Get.toNamed(Routes.checkbox),
+                      child: const Text('Checkbox 多选框',
+                          style: TextStyle(fontSize: 15)),
+                    ),
                   ],
                 ),
               ),

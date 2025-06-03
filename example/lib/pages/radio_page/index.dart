@@ -4,6 +4,7 @@ import 'radio_disable.dart';
 import 'radio_group.dart';
 import 'radio_size.dart';
 import 'radio_border.dart';
+import 'radio_color.dart';
 
 class RadioPreview extends StatelessWidget {
   const RadioPreview({super.key});
@@ -22,6 +23,7 @@ class RadioPreview extends StatelessWidget {
         child: Column(
           children: [
             RadioBasicPreview(),
+            RadioColorPreview(),
             RadioDisablePreview(),
             RadioGroupPreview(),
             RadioSizePreview(),

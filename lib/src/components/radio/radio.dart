@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element_plus/src/theme/index.dart';
-import 'radio_style.dart';
 
 /// A radio button component that follows Element Plus design guidelines.
 ///
@@ -46,11 +45,31 @@ class ERadio extends StatefulWidget {
   /// When true, the radio button will be displayed with a border.
   final bool border;
 
+  /// The color type of the radio button.
+  ///
+  /// This determines the color scheme used for the radio button's border and focus state.
+  /// Defaults to [EColorType.primary].
+  final EColorType fontColorType;
+
+  /// A custom color to use for the radio button.
+  ///
+  /// If provided, this overrides the color determined by [colorType].
+  final Color? fontCustomColor;
+
+  final EColorType iconColorType;
+
+  final Color? iconCustomColor;
+
   /// The size of the radio button.
   ///
   /// If not provided, the size will be inherited from the parent [ERadioGroup]
-  /// or default to [ERadioSize.medium].
-  final ERadioSize? size;
+  /// or default to [ESizeItem.medium].
+  final ESizeItem? size;
+
+  /// A custom font size for the radio button.
+  ///
+  /// If provided, this overrides the font size determined by [size].
+  final double? customFontSize;
 
   /// The name of the radio button.
   ///
@@ -60,7 +79,6 @@ class ERadio extends StatefulWidget {
   /// Callback function when the radio button is selected.
   ///
   /// The callback receives the [value] of the selected radio button.
-  final ValueChanged<String>? onChanged;
 
   /// Creates an [ERadio] widget.
   const ERadio({
@@ -69,9 +87,13 @@ class ERadio extends StatefulWidget {
     this.label,
     this.disabled = false,
     this.border = false,
+    this.fontColorType = EColorType.primary,
+    this.fontCustomColor,
+    this.iconColorType = EColorType.primary,
+    this.iconCustomColor,
     this.size,
+    this.customFontSize,
     this.name,
-    this.onChanged,
   });
 
   @override
@@ -81,35 +103,20 @@ class ERadio extends StatefulWidget {
 class _ERadioState extends State<ERadio> {
   bool _isHovered = false;
 
-  double getSize(ERadioSize size) {
-    switch (size) {
-      case ERadioSize.small:
-        return 14;
-      case ERadioSize.large:
-        return 18;
-      case ERadioSize.medium:
-        return 16;
-    }
-  }
-
-  double getFontSize(ERadioSize size) {
-    switch (size) {
-      case ERadioSize.small:
-        return 12;
-      case ERadioSize.large:
-        return 16;
-      case ERadioSize.medium:
-        return 14;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final radioGroup = RadioGroup.of(context);
-    final ERadioSize effectiveSize =
-        widget.size ?? radioGroup?.size ?? ERadioSize.medium;
+
     final isChecked = radioGroup?.value == widget.value;
     final isDisabled = widget.disabled || radioGroup?.disabled == true;
+    final size = widget.size ?? radioGroup?.size ?? ESizeItem.medium;
+    final customFontSize = widget.customFontSize ?? radioGroup?.customFontSize;
+    final fontColorType = widget.fontColorType;
+    final fontCustomColor =
+        widget.fontCustomColor ?? radioGroup?.fontCustomColor;
+    final iconColorType = widget.iconColorType;
+    final iconCustomColor =
+        widget.iconCustomColor ?? radioGroup?.iconCustomColor;
 
     Widget radio = MouseRegion(
       onEnter: (_) => setState(() => _isHovered = true),
@@ -126,9 +133,14 @@ class _ERadioState extends State<ERadio> {
                     color: isDisabled
                         ? EBasicColors.borderGray
                         : isChecked
-                            ? EColorTypes.primary
+                            ? getColorByType(
+                                type: iconColorType,
+                                customColor: iconCustomColor)
                             : _isHovered
-                                ? EColorTypes.primary.withValues(alpha: 0.5)
+                                ? getColorByType(
+                                        type: iconColorType,
+                                        customColor: iconCustomColor)
+                                    .withValues(alpha: 0.5)
                                 : EBasicColors.borderGray,
                   ),
                   borderRadius: BorderRadius.circular(4),
@@ -138,17 +150,22 @@ class _ERadioState extends State<ERadio> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
-                width: getSize(effectiveSize),
-                height: getSize(effectiveSize),
+                width: ElememtSize(size: size).getCheckboxSize() * 0.7 + 4,
+                height: ElememtSize(size: size).getCheckboxSize() * 0.7 + 4,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
                     color: isDisabled
                         ? EBasicColors.borderGray
                         : isChecked
-                            ? EColorTypes.primary
+                            ? getColorByType(
+                                type: iconColorType,
+                                customColor: iconCustomColor)
                             : _isHovered
-                                ? EColorTypes.primary.withValues(alpha: 0.5)
+                                ? getColorByType(
+                                        type: iconColorType,
+                                        customColor: iconCustomColor)
+                                    .withValues(alpha: 0.5)
                                 : EBasicColors.borderGray,
                     width: 1,
                   ),
@@ -156,13 +173,17 @@ class _ERadioState extends State<ERadio> {
                 child: isChecked
                     ? Center(
                         child: Container(
-                          width: getSize(effectiveSize) * 0.5,
-                          height: getSize(effectiveSize) * 0.5,
+                          width:
+                              ElememtSize(size: size).getCheckboxSize() * 0.7,
+                          height:
+                              ElememtSize(size: size).getCheckboxSize() * 0.7,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color: isDisabled
                                 ? EBasicColors.borderGray
-                                : EColorTypes.primary,
+                                : getColorByType(
+                                    type: iconColorType,
+                                    customColor: iconCustomColor),
                           ),
                         ),
                       )
@@ -174,10 +195,13 @@ class _ERadioState extends State<ERadio> {
                   child: Text(
                     widget.label!,
                     style: TextStyle(
-                      fontSize: getFontSize(effectiveSize),
+                      fontSize: ElememtSize(size: size)
+                          .getInputFontSize(customFontSize: customFontSize),
                       color: isDisabled
-                          ? EBasicColors.textGray
-                          : EColorTypes.primary,
+                          ? Colors.black
+                          : getColorByType(
+                              type: fontColorType,
+                              customColor: fontCustomColor),
                     ),
                   ),
                 ),
@@ -206,7 +230,13 @@ class RadioGroup extends InheritedWidget {
   final ValueChanged<String>? onChanged;
 
   /// The size of radio buttons in the group.
-  final ERadioSize size;
+  final ESizeItem size;
+
+  final double? customFontSize;
+  final EColorType fontColorType;
+  final Color? fontCustomColor;
+  final EColorType iconColorType;
+  final Color? iconCustomColor;
 
   /// Creates a [RadioGroup] widget.
   const RadioGroup({
@@ -215,7 +245,12 @@ class RadioGroup extends InheritedWidget {
     this.value,
     this.disabled = false,
     this.onChanged,
-    this.size = ERadioSize.medium,
+    this.size = ESizeItem.medium,
+    this.customFontSize,
+    this.fontColorType = EColorType.primary,
+    this.fontCustomColor,
+    this.iconColorType = EColorType.primary,
+    this.iconCustomColor,
   });
 
   /// Returns the nearest [RadioGroup] widget in the widget tree.
@@ -262,7 +297,13 @@ class ERadioGroup extends StatefulWidget {
   final ValueChanged<String>? onChanged;
 
   /// The size of radio buttons in the group.
-  final ERadioSize size;
+  final ESizeItem size;
+
+  final double? customFontSize;
+  final EColorType fontColorType;
+  final Color? fontCustomColor;
+  final EColorType iconColorType;
+  final Color? iconCustomColor;
 
   /// The list of radio buttons in the group.
   ///
@@ -277,7 +318,12 @@ class ERadioGroup extends StatefulWidget {
     this.value,
     this.disabled = false,
     this.onChanged,
-    this.size = ERadioSize.medium,
+    this.size = ESizeItem.medium,
+    this.customFontSize,
+    this.fontColorType = EColorType.primary,
+    this.fontCustomColor,
+    this.iconColorType = EColorType.primary,
+    this.iconCustomColor,
     required this.children,
   });
 
@@ -293,6 +339,11 @@ class _ERadioGroupState extends State<ERadioGroup> {
       disabled: widget.disabled,
       onChanged: widget.onChanged,
       size: widget.size,
+      customFontSize: widget.customFontSize,
+      fontColorType: widget.fontColorType,
+      fontCustomColor: widget.fontCustomColor,
+      iconColorType: widget.iconColorType,
+      iconCustomColor: widget.iconCustomColor,
       child: Wrap(
         spacing: 16,
         children: widget.children,

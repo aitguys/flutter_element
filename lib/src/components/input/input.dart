@@ -289,19 +289,21 @@ class _EInputState extends State<EInput> {
                       onTap: () => setState(() {
                         _isPasswordVisible = !_isPasswordVisible;
                       }),
-                      child: _isPasswordVisible ?Icon(
-                        Icons.visibility,
-                        size: 16,
-                        color: getColorByType(
-                            type: widget.colorType,
-                            customColor: widget.customColor),
-                      ) : Icon(
-                        Icons.visibility_off,
-                        size: 16,
-                        color: getColorByType(
-                            type: widget.colorType,
-                            customColor: widget.customColor),
-                      ),
+                      child: _isPasswordVisible
+                          ? Icon(
+                              Icons.visibility,
+                              size: 16,
+                              color: getColorByType(
+                                  type: widget.colorType,
+                                  customColor: widget.customColor),
+                            )
+                          : Icon(
+                              Icons.visibility_off,
+                              size: 16,
+                              color: getColorByType(
+                                  type: widget.colorType,
+                                  customColor: widget.customColor),
+                            ),
                     ),
                   if (widget.suffix != null)
                     Padding(

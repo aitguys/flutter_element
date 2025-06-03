@@ -39,47 +39,42 @@ class ECheckbox extends StatefulWidget {
   /// Defaults to [ESizeItem.medium].
   final ESizeItem size;
 
-  /// The name of the checkbox.
-  ///
-  /// This is used for form submission and accessibility.
-  final String? name;
-
   /// Whether the checkbox is checked.
   ///
   /// This controls the initial checked state of the checkbox.
   final bool checked;
 
-  /// Whether the checkbox is in an indeterminate state.
+  /// The color type of the checkbox text.
   ///
-  /// When true, the checkbox will show a different style to indicate
-  /// that it is neither checked nor unchecked.
-  final bool indeterminate;
+  /// This determines the color scheme used for the checkbox's text.
+  /// Defaults to [EColorType.primary].
+  final EColorType fontColorType;
 
-  /// Whether to trigger validation events.
+  /// A custom color to use for the checkbox text.
   ///
-  /// When true, the checkbox will trigger form validation when its state changes.
-  final bool validateEvent;
+  /// If provided, this overrides the color determined by [fontColorType].
+  final Color? fontCustomColor;
 
-  /// The tab index of the checkbox.
+  /// The color type of the checkbox icon.
   ///
-  /// This is used for keyboard navigation and accessibility.
-  final String? tabindex;
+  /// This determines the color scheme used for the checkbox's icon.
+  /// Defaults to [EColorType.primary].
+  final EColorType iconColorType;
 
-  /// The unique identifier of the checkbox.
+  /// A custom color to use for the checkbox icon.
   ///
-  /// This is used for accessibility and testing.
-  final String? id;
+  /// If provided, this overrides the color determined by [iconColorType].
+  final Color? iconCustomColor;
 
-  /// The ARIA controls attribute of the checkbox.
+  /// A custom font size for the checkbox.
   ///
-  /// This is used for accessibility to indicate which elements
-  /// are controlled by this checkbox.
-  final String? ariaControls;
+  /// If provided, this overrides the font size determined by [size].
+  final double? customFontSize;
 
   /// Callback function when the checkbox state changes.
   ///
   /// The callback receives the new checked state of the checkbox.
-  final Function(bool?)? onChange;
+  final Function(bool)? onChange;
 
   /// Creates an [ECheckbox] widget.
   ///
@@ -91,13 +86,12 @@ class ECheckbox extends StatefulWidget {
     this.disabled = false,
     this.border = false,
     this.size = ESizeItem.medium,
-    this.name,
     this.checked = false,
-    this.indeterminate = false,
-    this.validateEvent = true,
-    this.tabindex,
-    this.id,
-    this.ariaControls,
+    this.fontColorType = EColorType.primary,
+    this.fontCustomColor,
+    this.iconColorType = EColorType.primary,
+    this.iconCustomColor,
+    this.customFontSize,
     this.onChange,
   });
 
@@ -107,6 +101,7 @@ class ECheckbox extends StatefulWidget {
 
 class _ECheckboxState extends State<ECheckbox> {
   late bool _isChecked;
+  bool _isHovered = false;
 
   @override
   void initState() {
@@ -125,7 +120,6 @@ class _ECheckboxState extends State<ECheckbox> {
   void _handleTap() {
     if (widget.disabled) return;
     setState(() {
-      // widget.value = _isChecked;
       _isChecked = !_isChecked;
     });
     if (widget.onChange != null) {
@@ -136,62 +130,85 @@ class _ECheckboxState extends State<ECheckbox> {
   @override
   Widget build(BuildContext context) {
     final checkboxSize = ElememtSize(size: widget.size).getCheckboxSize();
-    // final backgroundColor =
-    //     widget.disabled ? EBasicColors.borderGray : EColorTypes.primary;
 
-    Widget checkbox = SizedBox(
-      width: checkboxSize,
-      height: checkboxSize,
-      // decoration: BoxDecoration(
-      //   border: Border.all(color: EBasicColors.borderGray),
-      // ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: _handleTap,
-          child: Center(
-            child: _isChecked
-                ? Transform.translate(
-                    offset: const Offset(-2, -2),
-                    child: Icon(
-                      Icons.check_box,
-                      size: checkboxSize + 4,
+    Widget checkbox = MouseRegion(
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      child: GestureDetector(
+        onTap: _handleTap,
+        child: Container(
+          padding: const EdgeInsets.all(4),
+          decoration: widget.border
+              ? BoxDecoration(
+                  border: Border.all(
+                    color: widget.disabled
+                        ? EBasicColors.borderGray
+                        : _isChecked
+                            ? getColorByType(
+                                type: widget.iconColorType,
+                                customColor: widget.iconCustomColor)
+                            : _isHovered
+                                ? getColorByType(
+                                        type: widget.iconColorType,
+                                        customColor: widget.iconCustomColor)
+                                    .withValues(alpha: 0.5)
+                                : EBasicColors.borderGray,
+                  ),
+                  borderRadius: BorderRadius.circular(4),
+                )
+              : null,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                width: checkboxSize,
+                height: checkboxSize,
+                child: Center(
+                  child: _isChecked
+                      ? Icon(
+                          Icons.check_box,
+                          size: checkboxSize + 4,
+                          color: widget.disabled
+                              ? EBasicColors.borderGray
+                              : getColorByType(
+                                  type: widget.iconColorType,
+                                  customColor: widget.iconCustomColor),
+                        )
+                      : Icon(
+                          Icons.check_box_outline_blank,
+                          size: checkboxSize + 4,
+                          color: widget.disabled
+                              ? EBasicColors.borderGray
+                              : _isHovered
+                                  ? getColorByType(
+                                          type: widget.iconColorType,
+                                          customColor: widget.iconCustomColor)
+                                      .withValues(alpha: 0.5)
+                                  : EBasicColors.borderGray,
+                        ),
+                ),
+              ),
+              if (widget.label != null)
+                Padding(
+                  padding: const EdgeInsets.only(left: 8),
+                  child: Text(
+                    widget.label!,
+                    style: TextStyle(
                       color: widget.disabled
                           ? EBasicColors.borderGray
-                          : EColorTypes.primary,
-                    ),
-                  )
-                : Transform.translate(
-                    offset: const Offset(-2, -2),
-                    child: Icon(
-                      Icons.check_box_outline_blank,
-                      size: checkboxSize + 4,
-                      color: widget.disabled
-                          ? EBasicColors.borderGray
-                          : EBasicColors.borderGray,
+                          : getColorByType(
+                              type: widget.fontColorType,
+                              customColor: widget.fontCustomColor),
+                      fontSize: ElememtSize(size: widget.size).getInputFontSize(
+                          customFontSize: widget.customFontSize),
                     ),
                   ),
+                ),
+            ],
           ),
         ),
       ),
     );
-
-    if (widget.label != null) {
-      checkbox = Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          checkbox,
-          const SizedBox(width: 8),
-          Text(
-            widget.label!,
-            style: TextStyle(
-              color: widget.disabled ? EBasicColors.borderGray : Colors.black87,
-              fontSize: 14,
-            ),
-          ),
-        ],
-      );
-    }
 
     return checkbox;
   }

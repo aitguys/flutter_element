@@ -6,10 +6,12 @@ import 'radio_group.dart';
 import 'radio_size.dart';
 import 'radio_border.dart';
 import 'radio_api.dart';
+import 'radio_color.dart';
 
 abstract class RadioRoutes {
   static const radio = '/radio';
   static const radioBasic = '/radio/basic';
+  static const radioColor = '/radio/color';
   static const radioDisable = '/radio/disable';
   static const radioGroup = '/radio/group';
   static const radioSize = '/radio/size';
@@ -25,6 +27,10 @@ final radioRoutesPages = [
   GetPage(
     name: RadioRoutes.radioBasic,
     page: () => const RadioBasicView(),
+  ),
+  GetPage(
+    name: RadioRoutes.radioColor,
+    page: () => const RadioColorView(),
   ),
   GetPage(
     name: RadioRoutes.radioDisable,

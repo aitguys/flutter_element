@@ -11,14 +11,14 @@ import 'autocomplete_api.dart';
 
 abstract class AutocompleteRoutes {
   static const autocomplete = '/autocomplete';
-  static const inputBasic = '/input/basic';
-  static const inputColor = '/input/color';
-  static const inputFix = '/input/fix';
-  static const inputClearable = '/input/clearable';
-  static const inputDisable = '/input/disable';
-  static const inputDefaultColor = '/input/defaultColor';
-  static const inputShowPlaceholder = '/input/showPlaceholder';
-  static const inputApi = '/input/api';
+  static const autocompleteBasic = '/autocomplete/basic';
+  static const autocompleteColor = '/autocomplete/color';
+  static const autocompleteFix = '/autocomplete/fix';
+  static const autocompleteClearable = '/autocomplete/clearable';
+  static const autocompleteDisable = '/autocomplete/disable';
+  static const autocompleteDefaultColor = '/autocomplete/defaultColor';
+  static const autocompleteShowPlaceholder = '/autocomplete/showPlaceholder';
+  static const autocompleteApi = '/autocomplete/api';
 }
 
 final autocompleteRoutesPages = [
@@ -27,35 +27,35 @@ final autocompleteRoutesPages = [
     page: () => const AutocompletePreview(),
   ),
   GetPage(
-    name: AutocompleteRoutes.inputBasic,
+    name: AutocompleteRoutes.autocompleteBasic,
     page: () => const AutocompleteBasicView(),
   ),
   GetPage(
-    name: AutocompleteRoutes.inputColor,
+    name: AutocompleteRoutes.autocompleteColor,
     page: () => const AutocompleteColorView(),
   ),
   GetPage(
-    name: AutocompleteRoutes.inputFix,
+    name: AutocompleteRoutes.autocompleteFix,
     page: () => const AutocompleteFixView(),
   ),
   GetPage(
-    name: AutocompleteRoutes.inputClearable,
+    name: AutocompleteRoutes.autocompleteClearable,
     page: () => const AutocompleteClearableView(),
   ),
   GetPage(
-    name: AutocompleteRoutes.inputDisable,
+    name: AutocompleteRoutes.autocompleteDisable,
     page: () => const AutocompleteDisableView(),
   ),
   GetPage(
-    name: AutocompleteRoutes.inputDefaultColor,
+    name: AutocompleteRoutes.autocompleteDefaultColor,
     page: () => const AutocompleteDefaultColorView(),
   ),
   GetPage(
-    name: AutocompleteRoutes.inputShowPlaceholder,
+    name: AutocompleteRoutes.autocompleteShowPlaceholder,
     page: () => const AutocompleteShowPlaceholderView(),
   ),
   GetPage(
-    name: AutocompleteRoutes.inputApi,
+    name: AutocompleteRoutes.autocompleteApi,
     page: () => const AutocompleteApiView(),
   ),
 ];

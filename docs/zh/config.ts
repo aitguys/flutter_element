@@ -22,10 +22,9 @@ export const zhConfig = {
 					text: "基础组件",
 					items: [
 						{ text: "Button", link: "/zh/components/button" },
+						{ text: "Checkbox", link: "/zh/components/checkbox" },
 						// { text: 'Input', link: '/zh/components/input' },
 						// { text: 'Select', link: '/zh/components/select' },
-						{ text: 'Radio', link: '/zh/components/radio' },
-						// { text: 'Checkbox', link: '/zh/components/checkbox' },
 						// { text: 'Switch', link: '/zh/components/switch' },
 						// { text: 'Slider', link: '/zh/components/slider' },
 						// { text: 'Rate', link: '/zh/components/rate' },
@@ -33,7 +32,11 @@ export const zhConfig = {
 				},
 				{
 					text: "表单组件",
-					items: [{ text: "Input", link: "/zh/components/input" }],
+					items: [
+						{ text: "Input", link: "/zh/components/input" },
+						{ text: "Autocomplete", link: "/zh/components/autocomplete" },
+						{ text: "Radio", link: "/zh/components/radio" },
+					],
 				},
 				// {
 				//   text: '数据展示',
@@ -67,15 +70,15 @@ export const zhConfig = {
 				//   ]
 				// },
 				{
-				  text: '其他组件',
-				  items: [
-				//     { text: 'Calendar', link: '/zh/components/calendar' },
-				    { text: 'DatePicker', link: '/zh/components/date_picker' },
-				//     { text: 'TimePicker', link: '/zh/components/time-picker' },
-				//     { text: 'Upload', link: '/zh/components/upload' },
-				//     { text: 'Form', link: '/zh/components/form' },
-				  ]
-				}
+					text: "其他组件",
+					items: [
+						//     { text: 'Calendar', link: '/zh/components/calendar' },
+						{ text: "DatePicker", link: "/zh/components/date_picker" },
+						//     { text: 'TimePicker', link: '/zh/components/time-picker' },
+						//     { text: 'Upload', link: '/zh/components/upload' },
+						//     { text: 'Form', link: '/zh/components/form' },
+					],
+				},
 			],
 			"/zh/guide/": [
 				{
