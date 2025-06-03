@@ -68,6 +68,7 @@ abstract class Routes {
   static const autoCompleteBasic = AutoCompleteRoutes.autoCompleteBasic;
   static const input = InputRoutes.input;
   static const inputBasic = InputRoutes.inputBasic;
+  static const inputPassword = InputRoutes.inputPassword;
   static const message = MessageRoutes.message;
   static const messageBasic = MessageRoutes.messageBasic;
   static const messageSize = MessageRoutes.messageSize;

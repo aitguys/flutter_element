@@ -1,3 +1,4 @@
+import 'package:flutter_element_example/pages/input_page/input_password.dart';
 import 'package:get/get.dart';
 import 'index.dart';
 import 'input_basic.dart';
@@ -19,6 +20,7 @@ abstract class InputRoutes {
   static const inputDefaultColor = '/input/defaultColor';
   static const inputShowPlaceholder = '/input/showPlaceholder';
   static const inputApi = '/input/api';
+  static const inputPassword = '/input/password';
 }
 
 final inputRoutesPages = [
@@ -57,5 +59,9 @@ final inputRoutesPages = [
   GetPage(
     name: InputRoutes.inputApi,
     page: () => const InputApiView(),
+  ),
+    GetPage(
+    name: InputRoutes.inputPassword,
+    page: () => const InputPasswordView(),
   ),
 ];

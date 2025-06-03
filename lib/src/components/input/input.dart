@@ -41,6 +41,11 @@ class EInput extends StatefulWidget {
   /// When true, the input can be focused but cannot be edited.
   final bool readOnly;
 
+  /// Whether the input is a password input.
+  ///
+  /// When true, the input will be masked as password.
+  final bool password;
+
   /// A widget to display before the input text.
   ///
   /// Typically an [Icon] or other small widget.
@@ -128,6 +133,7 @@ class EInput extends StatefulWidget {
     this.onFocus,
     this.onBlur,
     this.showPlaceholderOnTop = false,
+    this.password = false,
   });
 
   @override
@@ -141,7 +147,7 @@ class _EInputState extends State<EInput> {
   bool _isHovered = false;
   bool _isFocused = false;
   bool _hasValue = false;
-
+  bool _isPasswordVisible = false;
   @override
   void initState() {
     super.initState();
@@ -150,6 +156,7 @@ class _EInputState extends State<EInput> {
     _focusNode.addListener(_handleFocusChange);
     _controller.addListener(_handleTextChange);
     _hasValue = _controller.text.isNotEmpty;
+    _isPasswordVisible = widget.password;
   }
 
   void _handleTextChange() {
@@ -244,6 +251,7 @@ class _EInputState extends State<EInput> {
                       focusNode: _focusNode,
                       enabled: !widget.disabled,
                       readOnly: widget.readOnly,
+                      obscureText: _isPasswordVisible,
                       style: TextStyle(
                           fontSize: ElememtSize(size: widget.size)
                               .getInputFontSize(
@@ -274,6 +282,25 @@ class _EInputState extends State<EInput> {
                                 customColor: widget.customColor),
                           ),
                         ),
+                      ),
+                    ),
+                  if (widget.password)
+                    GestureDetector(
+                      onTap: () => setState(() {
+                        _isPasswordVisible = !_isPasswordVisible;
+                      }),
+                      child: _isPasswordVisible ?Icon(
+                        Icons.visibility,
+                        size: 16,
+                        color: getColorByType(
+                            type: widget.colorType,
+                            customColor: widget.customColor),
+                      ) : Icon(
+                        Icons.visibility_off,
+                        size: 16,
+                        color: getColorByType(
+                            type: widget.colorType,
+                            customColor: widget.customColor),
                       ),
                     ),
                   if (widget.suffix != null)

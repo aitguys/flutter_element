@@ -5,6 +5,7 @@ import 'input_fix.dart';
 import 'input_clearable.dart';
 import 'input_disable.dart';
 import 'input_default_color.dart';
+import 'input_password.dart';
 
 class InputPreview extends StatelessWidget {
   const InputPreview({super.key});
@@ -28,6 +29,7 @@ class InputPreview extends StatelessWidget {
             InputClearablePreview(),
             InputDisablePreview(),
             InputDefaultColorPreview(),
+            InputPasswordPreview(),
           ],
         ),
       ),
