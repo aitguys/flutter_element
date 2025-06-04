@@ -289,7 +289,7 @@ class _EInputState extends State<EInput> {
                       onTap: () => setState(() {
                         _isPasswordVisible = !_isPasswordVisible;
                       }),
-                      child: _isPasswordVisible ?Icon(
+                      child: !_isPasswordVisible ?Icon(
                         Icons.visibility,
                         size: 16,
                         color: getColorByType(
