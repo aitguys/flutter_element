@@ -225,7 +225,8 @@ class _EDatePickerState extends State<EDatePicker> {
         placeholder: widget.placeholder,
         clearable: widget.clearable,
         disabled: widget.disabled,
-        prefix: widget.prefix ?? const Icon(Icons.calendar_month_rounded, size: 20),
+        prefix:
+            widget.prefix ?? const Icon(Icons.calendar_month_rounded, size: 20),
         suffix: widget.suffix,
         size: widget.size,
         readOnly: true,
