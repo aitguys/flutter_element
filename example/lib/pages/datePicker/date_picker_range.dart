@@ -2,21 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_element_plus/flutter_element_plus.dart';
 import '../../const/index.dart';
 
-class DatePickerBasicPreview extends StatelessWidget {
-  const DatePickerBasicPreview({super.key});
+class DatePickerRangePreview extends StatelessWidget {
+  const DatePickerRangePreview({super.key});
 
   @override
   Widget build(BuildContext context) {
     return WidgetPreview(
       widget: _viewerContent(),
-      code: getCodeUrl('datePicker', 'date_picker_basic.dart'),
-      title: '基础用法',
+      code: getCodeUrl('datePicker', 'date_picker_range.dart'),
+      title: '日期范围限制',
     );
   }
 }
 
-class DatePickerBasicView extends StatelessWidget {
-  const DatePickerBasicView({super.key});
+class DatePickerRangeView extends StatelessWidget {
+  const DatePickerRangeView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -43,10 +43,12 @@ Widget _viewerContent() {
           SizedBox(
             width: 240,
             child: EDatePicker(
-              type: CalendarType.date,
-              placeholder: '选择日期',
-              onSelect: (date) {
-                debugPrint('onSelect 触发： Selected date: $date');
+              type: CalendarType.dates,
+              minDate: DateTime(2025, 1, 1),
+              maxDate: DateTime(2025, 12, 31),
+              placeholder: '日期范围限制',
+              onSelect: (dates) {
+                debugPrint('onSelect 触发： Selected dates: $dates');
               },
             ),
           ),
@@ -58,10 +60,12 @@ Widget _viewerContent() {
           SizedBox(
             width: 240,
             child: EDatePicker(
-              type: CalendarType.month,
-              placeholder: '选择月份',
-              onSelect: (date) {
-                debugPrint('onSelect 触发： Selected date: $date');
+              type: CalendarType.months,
+              minDate: DateTime(2025, 1, 1),
+              maxDate: DateTime(2025, 12, 31),
+              placeholder: '月份范围限制',
+              onSelect: (dates) {
+                debugPrint('onSelect 触发： Selected dates: $dates');
               },
             ),
           ),
@@ -73,26 +77,12 @@ Widget _viewerContent() {
           SizedBox(
             width: 240,
             child: EDatePicker(
-              type: CalendarType.year,
-              placeholder: '选择年份',
-              onSelect: (date) {
-                debugPrint('onSelect 触发： Selected date: $date');
-              },
-            ),
-          ),
-        ],
-      ),
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            width: 240,
-            child: EDatePicker(
-              type: CalendarType.date,
-              placeholder: '周视图选择',
-              weekDate: true,
-              onSelect: (date) {
-                debugPrint('onSelect 触发： Selected date: $date');
+              type: CalendarType.years,
+              minDate: DateTime(2025, 1, 1),
+              maxDate: DateTime(2025, 12, 31),
+              placeholder: '年份范围限制',
+              onSelect: (dates) {
+                debugPrint('onSelect 触发： Selected dates: $dates');
               },
             ),
           ),

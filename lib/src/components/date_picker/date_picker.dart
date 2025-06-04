@@ -7,43 +7,56 @@ import 'calendar.dart';
 import 'package:intl/intl.dart';
 
 class EDatePicker extends StatefulWidget {
-  final DateTime? value;
-  final ValueChanged<String?>? onChange;
-  final String? placeholder;
-  final bool disabled;
-  final bool clearable;
+  final String? value;
   final String? format;
-  final ESizeItem size;
-  final Widget? prefix;
-  final Widget? suffix;
   final DateTime? minDate;
   final DateTime? maxDate;
   final CalendarType type;
-  final bool showtimeSelect;
+  // 继承自input
+  final String? placeholder;
+  final bool disabled;
+  final bool clearable;
+  final ESizeItem size;
+  final Widget? prefix;
+  final Widget? suffix;
+  final bool weekDate;
   final Widget? prevMonth;
   final Widget? nextMonth;
   final Widget? prevYear;
   final Widget? nextYear;
-
+  final EColorType colorType;
+  final Color? customColor;
+  final Color defaultColor;
+  final double? customHeight;
+  final double? customFontSize;
+  final double? customBorderRadius;
+  final ValueChanged<String?>? onSelect;
   const EDatePicker({
     super.key,
     this.value,
-    this.onChange,
-    this.placeholder = '选择日期',
-    this.disabled = false,
-    this.showtimeSelect = false,
-    this.clearable = true,
+    this.onSelect,
     this.format,
-    this.size = ESizeItem.medium,
     this.type = CalendarType.date,
+    this.weekDate = false,
     this.minDate,
     this.maxDate,
-    this.prefix,
-    this.suffix,
     this.prevMonth = const Icon(Icons.chevron_left, size: 20),
     this.nextMonth = const Icon(Icons.chevron_right, size: 20),
     this.prevYear = const Icon(Icons.keyboard_double_arrow_left, size: 20),
     this.nextYear = const Icon(Icons.keyboard_double_arrow_right, size: 20),
+    // 继承自input
+    this.placeholder = '选择日期',
+    this.disabled = false,
+    this.clearable = true,
+    this.prefix,
+    this.suffix,
+    this.colorType = EColorType.primary,
+    this.customColor,
+    this.defaultColor = EBasicColors.borderGray,
+    this.size = ESizeItem.medium,
+    this.customHeight,
+    this.customFontSize,
+    this.customBorderRadius,
   });
   @override
   State<EDatePicker> createState() => _EDatePickerState();
@@ -58,9 +71,7 @@ class _EDatePickerState extends State<EDatePicker> {
   @override
   void initState() {
     super.initState();
-    _selectedDate = widget.value != null
-        ? DateFormat(widget.format).format(widget.value!)
-        : null;
+    _selectedDate = widget.value;
     _controller = TextEditingController(
       text: _selectedDate ?? '',
     );
@@ -70,9 +81,7 @@ class _EDatePickerState extends State<EDatePicker> {
   void didUpdateWidget(EDatePicker oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.value != oldWidget.value) {
-      _selectedDate = widget.value != null
-          ? DateFormat(widget.format).format(widget.value!)
-          : null;
+      _selectedDate = widget.value;
       _controller.text = _selectedDate ?? '';
     }
   }
@@ -85,52 +94,111 @@ class _EDatePickerState extends State<EDatePicker> {
     _removeOverlay();
     final RenderBox renderBox = context.findRenderObject() as RenderBox;
     final size = renderBox.size;
+    final offset = renderBox.localToGlobal(Offset.zero);
+
+    // 获取屏幕尺寸和弹窗高度
+    final screenSize = MediaQuery.of(context).size;
+    final double popupHeight =
+        widget.weekDate && widget.type == CalendarType.date
+            ? 180
+            : 320; // 周视图高度较小
+    const double margin = 8; // 边距
+
+    // 计算底部可用空间
+    final bottomSpace = screenSize.height - offset.dy - size.height - margin;
+
+    // 动态决定弹窗位置
+    double topOffset;
+
+    if (bottomSpace >= popupHeight) {
+      // 底部空间充足：显示在下方
+      topOffset = size.height + margin;
+    } else {
+      // 底部空间不足：显示在上方
+      if (widget.type == CalendarType.dates) {
+        topOffset = -430;
+      } else if (widget.type == CalendarType.date) {
+        if (widget.weekDate) {
+          topOffset = -180; // 周视图高度较小
+        } else {
+          topOffset = -390;
+        }
+      } else if (widget.type == CalendarType.years ||
+          widget.type == CalendarType.months) {
+        topOffset = -260;
+      } else if (widget.type == CalendarType.year ||
+          widget.type == CalendarType.month) {
+        topOffset = -220;
+      } else {
+        topOffset = -220;
+      }
+    }
+
+    final bool isWeekView = widget.weekDate && widget.type == CalendarType.date;
+    final double popupWidth = isWeekView ? 400 : 320;
+
     _overlayEntry = OverlayEntry(
-      builder: (context) => Positioned(
-        width: 320,
-        child: CompositedTransformFollower(
-          link: _layerLink,
-          showWhenUnlinked: false,
-          offset: Offset(0, size.height + 8),
-          child: Material(
-            elevation: 8,
-            borderRadius: BorderRadius.circular(4),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(4),
-              ),
-              child: Calendar(
-                initialDate: _selectedDate,
-                type: widget.type,
-                minDate: widget.minDate,
-                maxDate: widget.maxDate,
-                onSelect: (date) {
-                  debugPrint('已经选择的日期: $date');
-                  _removeOverlay();
-                  if (date != null) {
-                    setState(() {
-                      if (date is String) {
-                        _controller.text = date;
-                      } else {
-                        _selectedDate = date;
-                        _controller.text =
-                            DateFormat(getDefaultFormat(widget.type))
-                                .format(date);
-                      }
-                    });
-                    widget.onChange?.call(date);
-                  }
-                },
-                prevMonth: widget.prevMonth,
-                nextMonth: widget.nextMonth,
-                prevYear: widget.prevYear,
-                nextYear: widget.nextYear,
-                format: widget.format ?? getDefaultFormat(widget.type),
+      builder: (context) => Stack(
+        children: [
+          Positioned.fill(
+            child: GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: _removeOverlay,
+              child: Container(
+                color: Colors.transparent,
               ),
             ),
           ),
-        ),
+          Positioned(
+            width: popupWidth,
+            child: CompositedTransformFollower(
+              link: _layerLink,
+              showWhenUnlinked: false,
+              offset: Offset(0, topOffset),
+              child: GestureDetector(
+                onTap: () {},
+                child: Material(
+                  elevation: 8,
+                  borderRadius: BorderRadius.circular(4),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: Calendar(
+                      initialDate: _selectedDate,
+                      type: widget.type,
+                      minDate: widget.minDate,
+                      maxDate: widget.maxDate,
+                      onSelect: (date) {
+                        _removeOverlay();
+                        if (date != null) {
+                          setState(() {
+                            if (date is String) {
+                              _controller.text = date;
+                            } else {
+                              _selectedDate = date;
+                              _controller.text =
+                                  DateFormat(getDefaultFormat(widget.type))
+                                      .format(date);
+                            }
+                          });
+                          widget.onSelect?.call(date);
+                        }
+                      },
+                      prevMonth: widget.prevMonth,
+                      nextMonth: widget.nextMonth,
+                      prevYear: widget.prevYear,
+                      nextYear: widget.nextYear,
+                      format: widget.format ?? getDefaultFormat(widget.type),
+                      weekDate: widget.weekDate,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
     Overlay.of(context).insert(_overlayEntry!);
@@ -162,6 +230,12 @@ class _EDatePickerState extends State<EDatePicker> {
         size: widget.size,
         readOnly: true,
         onFocus: _showCalendar,
+        colorType: widget.colorType,
+        customColor: widget.customColor,
+        defaultColor: widget.defaultColor,
+        customHeight: widget.customHeight,
+        customFontSize: widget.customFontSize,
+        customBorderRadius: widget.customBorderRadius,
       ),
     );
   }

@@ -37,6 +37,9 @@ export const zhConfig = {
 						{ text: "Autocomplete", link: "/zh/components/autocomplete" },
 						{ text: "Radio", link: "/zh/components/radio" },
 						{ text: "Checkbox", link: "/zh/components/checkbox" },
+						{ text: "DatePicker", link: "/zh/components/date_picker" },
+						{ text: "InputNumber", link: "/zh/components/input_number" },
+						{ text: "InputTag", link: "/zh/components/input_tag" },
 					],
 				},
 				// {
