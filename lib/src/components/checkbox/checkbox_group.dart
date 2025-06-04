@@ -8,11 +8,6 @@ class ECheckboxGroup extends StatefulWidget {
   final bool disabled;
   final int? min;
   final int? max;
-  final String? ariaLabel;
-  final String? textColor;
-  final String? fill;
-  final String? tag;
-  final bool validateEvent;
   final Function(List<String>)? onChange;
   final List<Widget> children;
   const ECheckboxGroup({
@@ -22,11 +17,6 @@ class ECheckboxGroup extends StatefulWidget {
     this.disabled = false,
     this.min,
     this.max,
-    this.ariaLabel,
-    this.textColor,
-    this.fill,
-    this.tag,
-    this.validateEvent = true,
     this.onChange,
     this.children = const [],
   });
@@ -92,16 +82,10 @@ class _ECheckboxGroupState extends State<ECheckboxGroup> {
             disabled: widget.disabled || child.disabled,
             border: child.border,
             size: widget.size,
-            name: child.name,
             checked: _selectedValues.contains(child.label),
-            indeterminate: child.indeterminate,
-            validateEvent: child.validateEvent,
-            tabindex: child.tabindex,
-            id: child.id,
-            ariaControls: child.ariaControls,
             onChange: (checked) {
               if (child.label != null) {
-                _handleChange(child.label!, checked ?? false);
+                _handleChange(child.label.toString(), checked ?? false);
               }
             },
           );

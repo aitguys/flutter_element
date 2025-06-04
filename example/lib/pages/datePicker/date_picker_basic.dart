@@ -33,74 +33,71 @@ class DatePickerBasicView extends StatelessWidget {
 }
 
 Widget _viewerContent() {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
+  return Wrap(
+    spacing: 20,
+    runSpacing: 20,
     children: [
-      const Text('基础用法',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-      const SizedBox(height: 16),
-      Wrap(
-        spacing: 20,
-        runSpacing: 20,
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text('基础日期选择',
-                  style: TextStyle(fontSize: 14, color: Colors.grey)),
-              const SizedBox(height: 8),
-              SizedBox(
-                width: 240,
-                child: EDatePicker(
-                  type: DatePickerType.date,
-                  placeholder: '选择日期',
-                  onChange: (date) {
-                    debugPrint('Selected date: $date');
-                  },
-                ),
-              ),
-            ],
+          SizedBox(
+            width: 240,
+            child: EDatePicker(
+              type: CalendarType.date,
+              placeholder: '选择日期',
+              onSelect: (date) {
+                debugPrint('onSelect 触发： Selected date: $date');
+              },
+            ),
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text('基础日期范围选择',
-                  style: TextStyle(fontSize: 14, color: Colors.grey)),
-              const SizedBox(height: 8),
-              SizedBox(
-                width: 360,
-                child: EDatePicker(
-                  type: DatePickerType.daterange,
-                  placeholder: '选择日期范围',
-                  onChange: (dates) {
-                    if (dates is List<DateTime>) {
-                      debugPrint('Selected range: ${dates[0]} to ${dates[1]}');
-                    }
-                  },
-                ),
-              ),
-            ],
+        ],
+      ),
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: 240,
+            child: EDatePicker(
+              type: CalendarType.month,
+              placeholder: '选择月份',
+              onSelect: (date) {
+                debugPrint('onSelect 触发： Selected date: $date');
+              },
+            ),
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text('基础日期时间选择',
-                  style: TextStyle(fontSize: 14, color: Colors.grey)),
-              const SizedBox(height: 8),
-              SizedBox(
-                width: 240,
-                child: EDatePicker(
-                  type: DatePickerType.datetime,
-                  placeholder: '选择日期时间',
-                  onChange: (date) {
-                    debugPrint('Selected datetime: $date');
-                  },
-                ),
-              ),
-            ],
+        ],
+      ),
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: 240,
+            child: EDatePicker(
+              type: CalendarType.year,
+              placeholder: '选择年份',
+              onSelect: (date) {
+                debugPrint('onSelect 触发： Selected date: $date');
+              },
+            ),
+          ),
+        ],
+      ),
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: 240,
+            child: EDatePicker(
+              type: CalendarType.date,
+              placeholder: '周视图选择',
+              weekDate: true,
+              onSelect: (date) {
+                debugPrint('onSelect 触发： Selected date: $date');
+              },
+            ),
           ),
         ],
       ),
     ],
   );
-} 
+}

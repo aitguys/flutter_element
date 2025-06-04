@@ -66,6 +66,16 @@
   height="200px"
 />
 
+## 是否显示为密码
+
+使用 password 控制是否显示为密码
+
+<CodeView
+  codeUrl="input_page/input_password.dart"
+  reviewUrl="input/password"
+  height="200px"
+/>
+
 ## 前缀和后缀
 
 使用 `prefix` 和 `suffix` 属性来定义输入框的前缀和后缀。
@@ -86,16 +96,6 @@ input 组件提供 onFocus, onBlur， onChanged 事件， 可以监听输入框�
   height="200px"
 />
 
-## 是否显示为密码
-
-使用 password 控制是否显示为密码
-
-<CodeView
-  codeUrl="input_page/input_password.dart"
-  reviewUrl="input/passowrd"
-  height="200px"
-/>
-
 ### Input 属性
 
 | 属性名               | 说明                 | 类型                    | 默认值                    |
@@ -104,7 +104,7 @@ input 组件提供 onFocus, onBlur， onChanged 事件， 可以监听输入框�
 | placeholder          | 输入框占位文本       | `String`                | ''                        |
 | clearable            | 是否可清空           | `boolean`               | `false`                   |
 | disabled             | 是否禁用             | `boolean`               | `false`                   |
-| passowrd             | 是否为密码            | `boolean`               | `false`                   |
+| passowrd             | 是否为密码           | `boolean`               | `false`                   |
 | readOnly             | 是否只读             | `boolean`               | `false`                   |
 | prefix               | 输入框前缀           | `Widget`                | -                         |
 | suffix               | 输入框后缀           | `Widget`                | -                         |

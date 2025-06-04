@@ -2,17 +2,63 @@ import 'package:flutter/material.dart';
 import 'package:flutter_element_plus/src/theme/index.dart';
 import 'package:flutter/services.dart';
 
-/// Defines the available sizes for the input tag component.
-enum EInputTagSize {
-  /// Small size (32px height, 14px font)
-  small,
-
-  /// Medium size (40px height, 16px font)
-  medium,
-
-  /// Large size (48px height, 18px font)
-  large,
+/// Default tag builder that creates a tag widget with standard styling
+Widget defaultTagBuilder(
+  BuildContext context,
+  String tag,
+  EColorType colorType,
+  Color? customColor,
+  String? tagEffect,
+  ESizeItem size,
+  double? customFontSize,
+  bool disabled,
+  bool readOnly,
+  String? hoveredTag,
+  Function(String) onRemoveTag,
+) {
+  return MouseRegion(
+    cursor: SystemMouseCursors.click,
+    onEnter: (_) => hoveredTag = tag,
+    onExit: (_) => hoveredTag = null,
+    child: Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: tagEffect == 'dark'
+            ? getColorByType(type: colorType, customColor: customColor)
+            : Colors.grey[200],
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            tag,
+            style: TextStyle(
+              color: tagEffect == 'dark' ? Colors.white : Colors.black,
+              fontSize: ElememtSize(size: size)
+                      .getInputFontSize(customFontSize: customFontSize) -
+                  2,
+            ),
+          ),
+          if (!disabled && !readOnly)
+            GestureDetector(
+              onTap: () => onRemoveTag(tag),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 4),
+                child: Icon(
+                  hoveredTag == tag ? Icons.cancel : Icons.close,
+                  size: 14,
+                  color: tagEffect == 'dark' ? Colors.white : Colors.grey[600],
+                ),
+              ),
+            ),
+        ],
+      ),
+    ),
+  );
 }
+
+/// Defines the available sizes for the input tag component.
 
 /// Defines the trigger events for adding a new tag.
 enum EInputTagTrigger {
@@ -64,7 +110,6 @@ class EInputTag extends StatefulWidget {
   final int? max;
 
   /// The type of tag to display (e.g., 'success', 'warning', 'danger').
-  final String? tagType;
 
   /// The effect style of the tag (e.g., 'dark', 'light', 'plain').
   final String? tagEffect;
@@ -81,7 +126,7 @@ class EInputTag extends StatefulWidget {
 
   /// The size of the input tag component.
   /// Affects the height and font size.
-  final EInputTagSize size;
+  final ESizeItem size;
 
   /// Whether to save the current input as a tag when the input loses focus.
   final bool saveOnBlur;
@@ -92,35 +137,11 @@ class EInputTag extends StatefulWidget {
   /// Whether the input tag component is disabled.
   final bool disabled;
 
-  /// Whether to trigger validation events.
-  final bool validateEvent;
-
   /// Whether the input is read-only.
   final bool readOnly;
 
-  /// Whether the input should be focused on mount.
-  final bool autofocus;
-
-  /// The unique identifier for the input element.
-  final String? id;
-
-  /// The tab index of the input element.
-  final dynamic tabindex;
-
-  /// Maximum length of input text.
-  final dynamic maxlength;
-
-  /// Minimum length of input text.
-  final dynamic minlength;
-
   /// Placeholder text when the input is empty.
   final String? placeholder;
-
-  /// Autocomplete attribute for the input element.
-  final String? autocomplete;
-
-  /// ARIA label for accessibility.
-  final String? ariaLabel;
 
   /// Widget to display before the input.
   final Widget? prefix;
@@ -138,46 +159,61 @@ class EInputTag extends StatefulWidget {
   final VoidCallback? onBlur;
 
   /// Callback function when a new tag is added.
-  final Function(String)? onAddTag;
+  final Function(String, List<String>)? onAddTag;
 
   /// Callback function when a tag is removed.
-  final Function(String)? onRemoveTag;
+  final Function(String, List<String>)? onRemoveTag;
 
   /// Callback function when the input is cleared.
   final VoidCallback? onClear;
 
+  /// The color type of the input.
+  final EColorType colorType;
+
+  /// A custom color to use for the input.
+  final Color? customColor;
+
+  /// The default color for the input's border.
+  final Color defaultColor;
+
+  /// A custom height for the input.
+  final double? customHeight;
+
+  /// A custom font size for the input text.
+  final double? customFontSize;
+
+  /// A custom border radius for the input.
+  final double? customBorderRadius;
+
   const EInputTag({
     super.key,
     this.value,
-    this.onChanged,
     this.max,
-    this.tagType,
     this.tagEffect,
     this.trigger = EInputTagTrigger.enter,
     this.draggable = false,
     this.delimiter,
-    this.size = EInputTagSize.medium,
+    this.size = ESizeItem.medium,
     this.saveOnBlur = true,
-    this.clearable = false,
+    this.clearable = true,
     this.disabled = false,
-    this.validateEvent = true,
     this.readOnly = false,
-    this.autofocus = false,
-    this.id,
-    this.tabindex,
-    this.maxlength,
-    this.minlength,
     this.placeholder,
-    this.autocomplete,
-    this.ariaLabel,
     this.prefix,
     this.suffix,
     this.tagBuilder,
+    this.onChanged,
     this.onFocus,
     this.onBlur,
     this.onAddTag,
     this.onRemoveTag,
     this.onClear,
+    this.colorType = EColorType.primary,
+    this.customColor,
+    this.defaultColor = EBasicColors.borderGray,
+    this.customHeight,
+    this.customFontSize,
+    this.customBorderRadius,
   });
 
   @override
@@ -187,8 +223,6 @@ class EInputTag extends StatefulWidget {
 class _EInputTagState extends State<EInputTag> {
   late TextEditingController _controller;
   late FocusNode _focusNode;
-  // ignore: unused_field
-  bool _isHovered = false;
   bool _isFocused = false;
   String? _hoveredTag;
 
@@ -224,6 +258,8 @@ class _EInputTagState extends State<EInputTag> {
 
   void _handleClear() {
     setState(() {
+      // 清除全部tag
+      widget.value?.clear();
       _controller.clear();
     });
     widget.onClear?.call();
@@ -240,7 +276,7 @@ class _EInputTagState extends State<EInputTag> {
     List<String> newValue = List<String>.from(widget.value ?? []);
     newValue.add(tag);
     widget.onChanged?.call(newValue);
-    widget.onAddTag?.call(tag);
+    widget.onAddTag?.call(tag, newValue);
     _controller.clear();
   }
 
@@ -248,31 +284,7 @@ class _EInputTagState extends State<EInputTag> {
     List<String> newValue = List<String>.from(widget.value ?? []);
     newValue.remove(tag);
     widget.onChanged?.call(newValue);
-    widget.onRemoveTag?.call(tag);
-  }
-
-  double get _height {
-    switch (widget.size) {
-      case EInputTagSize.small:
-        return 32;
-      case EInputTagSize.large:
-        return 48;
-      case EInputTagSize.medium:
-        // default:
-        return 40;
-    }
-  }
-
-  double get _fontSize {
-    switch (widget.size) {
-      case EInputTagSize.small:
-        return 14;
-      case EInputTagSize.large:
-        return 18;
-      case EInputTagSize.medium:
-        // default:
-        return 16;
-    }
+    widget.onRemoveTag?.call(tag, newValue);
   }
 
   @override
@@ -287,26 +299,25 @@ class _EInputTagState extends State<EInputTag> {
     final bool hasValue = _controller.text.isNotEmpty;
     return ConstrainedBox(
       constraints: BoxConstraints(
-        minHeight: _height,
+        minHeight: ElememtSize(size: widget.size)
+            .getInputHeight(customHeight: widget.customHeight),
       ),
       child: MouseRegion(
-        onEnter: (_) => setState(() {
-          _isHovered = true;
-        }),
-        onExit: (_) => setState(() {
-          _isHovered = false;
-        }),
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
           decoration: BoxDecoration(
             border: Border.all(
               color: widget.disabled
-                  ? EBasicColors.borderGray
+                  ? widget.defaultColor
                   : _isFocused
-                      ? EColorTypes.primary
-                      : EBasicColors.borderGray,
+                      ? getColorByType(
+                          type: widget.colorType,
+                          customColor: widget.customColor)
+                      : widget.defaultColor,
             ),
-            borderRadius: BorderRadius.circular(6),
+            borderRadius: BorderRadius.circular(ElememtSize(size: widget.size)
+                .getInputBorderRadius(
+                    customBorderRadius: widget.customBorderRadius)),
             color: widget.disabled ? Colors.grey[100] : Colors.white,
           ),
           child: Row(
@@ -321,69 +332,108 @@ class _EInputTagState extends State<EInputTag> {
                   spacing: 4,
                   runSpacing: 4,
                   children: [
-                    ...?widget.value?.map((tag) => _buildTag(tag)),
-                    KeyboardListener(
-                      focusNode: FocusNode(),
-                      onKeyEvent: (KeyEvent event) {
-                        if (event is KeyDownEvent &&
-                            event.logicalKey == LogicalKeyboardKey.backspace &&
-                            _controller.text.isEmpty &&
-                            widget.value?.isNotEmpty == true) {
-                          _removeTag(widget.value!.last);
-                        } else if (widget.trigger == EInputTagTrigger.space &&
-                            event is KeyDownEvent &&
-                            event.logicalKey == LogicalKeyboardKey.space) {
-                          _addTag(_controller.text);
-                        } else if (widget.trigger == EInputTagTrigger.enter &&
-                            event is KeyDownEvent &&
-                            event.logicalKey == LogicalKeyboardKey.enter) {
-                          _addTag(_controller.text);
-                        }
-                      },
-                      child: TextField(
-                        controller: _controller,
-                        focusNode: _focusNode,
-                        enabled: !widget.disabled,
-                        readOnly: widget.readOnly,
-                        style: TextStyle(fontSize: _fontSize),
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          isDense: true,
-                          isCollapsed: true,
-                          hintText: widget.placeholder,
-                        ),
-                        onChanged: (value) {
-                          if (widget.delimiter != null &&
-                              value.contains(widget.delimiter!)) {
-                            final tags = value.split(widget.delimiter!);
-                            for (var tag in tags) {
-                              if (tag.isNotEmpty) _addTag(tag.trim());
-                            }
-                            _controller.clear();
+                    ...?widget.value?.map((tag) => Padding(
+                          padding: const EdgeInsets.only(right: 4),
+                          child: widget.tagBuilder != null
+                              ? widget.tagBuilder!(context, tag)
+                              : defaultTagBuilder(
+                                  context,
+                                  tag,
+                                  widget.colorType,
+                                  widget.customColor,
+                                  widget.tagEffect,
+                                  widget.size,
+                                  widget.customFontSize,
+                                  widget.disabled,
+                                  widget.readOnly,
+                                  _hoveredTag,
+                                  _removeTag,
+                                ),
+                        )),
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(
+                        maxWidth: double.infinity,
+                      ),
+                      child: KeyboardListener(
+                        focusNode: FocusNode(),
+                        onKeyEvent: (KeyEvent event) {
+                          if (event is KeyDownEvent &&
+                              event.logicalKey ==
+                                  LogicalKeyboardKey.backspace &&
+                              _controller.text.isEmpty &&
+                              widget.value?.isNotEmpty == true) {
+                            _removeTag(widget.value!.last);
                           } else if (widget.trigger == EInputTagTrigger.space &&
-                              value.endsWith(' ')) {
-                            final tag = value.trim();
-                            if (tag.isNotEmpty) {
-                              _addTag(tag);
-                              _controller.clear();
-                            }
+                              event is KeyDownEvent &&
+                              event.logicalKey == LogicalKeyboardKey.space) {
+                            _addTag(_controller.text);
+                          } else if (widget.trigger == EInputTagTrigger.enter &&
+                              event is KeyDownEvent &&
+                              event.logicalKey == LogicalKeyboardKey.enter) {
+                            _addTag(_controller.text);
                           }
                         },
-                        onSubmitted: (value) {
-                          _focusNode.requestFocus(); // 保持焦点
-                        },
+                        child: TextField(
+                          controller: _controller,
+                          focusNode: _focusNode,
+                          enabled: !widget.disabled,
+                          readOnly: widget.readOnly,
+                          style: TextStyle(
+                              fontSize: ElememtSize(size: widget.size)
+                                  .getInputFontSize(
+                                      customFontSize: widget.customFontSize)),
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            isDense: true,
+                            isCollapsed: true,
+                            hintText: widget.placeholder,
+                          ),
+                          onChanged: (value) {
+                            if (widget.delimiter != null &&
+                                value.contains(widget.delimiter!)) {
+                              final tags = value.split(widget.delimiter!);
+                              for (var tag in tags) {
+                                if (tag.isNotEmpty) _addTag(tag.trim());
+                              }
+                              _controller.clear();
+                            } else if (widget.trigger ==
+                                    EInputTagTrigger.space &&
+                                value.endsWith(' ')) {
+                              final tag = value.trim();
+                              if (tag.isNotEmpty) {
+                                _addTag(tag);
+                                _controller.clear();
+                              }
+                            }
+                          },
+                          onSubmitted: (value) {
+                            _focusNode.requestFocus(); // 保持焦点
+                          },
+                        ),
                       ),
                     ),
                   ],
                 ),
               ),
               if (widget.clearable &&
-                  hasValue &&
+                  (widget.value?.length ?? 0) > 0 &&
                   !widget.disabled &&
                   !widget.readOnly)
-                IconButton(
-                  onPressed: _handleClear,
-                  icon: const Icon(Icons.close),
+                GestureDetector(
+                  onTap: _handleClear,
+                  child: MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    child: Container(
+                      padding: const EdgeInsets.all(4),
+                      child: Icon(
+                        Icons.close,
+                        size: 16,
+                        color: getColorByType(
+                            type: widget.colorType,
+                            customColor: widget.customColor),
+                      ),
+                    ),
+                  ),
                 ),
               if (widget.suffix != null)
                 Padding(
@@ -392,52 +442,6 @@ class _EInputTagState extends State<EInputTag> {
                 ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTag(String tag) {
-    if (widget.tagBuilder != null) {
-      return widget.tagBuilder!(context, tag);
-    }
-    return MouseRegion(
-      cursor: SystemMouseCursors.click,
-      onEnter: (_) => setState(() => _hoveredTag = tag),
-      onExit: (_) => setState(() => _hoveredTag = null),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-        decoration: BoxDecoration(
-          color: widget.tagEffect == 'dark'
-              ? EColorTypes.primary
-              : Colors.grey[200],
-          borderRadius: BorderRadius.circular(4),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              tag,
-              style: TextStyle(
-                color: widget.tagEffect == 'dark' ? Colors.white : Colors.black,
-                fontSize: _fontSize - 2,
-              ),
-            ),
-            if (!widget.disabled && !widget.readOnly)
-              GestureDetector(
-                onTap: () => _removeTag(tag),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 4),
-                  child: Icon(
-                    _hoveredTag == tag ? Icons.cancel : Icons.close,
-                    size: 14,
-                    color: widget.tagEffect == 'dark'
-                        ? Colors.white
-                        : Colors.grey[600],
-                  ),
-                ),
-              ),
-          ],
         ),
       ),
     );

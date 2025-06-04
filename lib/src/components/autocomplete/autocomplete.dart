@@ -29,22 +29,16 @@ class TrianglePainter extends CustomPainter {
 }
 
 class EAutocomplete extends StatefulWidget {
-  final TextEditingController? value;
+  final TextEditingController? textController;
   final String? placeholder;
   final bool clearable;
   final bool disabled;
   final String valueKey;
   final int debounce;
   final ESizeItem size;
-  // final String placement;
-  final Function(String, Function(List<dynamic>)) fetchSuggestions;
+  final Function(String, Function(List<Map<String, dynamic>>)) fetchSuggestions;
   final bool triggerOnFocus;
-  // final bool selectWhenUnmatched;
-  final String? name;
-  final String? ariaLabel;
   final bool hideLoading;
-  // final bool teleported;
-  // final String? appendTo;
   final bool highlightFirstItem;
   final bool fitInputWidth;
   final Function(dynamic)? onSelect;
@@ -57,25 +51,26 @@ class EAutocomplete extends StatefulWidget {
   final Widget? prepend;
   final Widget? append;
   final Widget? loading;
+  final EColorType colorType;
+  final Color? customColor;
+  final Color defaultColor;
+  final double? customHeight;
+  final double? customFontSize;
+  final double? customBorderRadius;
+  final bool showPlaceholderOnTop;
 
   const EAutocomplete({
     super.key,
-    this.value,
+    this.textController,
     this.placeholder,
     this.clearable = false,
     this.disabled = false,
     this.valueKey = 'value',
     this.debounce = 300,
-    // this.placement = 'bottom-start',
     required this.fetchSuggestions,
     this.size = ESizeItem.medium,
     this.triggerOnFocus = true,
-    // this.selectWhenUnmatched = false,
-    this.name,
-    this.ariaLabel,
     this.hideLoading = false,
-    // this.teleported = true,
-    // this.appendTo,
     this.highlightFirstItem = false,
     this.fitInputWidth = false,
     this.onSelect,
@@ -88,6 +83,13 @@ class EAutocomplete extends StatefulWidget {
     this.prepend,
     this.append,
     this.loading,
+    this.colorType = EColorType.primary,
+    this.customColor,
+    this.defaultColor = EBasicColors.borderGray,
+    this.customHeight,
+    this.customFontSize,
+    this.customBorderRadius,
+    this.showPlaceholderOnTop = false,
   });
 
   @override
@@ -95,75 +97,160 @@ class EAutocomplete extends StatefulWidget {
 }
 
 class _EAutocompleteState extends State<EAutocomplete> {
-  late final TextEditingController _controller;
-  final FocusNode _focusNode = FocusNode();
-  List<dynamic> _suggestions = [];
-  bool _isLoading = false;
+  late TextEditingController _controller;
+  late FocusNode _focusNode;
   bool _isFocused = false;
-  final int _highlightedIndex = -1;
-  OverlayEntry? _overlayEntry;
-  // dynamic _selectedItem;
+  bool _hasValue = false;
   bool _isSelecting = false;
+  bool _isClearing = false;
+  List<Map<String, dynamic>> _suggestions = [];
+  bool _isLoading = false;
+  int _highlightedIndex = -1;
+  OverlayEntry? _overlayEntry;
   final LayerLink _layerLink = LayerLink();
   Timer? _debounceTimer;
+  String? _selectedValue;
+  List<Map<String, dynamic>> _allSuggestions = [];
+  Timer? _blurTimer;
+  // 事件触发控制器
 
   @override
   void initState() {
     super.initState();
-    _controller = widget.value ?? TextEditingController();
+    _controller = widget.textController ?? TextEditingController();
+    _focusNode = FocusNode();
     _focusNode.addListener(_handleFocusChange);
+    _hasValue = _controller.text.isNotEmpty;
   }
 
-  //
   @override
   void dispose() {
-    if (widget.value == null) {
+    if (widget.textController == null) {
       _controller.dispose();
     }
     _focusNode.dispose();
     _removeOverlay();
     _debounceTimer?.cancel();
+    _blurTimer?.cancel();
     super.dispose();
   }
 
   void _handleFocusChange() {
-    if (!mounted) return;
     setState(() {
       _isFocused = _focusNode.hasFocus;
-      if (_isFocused) {
-        if (widget.triggerOnFocus && !_isSelecting) {
-          _fetchSuggestions(_controller.text);
+    });
+    if (_focusNode.hasFocus) {
+      widget.onFocus?.call();
+
+      // 聚焦时根据 triggerOnFocus 设置触发搜索，但不触发 onChange
+      if (!widget.disabled && _controller.text.isNotEmpty) {
+        _fetchSuggestions(_controller.text);
+      } else if (!widget.disabled && widget.triggerOnFocus) {
+        _fetchSuggestions('');
+      }
+    } else {
+      Future.delayed(const Duration(milliseconds: 100), () {
+        if (mounted) {
+          _removeOverlay();
+          widget.onBlur?.call();
         }
+      });
+    }
+  }
+
+  void _handleTextChange() {
+    // Skip text change handling if we're selecting or clearing
+    if (_isSelecting || _isClearing) return;
+
+    if (_hasValue != _controller.text.isNotEmpty) {
+      setState(() {
+        _hasValue = _controller.text.isNotEmpty;
+      });
+    }
+
+    _selectedValue = null;
+    _debounceTimer?.cancel();
+    _debounceTimer = Timer(Duration(milliseconds: widget.debounce), () {
+      if (!_isSelecting && !_isClearing && !widget.disabled) {
+        widget.onChange?.call(_controller.text);
+        _fetchSuggestions(_controller.text);
       }
     });
   }
 
-  void _handleTextChange(String value) {
-    _debounceTimer?.cancel();
-    _debounceTimer = Timer(Duration(milliseconds: widget.debounce), () {
-      if (widget.onChange != null) {
-        widget.onChange!(value);
+  void _handleClear() {
+    setState(() {
+      _isClearing = true;
+      _controller.clear();
+      _hasValue = false;
+      _suggestions = [];
+      _selectedValue = null;
+    });
+    widget.onClear?.call();
+
+    // Reset clearing flag after a short delay
+    Future.delayed(const Duration(milliseconds: 100), () {
+      if (mounted) {
+        setState(() {
+          _isClearing = false;
+        });
       }
-      // _selectedItem = null;
-      _fetchSuggestions(value);
+    });
+  }
+
+  void _handleSelect(dynamic item) {
+    final selectedText = item[widget.valueKey]?.toString() ?? '';
+
+    _removeOverlay();
+
+    setState(() {
+      _selectedValue = selectedText;
+      if (_selectedValue != null && _selectedValue!.isNotEmpty) {
+        _hasValue = true;
+      }
+      _isSelecting = true;
+    });
+
+    _controller.text = selectedText;
+    _controller.selection = TextSelection.fromPosition(
+      TextPosition(offset: selectedText.length),
+    );
+
+    widget.onSelect?.call(item);
+
+    // Reset selecting flag after a short delay
+    Future.delayed(const Duration(milliseconds: 100), () {
+      if (mounted) {
+        setState(() {
+          _isSelecting = false;
+        });
+      }
+    });
+    Future.delayed(const Duration(milliseconds: 100), () {
+      if (mounted) {
+        _focusNode.unfocus();
+      }
     });
   }
 
   void _fetchSuggestions(String query) async {
-    if (_isLoading) return;
+    if (_isLoading || _isSelecting || widget.disabled) return;
 
-    if (!mounted) return;
     setState(() {
       _isLoading = true;
     });
 
     try {
       widget.fetchSuggestions(query, (suggestions) {
-        if (!mounted) return;
+        if (!mounted || _isSelecting) return;
         setState(() {
-          _suggestions = suggestions;
+          _allSuggestions = suggestions;
+          _suggestions = suggestions.where((item) {
+            final value = item[widget.valueKey]?.toString().toLowerCase() ?? '';
+            return value.contains(query.toLowerCase());
+          }).toList();
           _isLoading = false;
-          if (suggestions.isNotEmpty) {
+          if (_suggestions.isNotEmpty && !widget.disabled) {
             _showOverlay();
           } else {
             _removeOverlay();
@@ -181,7 +268,7 @@ class _EAutocompleteState extends State<EAutocomplete> {
 
   void _showOverlay() {
     _removeOverlay();
-    if (!mounted) return;
+    if (!mounted || widget.disabled) return;
 
     final RenderBox? renderBox = context.findRenderObject() as RenderBox?;
     if (renderBox == null) return;
@@ -193,10 +280,6 @@ class _EAutocompleteState extends State<EAutocomplete> {
         children: [
           GestureDetector(
             behavior: HitTestBehavior.opaque,
-            onTap: () {
-              _removeOverlay();
-              _focusNode.unfocus();
-            },
             child: Container(
               color: Colors.transparent,
               width: MediaQuery.of(context).size.width,
@@ -222,7 +305,7 @@ class _EAutocompleteState extends State<EAutocomplete> {
                   borderRadius: BorderRadius.circular(4),
                   child: Container(
                     decoration: BoxDecoration(
-                      border: Border.all(color: EBasicColors.borderGray),
+                      // border: Border.all(color: widget.defaultColor),
                       borderRadius: BorderRadius.circular(4),
                     ),
                     constraints: BoxConstraints(
@@ -237,36 +320,36 @@ class _EAutocompleteState extends State<EAutocomplete> {
                           final index = entry.key;
                           final item = entry.value;
                           final isHighlighted = index == _highlightedIndex;
-                          return MouseRegion(
-                            cursor: SystemMouseCursors.click,
-                            child: GestureDetector(
-                              onTap: () {
-                                _isSelecting = true;
-                                _handleSelect(item);
-                                _isSelecting = false;
-                              },
-                              child: Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: isHighlighted
-                                      ? EColorTypes.primary
-                                          .withValues(alpha: 0.1)
-                                      : null,
-                                  border: const Border(
-                                    bottom: BorderSide(
-                                      color: EBasicColors.borderGray,
-                                      width: 0.5,
-                                    ),
+                          return InkWell(
+                            onTap: () {
+                              _handleSelect(item);
+                            },
+                            child: Container(
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: isHighlighted
+                                    ? getColorByType(
+                                            type: widget.colorType,
+                                            customColor: widget.customColor)
+                                        .withOpacity(0.1)
+                                    : null,
+                                border: const Border(
+                                  bottom: BorderSide(
+                                    color: EBasicColors.borderGray,
+                                    width: 0.5,
                                   ),
                                 ),
-                                child: ListTile(
-                                  title: Text(
-                                    item[widget.valueKey].toString(),
-                                    style: TextStyle(
-                                      color: isHighlighted
-                                          ? EColorTypes.primary
-                                          : Colors.black87,
-                                    ),
+                              ),
+                              child: ListTile(
+                                dense: true,
+                                title: Text(
+                                  item[widget.valueKey]?.toString() ?? '',
+                                  style: TextStyle(
+                                    color: isHighlighted
+                                        ? getColorByType(
+                                            type: widget.colorType,
+                                            customColor: widget.customColor)
+                                        : Colors.black87,
                                   ),
                                 ),
                               ),
@@ -284,8 +367,7 @@ class _EAutocompleteState extends State<EAutocomplete> {
       ),
     );
 
-    final BuildContext currentContext = context;
-    Overlay.of(currentContext).insert(_overlayEntry!);
+    Overlay.of(context).insert(_overlayEntry!);
   }
 
   void _removeOverlay() {
@@ -293,96 +375,172 @@ class _EAutocompleteState extends State<EAutocomplete> {
     _overlayEntry = null;
   }
 
-  void _handleSelect(dynamic item) {
-    setState(() {
-      // _selectedItem = item;
-      _controller.text = item[widget.valueKey].toString();
-    });
-    _removeOverlay(); // Ensure overlay is closed upon selection
-    if (widget.onSelect != null) {
-      widget.onSelect!(item);
-    }
-    // Optionally trigger onChange if needed
-    if (widget.onChange != null) {
-      widget.onChange!(_controller.text);
-    }
-    _isSelecting = false;
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Stack(
+      clipBehavior: Clip.none,
       children: [
-        if (widget.prepend != null) widget.prepend!,
-        Expanded(
-          child: CompositedTransformTarget(
-            link: _layerLink,
-            child: TextField(
-              controller: _controller,
-              focusNode: _focusNode,
-              enabled: !widget.disabled,
-              decoration: InputDecoration(
-                hintText: widget.placeholder,
-                hintStyle: const TextStyle(color: EBasicColors.borderGray),
-                prefixIcon: widget.prefix,
-                contentPadding:
-                    ElememtSize(size: widget.size).getInputPadding(),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(4),
-                  borderSide: const BorderSide(color: EBasicColors.borderGray),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(4),
-                  borderSide: const BorderSide(color: EBasicColors.borderGray),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(4),
-                  borderSide: const BorderSide(color: EColorTypes.primary),
-                ),
-                suffixIcon: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    if (_isLoading && !widget.hideLoading)
-                      const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                                EColorTypes.primary),
+        Row(
+          children: [
+            Expanded(
+              child: CompositedTransformTarget(
+                link: _layerLink,
+                child: SizedBox(
+                  height: ElememtSize(size: widget.size)
+                      .getInputHeight(customHeight: widget.customHeight),
+                  child: MouseRegion(
+                    child: GestureDetector(
+                      onTap: () {
+                        if (!widget.disabled && _controller.text.isNotEmpty) {
+                          _fetchSuggestions(_controller.text);
+                        } else if (!widget.disabled && widget.triggerOnFocus) {
+                          _fetchSuggestions('');
+                        }
+                      },
+                      child: Container(
+                        padding: EdgeInsets.only(
+                            left: widget.prepend != null ? 0 : 8,
+                            right: widget.append != null ? 0 : 8),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: widget.disabled
+                                ? widget.defaultColor
+                                : _isFocused
+                                    ? getColorByType(
+                                        type: widget.colorType,
+                                        customColor: widget.customColor)
+                                    : widget.defaultColor,
                           ),
+                          borderRadius: BorderRadius.circular(
+                              ElememtSize(size: widget.size)
+                                  .getInputBorderRadius(
+                                      customBorderRadius:
+                                          widget.customBorderRadius)),
+                          color:
+                              widget.disabled ? Colors.grey[100] : Colors.white,
+                        ),
+                        child: Row(
+                          children: [
+                            if (widget.prepend != null)
+                              Container(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8),
+                                color: Colors.grey[100],
+                                height: double.infinity,
+                                child: widget.prepend!,
+                              ),
+                            if (widget.prefix != null)
+                              Padding(
+                                padding: const EdgeInsets.only(right: 4),
+                                child: widget.prefix,
+                              ),
+                            Expanded(
+                              child: TextField(
+                                controller: _controller,
+                                focusNode: _focusNode,
+                                enabled: !widget.disabled,
+                                onChanged: (value) {
+                                  _handleTextChange();
+                                },
+                                style: TextStyle(
+                                    fontSize: ElememtSize(size: widget.size)
+                                        .getInputFontSize(
+                                            customFontSize:
+                                                widget.customFontSize)),
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  isDense: true,
+                                  isCollapsed: true,
+                                  hintText:
+                                      widget.showPlaceholderOnTop && _isFocused
+                                          ? null
+                                          : widget.placeholder,
+                                ),
+                              ),
+                            ),
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                if (_isLoading && !widget.hideLoading)
+                                  const Padding(
+                                    padding: EdgeInsets.all(0),
+                                    child: SizedBox(
+                                      width: 20,
+                                      height: 20,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                        valueColor:
+                                            AlwaysStoppedAnimation<Color>(
+                                                EColorTypes.primary),
+                                      ),
+                                    ),
+                                  ),
+                                if (widget.clearable &&
+                                    _hasValue &&
+                                    !widget.disabled)
+                                  GestureDetector(
+                                    onTap: _handleClear,
+                                    child: MouseRegion(
+                                      cursor: SystemMouseCursors.click,
+                                      child: Container(
+                                        padding: const EdgeInsets.all(4),
+                                        child: Icon(
+                                          Icons.close,
+                                          size: 16,
+                                          color: getColorByType(
+                                              type: widget.colorType,
+                                              customColor: widget.customColor),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                if (widget.suffix != null)
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 4),
+                                    child: widget.suffix,
+                                  ),
+                              ],
+                            ),
+                            if (widget.append != null)
+                              Container(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8),
+                                color: Colors.grey[100],
+                                height: double.infinity,
+                                child: widget.append!,
+                              ),
+                          ],
                         ),
                       ),
-                    if (widget.clearable && _controller.text.isNotEmpty)
-                      IconButton(
-                        icon: const Icon(Icons.clear, size: 18),
-                        onPressed: () {
-                          _controller.clear();
-                          setState(() {
-                            // _selectedItem = null;
-                            _suggestions = [];
-                          });
-                          if (widget.onClear != null) {
-                            widget.onClear!();
-                          }
-                        },
-                      ),
-                    if (widget.suffix != null) widget.suffix!,
-                  ],
+                    ),
+                  ),
                 ),
               ),
-              onChanged: _handleTextChange,
-              onTap: () {
-                if (widget.onFocus != null) {
-                  widget.onFocus!();
-                }
-              },
+            ),
+          ],
+        ),
+        if (widget.showPlaceholderOnTop && (_isFocused || _hasValue))
+          Positioned(
+            left: 8,
+            top: -8,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 0),
+              color: Colors.white,
+              child: Text(
+                widget.placeholder ?? '',
+                style: TextStyle(
+                  fontSize: 12,
+                  color: _isFocused
+                      ? getColorByType(
+                          type: widget.colorType,
+                          customColor: widget.customColor)
+                      : Colors.grey,
+                ),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
             ),
           ),
-        ),
-        if (widget.append != null) widget.append!,
       ],
     );
   }

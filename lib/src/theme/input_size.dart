@@ -144,10 +144,13 @@ class ElememtSize {
   }
 
   // getCheckboxSize
-  double getCheckboxSize() {
+  double getCheckboxSize({double? customSize}) {
+    if (customSize != null) {
+      return customSize;
+    }
     switch (size) {
       case ESizeItem.large:
-        return 20;
+        return 24;
       case ESizeItem.medium:
         return 16;
       case ESizeItem.small:

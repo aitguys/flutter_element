@@ -55,6 +55,8 @@ class EInput extends StatefulWidget {
   ///
   /// Typically an [Icon] or other small widget.
   final Widget? suffix;
+  final Widget? prepend;
+  final Widget? append;
 
   /// The color type of the input.
   ///
@@ -123,6 +125,8 @@ class EInput extends StatefulWidget {
     this.readOnly = false,
     this.prefix,
     this.suffix,
+    this.prepend,
+    this.append,
     this.colorType = EColorType.primary,
     this.customColor,
     this.defaultColor = EBasicColors.borderGray,
@@ -222,7 +226,9 @@ class _EInputState extends State<EInput> {
               _isHovered = false;
             }),
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
+              padding: EdgeInsets.only(
+                  left: widget.prepend != null ? 0 : 8,
+                  right: widget.append != null ? 0 : 8),
               decoration: BoxDecoration(
                 border: Border.all(
                   color: widget.disabled
@@ -240,11 +246,34 @@ class _EInputState extends State<EInput> {
               ),
               child: Row(
                 children: [
+                  if (widget.prepend != null)
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(
+                              ElememtSize(size: widget.size)
+                                  .getInputBorderRadius(
+                                      customBorderRadius:
+                                          widget.customBorderRadius)),
+                          bottomLeft: Radius.circular(
+                              ElememtSize(size: widget.size)
+                                  .getInputBorderRadius(
+                                      customBorderRadius:
+                                          widget.customBorderRadius)),
+                        ),
+                        color: Colors.grey[100],
+                      ),
+                      height: double.infinity,
+                      child: widget.prepend!,
+                    ),
+                  const SizedBox(width: 8),
                   if (widget.prefix != null)
                     Padding(
-                      padding: const EdgeInsets.only(right: 4),
+                      padding: const EdgeInsets.all(0),
                       child: widget.prefix,
                     ),
+                  const SizedBox(width: 4),
                   Expanded(
                     child: TextField(
                       controller: _controller,
@@ -289,24 +318,49 @@ class _EInputState extends State<EInput> {
                       onTap: () => setState(() {
                         _isPasswordVisible = !_isPasswordVisible;
                       }),
-                      child: !_isPasswordVisible ?Icon(
-                        Icons.visibility,
-                        size: 16,
-                        color: getColorByType(
-                            type: widget.colorType,
-                            customColor: widget.customColor),
-                      ) : Icon(
-                        Icons.visibility_off,
-                        size: 16,
-                        color: getColorByType(
-                            type: widget.colorType,
-                            customColor: widget.customColor),
-                      ),
+                      child: !_isPasswordVisible
+                          ? Icon(
+                              Icons.visibility,
+                              size: 16,
+                              color: getColorByType(
+                                  type: widget.colorType,
+                                  customColor: widget.customColor),
+                            )
+                          : Icon(
+                              Icons.visibility_off,
+                              size: 16,
+                              color: getColorByType(
+                                  type: widget.colorType,
+                                  customColor: widget.customColor),
+                            ),
                     ),
+                  const SizedBox(width: 4),
                   if (widget.suffix != null)
                     Padding(
-                      padding: const EdgeInsets.only(left: 4),
+                      padding: const EdgeInsets.all(0),
                       child: widget.suffix,
+                    ),
+                  const SizedBox(width: 8),
+                  if (widget.append != null)
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(
+                              ElememtSize(size: widget.size)
+                                  .getInputBorderRadius(
+                                      customBorderRadius:
+                                          widget.customBorderRadius)),
+                          bottomRight: Radius.circular(
+                              ElememtSize(size: widget.size)
+                                  .getInputBorderRadius(
+                                      customBorderRadius:
+                                          widget.customBorderRadius)),
+                        ),
+                        color: Colors.grey[100],
+                      ),
+                      height: double.infinity,
+                      child: widget.append!,
                     ),
                 ],
               ),

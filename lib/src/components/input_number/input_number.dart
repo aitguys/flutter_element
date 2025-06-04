@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element_plus/src/theme/index.dart';
+import '../input/input.dart';
 
 /// Defines the available sizes for the input number component.
 enum EInputNumberSize {
@@ -20,6 +21,7 @@ enum EInputNumberControlsPosition {
 
   /// Controls appear on the right side of the input
   right,
+  both
 }
 
 /// An input component for entering numbers with increment/decrement controls.
@@ -89,7 +91,7 @@ class EInputNumber extends StatefulWidget {
 
   /// The size of the input number component.
   /// Affects the height and font size.
-  final EInputNumberSize size;
+  final ESizeItem size;
 
   /// The position of the increment/decrement controls.
   /// Default is [EInputNumberControlsPosition.right].
@@ -115,10 +117,30 @@ class EInputNumber extends StatefulWidget {
   /// Callback function when the input loses focus.
   final VoidCallback? onBlur;
 
+  /// The color type of the input.
+  final EColorType colorType;
+
+  /// A custom color to use for the input.
+  final Color? customColor;
+
+  /// The default color for the input's border.
+  final Color defaultColor;
+
+  /// A custom height for the input.
+  final double? customHeight;
+
+  /// A custom font size for the input text.
+  final double? customFontSize;
+
+  /// A custom border radius for the input.
+  final double? customBorderRadius;
+
   const EInputNumber({
     super.key,
     this.value,
     this.onChanged,
+    this.onFocus,
+    this.onBlur,
     this.min,
     this.max,
     this.step = 1,
@@ -128,14 +150,18 @@ class EInputNumber extends StatefulWidget {
     this.disabled = false,
     this.readOnly = false,
     this.clearable = false,
-    this.size = EInputNumberSize.medium,
-    this.controlsPosition = EInputNumberControlsPosition.right,
+    this.size = ESizeItem.medium,
+    this.controlsPosition = EInputNumberControlsPosition.both,
     this.prefix,
     this.suffix,
     this.decreaseIcon,
     this.increaseIcon,
-    this.onFocus,
-    this.onBlur,
+    this.colorType = EColorType.primary,
+    this.customColor,
+    this.defaultColor = EBasicColors.borderGray,
+    this.customHeight,
+    this.customFontSize,
+    this.customBorderRadius,
   });
 
   @override
@@ -145,7 +171,6 @@ class EInputNumber extends StatefulWidget {
 class _EInputNumberState extends State<EInputNumber> {
   late TextEditingController _controller;
   late FocusNode _focusNode;
-  // ignore: unused_field
   bool _isHovered = false;
   bool _isFocused = false;
 
@@ -175,13 +200,6 @@ class _EInputNumberState extends State<EInputNumber> {
     } else {
       widget.onBlur?.call();
     }
-  }
-
-  void _handleClear() {
-    setState(() {
-      _controller.clear();
-    });
-    widget.onChanged?.call(null);
   }
 
   void _handleDecrease() {
@@ -220,30 +238,6 @@ class _EInputNumberState extends State<EInputNumber> {
     widget.onChanged?.call(newValue);
   }
 
-  double get _height {
-    switch (widget.size) {
-      case EInputNumberSize.small:
-        return 32;
-      case EInputNumberSize.large:
-        return 48;
-      case EInputNumberSize.medium:
-        // default:
-        return 40;
-    }
-  }
-
-  double get _fontSize {
-    switch (widget.size) {
-      case EInputNumberSize.small:
-        return 14;
-      case EInputNumberSize.large:
-        return 18;
-      case EInputNumberSize.medium:
-        // default:
-        return 16;
-    }
-  }
-
   @override
   void dispose() {
     _controller.dispose();
@@ -254,102 +248,51 @@ class _EInputNumberState extends State<EInputNumber> {
   @override
   Widget build(BuildContext context) {
     final bool hasValue = _controller.text.isNotEmpty;
-    return SizedBox(
-      height: _height,
-      child: MouseRegion(
-        onEnter: (_) {
-          setState(() {
-            _isHovered = true;
-          });
-        },
-        onExit: (_) {
-          setState(() {
-            _isHovered = false;
-          });
-        },
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: widget.disabled
-                  ? EBasicColors.borderGray
-                  : _isFocused
-                      ? EColorTypes.primary
-                      : EBasicColors.borderGray,
-            ),
-            borderRadius: BorderRadius.circular(6),
-            color: widget.disabled ? Colors.grey[100] : Colors.white,
-          ),
-          child: Row(
-            children: [
-              if (widget.prefix != null)
-                Padding(
-                  padding: const EdgeInsets.only(right: 4),
-                  child: widget.prefix,
-                ),
-              // if (widget.controlsPosition == EInputNumberControlsPosition.left)
-              _buildDecreaseButton(),
-              Expanded(
-                child: TextField(
-                  controller: _controller,
-                  focusNode: _focusNode,
-                  enabled: !widget.disabled,
-                  readOnly: widget.readOnly,
-                  style: TextStyle(fontSize: _fontSize),
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    isDense: true,
-                    isCollapsed: true,
-                    hintText: widget.placeholder,
-                  ),
-                  onChanged: (value) {
-                    double? newValue = double.tryParse(value);
-                    if (newValue != null) {
-                      if (widget.min != null && newValue < widget.min!) {
-                        newValue = widget.min!;
-                      }
-                      if (widget.max != null && newValue > widget.max!) {
-                        newValue = widget.max!;
-                      }
-                      if (widget.stepStrictly) {
-                        newValue =
-                            (newValue / widget.step).round() * widget.step;
-                      }
-                      if (widget.precision != null) {
-                        newValue = double.parse(
-                            newValue.toStringAsFixed(widget.precision!));
-                      }
-                      widget.onChanged?.call(newValue);
-                    }
-                  },
-                ),
-              ),
-              if (widget.clearable &&
-                  hasValue &&
-                  !widget.disabled &&
-                  !widget.readOnly)
-                GestureDetector(
-                  onTap: _handleClear,
-                  child: MouseRegion(
-                    cursor: SystemMouseCursors.click,
-                    child: Container(
-                      padding: const EdgeInsets.all(4),
-                      child: const Icon(Icons.close,
-                          size: 16, color: EColorTypes.primary),
-                    ),
-                  ),
-                ),
-              if (widget.suffix != null)
-                Padding(
-                  padding: const EdgeInsets.only(left: 4),
-                  child: widget.suffix,
-                ),
-              // if (widget.controlsPosition == EInputNumberControlsPosition.right)
-              _buildIncreaseButton(),
-            ],
-          ),
-        ),
-      ),
+
+    return EInput(
+      textController: _controller,
+      placeholder: widget.placeholder,
+      clearable: widget.clearable,
+      disabled: widget.disabled,
+      readOnly: widget.readOnly,
+      prefix: widget.prefix,
+      suffix: widget.suffix,
+      colorType: widget.colorType,
+      customColor: widget.customColor,
+      defaultColor: widget.defaultColor,
+      size: widget.size,
+      customHeight: widget.customHeight,
+      customFontSize: widget.customFontSize,
+      customBorderRadius: widget.customBorderRadius,
+      onFocus: widget.onFocus,
+      onBlur: widget.onBlur,
+      onChanged: (value) {
+        double? newValue = double.tryParse(value);
+        if (newValue != null) {
+          if (widget.min != null && newValue < widget.min!) {
+            newValue = widget.min!;
+          }
+          if (widget.max != null && newValue > widget.max!) {
+            newValue = widget.max!;
+          }
+          if (widget.stepStrictly) {
+            newValue = (newValue / widget.step).round() * widget.step;
+          }
+          if (widget.precision != null) {
+            newValue =
+                double.parse(newValue.toStringAsFixed(widget.precision!));
+          }
+          widget.onChanged?.call(newValue);
+        }
+      },
+      prepend: widget.controlsPosition == EInputNumberControlsPosition.left ||
+              widget.controlsPosition == EInputNumberControlsPosition.both
+          ? _buildDecreaseButton()
+          : null,
+      append: widget.controlsPosition == EInputNumberControlsPosition.right ||
+              widget.controlsPosition == EInputNumberControlsPosition.both
+          ? _buildIncreaseButton()
+          : null,
     );
   }
 
@@ -359,6 +302,7 @@ class _EInputNumberState extends State<EInputNumber> {
       onPressed: widget.disabled || widget.readOnly ? null : _handleDecrease,
       padding: EdgeInsets.zero,
       constraints: const BoxConstraints(),
+      hoverColor: Colors.transparent,
     );
   }
 
@@ -368,6 +312,7 @@ class _EInputNumberState extends State<EInputNumber> {
       onPressed: widget.disabled || widget.readOnly ? null : _handleIncrease,
       padding: EdgeInsets.zero,
       constraints: const BoxConstraints(),
+      hoverColor: Colors.transparent,
     );
   }
 }

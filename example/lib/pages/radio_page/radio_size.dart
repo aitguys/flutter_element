@@ -23,7 +23,7 @@ class _RadioSizePreviewState extends State<RadioSizePreview> {
           const SizedBox(height: 10),
           ERadioGroup(
             value: value1,
-            size: ERadioSize.large,
+            size: ESizeItem.large,
             onChanged: (v) => setState(() => value1 = v),
             children: [
               const ERadio(value: '1', label: 'option1'),
@@ -35,7 +35,7 @@ class _RadioSizePreviewState extends State<RadioSizePreview> {
           const SizedBox(height: 10),
           ERadioGroup(
             value: value2,
-            size: ERadioSize.medium,
+            size: ESizeItem.medium,
             onChanged: (v) => setState(() => value2 = v),
             children: [
               const ERadio(value: '1', label: 'option1'),
@@ -47,7 +47,19 @@ class _RadioSizePreviewState extends State<RadioSizePreview> {
           const SizedBox(height: 10),
           ERadioGroup(
             value: value3,
-            size: ERadioSize.small,
+            size: ESizeItem.small,
+            onChanged: (v) => setState(() => value3 = v),
+            children: [
+              const ERadio(value: '1', label: 'option1'),
+              const ERadio(value: '2', label: 'option2'),
+            ],
+          ),
+          const SizedBox(height: 20),
+          const Text('自定义尺寸'),
+          const SizedBox(height: 10),
+          ERadioGroup(
+            value: value3,
+            customFontSize: 30,
             onChanged: (v) => setState(() => value3 = v),
             children: [
               const ERadio(value: '1', label: 'option1'),
@@ -87,7 +99,7 @@ class _RadioSizeViewState extends State<RadioSizeView> {
               const SizedBox(height: 10),
               ERadioGroup(
                 value: value1,
-                size: ERadioSize.large,
+                size: ESizeItem.large,
                 onChanged: (v) => setState(() => value1 = v),
                 children: [
                   const ERadio(value: '1', label: 'option1'),
@@ -99,7 +111,7 @@ class _RadioSizeViewState extends State<RadioSizeView> {
               const SizedBox(height: 10),
               ERadioGroup(
                 value: value2,
-                size: ERadioSize.medium,
+                size: ESizeItem.medium,
                 onChanged: (v) => setState(() => value2 = v),
                 children: [
                   const ERadio(value: '1', label: 'option1'),
@@ -111,7 +123,18 @@ class _RadioSizeViewState extends State<RadioSizeView> {
               const SizedBox(height: 10),
               ERadioGroup(
                 value: value3,
-                size: ERadioSize.small,
+                size: ESizeItem.small,
+                onChanged: (v) => setState(() => value3 = v),
+                children: [
+                  const ERadio(value: '1', label: 'option1'),
+                  const ERadio(value: '2', label: 'option2'),
+                ],
+              ),
+              const Text('自定义尺寸'),
+              const SizedBox(height: 10),
+              ERadioGroup(
+                value: value3,
+                customFontSize: 30,
                 onChanged: (v) => setState(() => value3 = v),
                 children: [
                   const ERadio(value: '1', label: 'option1'),

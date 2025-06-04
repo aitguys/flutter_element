@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_element_example/logger/logger.dart';
 import 'package:flutter_element_plus/flutter_element_plus.dart';
 import '../../const/index.dart';
 
@@ -19,10 +20,19 @@ class _RadioBasicPreviewState extends State<RadioBasicPreview> {
         children: [
           ERadioGroup(
             value: value,
-            onChanged: (v) => setState(() => value = v),
-            children: [
-              const ERadio(value: '1', label: 'option1'),
-              const ERadio(value: '2', label: 'option2'),
+            onChanged: (v) => setState(() {
+              value = v;
+              Loglevel.d(v);
+            }),
+            children: const [
+              ERadio(
+                value: '1',
+                label: 'option1',
+              ),
+              ERadio(
+                value: '2',
+                label: 'option2',
+              )
             ],
           ),
         ],

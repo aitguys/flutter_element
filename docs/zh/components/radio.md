@@ -28,7 +28,7 @@
 
 ## 单选框组
 
-适用于在多个互斥的选项中选择的场景。结合 `ERadioGroup` 和 `ERadio` 组件实现单选组。
+结合 `ERadioGroup` 和 `ERadio` 组件组合使用实现单选框组。
 
 <CodeView
   codeUrl="radio_page/radio_group.dart"
@@ -38,7 +38,7 @@
 
 ## 不同尺寸
 
-使用 `size` 属性来定义单选框的尺寸。
+使用 `size` 属性来定义单选框的尺寸， 也可以通过 `customFontSize` 属性来定义单选框的文字大小。
 
 <CodeView
   codeUrl="radio_page/radio_size.dart"
@@ -60,34 +60,39 @@
 
 ### Radio 属性
 
-| 属性名    | 说明           | 类型                | 默认值                |
-| --------- | -------------- | ------------------- | --------------------- |
-| value     | 单选框的值      | `String?`          | -                     |
-| label     | 单选框的标签    | `String?`          | -                     |
-| disabled  | 是否禁用       | `boolean`          | `false`              |
-| border    | 是否显示边框    | `boolean`          | `false`              |
-| size      | 单选框的尺寸    | `ERadioSize`       | `ERadioSize.medium`  |
-| name      | 原生 name 属性 | `String?`          | -                     |
-| onChanged | 值变化时触发    | `ValueChanged<String>?` | -                |
+customFontSize 和 fontColorType 等属性可以定义在 ERadioGroup 中，这样所有子元素都会继承这些属性。
+
+| 属性名          | 说明           | 类型         | 默认值               |
+| --------------- | -------------- | ------------ | -------------------- |
+| value           | 单选框的值     | `String?`    | -                    |
+| label           | 单选框的标签   | `String?`    | -                    |
+| disabled        | 是否禁用       | `boolean`    | `false`              |
+| border          | 是否显示边框   | `boolean`    | `false`              |
+| size            | 单选框的尺寸   | `ESizeItem`  | `ESizeItem.medium`   |
+| name            | 原生 name 属性 | `String?`    | -                    |
+| customFontSize  | 自定义文字大小 | `double?`    | -                    |
+| fontColorType   | 文字颜色类型   | `EColorType` | `EColorType.primary` |
+| fontCustomColor | 文字颜色       | `Color?`     | -                    |
+| iconColorType   | 图标颜色类型   | `EColorType` | `EColorType.primary` |
+| iconCustomColor | 图标颜色       | `Color?`     | -                    |
 
 ### RadioGroup 属性
 
-| 属性名    | 说明           | 类型                | 默认值                |
-| --------- | -------------- | ------------------- | --------------------- |
-| value     | 绑定值         | `String?`          | -                     |
-| disabled  | 是否禁用       | `boolean`          | `false`              |
-| size      | 单选框的尺寸    | `ERadioSize`       | `ERadioSize.medium`  |
-| onChanged | 值变化时触发    | `ValueChanged<String>?` | -                |
-| children  | 子组件列表      | `List<Widget>`     | -                     |
-
-### Radio 事件
-
-| 事件名     | 说明           | 参数                     |
-| ---------- | -------------- | ------------------------ |
-| onChanged  | 选中值变化时触发 | `(String value) => void` |
+| 属性名          | 说明           | 类型                    | 默认值               |
+| --------------- | -------------- | ----------------------- | -------------------- |
+| value           | 绑定值         | `String?`               | -                    |
+| disabled        | 是否禁用       | `boolean`               | `false`              |
+| size            | 单选框的尺寸   | `ESizeItem`             | `ESizeItem.medium`   |
+| customFontSize  | 自定义文字大小 | `double?`               | -                    |
+| fontColorType   | 文字颜色类型   | `EColorType`            | `EColorType.primary` |
+| fontCustomColor | 文字颜色       | `Color?`                | -                    |
+| iconColorType   | 图标颜色类型   | `EColorType`            | `EColorType.primary` |
+| iconCustomColor | 图标颜色       | `Color?`                | -                    |
+| children        | 子组件列表     | `List<Widget>`          | -                    |
+| onChanged       | 值变化时触发   | `ValueChanged<String>?` | -                    |
 
 ### RadioGroup 事件
 
-| 事件名     | 说明           | 参数                     |
-| ---------- | -------------- | ------------------------ |
-| onChanged  | 选中值变化时触发 | `(String value) => void` | 
+| 事件名    | 说明             | 参数                     |
+| --------- | ---------------- | ------------------------ |
+| onChanged | 选中值变化时触发 | `(String value) => void` |

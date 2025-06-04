@@ -4,6 +4,8 @@ import '../pages/input_page/route.dart';
 import '../pages/message_page/route.dart';
 import '../pages/alert_page/route.dart';
 import '../pages/autocomplete_page/route.dart';
+import '../pages/input_number_page/route.dart';
+import '../pages/inputTag/route.dart';
 import '../pages/segmented/segmented.dart';
 import '../pages/table_page/table_page.dart';
 import '../pages/tag_page/tag_page.dart';
@@ -13,13 +15,11 @@ import '../pages/home/home_page.dart';
 import '../pages/tree/tree.dart';
 import '../pages/link_page/link_page.dart';
 import '../pages/scrollbar_page/scrollbar_page.dart';
-import '../pages/checkbox_page/checkbox_page.dart';
+import '../pages/checkbox_page/route.dart';
 import '../pages/color_picker_page/color_picker_page.dart';
 // import '../pages/datePicker/date_picker.dart';
 import '../pages/datePicker/route.dart';
 import '../pages/time_picker_page/time_picker_page.dart';
-import '../pages/input_number_page/input_number_page.dart';
-import '../pages/inputTag/input_tag.dart';
 import '../pages/mention_page/mention_page.dart';
 // import '../pages/radio_page/radio_page.dart';
 import '../pages/radio_page/route.dart';
@@ -64,10 +64,9 @@ abstract class Routes {
   static const buttonBadge = ButtonRoutes.buttonBadge;
   static const buttonLink = ButtonRoutes.buttonLink;
   static const buttonSize = ButtonRoutes.buttonSize;
-  static const autoComplete = AutoCompleteRoutes.autoComplete;
-  static const autoCompleteBasic = AutoCompleteRoutes.autoCompleteBasic;
   static const input = InputRoutes.input;
   static const inputBasic = InputRoutes.inputBasic;
+  static const autocomplete = AutocompleteRoutes.autocomplete;
   static const inputPassword = InputRoutes.inputPassword;
   static const message = MessageRoutes.message;
   static const messageBasic = MessageRoutes.messageBasic;
@@ -86,13 +85,43 @@ abstract class Routes {
   static const alertApi = AlertRoutes.alertApi;
   static const link = '/link';
   static const scrollbar = '/scrollbar';
-  static const checkbox = '/checkbox';
+  static const checkbox = CheckboxRoutes.checkbox;
+  static const checkboxBasic = CheckboxRoutes.checkboxBasic;
+  static const checkboxTheme = CheckboxRoutes.checkboxTheme;
+  static const checkboxSize = CheckboxRoutes.checkboxSize;
+  static const checkboxDisable = CheckboxRoutes.checkboxDisable;
+  static const checkboxGroup = CheckboxRoutes.checkboxGroup;
+  static const checkboxBorder = CheckboxRoutes.checkboxBorder;
+  static const checkboxSelectAll = CheckboxRoutes.checkboxSelectAll;
   static const colorPicker = '/color_picker';
   static const datePicker = '/datePicker';
   static const timePicker = '/time_picker';
 
-  static const inputNumber = '/input_number';
-  static const inputTag = '/input_tag';
+  static const inputNumber = InputNumberRoutes.inputNumber;
+  static const inputNumberBasic = InputNumberRoutes.inputNumberBasic;
+  static const inputNumberControls = InputNumberRoutes.inputNumberControls;
+  static const inputNumberClearable = InputNumberRoutes.inputNumberClearable;
+  static const inputNumberPrefixSuffix =
+      InputNumberRoutes.inputNumberPrefixSuffix;
+  static const inputNumberCustomIcons =
+      InputNumberRoutes.inputNumberCustomIcons;
+  static const inputNumberDisabled = InputNumberRoutes.inputNumberDisabled;
+  static const inputNumberSize = InputNumberRoutes.inputNumberSize;
+  static const inputNumberPosition = InputNumberRoutes.inputNumberPosition;
+  static const inputNumberStyle = InputNumberRoutes.inputNumberStyle;
+  static const inputNumberApi = InputNumberRoutes.inputNumberApi;
+  static const inputTag = InputTagRoutes.inputTag;
+  static const inputTagCustomTag = InputTagRoutes.customTag;
+  static const inputTagPrefixSuffix = InputTagRoutes.prefixSuffix;
+  static const inputTagMax = InputTagRoutes.max;
+  static const inputTagDelimiter = InputTagRoutes.delimiter;
+  static const inputTagTrigger = InputTagRoutes.trigger;
+  static const inputTagSaveOnBlur = InputTagRoutes.saveOnBlur;
+  static const inputTagClearable = InputTagRoutes.clearable;
+  static const inputTagDisabledReadOnly = InputTagRoutes.disabledReadOnly;
+  static const inputTagSize = InputTagRoutes.size;
+  static const inputTagCustomStyle = InputTagRoutes.customStyle;
+  static const inputTagCustomColor = InputTagRoutes.customColor;
   static const mention = '/mention';
   static const radio = '/radio';
   static const rate = '/rate';
@@ -157,12 +186,16 @@ class AppPages {
       page: () => const TreePage(),
     ),
     ...buttonRoutesPages,
-    ...autoCompleteRoutesPages,
+    ...autocompleteRoutesPages,
     ...inputRoutesPages,
+    ...inputNumberRoutesPages,
     ...messageRoutesPages,
     ...alertRoutesPages,
     ...radioRoutesPages,
     ...datePickerRoutesPages,
+    ...checkboxRoutesPages,
+    ...inputTagRoutesPages,
+    ...inputNumberRoutesPages,
     GetPage(
       name: Routes.link,
       page: () => const LinkPage(),
@@ -170,10 +203,6 @@ class AppPages {
     GetPage(
       name: Routes.scrollbar,
       page: () => const ScrollbarPage(),
-    ),
-    GetPage(
-      name: Routes.checkbox,
-      page: () => const CheckboxPage(),
     ),
     GetPage(
       name: Routes.colorPicker,
@@ -187,14 +216,11 @@ class AppPages {
       name: Routes.timePicker,
       page: () => const TimePickerPage(),
     ),
-    GetPage(
-      name: Routes.inputNumber,
-      page: () => const InputNumberPage(),
-    ),
-    GetPage(
-      name: Routes.inputTag,
-      page: () => const InputTagPage(),
-    ),
+    // GetPage(
+    //   name: Routes.inputNumber,
+    //   page: () => const InputNumberPage(),
+    // ),
+
     GetPage(
       name: Routes.mention,
       page: () => const MentionPage(),
