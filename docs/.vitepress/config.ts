@@ -15,7 +15,7 @@ export default defineConfig({
 		socialLinks: [
 			{
 				icon: "github",
-				link: "https://github.com/yourusername/flutter_element",
+				link: "https://github.com/aitguys/flutter_element",
 			},
 		],
 		// 页脚配置

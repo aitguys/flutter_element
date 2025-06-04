@@ -45,11 +45,35 @@ import { VPTeamMembers } from 'vitepress/theme'
 
 const members = [
   {
-    avatar: 'https://github.com/yourusername.png',
-    name: 'Your Name',
+    avatar: 'https://github.com/chenxu2656.png',
+    name: 'Colin',
     title: 'Creator',
     links: [
-      { icon: 'github', link: 'https://github.com/yourusername' }
+      { icon: 'github', link: 'https://github.com/chenxu2656' }
+    ]
+  },
+   {
+    avatar: 'https://github.com/liangjun-fan1.png',
+    name: 'Liangjun',
+    title: 'Maintainer',
+    links: [
+      { icon: 'github', link: 'https://github.com/liangjun-fan1' }
+    ]
+  },
+   {
+    avatar: 'https://github.com/yongjianyu.png',
+    name: 'Yongjian',
+    title: 'Maintainer',
+    links: [
+      { icon: 'github', link: 'https://github.com/yongjianyu' }
+    ]
+  },
+   {
+    avatar: 'https://github.com/xiaoyyc.png',
+    name: 'YanChao',
+    title: 'Maintainer',
+    links: [
+      { icon: 'github', link: 'https://github.com/xiaoyyc' }
     ]
   }
 ]
