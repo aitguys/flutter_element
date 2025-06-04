@@ -171,8 +171,8 @@ class EInputNumber extends StatefulWidget {
 class _EInputNumberState extends State<EInputNumber> {
   late TextEditingController _controller;
   late FocusNode _focusNode;
-  bool _isHovered = false;
-  bool _isFocused = false;
+  // final bool _isHovered = false;
+  // bool _isFocused = false;
 
   @override
   void initState() {
@@ -193,7 +193,7 @@ class _EInputNumberState extends State<EInputNumber> {
 
   void _handleFocusChange() {
     setState(() {
-      _isFocused = _focusNode.hasFocus;
+      // _isFocused = _focusNode.hasFocus;
     });
     if (_focusNode.hasFocus) {
       widget.onFocus?.call();
@@ -247,7 +247,7 @@ class _EInputNumberState extends State<EInputNumber> {
 
   @override
   Widget build(BuildContext context) {
-    final bool hasValue = _controller.text.isNotEmpty;
+    // final bool hasValue = _controller.text.isNotEmpty;
 
     return EInput(
       textController: _controller,

@@ -68,11 +68,11 @@ class _CheckboxSelectAllViewState extends State<CheckboxSelectAllView> {
 }
 
 Widget _viewerContent() {
-  return _CheckboxSelectAllDemo();
+  return const _CheckboxSelectAllDemo();
 }
 
 class _CheckboxSelectAllDemo extends StatefulWidget {
-  const _CheckboxSelectAllDemo({Key? key}) : super(key: key);
+  const _CheckboxSelectAllDemo();
 
   @override
   State<_CheckboxSelectAllDemo> createState() => _CheckboxSelectAllDemoState();

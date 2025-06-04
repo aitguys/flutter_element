@@ -105,12 +105,12 @@ class _EAutocompleteState extends State<EAutocomplete> {
   bool _isClearing = false;
   List<Map<String, dynamic>> _suggestions = [];
   bool _isLoading = false;
-  int _highlightedIndex = -1;
+  final int _highlightedIndex = -1;
   OverlayEntry? _overlayEntry;
   final LayerLink _layerLink = LayerLink();
   Timer? _debounceTimer;
   String? _selectedValue;
-  List<Map<String, dynamic>> _allSuggestions = [];
+  // List<Map<String, dynamic>> _allSuggestions = [];
   Timer? _blurTimer;
   // 事件触发控制器
 
@@ -244,7 +244,7 @@ class _EAutocompleteState extends State<EAutocomplete> {
       widget.fetchSuggestions(query, (suggestions) {
         if (!mounted || _isSelecting) return;
         setState(() {
-          _allSuggestions = suggestions;
+          // _allSuggestions = suggestions;
           _suggestions = suggestions.where((item) {
             final value = item[widget.valueKey]?.toString().toLowerCase() ?? '';
             return value.contains(query.toLowerCase());
@@ -331,7 +331,7 @@ class _EAutocompleteState extends State<EAutocomplete> {
                                     ? getColorByType(
                                             type: widget.colorType,
                                             customColor: widget.customColor)
-                                        .withOpacity(0.1)
+                                        .withValues(alpha: 0.1)
                                     : null,
                                 border: const Border(
                                   bottom: BorderSide(

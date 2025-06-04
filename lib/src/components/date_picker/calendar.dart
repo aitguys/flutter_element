@@ -74,7 +74,7 @@ class Calendar extends StatefulWidget {
 class _CalendarState extends State<Calendar> {
   String? _selectedDate;
   List<String>? _selectedDates;
-  List<DateTime>? _selectedRange;
+  // List<DateTime>? _selectedRange;
   late DateTime _currentMonth;
 
   @override
@@ -83,7 +83,7 @@ class _CalendarState extends State<Calendar> {
 
     _selectedDate = widget.initialDate;
     _selectedDates = [];
-    _selectedRange = widget.initialRange;
+    // _selectedRange = widget.initialRange;
     _currentMonth = widget.initialDate != null
         ? DateFormat(widget.format ?? getDefaultFormat(widget.type))
             .parse(widget.initialDate!)
@@ -107,7 +107,7 @@ class _CalendarState extends State<Calendar> {
     }
 
     if (widget.initialRange != oldWidget.initialRange) {
-      _selectedRange = widget.initialRange;
+      // _selectedRange = widget.initialRange;
     }
   }
 
@@ -122,8 +122,8 @@ class _CalendarState extends State<Calendar> {
       case CalendarType.date:
       case CalendarType.dates:
         return _buildDateHeader();
-      default:
-        return _buildDateHeader();
+      // default:
+      //   return _buildDateHeader();
     }
   }
 
@@ -329,8 +329,8 @@ class _CalendarState extends State<Calendar> {
       case CalendarType.date:
       case CalendarType.dates:
         return _buildDateGrid();
-      default:
-        return _buildDateGrid();
+      // default:
+      //   return _buildDateGrid();
     }
   }
 
@@ -460,25 +460,25 @@ class _CalendarState extends State<Calendar> {
       final int month = index + 1;
       final DateTime monthDate = DateTime(_currentMonth.year, month);
       bool isInRange = _isDateInRange(monthDate);
-      bool isSelected = false;
+      // bool isSelected = false;
       if (widget.type == CalendarType.months) {
-        isSelected = _selectedDates?.any((d) =>
-                DateFormat(widget.format ?? 'yyyy-MM').parse(d).year ==
-                    _currentMonth.year &&
-                DateFormat(widget.format ?? 'yyyy-MM').parse(d).month ==
-                    month) ??
-            false;
+        // isSelected = _selectedDates?.any((d) =>
+        //         DateFormat(widget.format ?? 'yyyy-MM').parse(d).year ==
+        //             _currentMonth.year &&
+        //         DateFormat(widget.format ?? 'yyyy-MM').parse(d).month ==
+        //             month) ??
+        //     false;
       } else {
-        isSelected = _selectedDate != null
-            ? DateFormat(widget.format ?? 'yyyy-MM')
-                        .parse(_selectedDate!)
-                        .year ==
-                    _currentMonth.year &&
-                DateFormat(widget.format ?? 'yyyy-MM')
-                        .parse(_selectedDate!)
-                        .month ==
-                    month
-            : false;
+        // isSelected = _selectedDate != null
+        //     ? DateFormat(widget.format ?? 'yyyy-MM')
+        //                 .parse(_selectedDate!)
+        //                 .year ==
+        //             _currentMonth.year &&
+        //         DateFormat(widget.format ?? 'yyyy-MM')
+        //                 .parse(_selectedDate!)
+        //                 .month ==
+        //             month
+        //     : false;
       }
       final bool isToday = _currentMonth.year == DateTime.now().year &&
           month == DateTime.now().month;
@@ -614,7 +614,7 @@ class _CalendarState extends State<Calendar> {
     });
     // 获取父组件的宽度
     double cellWidth = 45;
-    double parentWidth = cellWidth * 7;
+    // double parentWidth = cellWidth * 7;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: List.generate(6, (i) {

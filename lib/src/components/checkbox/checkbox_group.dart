@@ -85,7 +85,7 @@ class _ECheckboxGroupState extends State<ECheckboxGroup> {
             checked: _selectedValues.contains(child.label),
             onChange: (checked) {
               if (child.label != null) {
-                _handleChange(child.label.toString(), checked ?? false);
+                _handleChange(child.label.toString(), checked);
               }
             },
           );

@@ -296,7 +296,7 @@ class _EInputTagState extends State<EInputTag> {
 
   @override
   Widget build(BuildContext context) {
-    final bool hasValue = _controller.text.isNotEmpty;
+    // final bool hasValue = _controller.text.isNotEmpty;
     return ConstrainedBox(
       constraints: BoxConstraints(
         minHeight: ElememtSize(size: widget.size)
