@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_element_plus/flutter_element_plus.dart';
 import '../../routes/app_pages.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -20,16 +21,47 @@ class HomePage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Flutter Element',
-                  style: theme.textTheme.headlineSmall
-                      ?.copyWith(fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 12),
-                Text(
-                  'Flutter Element 是一套高质量、风格统一的 Flutter 组件库，致力于为开发者提供一致的视觉体验和高效的开发体验。',
-                  style: theme.textTheme.bodyMedium
-                      ?.copyWith(color: Colors.grey[600]),
+                Center(
+                  child: Column(
+                    children: [
+                      Image.asset(
+                        'assets/image/logo.png',
+                        width: 100,
+                        height: 100,
+                      ),
+                      const SizedBox(height: 12),
+                      EButton(
+                        text: 'www.flutter-element.com',
+                        isLink: true,
+                        type: EColorType.primary,
+                        onPressed: () async {
+                          try {
+                            final url =
+                                Uri.parse('https://www.flutter-element.com');
+                            if (await canLaunchUrl(url)) {
+                              await launchUrl(url);
+                            }
+                          } catch (e) {
+                            debugPrint('无法打开URL: $e');
+                          }
+                        },
+                      ),
+                      // 网址 www.flutter-element.com
+
+                      const SizedBox(height: 12),
+                      Text(
+                        'Flutter Element',
+                        style: theme.textTheme.headlineSmall
+                            ?.copyWith(fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 12),
+                      Text(
+                        'Flutter Element 是一套高质量、风格统一的 Flutter 组件库，致力于为开发者提供一致的视觉体验和高效的开发体验。',
+                        style: theme.textTheme.bodyMedium
+                            ?.copyWith(color: Colors.grey[600]),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
