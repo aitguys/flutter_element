@@ -1,3 +1,7 @@
+## 0.0.18
+
+Added multiple form element
+
 ## 0.0.17
 
 fixed password error
