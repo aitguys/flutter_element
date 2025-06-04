@@ -1,3 +1,7 @@
+## 0.0.16
+
+fixed password error
+
 ## 0.0.15
 
 add input_password
