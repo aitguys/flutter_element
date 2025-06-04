@@ -60,7 +60,7 @@ final inputRoutesPages = [
     name: InputRoutes.inputApi,
     page: () => const InputApiView(),
   ),
-    GetPage(
+  GetPage(
     name: InputRoutes.inputPassword,
     page: () => const InputPasswordView(),
   ),
