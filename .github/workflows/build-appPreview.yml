@@ -32,17 +32,17 @@ jobs:
           cache-key: flutter-3.6.0-stable-${{ hashFiles('**/pubspec.lock') }}
           cache: true
 
-      - name: Cache pub dependencies
-        uses: actions/cache@v3
-        with:
-          path: |
-            example/.dart_tool
-            example/.pub-cache
-            example/.pub
-            example/build
-          key: ${{ runner.os }}-pub-${{ hashFiles('example/pubspec.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-pub-
+      # - name: Cache pub dependencies
+      #   uses: actions/cache@v3
+      #   with:
+      #     path: |
+      #       example/.dart_tool
+      #       example/.pub-cache
+      #       example/.pub
+      #       example/build
+      #     key: ${{ runner.os }}-pub-${{ hashFiles('example/pubspec.lock') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-pub-
 
       - name: Cache Python packages
         uses: actions/cache@v3
@@ -68,7 +68,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd example
-          flutter pub get
+          flutter pub get --no-example
 
       - name: Build web
         run: |
