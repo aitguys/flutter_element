@@ -23,8 +23,8 @@ import '../pages/time_picker_page/time_picker_page.dart';
 import '../pages/mention_page/mention_page.dart';
 // import '../pages/radio_page/radio_page.dart';
 import '../pages/radio_page/route.dart';
-import '../pages/rate_page/rate_page.dart';
-import '../pages/select_page/select_page.dart';
+import '../pages/rate_page/route.dart';
+import '../pages/select_page/route.dart';
 import '../pages/slider_page/slider_page.dart';
 import '../pages/avatar_page/avatar_page.dart';
 import '../pages/card_page/card_page.dart';
@@ -122,10 +122,23 @@ abstract class Routes {
   static const inputTagSize = InputTagRoutes.size;
   static const inputTagCustomStyle = InputTagRoutes.customStyle;
   static const inputTagCustomColor = InputTagRoutes.customColor;
+
   static const mention = '/mention';
   static const radio = '/radio';
-  static const rate = '/rate';
-  static const select = '/select';
+  static const rate = RateRoutes.rate;
+  static const rateBasic = RateRoutes.rateBasic;
+  static const rateColors = RateRoutes.rateColors;
+  static const rateSize = RateRoutes.rateSize;
+  static const rateHalf = RateRoutes.rateHalf;
+  static const rateText = RateRoutes.rateText;
+  static const rateScore = RateRoutes.rateScore;
+  static const select = SelectRoutes.select;
+  static const selectBasic = SelectRoutes.selectBasic;
+  static const selectMultiple = SelectRoutes.selectMultiple;
+  static const selectDisable = SelectRoutes.selectDisable;
+  static const selectClearable = SelectRoutes.selectClearable;
+  static const selectPrefixSuffix = SelectRoutes.selectPrefixSuffix;
+  static const selectOptionDisable = SelectRoutes.selectOptionDisable;
   static const slider = '/slider';
   static const avatar = '/avatar';
   static const card = '/card';
@@ -196,6 +209,8 @@ class AppPages {
     ...checkboxRoutesPages,
     ...inputTagRoutesPages,
     ...inputNumberRoutesPages,
+    ...rateRoutesPages,
+    ...selectRoutesPages,
     GetPage(
       name: Routes.link,
       page: () => const LinkPage(),
@@ -229,14 +244,7 @@ class AppPages {
     //   name: Routes.radio,
     //   page: () => const RadioPage(),
     // ),
-    GetPage(
-      name: Routes.rate,
-      page: () => const RatePage(),
-    ),
-    GetPage(
-      name: Routes.select,
-      page: () => const SelectPage(),
-    ),
+
     GetPage(
       name: Routes.slider,
       page: () => const SliderPage(),
@@ -318,5 +326,7 @@ class AppPages {
       page: () => const WidgetPreviewTestPage(),
     ),
     ...dialogRoutesPages,
+    ...rateRoutesPages,
+    ...selectRoutesPages,
   ];
 }

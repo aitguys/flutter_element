@@ -24,7 +24,6 @@ export const zhConfig = {
 						{ text: "Button", link: "/zh/components/button" },
 
 						// { text: 'Input', link: '/zh/components/input' },
-						// { text: 'Select', link: '/zh/components/select' },
 						// { text: 'Switch', link: '/zh/components/switch' },
 						// { text: 'Slider', link: '/zh/components/slider' },
 						// { text: 'Rate', link: '/zh/components/rate' },
@@ -40,6 +39,8 @@ export const zhConfig = {
 						{ text: "DatePicker", link: "/zh/components/date_picker" },
 						{ text: "InputNumber", link: "/zh/components/input_number" },
 						{ text: "InputTag", link: "/zh/components/input_tag" },
+						{ text: "Rate", link: "/zh/components/rate" },
+						{ text: "Select", link: "/zh/components/select" },
 					],
 				},
 				// {

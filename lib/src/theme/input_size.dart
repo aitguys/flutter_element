@@ -158,7 +158,10 @@ class ElememtSize {
     }
   }
 
-  double getIconSize() {
+  double getIconSize({double? customIconSize}) {
+    if (customIconSize != null) {
+      return customIconSize;
+    }
     switch (size) {
       case ESizeItem.large:
         return 28;

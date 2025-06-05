@@ -2,43 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_element_plus/src/theme/index.dart';
 
-/// Defines the available sizes for the rate component.
-enum ERateSize {
-  /// Small size (16px icon, 12px font)
-  small,
-
-  /// Medium size (20px icon, 14px font)
-  medium,
-
-  /// Large size (24px icon, 16px font)
-  large,
-}
-
-/// A rate component that allows users to rate items using stars.
-/// It follows Element Plus design guidelines and provides features like:
-/// - Customizable maximum score
-/// - Half-star ratings
-/// - Disabled state
-/// - Text descriptions
-/// - Score display
-/// - Clearable ratings
-/// - Custom colors
-/// - Hover effects
-///
-/// Example:
-/// ```dart
-/// ERate(
-///   value: 3.5,
-///   max: 5,
-///   allowHalf: true,
-///   showText: true,
-///   texts: ['Terrible', 'Bad', 'Normal', 'Good', 'Excellent'],
-///   colors: [Colors.red, Colors.orange, Colors.green],
-///   onChanged: (value) {
-///     print('Rating: $value');
-///   },
-/// )
-/// ```
 class ERate extends StatefulWidget {
   /// The current rating value.
   /// Default is 0.
@@ -69,7 +32,14 @@ class ERate extends StatefulWidget {
 
   /// The size of the rate component.
   /// Affects the icon and font sizes.
-  final ERateSize size;
+  final ESizeItem size;
+  // custom size
+  final double? customSize;
+  // customFontSize
+  final double? customFontSize;
+
+  /// The color type of the rate component.
+  final EColorType colorType;
 
   /// The list of text descriptions for each rating value.
   /// Used when [showText] is true.
@@ -102,11 +72,14 @@ class ERate extends StatefulWidget {
     this.showText = false,
     this.showScore = false,
     this.clearable = false,
-    this.size = ERateSize.medium,
+    this.size = ESizeItem.medium,
+    this.colorType = EColorType.primary,
     this.texts,
     this.scoreTemplate,
     this.colors,
     this.onChanged,
+    this.customSize,
+    this.customFontSize,
   });
 
   @override
@@ -132,38 +105,21 @@ class _ERateState extends State<ERate> {
     }
   }
 
-  double get _iconSize {
-    switch (widget.size) {
-      case ERateSize.small:
-        return 16;
-      case ERateSize.large:
-        return 24;
-      case ERateSize.medium:
-        return 20;
-    }
-  }
-
-  double get _fontSize {
-    switch (widget.size) {
-      case ERateSize.small:
-        return 12;
-      case ERateSize.large:
-        return 16;
-      case ERateSize.medium:
-        return 14;
-    }
-  }
-
   Color _getColor(double value) {
     if (widget.colors == null || widget.colors!.isEmpty) {
-      return EColorTypes.primary;
+      return getColorByType(type: widget.colorType);
     }
     if (widget.colors!.length == 1) {
       return widget.colors![0];
     }
-    if (value <= 2) {
+
+    final max = widget.max;
+    final firstThreshold = max * 0.4;
+    final secondThreshold = max * 0.8;
+
+    if (value <= firstThreshold) {
       return widget.colors![0];
-    } else if (value <= 4) {
+    } else if (value <= secondThreshold) {
       return widget.colors![1];
     } else {
       return widget.colors![2];
@@ -193,7 +149,9 @@ class _ERateState extends State<ERate> {
     if (widget.allowHalf) {
       final RenderBox box = context.findRenderObject() as RenderBox;
       final localPosition = box.globalToLocal(details.globalPosition);
-      final starWidth = _iconSize + 8;
+      final starWidth = ElememtSize(size: widget.size)
+              .getIconSize(customIconSize: widget.customSize) +
+          8;
       final offset = localPosition.dx % starWidth;
       value = offset < starWidth / 2 ? value - 0.5 : value;
     }
@@ -209,7 +167,9 @@ class _ERateState extends State<ERate> {
     if (widget.allowHalf) {
       final RenderBox box = context.findRenderObject() as RenderBox;
       final localPosition = box.globalToLocal(event.position);
-      final starWidth = _iconSize + 8;
+      final starWidth = ElememtSize(size: widget.size)
+              .getIconSize(customIconSize: widget.customSize) +
+          8;
       final offset = localPosition.dx % starWidth;
       value = offset < starWidth / 2 ? value - 0.5 : value;
     }
@@ -239,6 +199,8 @@ class _ERateState extends State<ERate> {
       children: [
         MouseRegion(
           onExit: (_) => _handleExit(),
+          cursor:
+              widget.disabled ? MouseCursor.defer : SystemMouseCursors.click,
           child: Row(
             children: List.generate(
               widget.max.toInt(),
@@ -249,6 +211,9 @@ class _ERateState extends State<ERate> {
 
                 return MouseRegion(
                   onEnter: (event) => _handleHover(value, event),
+                  cursor: widget.disabled
+                      ? MouseCursor.defer
+                      : SystemMouseCursors.click,
                   child: GestureDetector(
                     onTapDown: (details) => _handleTap(value, details),
                     child: Container(
@@ -259,7 +224,8 @@ class _ERateState extends State<ERate> {
                             : isHalf
                                 ? Icons.star_half
                                 : Icons.star_border,
-                        size: _iconSize,
+                        size: ElememtSize(size: widget.size)
+                            .getIconSize(customIconSize: widget.customSize),
                         color: widget.disabled
                             ? EBasicColors.borderGray
                             : isFull || isHalf
@@ -279,7 +245,8 @@ class _ERateState extends State<ERate> {
             child: Text(
               text ?? scoreText,
               style: TextStyle(
-                fontSize: _fontSize,
+                fontSize: ElememtSize(size: widget.size)
+                    .getInputFontSize(customFontSize: widget.customFontSize),
                 color: widget.disabled
                     ? EBasicColors.textGray
                     : text != null

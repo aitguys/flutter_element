@@ -137,6 +137,13 @@ class HomePage extends StatelessWidget {
                     FlNavItem(
                       suffix: const Icon(Icons.arrow_forward_ios, size: 16),
                       padding: const EdgeInsets.symmetric(horizontal: 4),
+                      onTap: () => Get.toNamed(Routes.rate),
+                      child:
+                          const Text('Rate 评分', style: TextStyle(fontSize: 15)),
+                    ),
+                    FlNavItem(
+                      suffix: const Icon(Icons.arrow_forward_ios, size: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
                       onTap: () => Get.toNamed(Routes.checkbox),
                       child: const Text('Checkbox 多选框',
                           style: TextStyle(fontSize: 15)),
@@ -160,6 +167,13 @@ class HomePage extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 4),
                       onTap: () => Get.toNamed(Routes.inputTag),
                       child: const Text('InputTag 标签输入框',
+                          style: TextStyle(fontSize: 15)),
+                    ),
+                    FlNavItem(
+                      suffix: const Icon(Icons.arrow_forward_ios, size: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      onTap: () => Get.toNamed(Routes.select),
+                      child: const Text('Select 选择器',
                           style: TextStyle(fontSize: 15)),
                     ),
                   ],

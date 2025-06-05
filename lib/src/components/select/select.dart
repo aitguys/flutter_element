@@ -1,17 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element_plus/src/theme/index.dart';
-
-/// Defines the available sizes for the select component.
-enum ESelectSize {
-  /// Small size (24px height, 12px font)
-  small,
-
-  /// Medium size (32px height, 14px font)
-  medium,
-
-  /// Large size (40px height, 16px font)
-  large,
-}
+import '../input/input.dart';
 
 /// Represents an option in the select component.
 class SelectOption {
@@ -36,39 +25,9 @@ class SelectOption {
   });
 }
 
-/// A select component that allows users to choose from a list of options.
-/// It follows Element Plus design guidelines and provides features like:
-/// - Single and multiple selection modes
-/// - Clearable selection
-/// - Disabled state
-/// - Customizable size
-/// - Placeholder text
-/// - Empty state text
-/// - Custom header
-///
-/// Example:
-/// ```dart
-/// ESelect(
-///   value: '1',
-///   options: [
-///     SelectOption(value: '1', label: 'Option 1'),
-///     SelectOption(value: '2', label: 'Option 2', disabled: true),
-///     SelectOption(value: '3', label: 'Option 3'),
-///   ],
-///   placeholder: 'Please select',
-///   clearable: true,
-///   onChanged: (value) {
-///     print('Selected value: $value');
-///   },
-/// )
-/// ```
 class ESelect extends StatefulWidget {
-  /// The currently selected value(s).
-  /// For single select, this should be a `String`.
-  /// For multiple select, this should be a `List<String>`.
   final dynamic value;
 
-  /// The list of options to display in the dropdown.
   final List<SelectOption> options;
 
   /// Whether the select component is disabled.
@@ -85,16 +44,40 @@ class ESelect extends StatefulWidget {
 
   /// The size of the select component.
   /// Affects the height and font size of the component.
-  final ESelectSize size;
+  final ESizeItem size;
 
   /// The placeholder text to display when no value is selected.
   final String? placeholder;
 
-  /// The text to display when there are no options available.
-  final String? emptyText;
-
   /// A custom widget to display at the top of the dropdown.
   final Widget? header;
+
+  /// The color type of the select.
+  final EColorType colorType;
+
+  /// A custom widget to display at the end of the select.
+  final Widget? suffix;
+  final Widget? prefix;
+  final Widget? prepend;
+  final Widget? append;
+
+  /// A custom color to use for the select.
+  final Color? customColor;
+
+  /// The default color for the select's border.
+  final Color defaultColor;
+
+  /// A custom height for the select.
+  final double? customHeight;
+
+  /// A custom font size for the select text.
+  final double? customFontSize;
+
+  /// A custom border radius for the select.
+  final double? customBorderRadius;
+
+  /// Whether to show the placeholder text above the select when focused.
+  final bool showPlaceholderOnTop;
 
   /// Callback function when the selected value(s) change.
   /// For single select, the callback receives a `String`.
@@ -111,12 +94,22 @@ class ESelect extends StatefulWidget {
     this.disabled = false,
     this.clearable = false,
     this.multiple = false,
-    this.size = ESelectSize.medium,
+    this.size = ESizeItem.medium,
     this.placeholder,
-    this.emptyText,
     this.header,
+    this.colorType = EColorType.primary,
+    this.customColor,
+    this.defaultColor = EBasicColors.borderGray,
+    this.customHeight,
+    this.customFontSize,
+    this.customBorderRadius,
+    this.showPlaceholderOnTop = false,
     this.onChanged,
     this.onClear,
+    this.suffix,
+    this.prefix,
+    this.prepend,
+    this.append,
   });
 
   @override
@@ -127,31 +120,8 @@ class _ESelectState extends State<ESelect> {
   final LayerLink _layerLink = LayerLink();
   OverlayEntry? _overlayEntry;
   final FocusNode _focusNode = FocusNode();
-  bool _isHovered = false;
-  // ignore: prefer_final_fields
-  bool _isFocused = false;
+  // bool _isFocused = false;
   List<String> _selectedValues = [];
-  double get _height {
-    switch (widget.size) {
-      case ESelectSize.small:
-        return 24;
-      case ESelectSize.large:
-        return 40;
-      case ESelectSize.medium:
-        return 32;
-    }
-  }
-
-  double get _fontSize {
-    switch (widget.size) {
-      case ESelectSize.small:
-        return 12;
-      case ESelectSize.large:
-        return 16;
-      case ESelectSize.medium:
-        return 14;
-    }
-  }
 
   List<SelectOption> get _selectedOptions {
     if (widget.value == null) return [];
@@ -184,12 +154,19 @@ class _ESelectState extends State<ESelect> {
           _selectedValues.add(option.value);
         }
         widget.onChanged?.call(_selectedValues);
+        _updateOverlay();
       });
     } else {
       setState(() {
         widget.onChanged?.call(option.value);
         _hideOverlay();
       });
+    }
+  }
+
+  void _updateOverlay() {
+    if (_overlayEntry != null) {
+      _overlayEntry!.markNeedsBuild();
     }
   }
 
@@ -214,29 +191,22 @@ class _ESelectState extends State<ESelect> {
             child: CompositedTransformFollower(
               link: _layerLink,
               showWhenUnlinked: false,
-              offset: const Offset(0, 38),
+              offset: Offset(
+                  0,
+                  ElememtSize(size: widget.size)
+                      .getInputHeight(customHeight: widget.customHeight)),
               child: Material(
                 elevation: 4,
-                borderRadius: BorderRadius.circular(4),
+                borderRadius: BorderRadius.circular(
+                    ElememtSize(size: widget.size).getInputBorderRadius(
+                        customBorderRadius: widget.customBorderRadius)),
                 child: Container(
                   width: size.width,
                   constraints: const BoxConstraints(maxHeight: 300),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      if (widget.header != null)
-                        Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: const BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(
-                                color: EBasicColors.borderGray,
-                                width: 1,
-                              ),
-                            ),
-                          ),
-                          child: widget.header,
-                        ),
+                      if (widget.header != null) widget.header!,
                       Flexible(
                         child: ListView.builder(
                           shrinkWrap: true,
@@ -259,7 +229,10 @@ class _ESelectState extends State<ESelect> {
                                   vertical: 8,
                                 ),
                                 color: isSelected
-                                    ? EColorTypes.primary.withValues(alpha: 0.1)
+                                    ? getColorByType(
+                                            type: widget.colorType,
+                                            customColor: widget.customColor)
+                                        .withValues(alpha: 0.1)
                                     : null,
                                 child: Row(
                                   children: [
@@ -267,11 +240,19 @@ class _ESelectState extends State<ESelect> {
                                       child: Text(
                                         option.label,
                                         style: TextStyle(
-                                          fontSize: _fontSize,
+                                          fontSize:
+                                              ElememtSize(size: widget.size)
+                                                  .getInputFontSize(
+                                                      customFontSize: widget
+                                                          .customFontSize),
                                           color: isDisabled
-                                              ? EBasicColors.textGray
+                                              ? const Color.fromARGB(
+                                                  255, 146, 148, 155)
                                               : isSelected
-                                                  ? EColorTypes.primary
+                                                  ? getColorByType(
+                                                      type: widget.colorType,
+                                                      customColor:
+                                                          widget.customColor)
                                                   : EBasicColors.textGray,
                                         ),
                                       ),
@@ -279,8 +260,13 @@ class _ESelectState extends State<ESelect> {
                                     if (isSelected)
                                       Icon(
                                         Icons.check,
-                                        size: _fontSize,
-                                        color: EColorTypes.primary,
+                                        size: ElememtSize(size: widget.size)
+                                            .getInputFontSize(
+                                                customFontSize:
+                                                    widget.customFontSize),
+                                        color: getColorByType(
+                                            type: widget.colorType,
+                                            customColor: widget.customColor),
                                       ),
                                   ],
                                 ),
@@ -311,6 +297,9 @@ class _ESelectState extends State<ESelect> {
   void initState() {
     super.initState();
     _focusNode.addListener(() {
+      setState(() {
+        // _isFocused = _focusNode.hasFocus;
+      });
       if (_focusNode.hasFocus) {
         _showOverlay();
       }
@@ -328,6 +317,19 @@ class _ESelectState extends State<ESelect> {
     }
   }
 
+  void _handleClear() {
+    setState(() {
+      _selectedValues = [];
+      if (widget.multiple) {
+        widget.onChanged?.call(_selectedValues);
+      } else {
+        widget.onChanged?.call(null);
+      }
+      _hideOverlay();
+    });
+    widget.onClear?.call();
+  }
+
   @override
   void dispose() {
     _focusNode.dispose();
@@ -339,68 +341,32 @@ class _ESelectState extends State<ESelect> {
   Widget build(BuildContext context) {
     return CompositedTransformTarget(
       link: _layerLink,
-      child: MouseRegion(
-        onEnter: (_) => setState(() => _isHovered = true),
-        onExit: (_) => setState(() => _isHovered = false),
-        child: GestureDetector(
-          onTap: widget.disabled
-              ? null
-              : () {
-                  if (_overlayEntry == null) {
-                    _showOverlay();
-                  } else {
-                    _hideOverlay();
-                  }
-                },
-          child: Container(
-            height: _height,
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: widget.disabled
-                    ? EBasicColors.borderGray
-                    : _isFocused
-                        ? EColorTypes.primary
-                        : _isHovered
-                            ? EColorTypes.primary
-                            : EBasicColors.borderGray,
-              ),
-              borderRadius: BorderRadius.circular(4),
+      child: EInput(
+        textController: TextEditingController(text: _displayText),
+        focusNode: _focusNode,
+        disabled: widget.disabled,
+        readOnly: true,
+        clearable: widget.clearable,
+        placeholder: widget.placeholder,
+        colorType: widget.colorType,
+        customColor: widget.customColor,
+        defaultColor: widget.defaultColor,
+        size: widget.size,
+        customHeight: widget.customHeight,
+        customFontSize: widget.customFontSize,
+        customBorderRadius: widget.customBorderRadius,
+        showPlaceholderOnTop: widget.showPlaceholderOnTop,
+        onClear: _handleClear,
+        suffix: widget.suffix ??
+            Icon(
+              Icons.arrow_drop_down,
+              size: ElememtSize(size: widget.size)
+                  .getInputFontSize(customFontSize: widget.customFontSize),
+              color: EBasicColors.textGray,
             ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    _displayText,
-                    style: TextStyle(
-                      fontSize: _fontSize,
-                      color: widget.disabled
-                          ? EBasicColors.textGray
-                          : _selectedOptions.isNotEmpty
-                              ? EBasicColors.textGray
-                              : EBasicColors.textGray,
-                    ),
-                  ),
-                ),
-                if (widget.clearable && _selectedOptions.isNotEmpty)
-                  GestureDetector(
-                    onTap: widget.disabled ? null : widget.onClear,
-                    child: Icon(
-                      Icons.close,
-                      size: _fontSize,
-                      color: EBasicColors.textGray,
-                    ),
-                  ),
-                const SizedBox(width: 4),
-                Icon(
-                  Icons.arrow_drop_down,
-                  size: _fontSize,
-                  color: EBasicColors.textGray,
-                ),
-              ],
-            ),
-          ),
-        ),
+        prefix: widget.prefix,
+        prepend: widget.prepend,
+        append: widget.append,
       ),
     );
   }

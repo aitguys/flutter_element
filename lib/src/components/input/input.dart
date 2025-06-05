@@ -111,6 +111,8 @@ class EInput extends StatefulWidget {
 
   /// Callback function when the input loses focus.
   final VoidCallback? onBlur;
+  final VoidCallback? onClear;
+  final FocusNode? focusNode;
 
   /// Creates an [EInput] widget.
   ///
@@ -138,6 +140,8 @@ class EInput extends StatefulWidget {
     this.onBlur,
     this.showPlaceholderOnTop = false,
     this.password = false,
+    this.focusNode,
+    this.onClear,
   });
 
   @override
@@ -156,7 +160,7 @@ class _EInputState extends State<EInput> {
   void initState() {
     super.initState();
     _controller = widget.textController ?? TextEditingController();
-    _focusNode = FocusNode();
+    _focusNode = widget.focusNode ?? FocusNode();
     _focusNode.addListener(_handleFocusChange);
     _controller.addListener(_handleTextChange);
     _hasValue = _controller.text.isNotEmpty;
@@ -200,6 +204,7 @@ class _EInputState extends State<EInput> {
       _hasValue = false;
     });
     widget.onChanged?.call('');
+    widget.onClear?.call();
   }
 
   @override
@@ -275,7 +280,7 @@ class _EInputState extends State<EInput> {
                     ),
                   const SizedBox(width: 4),
                   Expanded(
-                    child: TextField(
+                    child: TextFormField(
                       controller: _controller,
                       focusNode: _focusNode,
                       enabled: !widget.disabled,
@@ -294,6 +299,7 @@ class _EInputState extends State<EInput> {
                             : widget.placeholder,
                       ),
                       onChanged: widget.onChanged,
+                      enableInteractiveSelection: false,
                     ),
                   ),
                   if (widget.clearable && _hasValue && !widget.disabled)
