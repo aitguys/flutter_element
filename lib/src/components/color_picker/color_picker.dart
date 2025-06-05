@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'dart:math';
 import 'package:flutter_element_plus/src/methods/index.dart';
+import 'package:flutter_element_plus/src/theme/index.dart';
 
 class EColorPicker extends StatefulWidget {
   final Color pickerColor;
@@ -11,7 +12,8 @@ class EColorPicker extends StatefulWidget {
   final bool showAlpha;
   final List<Color>? predefine;
   final bool disabled;
-  final String? size;
+  final ESizeItem size;
+  final double? customSize;
   final double? width;
   final Function(Color)? onConfirm;
   final Function()? onCancel;
@@ -22,7 +24,8 @@ class EColorPicker extends StatefulWidget {
     this.showAlpha = false,
     this.predefine,
     this.disabled = false,
-    this.size,
+    this.size = ESizeItem.medium,
+    this.customSize,
     this.width,
     this.onConfirm,
     this.onCancel,
@@ -328,16 +331,10 @@ class _EColorPickerState extends State<EColorPicker> {
             alignment: Alignment.center,
             children: [
               Container(
-                width: widget.size == 'large'
-                    ? 40
-                    : widget.size == 'small'
-                        ? 24
-                        : 32,
-                height: widget.size == 'large'
-                    ? 40
-                    : widget.size == 'small'
-                        ? 24
-                        : 32,
+                width: ElememtSize(size: widget.size)
+                    .getInputHeight(customHeight: widget.customSize),
+                height: ElememtSize(size: widget.size)
+                    .getInputHeight(customHeight: widget.customSize),
                 decoration: BoxDecoration(
                   color: widget.disabled ? Colors.grey[300] : _currentColor,
                   border: Border.all(
@@ -351,21 +348,13 @@ class _EColorPickerState extends State<EColorPicker> {
               if (widget.disabled)
                 Icon(
                   Icons.close,
-                  size: widget.size == 'large'
-                      ? 20
-                      : widget.size == 'small'
-                          ? 10
-                          : 15,
+                  size: ElememtSize(size: widget.size).getInputFontSize(),
                   color: Colors.white,
                 )
               else
                 Icon(
                   Icons.keyboard_arrow_down_sharp,
-                  size: widget.size == 'large'
-                      ? 20
-                      : widget.size == 'small'
-                          ? 10
-                          : 25,
+                  size: ElememtSize(size: widget.size).getInputFontSize(),
                   color: Colors.white,
                 ),
             ],

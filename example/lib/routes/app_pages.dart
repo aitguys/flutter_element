@@ -16,7 +16,8 @@ import '../pages/tree/tree.dart';
 import '../pages/link_page/link_page.dart';
 import '../pages/scrollbar_page/scrollbar_page.dart';
 import '../pages/checkbox_page/route.dart';
-import '../pages/color_picker_page/color_picker_page.dart';
+import '../pages/color_picker_page/route.dart';
+
 // import '../pages/datePicker/date_picker.dart';
 import '../pages/datePicker/route.dart';
 import '../pages/time_picker_page/time_picker_page.dart';
@@ -93,7 +94,11 @@ abstract class Routes {
   static const checkboxGroup = CheckboxRoutes.checkboxGroup;
   static const checkboxBorder = CheckboxRoutes.checkboxBorder;
   static const checkboxSelectAll = CheckboxRoutes.checkboxSelectAll;
-  static const colorPicker = '/color_picker';
+  static const colorPicker = ColorPickerRoutes.colorPicker;
+  static const colorPickerAlpha = ColorPickerRoutes.colorPickerAlpha;
+  static const colorPickerPredefine = ColorPickerRoutes.colorPickerPredefine;
+  static const colorPickerSize = ColorPickerRoutes.colorPickerSize;
+  static const colorPickerDisabled = ColorPickerRoutes.colorPickerDisabled;
   static const datePicker = '/datePicker';
   static const timePicker = '/time_picker';
 
@@ -211,6 +216,7 @@ class AppPages {
     ...inputNumberRoutesPages,
     ...rateRoutesPages,
     ...selectRoutesPages,
+    ...colorPickerRoutesPages,
     GetPage(
       name: Routes.link,
       page: () => const LinkPage(),
@@ -219,10 +225,7 @@ class AppPages {
       name: Routes.scrollbar,
       page: () => const ScrollbarPage(),
     ),
-    GetPage(
-      name: Routes.colorPicker,
-      page: () => const ColorPickerPage(),
-    ),
+
     // GetPage(
     //   name: Routes.datePicker,
     //   page: () => const DatePickerPage(),
@@ -328,5 +331,6 @@ class AppPages {
     ...dialogRoutesPages,
     ...rateRoutesPages,
     ...selectRoutesPages,
+    ...colorPickerRoutesPages,
   ];
 }

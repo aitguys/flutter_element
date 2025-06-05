@@ -176,6 +176,13 @@ class HomePage extends StatelessWidget {
                       child: const Text('Select 选择器',
                           style: TextStyle(fontSize: 15)),
                     ),
+                    FlNavItem(
+                      suffix: const Icon(Icons.arrow_forward_ios, size: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      onTap: () => Get.toNamed(Routes.colorPicker),
+                      child: const Text('ColorPicker 颜色选择器',
+                          style: TextStyle(fontSize: 15)),
+                    ),
                   ],
                 ),
               ),

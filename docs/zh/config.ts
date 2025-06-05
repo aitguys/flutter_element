@@ -22,6 +22,7 @@ export const zhConfig = {
 					text: "基础组件",
 					items: [
 						{ text: "Button", link: "/zh/components/button" },
+						
 
 						// { text: 'Input', link: '/zh/components/input' },
 						// { text: 'Switch', link: '/zh/components/switch' },
@@ -41,6 +42,7 @@ export const zhConfig = {
 						{ text: "InputTag", link: "/zh/components/input_tag" },
 						{ text: "Rate", link: "/zh/components/rate" },
 						{ text: "Select", link: "/zh/components/select" },
+						{ text: "ColorPicker", link: "/zh/components/color_picker" },
 					],
 				},
 				// {
