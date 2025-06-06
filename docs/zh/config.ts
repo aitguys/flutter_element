@@ -23,7 +23,8 @@ export const zhConfig = {
 					items: [
 						{ text: "Button", link: "/zh/components/button" },
 						{ text: "Link", link: "/zh/components/link" },
-
+					
+						
 						// { text: 'Input', link: '/zh/components/input' },
 						// { text: 'Switch', link: '/zh/components/switch' },
 						// { text: 'Slider', link: '/zh/components/slider' },
@@ -51,6 +52,9 @@ export const zhConfig = {
 					items: [
 						{ text: "Progress", link: "/zh/components/progress" },
 						{ text: "Tag", link: "/zh/components/tag" },
+						{ text: "Image", link: "/zh/components/image" },
+						{ text: "Avatar", link: "/zh/components/avatar" },
+						{ text: "Card", link: "/zh/components/card" },
 						// { text: 'Table', link: '/zh/components/table' },
 						// { text: 'Pagination', link: '/zh/components/pagination' },
 						// { text: 'Timeline', link: '/zh/components/timeline' },

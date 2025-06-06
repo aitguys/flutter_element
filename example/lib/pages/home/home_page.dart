@@ -266,6 +266,20 @@ class HomePage extends StatelessWidget {
                       child: const Text('Avatar 头像',
                           style: TextStyle(fontSize: 15)),
                     ),
+                    FlNavItem(
+                      suffix: const Icon(Icons.arrow_forward_ios, size: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      onTap: () => Get.toNamed(Routes.image),
+                      child: const Text('Image 图片',
+                          style: TextStyle(fontSize: 15)),
+                    ),
+                    FlNavItem(
+                      suffix: const Icon(Icons.arrow_forward_ios, size: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      onTap: () => Get.toNamed(Routes.card),
+                      child:
+                          const Text('Card 卡片', style: TextStyle(fontSize: 15)),
+                    ),
                   ],
                 ),
               ),

@@ -136,7 +136,7 @@ class _ECardState extends State<ECard> {
       margin: widget.margin ?? const EdgeInsets.all(0),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(2),
         border: Border.all(color: const Color(0xFFE4E7ED), width: 1),
         boxShadow: _boxShadow != null ? [_boxShadow!] : null,
       ),
@@ -148,11 +148,21 @@ class _ECardState extends State<ECard> {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               child: widget.header,
             ),
+          if (widget.header != null)
+            const Divider(
+              height: 1,
+              color: Color(0xFFE4E7ED),
+            ),
           Container(
             padding: widget.padding ?? const EdgeInsets.all(16),
             decoration: widget.bodyStyle,
             child: widget.child,
           ),
+          if (widget.footer != null)
+            const Divider(
+              height: 1,
+              color: Color(0xFFE4E7ED),
+            ),
           if (widget.footer != null)
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),

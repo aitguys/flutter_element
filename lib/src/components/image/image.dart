@@ -76,16 +76,21 @@ class EImage extends StatelessWidget {
         width: width,
         height: height,
         fit: fit,
-        loadingBuilder: (context, child, loadingProgress) {
-          if (loadingProgress == null) return child;
-          return placeholder ??
-              Container(
-                width: width,
-                height: height,
-                color: Colors.grey[200],
-                child: const Center(
-                    child: CircularProgressIndicator(strokeWidth: 2)),
-              );
+        frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+          if (wasSynchronouslyLoaded) {
+            return child;
+          }
+          return frame == null
+              ? (placeholder ??
+                  Container(
+                    width: width,
+                    height: height,
+                    color: Colors.grey[200],
+                    child: const Center(
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    ),
+                  ))
+              : child;
         },
         errorBuilder: (context, error, stackTrace) {
           return errorWidget ??
@@ -206,6 +211,13 @@ class _ImagePreviewDialogState extends State<_ImagePreviewDialog> {
             tooltip: '右旋转',
             onPressed: () => _rotate(0.5 * 3.1415926),
           ),
+          // IconButton(
+          //   icon: const Icon(Icons.download, color: Colors.white),
+          //   tooltip: '下载',
+          //   onPressed: () async {
+          //     // TODO: 实现图片下载功能
+          //   },
+          // ),
         ],
       ),
     );

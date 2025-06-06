@@ -19,6 +19,8 @@ import '../pages/checkbox_page/route.dart';
 import '../pages/color_picker_page/route.dart';
 import '../pages/progress_page/route.dart';
 import '../pages/avatar_page/route.dart';
+import '../pages/image_page/route.dart';
+import '../pages/card_page/route.dart';
 
 import '../pages/datePicker/route.dart';
 import '../pages/time_picker_page/route.dart';
@@ -28,12 +30,10 @@ import '../pages/radio_page/route.dart';
 import '../pages/rate_page/route.dart';
 import '../pages/select_page/route.dart';
 import '../pages/slider_page/slider_page.dart';
-import '../pages/card_page/card_page.dart';
 import '../pages/carousel_page/carousel_page.dart';
 import '../pages/collapse_page/collapse_page.dart';
 import '../pages/descriptions_page/descriptions_page.dart';
 import '../pages/empty_page/empty_page.dart';
-import '../pages/image_page/image_page.dart';
 import '../pages/infinite_scroll_page/infinite_scroll_page.dart';
 import '../pages/pagination_page/pagination_page.dart';
 import '../pages/result_page/result_page.dart';
@@ -170,12 +170,21 @@ abstract class Routes {
   static const avatarFallback = AvatarRoutes.avatarFallback;
   static const avatarFit = AvatarRoutes.avatarFit;
   static const avatarApi = AvatarRoutes.avatarApi;
-  static const card = '/card';
+  static const card = CardRoutes.card;
+  static const cardBasic = CardRoutes.cardBasic;
+  static const cardSimple = CardRoutes.cardSimple;
+  static const cardImage = CardRoutes.cardImage;
+  static const cardShadow = CardRoutes.cardShadow;
   static const carousel = '/carousel';
   static const collapse = '/collapse';
   static const descriptions = '/descriptions';
   static const empty = '/empty';
-  static const image = '/image';
+  static const image = ImageRoutes.image;
+  static const imageBasic = ImageRoutes.imageBasic;
+  static const imageFit = ImageRoutes.imageFit;
+  static const imageRadius = ImageRoutes.imageRadius;
+  static const imagePlaceholder = ImageRoutes.imagePlaceholder;
+  static const imagePreview = ImageRoutes.imagePreview;
   static const infiniteScroll = '/infinite_scroll';
   static const pagination = '/pagination';
   static const progress = ProgressRoutes.progress;
@@ -258,6 +267,7 @@ class AppPages {
     ...linkRoutesPages,
     ...avatarRoutesPages,
     ...timePickerRoutesPages,
+    ...imageRoutesPages,
     GetPage(
       name: Routes.scrollbar,
       page: () => const ScrollbarPage(),
@@ -278,10 +288,6 @@ class AppPages {
     ),
 
     GetPage(
-      name: Routes.card,
-      page: () => const CardPage(),
-    ),
-    GetPage(
       name: Routes.carousel,
       page: () => const CarouselPage(),
     ),
@@ -297,10 +303,7 @@ class AppPages {
       name: Routes.empty,
       page: () => const EmptyPage(),
     ),
-    GetPage(
-      name: Routes.image,
-      page: () => const ImagePage(),
-    ),
+
     GetPage(
       name: Routes.infiniteScroll,
       page: () => const InfiniteScrollPage(),
@@ -354,5 +357,7 @@ class AppPages {
     ...linkRoutesPages,
     ...avatarRoutesPages,
     ...timePickerRoutesPages,
+    ...imageRoutesPages,
+    ...cardRoutesPages,
   ];
 }
