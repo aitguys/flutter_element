@@ -198,6 +198,13 @@ class HomePage extends StatelessWidget {
                       child: const Text('Progress 进度条',
                           style: TextStyle(fontSize: 15)),
                     ),
+                    FlNavItem(
+                      suffix: const Icon(Icons.arrow_forward_ios, size: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      onTap: () => Get.toNamed(Routes.timePicker),
+                      child: const Text('TimePicker 时间选择器',
+                          style: TextStyle(fontSize: 15)),
+                    ),
                   ],
                 ),
               ),

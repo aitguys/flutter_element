@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element_plus/src/theme/index.dart';
+import 'package:flutter_element_plus/src/components/input/input.dart';
 
 /// A time picker component that allows users to select a time of day.
 /// It follows Element Plus design guidelines and provides features like:
 /// - Hour, minute, and second selection
+/// - 12/24 hour format support
 /// - Customizable placeholder text
 /// - Custom prefix icon
 /// - Different sizes
@@ -14,6 +16,7 @@ import 'package:flutter_element_plus/src/theme/index.dart';
 /// ETimePicker(
 ///   value: DateTime.now(),
 ///   placeholder: 'Select time',
+///   use24HourFormat: false,
 ///   onChange: (time) {
 ///     print('Selected time: ${time.hour}:${time.minute}');
 ///   },
@@ -40,6 +43,48 @@ class ETimePicker extends StatefulWidget {
   /// Affects the height and font size of the component.
   final ESizeItem size;
 
+  /// Whether the input is disabled.
+  final bool disabled;
+
+  /// Whether the input is read-only.
+  final bool readOnly;
+
+  /// Whether to show a clear button when the input has text.
+  final bool clearable;
+
+  /// The color type of the input.
+  final EColorType colorType;
+
+  /// A custom color to use for the input.
+  final Color? customColor;
+
+  /// The default color for the input's border.
+  final Color defaultColor;
+
+  /// A custom height for the input.
+  final double? customHeight;
+
+  /// A custom font size for the input text.
+  final double? customFontSize;
+
+  /// A custom border radius for the input.
+  final double? customBorderRadius;
+
+  /// Whether to show the placeholder text above the input when focused.
+  final bool showPlaceholderOnTop;
+
+  /// Whether to use 24-hour format (true) or 12-hour format with AM/PM (false)
+  final bool use24HourFormat;
+
+  /// Callback function when the input gains focus.
+  final VoidCallback? onFocus;
+
+  /// Callback function when the input loses focus.
+  final VoidCallback? onBlur;
+
+  /// Callback function when the input is cleared.
+  final VoidCallback? onClear;
+
   const ETimePicker({
     super.key,
     this.value,
@@ -47,6 +92,20 @@ class ETimePicker extends StatefulWidget {
     this.placeholder = '请选择时间',
     this.prefix,
     this.size = ESizeItem.medium,
+    this.disabled = false,
+    this.readOnly = false,
+    this.clearable = false,
+    this.colorType = EColorType.primary,
+    this.customColor,
+    this.defaultColor = EBasicColors.borderGray,
+    this.customHeight,
+    this.customFontSize,
+    this.customBorderRadius,
+    this.showPlaceholderOnTop = false,
+    this.use24HourFormat = true,
+    this.onFocus,
+    this.onBlur,
+    this.onClear,
   });
 
   @override
@@ -58,36 +117,36 @@ class _ETimePickerState extends State<ETimePicker> {
   late TextEditingController _controller;
   OverlayEntry? _overlayEntry;
   final LayerLink _layerLink = LayerLink();
-  // ignore: unused_field
-  bool _isHovered = false;
   bool _isOpen = false;
-  final FocusNode _focusNode = FocusNode();
-  // ignore: unused_field
-  bool _isFocused = false;
   int _selectedHour = 0;
   int _selectedMinute = 0;
   int _selectedSecond = 0;
+  bool _isAM = true;
   late FixedExtentScrollController _hourController;
   late FixedExtentScrollController _minuteController;
   late FixedExtentScrollController _secondController;
+  late FixedExtentScrollController _periodController;
   Widget? _defaultPrefix;
+
   @override
   void initState() {
     super.initState();
     final now = widget.value ?? DateTime.now();
     _selected = TimeOfDay(hour: now.hour, minute: now.minute);
-    _selectedHour = _selected.hour;
+    _selectedHour =
+        widget.use24HourFormat ? _selected.hour : _selected.hourOfPeriod;
     _selectedMinute = _selected.minute;
-    _selectedSecond = 0;
+    _selectedSecond = now.second;
+    _isAM = _selected.hour < 12;
     _controller = TextEditingController(
       text: _formatTime(_selected),
     );
-    _focusNode.addListener(_handleFocusChange);
     _hourController = FixedExtentScrollController(initialItem: _selectedHour);
     _minuteController =
         FixedExtentScrollController(initialItem: _selectedMinute);
     _secondController =
         FixedExtentScrollController(initialItem: _selectedSecond);
+    _periodController = FixedExtentScrollController(initialItem: _isAM ? 0 : 1);
     _defaultPrefix = widget.prefix ??
         Icon(
           Icons.access_time,
@@ -96,30 +155,26 @@ class _ETimePickerState extends State<ETimePicker> {
         );
   }
 
-  void _handleFocusChange() {
-    if (_focusNode.hasFocus && !_isOpen) {
-      _showPicker();
-    }
-    setState(() {
-      _isFocused = _focusNode.hasFocus;
-    });
-  }
-
   String _formatTime(TimeOfDay t) {
-    final h = _selectedHour.toString().padLeft(2, '0');
+    final h = widget.use24HourFormat
+        ? _selectedHour.toString().padLeft(2, '0')
+        : (_selectedHour == 0 ? '12' : _selectedHour.toString())
+            .padLeft(2, '0');
     final m = _selectedMinute.toString().padLeft(2, '0');
     final s = _selectedSecond.toString().padLeft(2, '0');
-    return '$h:$m:$s';
+    final period = widget.use24HourFormat ? '' : (_isAM ? ' AM' : ' PM');
+    return '$h:$m:$s$period';
   }
 
   void _showPicker() {
-    if (_overlayEntry != null) {
+    if (_overlayEntry != null || widget.disabled || widget.readOnly) {
       return;
     }
 
     final int initialHour = _selectedHour;
     final int initialMinute = _selectedMinute;
     final int initialSecond = _selectedSecond;
+    final bool initialIsAM = _isAM;
 
     _overlayEntry = OverlayEntry(
       builder: (context) => StatefulBuilder(
@@ -148,12 +203,19 @@ class _ETimePickerState extends State<ETimePicker> {
                           children: [
                             _buildPicker(
                               value: _selectedHour,
-                              max: 23,
+                              max: widget.use24HourFormat ? 23 : 11,
                               onChanged: (v) {
                                 setState(() {
                                   _selectedHour = v;
-                                  _selected = TimeOfDay(
-                                      hour: v, minute: _selectedMinute);
+                                  if (!widget.use24HourFormat) {
+                                    final actualHour = _isAM ? v : (v + 12);
+                                    _selected = TimeOfDay(
+                                        hour: actualHour,
+                                        minute: _selectedMinute);
+                                  } else {
+                                    _selected = TimeOfDay(
+                                        hour: v, minute: _selectedMinute);
+                                  }
                                   _controller.text = _formatTime(_selected);
                                 });
                               },
@@ -166,8 +228,12 @@ class _ETimePickerState extends State<ETimePicker> {
                               onChanged: (v) {
                                 setState(() {
                                   _selectedMinute = v;
-                                  _selected =
-                                      TimeOfDay(hour: _selectedHour, minute: v);
+                                  final hour = widget.use24HourFormat
+                                      ? _selectedHour
+                                      : (_isAM
+                                          ? _selectedHour
+                                          : _selectedHour + 12);
+                                  _selected = TimeOfDay(hour: hour, minute: v);
                                   _controller.text = _formatTime(_selected);
                                 });
                               },
@@ -185,6 +251,53 @@ class _ETimePickerState extends State<ETimePicker> {
                               },
                               controller: _secondController,
                             ),
+                            if (!widget.use24HourFormat) ...[
+                              const SizedBox(width: 8),
+                              SizedBox(
+                                width: 60,
+                                height: 150,
+                                child: ListWheelScrollView.useDelegate(
+                                  itemExtent: 36,
+                                  diameterRatio: 1.2,
+                                  physics: const FixedExtentScrollPhysics(),
+                                  controller: _periodController,
+                                  onSelectedItemChanged: (index) {
+                                    setState(() {
+                                      _isAM = index == 0;
+                                      final actualHour = _isAM
+                                          ? _selectedHour
+                                          : (_selectedHour + 12);
+                                      _selected = TimeOfDay(
+                                          hour: actualHour,
+                                          minute: _selectedMinute);
+                                      _controller.text = _formatTime(_selected);
+                                    });
+                                  },
+                                  childDelegate: ListWheelChildBuilderDelegate(
+                                    childCount: 2,
+                                    builder: (context, index) {
+                                      final isSelected =
+                                          _periodController.selectedItem ==
+                                              index;
+                                      return Center(
+                                        child: Text(
+                                          index == 0 ? 'AM' : 'PM',
+                                          style: TextStyle(
+                                            fontWeight: isSelected
+                                                ? FontWeight.bold
+                                                : FontWeight.normal,
+                                            fontSize: 18,
+                                            color: isSelected
+                                                ? Colors.black
+                                                : Colors.grey,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ],
                           ],
                         ),
                         const SizedBox(height: 8),
@@ -197,13 +310,21 @@ class _ETimePickerState extends State<ETimePicker> {
                                   _selectedHour = initialHour;
                                   _selectedMinute = initialMinute;
                                   _selectedSecond = initialSecond;
+                                  _isAM = initialIsAM;
+                                  final hour = widget.use24HourFormat
+                                      ? _selectedHour
+                                      : (_isAM
+                                          ? _selectedHour
+                                          : _selectedHour + 12);
                                   _selected = TimeOfDay(
-                                      hour: _selectedHour,
-                                      minute: _selectedMinute);
+                                      hour: hour, minute: _selectedMinute);
                                   _controller.text = _formatTime(_selected);
                                   _hourController.jumpToItem(_selectedHour);
                                   _minuteController.jumpToItem(_selectedMinute);
                                   _secondController.jumpToItem(_selectedSecond);
+                                  if (!widget.use24HourFormat) {
+                                    _periodController.jumpToItem(_isAM ? 0 : 1);
+                                  }
                                 });
                                 _hidePicker();
                               },
@@ -211,9 +332,13 @@ class _ETimePickerState extends State<ETimePicker> {
                             ),
                             TextButton(
                               onPressed: () {
+                                final hour = widget.use24HourFormat
+                                    ? _selectedHour
+                                    : (_isAM
+                                        ? _selectedHour
+                                        : _selectedHour + 12);
                                 widget.onChange?.call(TimeOfDay(
-                                    hour: _selectedHour,
-                                    minute: _selectedMinute));
+                                    hour: hour, minute: _selectedMinute));
                                 _hidePicker();
                               },
                               child: const Text('OK',
@@ -287,52 +412,43 @@ class _ETimePickerState extends State<ETimePicker> {
     );
   }
 
+  void _handleClear() {
+    setState(() {
+      _controller.clear();
+      _selectedHour = 0;
+      _selectedMinute = 0;
+      _selectedSecond = 0;
+      _isAM = true;
+      _selected = const TimeOfDay(hour: 0, minute: 0);
+    });
+    widget.onClear?.call();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: ElememtSize(size: widget.size).getContainerHeight(),
-      child: MouseRegion(
-        onEnter: (_) => setState(() => _isHovered = true),
-        onExit: (_) => setState(() => _isHovered = false),
-        child: Container(
-          height: 40,
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: _isOpen ? Colors.blue : Colors.grey.shade300,
-            ),
-            borderRadius: BorderRadius.circular(6),
-          ),
-          child: CompositedTransformTarget(
-            link: _layerLink,
-            child: Row(
-              children: [
-                SizedBox(
-                  child: Center(
-                    child: _defaultPrefix,
-                  ),
-                ),
-                Expanded(
-                  child: GestureDetector(
-                    onTap: _showPicker,
-                    child: TextFormField(
-                      controller: _controller,
-                      focusNode: _focusNode,
-                      readOnly: false,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        isDense: true,
-                        isCollapsed: true,
-                        hintText: widget.placeholder,
-                      ),
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
+    return CompositedTransformTarget(
+      link: _layerLink,
+      child: EInput(
+        textController: _controller,
+        placeholder: widget.placeholder,
+        prefix: _defaultPrefix,
+        disabled: widget.disabled,
+        readOnly: widget.readOnly,
+        clearable: widget.clearable,
+        colorType: widget.colorType,
+        customColor: widget.customColor,
+        defaultColor: widget.defaultColor,
+        size: widget.size,
+        customHeight: widget.customHeight,
+        customFontSize: widget.customFontSize,
+        customBorderRadius: widget.customBorderRadius,
+        showPlaceholderOnTop: widget.showPlaceholderOnTop,
+        onFocus: () {
+          widget.onFocus?.call();
+          _showPicker();
+        },
+        onBlur: widget.onBlur,
+        onClear: _handleClear,
       ),
     );
   }
@@ -341,10 +457,10 @@ class _ETimePickerState extends State<ETimePicker> {
   void dispose() {
     _controller.dispose();
     _overlayEntry?.remove();
-    _focusNode.dispose();
     _hourController.dispose();
     _minuteController.dispose();
     _secondController.dispose();
+    _periodController.dispose();
     super.dispose();
   }
 }

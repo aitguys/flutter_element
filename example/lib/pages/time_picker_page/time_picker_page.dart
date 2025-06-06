@@ -45,6 +45,20 @@ class _TimePickerPageState extends State<TimePickerPage> {
             const ETimePicker(
               size: ESizeItem.large,
             ),
+            // 24小时制
+            const SizedBox(height: 24),
+            const Text('24小时制'),
+            const SizedBox(height: 16),
+            const ETimePicker(
+              use24HourFormat: false,
+            ),
+            // readOnly
+            const SizedBox(height: 24),
+            const Text('readOnly'),
+            const SizedBox(height: 16),
+            const ETimePicker(
+              readOnly: true,
+            ),
           ],
         ),
       ),

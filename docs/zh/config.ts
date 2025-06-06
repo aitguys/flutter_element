@@ -38,6 +38,7 @@ export const zhConfig = {
 						{ text: "Radio", link: "/zh/components/radio" },
 						{ text: "Checkbox", link: "/zh/components/checkbox" },
 						{ text: "DatePicker", link: "/zh/components/date_picker" },
+						{ text: "TimePicker", link: "/zh/components/time_picker" },
 						{ text: "InputNumber", link: "/zh/components/input_number" },
 						{ text: "InputTag", link: "/zh/components/input_tag" },
 						{ text: "Rate", link: "/zh/components/rate" },
@@ -80,8 +81,6 @@ export const zhConfig = {
 					text: "其他组件",
 					items: [
 						//     { text: 'Calendar', link: '/zh/components/calendar' },
-						{ text: "DatePicker", link: "/zh/components/date_picker" },
-						//     { text: 'TimePicker', link: '/zh/components/time-picker' },
 						//     { text: 'Upload', link: '/zh/components/upload' },
 						//     { text: 'Form', link: '/zh/components/form' },
 					],

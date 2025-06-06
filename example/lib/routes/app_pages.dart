@@ -21,7 +21,7 @@ import '../pages/progress_page/route.dart';
 import '../pages/avatar_page/route.dart';
 
 import '../pages/datePicker/route.dart';
-import '../pages/time_picker_page/time_picker_page.dart';
+import '../pages/time_picker_page/route.dart';
 import '../pages/mention_page/mention_page.dart';
 // import '../pages/radio_page/radio_page.dart';
 import '../pages/radio_page/route.dart';
@@ -103,7 +103,11 @@ abstract class Routes {
   static const colorPickerPredefine = ColorPickerRoutes.colorPickerPredefine;
   static const colorPickerSize = ColorPickerRoutes.colorPickerSize;
   static const colorPickerDisabled = ColorPickerRoutes.colorPickerDisabled;
-  static const timePicker = '/time_picker';
+  static const timePicker = TimePickerRoutes.timePicker;
+  static const timePickerBasic = TimePickerRoutes.timePickerBasic;
+  static const timePickerFormat = TimePickerRoutes.timePickerFormat;
+  static const timePickerReadonly = TimePickerRoutes.timePickerReadonly;
+  static const timePickerApi = TimePickerRoutes.timePickerApi;
   //Radio
   static const radio = RadioRoutes.radio;
   static const radioBasic = RadioRoutes.radioBasic;
@@ -253,19 +257,11 @@ class AppPages {
     ...progressRoutesPages,
     ...linkRoutesPages,
     ...avatarRoutesPages,
+    ...timePickerRoutesPages,
     GetPage(
       name: Routes.scrollbar,
       page: () => const ScrollbarPage(),
     ),
-
-    GetPage(
-      name: Routes.timePicker,
-      page: () => const TimePickerPage(),
-    ),
-    // GetPage(
-    //   name: Routes.inputNumber,
-    //   page: () => const InputNumberPage(),
-    // ),
 
     GetPage(
       name: Routes.mention,
@@ -357,5 +353,6 @@ class AppPages {
     ...progressRoutesPages,
     ...linkRoutesPages,
     ...avatarRoutesPages,
+    ...timePickerRoutesPages,
   ];
 }
