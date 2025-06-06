@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_element_example/logger/logger.dart';
 import 'package:flutter_element_plus/flutter_element_plus.dart';
 
 class LinkPage extends StatelessWidget {
@@ -27,32 +28,32 @@ class LinkPage extends StatelessWidget {
               children: [
                 ELink(
                   text: 'Default Link',
-                  type: ELinkType.defaultType,
+                  type: EColorType.default_,
                   onPressed: () {},
                 ),
                 ELink(
                   text: 'Primary Link',
-                  type: ELinkType.primary,
+                  type: EColorType.primary,
                   onPressed: () {},
                 ),
                 ELink(
                   text: 'Success Link',
-                  type: ELinkType.success,
+                  type: EColorType.success,
                   onPressed: () {},
                 ),
                 ELink(
                   text: 'Warning Link',
-                  type: ELinkType.warning,
+                  type: EColorType.warning,
                   onPressed: () {},
                 ),
                 ELink(
                   text: 'Danger Link',
-                  type: ELinkType.danger,
+                  type: EColorType.danger,
                   onPressed: () {},
                 ),
                 ELink(
                   text: 'Info Link',
-                  type: ELinkType.info,
+                  type: EColorType.info,
                   onPressed: () {},
                 ),
               ],
@@ -66,37 +67,37 @@ class LinkPage extends StatelessWidget {
               children: [
                 ELink(
                   text: 'Default Link',
-                  type: ELinkType.defaultType,
+                  type: EColorType.default_,
                   disabled: true,
                   onPressed: () {},
                 ),
                 ELink(
                   text: 'Primary Link',
-                  type: ELinkType.primary,
+                  type: EColorType.primary,
                   disabled: true,
                   onPressed: () {},
                 ),
                 ELink(
                   text: 'Success Link',
-                  type: ELinkType.success,
+                  type: EColorType.success,
                   disabled: true,
                   onPressed: () {},
                 ),
                 ELink(
                   text: 'Warning Link',
-                  type: ELinkType.warning,
+                  type: EColorType.warning,
                   disabled: true,
                   onPressed: () {},
                 ),
                 ELink(
                   text: 'Danger Link',
-                  type: ELinkType.danger,
+                  type: EColorType.danger,
                   disabled: true,
                   onPressed: () {},
                 ),
                 ELink(
                   text: 'Info Link',
-                  type: ELinkType.info,
+                  type: EColorType.info,
                   disabled: true,
                   onPressed: () {},
                 ),
@@ -111,19 +112,19 @@ class LinkPage extends StatelessWidget {
               children: [
                 ELink(
                   text: 'Edit',
-                  type: ELinkType.primary,
+                  type: EColorType.primary,
                   icon: Icons.edit,
                   onPressed: () {},
                 ),
                 ELink(
                   text: 'Delete',
-                  type: ELinkType.danger,
+                  type: EColorType.danger,
                   icon: Icons.delete,
                   onPressed: () {},
                 ),
                 ELink(
                   text: 'View',
-                  type: ELinkType.info,
+                  type: EColorType.info,
                   icon: Icons.visibility,
                   onPressed: () {},
                 ),
@@ -133,24 +134,52 @@ class LinkPage extends StatelessWidget {
             const Text('Links without Underline',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             const SizedBox(height: 16),
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                ELink(
+                  text: 'Default Link',
+                  type: EColorType.default_,
+                  underline: false,
+                  target: '_blank',
+                ),
+                ELink(
+                  text: 'Primary Link',
+                  type: EColorType.primary,
+                  underline: false,
+                ),
+                ELink(
+                  text: 'Success Link',
+                  type: EColorType.success,
+                  underline: false,
+                ),
+              ],
+            ),
+            const Text('Links with Href, target, onPressed',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 ELink(
                   text: 'Default Link',
-                  type: ELinkType.defaultType,
+                  type: EColorType.default_,
                   underline: false,
+                  target: '_blank',
+                  href: 'https://www.flutter-element.com',
                   onPressed: () {},
                 ),
                 ELink(
                   text: 'Primary Link',
-                  type: ELinkType.primary,
+                  type: EColorType.primary,
                   underline: false,
-                  onPressed: () {},
+                  onPressed: () {
+                    Loglevel.d('onPressed');
+                  },
                 ),
                 ELink(
                   text: 'Success Link',
-                  type: ELinkType.success,
+                  type: EColorType.success,
                   underline: false,
                   onPressed: () {},
                 ),

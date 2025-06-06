@@ -8,17 +8,18 @@ import '../pages/input_number_page/route.dart';
 import '../pages/inputTag/route.dart';
 import '../pages/segmented/segmented.dart';
 import '../pages/table_page/table_page.dart';
-import '../pages/tag_page/tag_page.dart';
+import '../pages/tag_page/route.dart';
 import '../pages/timeline_page/timeline_page.dart';
 import '../pages/statistic/statistic.dart';
 import '../pages/home/home_page.dart';
 import '../pages/tree/tree.dart';
-import '../pages/link_page/link_page.dart';
+import '../pages/link_page/route.dart';
 import '../pages/scrollbar_page/scrollbar_page.dart';
 import '../pages/checkbox_page/route.dart';
 import '../pages/color_picker_page/route.dart';
+import '../pages/progress_page/route.dart';
+import '../pages/avatar_page/route.dart';
 
-// import '../pages/datePicker/date_picker.dart';
 import '../pages/datePicker/route.dart';
 import '../pages/time_picker_page/time_picker_page.dart';
 import '../pages/mention_page/mention_page.dart';
@@ -27,7 +28,6 @@ import '../pages/radio_page/route.dart';
 import '../pages/rate_page/route.dart';
 import '../pages/select_page/route.dart';
 import '../pages/slider_page/slider_page.dart';
-import '../pages/avatar_page/avatar_page.dart';
 import '../pages/card_page/card_page.dart';
 import '../pages/carousel_page/carousel_page.dart';
 import '../pages/collapse_page/collapse_page.dart';
@@ -36,7 +36,6 @@ import '../pages/empty_page/empty_page.dart';
 import '../pages/image_page/image_page.dart';
 import '../pages/infinite_scroll_page/infinite_scroll_page.dart';
 import '../pages/pagination_page/pagination_page.dart';
-import '../pages/progress_page/progress_page.dart';
 import '../pages/result_page/result_page.dart';
 import '../pages/skeleton_page/skeleton_page.dart';
 import '../pages/steps_page/steps_page.dart';
@@ -52,7 +51,6 @@ abstract class Routes {
   static const home = '/';
   static const segmented = '/segmented';
   static const table = '/table';
-  static const tag = '/tag';
   static const timeline = '/timeline';
   static const tree = '/tree';
   static const statistic = '/statistic';
@@ -84,7 +82,13 @@ abstract class Routes {
   static const alertDescription = AlertRoutes.alertDescription;
   static const alertCenter = AlertRoutes.alertCenter;
   static const alertApi = AlertRoutes.alertApi;
-  static const link = '/link';
+  static const link = LinkRoutes.link;
+  static const linkBasic = LinkRoutes.linkBasic;
+  static const linkDisabled = LinkRoutes.linkDisabled;
+  static const linkIcon = LinkRoutes.linkIcon;
+  static const linkUnderline = LinkRoutes.linkUnderline;
+  static const linkHref = LinkRoutes.linkHref;
+  static const linkApi = LinkRoutes.linkApi;
   static const scrollbar = '/scrollbar';
   static const checkbox = CheckboxRoutes.checkbox;
   static const checkboxBasic = CheckboxRoutes.checkboxBasic;
@@ -99,9 +103,13 @@ abstract class Routes {
   static const colorPickerPredefine = ColorPickerRoutes.colorPickerPredefine;
   static const colorPickerSize = ColorPickerRoutes.colorPickerSize;
   static const colorPickerDisabled = ColorPickerRoutes.colorPickerDisabled;
-  static const datePicker = '/datePicker';
   static const timePicker = '/time_picker';
-
+  //Radio
+  static const radio = RadioRoutes.radio;
+  static const radioBasic = RadioRoutes.radioBasic;
+  static const radioGroup = RadioRoutes.radioGroup;
+  static const radioBorder = RadioRoutes.radioBorder;
+  static const radioSize = RadioRoutes.radioSize;
   static const inputNumber = InputNumberRoutes.inputNumber;
   static const inputNumberBasic = InputNumberRoutes.inputNumberBasic;
   static const inputNumberControls = InputNumberRoutes.inputNumberControls;
@@ -127,9 +135,15 @@ abstract class Routes {
   static const inputTagSize = InputTagRoutes.size;
   static const inputTagCustomStyle = InputTagRoutes.customStyle;
   static const inputTagCustomColor = InputTagRoutes.customColor;
+  static const datePicker = DatePickerRoutes.datePicker;
+  static const datePickerBasic = DatePickerRoutes.datePickerBasic;
+  static const datePickerMultiple = DatePickerRoutes.datePickerMultiple;
+  static const datePickerRange = DatePickerRoutes.datePickerRange;
+  static const datePickerDefault = DatePickerRoutes.datePickerDefault;
+  static const datePickerStyle = DatePickerRoutes.datePickerStyle;
+  static const datePickerFormat = DatePickerRoutes.datePickerFormat;
 
   static const mention = '/mention';
-  static const radio = '/radio';
   static const rate = RateRoutes.rate;
   static const rateBasic = RateRoutes.rateBasic;
   static const rateColors = RateRoutes.rateColors;
@@ -145,7 +159,13 @@ abstract class Routes {
   static const selectPrefixSuffix = SelectRoutes.selectPrefixSuffix;
   static const selectOptionDisable = SelectRoutes.selectOptionDisable;
   static const slider = '/slider';
-  static const avatar = '/avatar';
+  static const avatar = AvatarRoutes.avatar;
+  static const avatarBasic = AvatarRoutes.avatarBasic;
+  static const avatarSize = AvatarRoutes.avatarSize;
+  static const avatarType = AvatarRoutes.avatarType;
+  static const avatarFallback = AvatarRoutes.avatarFallback;
+  static const avatarFit = AvatarRoutes.avatarFit;
+  static const avatarApi = AvatarRoutes.avatarApi;
   static const card = '/card';
   static const carousel = '/carousel';
   static const collapse = '/collapse';
@@ -154,7 +174,23 @@ abstract class Routes {
   static const image = '/image';
   static const infiniteScroll = '/infinite_scroll';
   static const pagination = '/pagination';
-  static const progress = '/progress';
+  static const progress = ProgressRoutes.progress;
+  static const progressBasic = ProgressRoutes.progressBasic;
+  static const progressTextInside = ProgressRoutes.progressTextInside;
+  static const progressCustomColor = ProgressRoutes.progressCustomColor;
+  static const progressCircle = ProgressRoutes.progressCircle;
+  static const progressAnimated = ProgressRoutes.progressAnimated;
+  static const progressStriped = ProgressRoutes.progressStriped;
+  // tag
+  static const tag = TagRoutes.tag;
+  static const tagBasic = TagRoutes.tagBasic;
+  static const tagRemovable = TagRoutes.tagRemovable;
+  static const tagSize = TagRoutes.tagSize;
+  static const tagTheme = TagRoutes.tagTheme;
+  static const tagCustomColor = TagRoutes.tagCustomColor;
+  static const tagIcon = TagRoutes.tagIcon;
+  // avatar
+
   static const result = '/result';
   static const skeleton = '/skeleton';
   static const steps = '/steps';
@@ -187,10 +223,7 @@ class AppPages {
       name: Routes.table,
       page: () => const TablePage(),
     ),
-    GetPage(
-      name: Routes.tag,
-      page: () => const TagPage(),
-    ),
+    ...tagRoutesPages,
     GetPage(
       name: Routes.timeline,
       page: () => const TimelinePage(),
@@ -217,19 +250,14 @@ class AppPages {
     ...rateRoutesPages,
     ...selectRoutesPages,
     ...colorPickerRoutesPages,
-    GetPage(
-      name: Routes.link,
-      page: () => const LinkPage(),
-    ),
+    ...progressRoutesPages,
+    ...linkRoutesPages,
+    ...avatarRoutesPages,
     GetPage(
       name: Routes.scrollbar,
       page: () => const ScrollbarPage(),
     ),
 
-    // GetPage(
-    //   name: Routes.datePicker,
-    //   page: () => const DatePickerPage(),
-    // ),
     GetPage(
       name: Routes.timePicker,
       page: () => const TimePickerPage(),
@@ -252,10 +280,7 @@ class AppPages {
       name: Routes.slider,
       page: () => const SliderPage(),
     ),
-    GetPage(
-      name: Routes.avatar,
-      page: () => const AvatarPage(),
-    ),
+
     GetPage(
       name: Routes.card,
       page: () => const CardPage(),
@@ -288,10 +313,7 @@ class AppPages {
       name: Routes.pagination,
       page: () => const PaginationPage(),
     ),
-    GetPage(
-      name: Routes.progress,
-      page: () => const ProgressPage(),
-    ),
+
     GetPage(
       name: Routes.result,
       page: () => const ResultPage(),
@@ -332,5 +354,8 @@ class AppPages {
     ...rateRoutesPages,
     ...selectRoutesPages,
     ...colorPickerRoutesPages,
+    ...progressRoutesPages,
+    ...linkRoutesPages,
+    ...avatarRoutesPages,
   ];
 }

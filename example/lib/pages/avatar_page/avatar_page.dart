@@ -20,13 +20,13 @@ class AvatarPage extends StatelessWidget {
                 EAvatar(
                   src:
                       'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-                  size: 50,
+                  customSize: 50,
                 ),
                 SizedBox(width: 16),
                 EAvatar(
                   src:
                       'https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png',
-                  size: 50,
+                  customSize: 50,
                   shape: EAvatarShape.square,
                 ),
               ],
@@ -39,19 +39,19 @@ class AvatarPage extends StatelessWidget {
                 EAvatar(
                   src:
                       'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-                  avatarSize: EAvatarSize.small,
+                  avatarSize: ESizeItem.small,
                 ),
                 SizedBox(width: 16),
                 EAvatar(
                   src:
                       'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-                  avatarSize: EAvatarSize.medium,
+                  avatarSize: ESizeItem.medium,
                 ),
                 SizedBox(width: 16),
                 EAvatar(
                   src:
                       'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-                  avatarSize: EAvatarSize.large,
+                  avatarSize: ESizeItem.large,
                 ),
               ],
             ),
@@ -60,15 +60,15 @@ class AvatarPage extends StatelessWidget {
             const SizedBox(height: 16),
             const Row(
               children: [
-                EAvatar(icon: Icons.person, size: 40),
+                EAvatar(icon: Icons.person, customSize: 40),
                 SizedBox(width: 16),
                 EAvatar(
                   src:
                       'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
-                  size: 40,
+                  customSize: 40,
                 ),
                 SizedBox(width: 16),
-                EAvatar(text: 'user', size: 40),
+                EAvatar(text: 'user', customSize: 40),
               ],
             ),
             const SizedBox(height: 32),
@@ -78,20 +78,20 @@ class AvatarPage extends StatelessWidget {
               children: [
                 EAvatar(
                   src: 'https://empty',
-                  size: 60,
+                  customSize: 60,
                   fallback: Image.network(
                       'https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png'),
                 ),
                 const SizedBox(width: 16),
                 const EAvatar(
                   src: 'https://empty',
-                  size: 60,
+                  customSize: 60,
                   icon: Icons.person,
                 ),
                 const SizedBox(width: 16),
                 const EAvatar(
                   src: 'https://empty',
-                  size: 60,
+                  customSize: 60,
                   text: 'A',
                 ),
               ],
@@ -104,7 +104,7 @@ class AvatarPage extends StatelessWidget {
                 EAvatar(
                   src:
                       'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
-                  size: 60,
+                  customSize: 60,
                   shape: EAvatarShape.square,
                   fit: BoxFit.fill,
                 ),
@@ -112,7 +112,7 @@ class AvatarPage extends StatelessWidget {
                 EAvatar(
                   src:
                       'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
-                  size: 60,
+                  customSize: 60,
                   shape: EAvatarShape.square,
                   fit: BoxFit.contain,
                 ),
@@ -120,7 +120,7 @@ class AvatarPage extends StatelessWidget {
                 EAvatar(
                   src:
                       'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
-                  size: 60,
+                  customSize: 60,
                   shape: EAvatarShape.square,
                   fit: BoxFit.cover,
                 ),
@@ -128,7 +128,7 @@ class AvatarPage extends StatelessWidget {
                 EAvatar(
                   src:
                       'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
-                  size: 60,
+                  customSize: 60,
                   shape: EAvatarShape.square,
                   fit: BoxFit.none,
                 ),
@@ -136,7 +136,7 @@ class AvatarPage extends StatelessWidget {
                 EAvatar(
                   src:
                       'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
-                  size: 60,
+                  customSize: 60,
                   shape: EAvatarShape.square,
                   fit: BoxFit.scaleDown,
                 ),

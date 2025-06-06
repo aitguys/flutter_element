@@ -18,6 +18,7 @@ dependencies:
   intl: ^0.20.2
   flutter_syntax_view: ^4.1.7
   http: ^1.4.0
+  url_launcher: ^6.3.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

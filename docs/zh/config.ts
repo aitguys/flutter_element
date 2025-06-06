@@ -22,7 +22,7 @@ export const zhConfig = {
 					text: "基础组件",
 					items: [
 						{ text: "Button", link: "/zh/components/button" },
-						
+						{ text: "Link", link: "/zh/components/link" },
 
 						// { text: 'Input', link: '/zh/components/input' },
 						// { text: 'Switch', link: '/zh/components/switch' },
@@ -45,17 +45,17 @@ export const zhConfig = {
 						{ text: "ColorPicker", link: "/zh/components/color_picker" },
 					],
 				},
-				// {
-				//   text: '数据展示',
-				//   items: [
-				//     { text: 'Tag', link: '/zh/components/tag' },
-				//     { text: 'Progress', link: '/zh/components/progress' },
-				//     { text: 'Table', link: '/zh/components/table' },
-				//     { text: 'Pagination', link: '/zh/components/pagination' },
-				//     { text: 'Timeline', link: '/zh/components/timeline' },
-				//     { text: 'Tree', link: '/zh/components/tree' },
-				//   ]
-				// },
+				{
+					text: "数据展示",
+					items: [
+						{ text: "Progress", link: "/zh/components/progress" },
+						{ text: "Tag", link: "/zh/components/tag" },
+						// { text: 'Table', link: '/zh/components/table' },
+						// { text: 'Pagination', link: '/zh/components/pagination' },
+						// { text: 'Timeline', link: '/zh/components/timeline' },
+						// { text: 'Tree', link: '/zh/components/tree' },
+					],
+				},
 				{
 					text: "反馈组件",
 					items: [

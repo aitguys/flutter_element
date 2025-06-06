@@ -57,6 +57,7 @@ class EButton extends StatefulWidget {
   ///
   /// If provided, the icon will be shown before the text.
   final IconData? icon;
+  final IconData? suffixIcon;
 
   /// A custom widget to display inside the button.
   ///
@@ -107,6 +108,9 @@ class EButton extends StatefulWidget {
   /// The callback receives a boolean indicating whether the button is being hovered.
   final ValueChanged<bool>? onHover;
 
+  /// Callback function when the button is closed.
+  final dynamic Function()? onSuffixPressed;
+
   /// Creates an [EButton] widget.
   ///
   /// The [text] and [child] arguments are optional, but at least one should be provided
@@ -118,11 +122,13 @@ class EButton extends StatefulWidget {
     this.onPressed,
     this.onLongPressed,
     this.onHover,
+    this.onSuffixPressed,
     this.type = EColorType.default_,
     this.isPlain = false,
     this.isRound = false,
     this.isCircle = false,
     this.icon,
+    this.suffixIcon,
     this.child,
     this.color,
     this.loading = false,
@@ -225,6 +231,7 @@ class _EButtonState extends State<EButton> {
               return calculateButtonContent(
                 text: widget.text,
                 icon: widget.icon,
+                suffixIcon: widget.suffixIcon,
                 child: widget.child,
                 loading: widget.loading || isLoading,
                 type: widget.type,
@@ -235,6 +242,7 @@ class _EButtonState extends State<EButton> {
                 isActive: isHovered,
                 size: widget.size,
                 fontSize: widget.fontSize,
+                onSuffixPressed: widget.onSuffixPressed,
               );
             },
           ),

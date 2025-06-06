@@ -182,4 +182,34 @@ class ElememtSize {
         return 14;
     }
   }
+
+  // getSliderTrackHeight
+  double getSliderTrackHeight({double? customHeight}) {
+    if (customHeight != null) {
+      return customHeight;
+    }
+    switch (size) {
+      case ESizeItem.large:
+        return 20;
+      case ESizeItem.medium:
+        return 15;
+      case ESizeItem.small:
+        return 12;
+    }
+  }
+
+  //
+  double getAvatarSize({double? customSize}) {
+    if (customSize != null) {
+      return customSize;
+    }
+    switch (size) {
+      case ESizeItem.small:
+        return 32;
+      case ESizeItem.large:
+        return 64;
+      case ESizeItem.medium:
+        return 40;
+    }
+  }
 }

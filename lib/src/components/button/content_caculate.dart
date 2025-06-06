@@ -6,6 +6,7 @@ import 'package:flutter_element_plus/src/theme/index.dart';
 Widget calculateButtonContent({
   String? text,
   IconData? icon,
+  IconData? suffixIcon,
   Widget? child,
   bool loading = false,
   EColorType type = EColorType.default_,
@@ -15,6 +16,7 @@ Widget calculateButtonContent({
   bool isDisabled = false,
   bool isLink = false,
   ESizeItem size = ESizeItem.medium,
+  VoidCallback? onSuffixPressed,
   double? fontSize,
 }) {
   Widget content;
@@ -28,6 +30,20 @@ Widget calculateButtonContent({
       isLink: isLink,
     ),
     size: ElememtSize(size: size).getIconSize(),
+  );
+  final suffixIconWidget = InkWell(
+    onTap: onSuffixPressed,
+    child: Icon(
+      suffixIcon,
+      color: calculateContentColor(
+        color ?? getColorByType(type: type),
+        isPlain: isPlain,
+        isDisabled: isDisabled,
+        isActive: isActive,
+        isLink: isLink,
+      ),
+      size: ElememtSize(size: size).getIconSize() * 0.8,
+    ),
   );
   final textWidget = Text(
     text ?? '',
@@ -54,6 +70,11 @@ Widget calculateButtonContent({
         iconWidget,
         const SizedBox(width: 8),
         textWidget,
+        if (suffixIcon != null)
+          Padding(
+            padding: const EdgeInsets.only(left: 4),
+            child: suffixIconWidget,
+          ),
       ],
     );
   } else if (text != null) {
@@ -63,6 +84,11 @@ Widget calculateButtonContent({
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         textWidget,
+        if (suffixIcon != null)
+          Padding(
+            padding: const EdgeInsets.only(left: 4),
+            child: suffixIconWidget,
+          ),
       ],
     );
   } else {

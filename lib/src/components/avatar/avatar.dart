@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
+import '../../theme/index.dart';
 
 enum EAvatarShape { circle, square }
-
-enum EAvatarSize { small, medium, large, custom }
 
 class EAvatar extends StatelessWidget {
   final String? src;
   final IconData? icon;
   final String? text;
-  final double? size; // 优先级高于 enum size
-  final EAvatarSize avatarSize;
+  final double? customSize;
+  final ESizeItem avatarSize;
   final EAvatarShape shape;
   final BoxFit fit;
   final String? alt;
@@ -21,8 +20,8 @@ class EAvatar extends StatelessWidget {
     this.src,
     this.icon,
     this.text,
-    this.size,
-    this.avatarSize = EAvatarSize.medium,
+    this.customSize,
+    this.avatarSize = ESizeItem.medium,
     this.shape = EAvatarShape.circle,
     this.fit = BoxFit.cover,
     this.alt,
@@ -30,24 +29,12 @@ class EAvatar extends StatelessWidget {
     this.child,
   });
 
-  double get _size {
-    if (size != null) return size!;
-    switch (avatarSize) {
-      case EAvatarSize.small:
-        return 32;
-      case EAvatarSize.large:
-        return 64;
-      case EAvatarSize.medium:
-        return 40;
-      case EAvatarSize.custom:
-        return 40;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    final caculateAvatarSize =
+        ElememtSize(size: avatarSize).getAvatarSize(customSize: customSize);
     final borderRadius = shape == EAvatarShape.circle
-        ? BorderRadius.circular(_size / 2)
+        ? BorderRadius.circular(caculateAvatarSize / 2)
         : BorderRadius.circular(6);
     Widget content;
     if (src != null && src!.isNotEmpty) {
@@ -55,40 +42,41 @@ class EAvatar extends StatelessWidget {
         borderRadius: borderRadius,
         child: Image.network(
           src!,
-          width: _size,
-          height: _size,
+          width: caculateAvatarSize,
+          height: caculateAvatarSize,
           fit: fit,
           errorBuilder: (context, error, stackTrace) {
             if (fallback != null) return fallback!;
             if (icon != null) {
-              return Icon(icon, size: _size * 0.6);
+              return Icon(icon, size: caculateAvatarSize * 0.6);
             }
             if (text != null) {
               return Center(
                 child: Text(
                   text!,
-                  style: TextStyle(fontSize: _size * 0.4),
+                  style: TextStyle(fontSize: caculateAvatarSize * 0.4),
                 ),
               );
             }
             return Container(
-              width: _size,
-              height: _size,
+              width: caculateAvatarSize,
+              height: caculateAvatarSize,
               color: Colors.grey[200],
               child: Center(
-                child: Text(alt ?? '', style: TextStyle(fontSize: _size * 0.3)),
+                child: Text(alt ?? '',
+                    style: TextStyle(fontSize: caculateAvatarSize * 0.3)),
               ),
             );
           },
         ),
       );
     } else if (icon != null) {
-      content = Center(child: Icon(icon, size: _size * 0.6));
+      content = Center(child: Icon(icon, size: caculateAvatarSize * 0.6));
     } else if (text != null) {
       content = Center(
         child: Text(
           text!,
-          style: TextStyle(fontSize: _size * 0.4),
+          style: TextStyle(fontSize: caculateAvatarSize * 0.4),
         ),
       );
     } else if (child != null) {
@@ -97,8 +85,8 @@ class EAvatar extends StatelessWidget {
       content = Container();
     }
     return Container(
-      width: _size,
-      height: _size,
+      width: caculateAvatarSize,
+      height: caculateAvatarSize,
       decoration: BoxDecoration(
         color: Colors.grey[200],
         borderRadius: borderRadius,

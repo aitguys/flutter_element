@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_element_example/logger/logger.dart';
 import 'package:flutter_element_plus/flutter_element_plus.dart';
 
 class TagPage extends StatefulWidget {
@@ -33,10 +34,10 @@ class _TagPageState extends State<TagPage> {
               runSpacing: 8,
               children: [
                 ETag(text: '标签一'),
-                ETag(text: '标签二', type: ETagType.success),
-                ETag(text: '标签三', type: ETagType.info),
-                ETag(text: '标签四', type: ETagType.warning),
-                ETag(text: '标签五', type: ETagType.danger),
+                ETag(text: '标签二', type: EColorType.success),
+                ETag(text: '标签三', type: EColorType.info),
+                ETag(text: '标签四', type: EColorType.warning),
+                ETag(text: '标签五', type: EColorType.danger),
               ],
             ),
           ),
@@ -61,9 +62,9 @@ class _TagPageState extends State<TagPage> {
               runSpacing: 8,
               crossAxisAlignment: WrapCrossAlignment.center,
               children: [
-                ETag(text: '大型标签', size: ETagSize.large),
+                ETag(text: '大型标签', size: ESizeItem.large),
                 ETag(text: '默认标签'),
-                ETag(text: '小型标签', size: ETagSize.small),
+                ETag(text: '小型标签', size: ESizeItem.small),
               ],
             ),
           ),
@@ -74,8 +75,8 @@ class _TagPageState extends State<TagPage> {
               runSpacing: 8,
               children: [
                 ETag(text: '默认标签'),
-                ETag(text: '圆角标签', round: true),
-                ETag(text: '标记标签', type: ETagType.primary, hit: true),
+                ETag(text: '圆角标签', isRound: true),
+                ETag(text: '标记标签', type: EColorType.primary, isCircle: true),
               ],
             ),
           ),
@@ -94,7 +95,6 @@ class _TagPageState extends State<TagPage> {
                   text: '自定义边框',
                   color: Colors.purple,
                   backgroundColor: Colors.purple.withValues(alpha: 0.1),
-                  hit: true,
                 ),
               ],
             ),
@@ -108,22 +108,63 @@ class _TagPageState extends State<TagPage> {
                 ETag(
                   text: '标签',
                   icon: Icon(Icons.check_circle),
-                  type: ETagType.success,
+                  type: EColorType.success,
                 ),
                 ETag(
                   text: '标签',
                   icon: Icon(Icons.info),
-                  type: ETagType.info,
+                  type: EColorType.info,
                 ),
                 ETag(
                   text: '标签',
                   icon: Icon(Icons.warning),
-                  type: ETagType.warning,
+                  type: EColorType.warning,
                 ),
                 ETag(
                   text: '标签',
                   icon: Icon(Icons.error),
-                  type: ETagType.danger,
+                  type: EColorType.danger,
+                ),
+              ],
+            ),
+          ),
+          _buildSection(
+            title: '自定义内容',
+            child: const Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                ETag(text: '标签', child: Text('自定义内容')),
+                ETag(
+                  text: '标签',
+                  icon: Icon(Icons.check_circle),
+                  type: EColorType.success,
+                  child: Text('自定义内容'),
+                ),
+              ],
+            ),
+          ),
+          // events
+          _buildSection(
+            title: '事件',
+            child: Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                ETag(
+                  text: '标签',
+                  icon: const Icon(Icons.check_circle),
+                  type: EColorType.success,
+                  closable: true,
+                  onPressed: () {
+                    Loglevel.d('onPressed');
+                  },
+                  onLongPressed: () {
+                    Loglevel.d('onLongPressed');
+                  },
+                  onClose: () {
+                    Loglevel.d('onClose');
+                  },
                 ),
               ],
             ),

@@ -23,8 +23,6 @@ class ColorPickerAlphaView extends StatefulWidget {
 }
 
 class _ColorPickerAlphaViewState extends State<ColorPickerAlphaView> {
-  Color _colorWithAlpha = Colors.blue.withOpacity(0.5);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,7 +44,7 @@ Widget _viewerContent() {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           EColorPicker(
-            pickerColor: Colors.blue.withOpacity(0.5),
+            pickerColor: Colors.blue.withValues(alpha: 0.5),
             showAlpha: true,
             onColorChanged: (color) {},
           ),

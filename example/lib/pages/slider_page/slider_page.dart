@@ -125,7 +125,7 @@ class _SliderPageState extends State<SliderPage> {
                 Expanded(
                   child: ESlider(
                     value: _value1,
-                    size: ESliderSize.large,
+                    size: ESizeItem.large,
                     onChange: (value) {
                       setState(() {
                         _value1 = value;
@@ -143,7 +143,7 @@ class _SliderPageState extends State<SliderPage> {
                 Expanded(
                   child: ESlider(
                     value: _value2,
-                    size: ESliderSize.medium,
+                    size: ESizeItem.medium,
                     onChange: (value) {
                       setState(() {
                         _value2 = value;
@@ -161,7 +161,7 @@ class _SliderPageState extends State<SliderPage> {
                 Expanded(
                   child: ESlider(
                     value: _value3,
-                    size: ESliderSize.small,
+                    size: ESizeItem.small,
                     onChange: (value) {
                       setState(() {
                         _value3 = value;

@@ -1,42 +1,14 @@
 import 'package:flutter/material.dart';
-import 'link_style.dart';
-import 'color_caculate.dart';
+import '../../theme/index.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-/// A link component that follows Element Plus design guidelines.
-///
-/// The [ELink] widget provides a customizable link with features like:
-/// - Different types (default, primary, success, warning, danger)
-/// - Disabled state
-/// - Optional underline
-/// - Icon support
-/// - Click handling
-/// - URL navigation
-///
-/// Example:
-/// ```dart
-/// ELink(
-///   text: 'Click me',
-///   type: ELinkType.primary,
-///   icon: Icons.link,
-///   onPressed: () {
-///     print('Link clicked');
-///   },
-/// )
-///
-/// // With URL
-/// ELink(
-///   text: 'Visit website',
-///   href: 'https://example.com',
-///   target: '_blank',
-/// )
-/// ```
 class ELink extends StatelessWidget {
   /// The text to display in the link.
   final String text;
 
   /// The type of the link, which determines its color scheme.
   /// Default is [ELinkType.defaultType].
-  final ELinkType type;
+  final EColorType type;
 
   /// Whether the link is disabled.
   /// When true, the link cannot be clicked and shows a disabled style.
@@ -61,72 +33,90 @@ class ELink extends StatelessWidget {
   /// Common values are '_blank' for opening in a new tab/window.
   final String? target;
 
+  /// The size of the link text.
+  /// Default is [ESizeItem.medium].
+  final ESizeItem size;
+  final double? fontSize;
+  final double? iconSize;
   const ELink({
     super.key,
     required this.text,
-    this.type = ELinkType.defaultType,
+    this.type = EColorType.default_,
     this.disabled = false,
     this.underline = true,
     this.icon,
     this.onPressed,
     this.href,
     this.target,
+    this.size = ESizeItem.medium,
+    this.fontSize,
+    this.iconSize,
   });
 
   @override
   Widget build(BuildContext context) {
-    final color = getLinkColor(type);
-    final textStyle = TextStyle(
-      color: disabled
-          ? calculateForegroundColor(color, isDisabled: true)
-          : calculateForegroundColor(color),
-    );
-
+    final basicColor = getColorByType(type: type);
+    final contentColor = calculateContentColor(basicColor,
+        isDisabled: disabled, isLink: true, isPlain: true);
+    final fontSize =
+        this.fontSize ?? ElememtSize(size: size).getInputFontSize();
+    final iconSize = this.iconSize ?? ElememtSize(size: size).getIconSize();
     Widget linkContent = Row(
       mainAxisSize: MainAxisSize.min,
       children: [
         if (icon != null) ...[
           Icon(
             icon,
-            size: 16,
-            color: disabled
-                ? calculateForegroundColor(color, isDisabled: true)
-                : calculateForegroundColor(color),
+            size: iconSize,
+            color: contentColor,
           ),
           const SizedBox(width: 8),
         ],
-        Text(text, style: textStyle),
+        Text(
+          text,
+          style: TextStyle(
+            color: contentColor,
+            fontSize: fontSize,
+          ),
+        ),
       ],
     );
 
-    if (underline) {
-      linkContent = MouseRegion(
-        cursor:
-            disabled ? SystemMouseCursors.forbidden : SystemMouseCursors.click,
-        child: Container(
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(
-                color: disabled
-                    ? calculateForegroundColor(color, isDisabled: true)
-                    : calculateForegroundColor(color),
-                width: 1,
+    linkContent = MouseRegion(
+      cursor:
+          disabled ? SystemMouseCursors.forbidden : SystemMouseCursors.click,
+      child: underline
+          ? Container(
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: contentColor,
+                    width: 1,
+                  ),
+                ),
               ),
-            ),
-          ),
-          child: linkContent,
-        ),
-      );
-    }
+              child: linkContent,
+            )
+          : linkContent,
+    );
 
     if (href != null) {
       return InkWell(
         onTap: disabled
             ? null
-            : () {
-                // Handle href navigation
-                if (onPressed != null) {
-                  onPressed!();
+            : () async {
+                try {
+                  final url = Uri.parse(href!);
+                  if (await canLaunchUrl(url)) {
+                    await launchUrl(
+                      url,
+                      mode: target == '_blank'
+                          ? LaunchMode.externalApplication
+                          : LaunchMode.platformDefault,
+                    );
+                  }
+                } catch (e) {
+                  debugPrint('无法打开URL: $e');
                 }
               },
         child: linkContent,

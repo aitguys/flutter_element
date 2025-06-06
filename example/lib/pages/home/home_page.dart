@@ -30,6 +30,12 @@ class HomePage extends StatelessWidget {
                         height: 100,
                       ),
                       const SizedBox(height: 12),
+                      Text(
+                        'Flutter Element',
+                        style: theme.textTheme.headlineSmall
+                            ?.copyWith(fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 12),
                       EButton(
                         text: 'www.flutter-element.com',
                         isLink: true,
@@ -49,12 +55,7 @@ class HomePage extends StatelessWidget {
                       // 网址 www.flutter-element.com
 
                       const SizedBox(height: 12),
-                      Text(
-                        'Flutter Element',
-                        style: theme.textTheme.headlineSmall
-                            ?.copyWith(fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(height: 12),
+
                       Text(
                         'Flutter Element 是一套高质量、风格统一的 Flutter 组件库，致力于为开发者提供一致的视觉体验和高效的开发体验。',
                         style: theme.textTheme.bodyMedium
@@ -85,6 +86,13 @@ class HomePage extends StatelessWidget {
                       onTap: () => Get.toNamed(Routes.button),
                       child: const Text('Button 按钮',
                           style: TextStyle(fontSize: 15)),
+                    ),
+                    FlNavItem(
+                      suffix: const Icon(Icons.arrow_forward_ios, size: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      onTap: () => Get.toNamed(Routes.link),
+                      child:
+                          const Text('Link 链接', style: TextStyle(fontSize: 15)),
                     ),
                     // FlNavItem(
                     //   suffix: const Icon(Icons.arrow_forward_ios, size: 16),
@@ -183,6 +191,13 @@ class HomePage extends StatelessWidget {
                       child: const Text('ColorPicker 颜色选择器',
                           style: TextStyle(fontSize: 15)),
                     ),
+                    FlNavItem(
+                      suffix: const Icon(Icons.arrow_forward_ios, size: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      onTap: () => Get.toNamed(Routes.progress),
+                      child: const Text('Progress 进度条',
+                          style: TextStyle(fontSize: 15)),
+                    ),
                   ],
                 ),
               ),
@@ -235,6 +250,13 @@ class HomePage extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 4),
                       onTap: () => Get.toNamed(Routes.datePicker),
                       child: const Text('DatePicker 日期选择器',
+                          style: TextStyle(fontSize: 15)),
+                    ),
+                    FlNavItem(
+                      suffix: const Icon(Icons.arrow_forward_ios, size: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      onTap: () => Get.toNamed(Routes.avatar),
+                      child: const Text('Avatar 头像',
                           style: TextStyle(fontSize: 15)),
                     ),
                   ],
