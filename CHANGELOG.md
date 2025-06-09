@@ -1,3 +1,7 @@
+## 0.1.1
+
+Fixed some bugs and added multiple control displays
+
 ## 0.0.18
 
 Added multiple form element
