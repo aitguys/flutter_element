@@ -34,12 +34,12 @@ class TimePickerReadonlyView extends StatelessWidget {
 
 Widget _viewerContent() {
   return Builder(
-    builder: (context) => Column(
+    builder: (context) => const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('readOnly'),
-        const SizedBox(height: 16),
-        const ETimePicker(
+        Text('readOnly'),
+        SizedBox(height: 16),
+        ETimePicker(
           readOnly: true,
         ),
       ],

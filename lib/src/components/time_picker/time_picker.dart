@@ -117,7 +117,7 @@ class _ETimePickerState extends State<ETimePicker> {
   late TextEditingController _controller;
   OverlayEntry? _overlayEntry;
   final LayerLink _layerLink = LayerLink();
-  bool _isOpen = false;
+  // bool _isOpen = false;
   int _selectedHour = 0;
   int _selectedMinute = 0;
   int _selectedSecond = 0;
@@ -358,7 +358,7 @@ class _ETimePickerState extends State<ETimePicker> {
     );
     Overlay.of(context).insert(_overlayEntry!);
     setState(() {
-      _isOpen = true;
+      // _isOpen = true;
     });
   }
 
@@ -366,7 +366,7 @@ class _ETimePickerState extends State<ETimePicker> {
     _overlayEntry?.remove();
     _overlayEntry = null;
     setState(() {
-      _isOpen = false;
+      // _isOpen = false;
     });
   }
 

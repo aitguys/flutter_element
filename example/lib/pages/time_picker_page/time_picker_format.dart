@@ -34,12 +34,12 @@ class TimePickerFormatView extends StatelessWidget {
 
 Widget _viewerContent() {
   return Builder(
-    builder: (context) => Column(
+    builder: (context) => const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('24小时制'),
-        const SizedBox(height: 16),
-        const ETimePicker(
+        Text('24小时制'),
+        SizedBox(height: 16),
+        ETimePicker(
           use24HourFormat: false,
         ),
       ],
