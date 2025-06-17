@@ -96,6 +96,7 @@ export const zhConfig = {
 					items: [
 						{ text: "快速开始", link: "/zh/guide/getting-started" },
 						{ text: "安装", link: "/zh/guide/installation" },
+						{ text: "主题", link: "/zh/guide/theme" },
 					],
 				},
 			],

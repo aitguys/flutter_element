@@ -34,8 +34,9 @@ class LinkDisabledView extends StatelessWidget {
 
 Widget _viewerContent() {
   return Builder(
-    builder: (context) => Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    builder: (context) => Wrap(
+      spacing: 20,
+      runSpacing: 20,
       children: [
         ELink(
           text: 'Default Link',

@@ -15,7 +15,10 @@ class ElememtSize {
     required this.size,
   });
   // 控制button 大小
-  EdgeInsets getButtonPadding() {
+  EdgeInsets getButtonPadding({EdgeInsets? customPadding}) {
+    if (customPadding != null) {
+      return customPadding;
+    }
     switch (size) {
       case ESizeItem.large:
         return const EdgeInsets.symmetric(vertical: 7, horizontal: 12);
@@ -69,7 +72,10 @@ class ElememtSize {
     }
   }
 
-  EdgeInsets getButtonRoundPadding() {
+  EdgeInsets getButtonRoundPadding({EdgeInsets? customPadding}) {
+    if (customPadding != null) {
+      return customPadding;
+    }
     switch (size) {
       case ESizeItem.large:
         return const EdgeInsets.all(7);
@@ -81,7 +87,10 @@ class ElememtSize {
   }
 
   // 控制fontsize大小
-  double getButtonFontSize() {
+  double getButtonFontSize({double? customFontSize}) {
+    if (customFontSize != null) {
+      return customFontSize;
+    }
     switch (size) {
       case ESizeItem.large:
         return 16;
@@ -106,7 +115,10 @@ class ElememtSize {
     }
   }
 
-  EdgeInsets getInputPadding() {
+  EdgeInsets getInputPadding({EdgeInsets? customPadding}) {
+    if (customPadding != null) {
+      return customPadding;
+    }
     switch (size) {
       case ESizeItem.large:
         return const EdgeInsets.all(20);
@@ -132,7 +144,10 @@ class ElememtSize {
   }
 
   // 输入框整体高度
-  double getContainerHeight() {
+  double getContainerHeight({double? customHeight}) {
+    if (customHeight != null) {
+      return customHeight;
+    }
     switch (size) {
       case ESizeItem.large:
         return 50;

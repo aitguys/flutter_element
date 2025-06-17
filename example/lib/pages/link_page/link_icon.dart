@@ -35,7 +35,8 @@ class LinkIconView extends StatelessWidget {
 Widget _viewerContent() {
   return Builder(
     builder: (context) => Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.start,
+      spacing: 20,
       children: [
         ELink(
           text: 'Edit',
