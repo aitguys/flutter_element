@@ -350,7 +350,7 @@ class _ESelectState extends State<ESelect> {
         placeholder: widget.placeholder,
         colorType: widget.colorType,
         customColor: widget.customColor,
-        defaultColor: widget.defaultColor,
+        borderColor: widget.defaultColor,
         size: widget.size,
         customHeight: widget.customHeight,
         customFontSize: widget.customFontSize,

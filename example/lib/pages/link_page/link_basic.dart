@@ -40,32 +40,32 @@ Widget _viewerContent() {
       children: [
         ELink(
           text: 'Default Link',
-          type: EColorType.default_,
+          colorType: EColorType.default_,
           onPressed: () {},
         ),
         ELink(
           text: 'Primary Link',
-          type: EColorType.primary,
+          colorType: EColorType.primary,
           onPressed: () {},
         ),
         ELink(
           text: 'Success Link',
-          type: EColorType.success,
+          colorType: EColorType.success,
           onPressed: () {},
         ),
         ELink(
           text: 'Warning Link',
-          type: EColorType.warning,
+          colorType: EColorType.warning,
           onPressed: () {},
         ),
         ELink(
           text: 'Danger Link',
-          type: EColorType.danger,
+          colorType: EColorType.danger,
           onPressed: () {},
         ),
         ELink(
           text: 'Info Link',
-          type: EColorType.info,
+          colorType: EColorType.info,
           onPressed: () {},
         ),
       ],

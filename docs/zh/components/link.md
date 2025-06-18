@@ -73,13 +73,15 @@
 | 属性名    | 说明             | 类型         | 默认值               |
 | --------- | ---------------- | ------------ | -------------------- |
 | text      | 链接文字         | `String`     | -                    |
-| type      | 链接类型         | `EColorType` | `EColorType.default` |
+| colorType      | 链接类型         | `EColorType` | `EColorType.default` |
+| size      | 链接大小         | `ESizeItem`  | `ESizeItem.medium`   |
+| customFontSize      | 自定义链接文字大小         | `double`  | -                    |
+| customIconSize      | 自定义链接图标大小         | `double`  | -                    |
 | disabled  | 是否禁用状态     | `boolean`    | `false`              |
 | underline | 是否显示下划线   | `boolean`    | `true`               |
 | icon      | 图标             | `Widget`     | -                    |
 | href      | 原生链接地址     | `String`     | -                    |
-| target    | 原生链接打开方式 | `String`     | -                    |
-| route     | 应用内路由地址   | `String`     | -                    |
+
 
 ### Link 事件
 

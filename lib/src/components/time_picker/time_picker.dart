@@ -437,7 +437,7 @@ class _ETimePickerState extends State<ETimePicker> {
         clearable: widget.clearable,
         colorType: widget.colorType,
         customColor: widget.customColor,
-        defaultColor: widget.defaultColor,
+        borderColor: widget.defaultColor,
         size: widget.size,
         customHeight: widget.customHeight,
         customFontSize: widget.customFontSize,

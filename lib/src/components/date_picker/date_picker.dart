@@ -137,6 +137,21 @@ class _EDatePickerState extends State<EDatePicker> {
     final bool isWeekView = widget.weekDate && widget.type == CalendarType.date;
     final double popupWidth = isWeekView ? 400 : 320;
 
+    // 计算左右可用空间
+    final leftSpace = offset.dx;
+    final rightSpace = screenSize.width - offset.dx - size.width;
+
+    // 动态决定水平偏移
+    double leftOffset = 0;
+    if (rightSpace < popupWidth) {
+      // 右侧空间不足,向左偏移
+      leftOffset = -(popupWidth - size.width);
+    }
+    if (leftSpace + leftOffset < 0) {
+      // 左侧空间不足,调整偏移确保不超出左边界
+      leftOffset = -leftSpace;
+    }
+
     _overlayEntry = OverlayEntry(
       builder: (context) => Stack(
         children: [
@@ -154,7 +169,7 @@ class _EDatePickerState extends State<EDatePicker> {
             child: CompositedTransformFollower(
               link: _layerLink,
               showWhenUnlinked: false,
-              offset: Offset(0, topOffset),
+              offset: Offset(leftOffset, topOffset),
               child: GestureDetector(
                 onTap: () {},
                 child: Material(
@@ -169,6 +184,7 @@ class _EDatePickerState extends State<EDatePicker> {
                       initialDate: _selectedDate,
                       type: widget.type,
                       minDate: widget.minDate,
+                      size: widget.size,
                       maxDate: widget.maxDate,
                       onSelect: (date) {
                         _removeOverlay();
@@ -233,7 +249,7 @@ class _EDatePickerState extends State<EDatePicker> {
         onFocus: _showCalendar,
         colorType: widget.colorType,
         customColor: widget.customColor,
-        defaultColor: widget.defaultColor,
+        borderColor: widget.defaultColor,
         customHeight: widget.customHeight,
         customFontSize: widget.customFontSize,
         customBorderRadius: widget.customBorderRadius,

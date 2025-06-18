@@ -28,32 +28,32 @@ class LinkPage extends StatelessWidget {
               children: [
                 ELink(
                   text: 'Default Link',
-                  type: EColorType.default_,
+                  colorType: EColorType.default_,
                   onPressed: () {},
                 ),
                 ELink(
                   text: 'Primary Link',
-                  type: EColorType.primary,
+                  colorType: EColorType.primary,
                   onPressed: () {},
                 ),
                 ELink(
                   text: 'Success Link',
-                  type: EColorType.success,
+                  colorType: EColorType.success,
                   onPressed: () {},
                 ),
                 ELink(
                   text: 'Warning Link',
-                  type: EColorType.warning,
+                  colorType: EColorType.warning,
                   onPressed: () {},
                 ),
                 ELink(
                   text: 'Danger Link',
-                  type: EColorType.danger,
+                  colorType: EColorType.danger,
                   onPressed: () {},
                 ),
                 ELink(
                   text: 'Info Link',
-                  type: EColorType.info,
+                  colorType: EColorType.info,
                   onPressed: () {},
                 ),
               ],
@@ -67,37 +67,37 @@ class LinkPage extends StatelessWidget {
               children: [
                 ELink(
                   text: 'Default Link',
-                  type: EColorType.default_,
+                  colorType: EColorType.default_,
                   disabled: true,
                   onPressed: () {},
                 ),
                 ELink(
                   text: 'Primary Link',
-                  type: EColorType.primary,
+                  colorType: EColorType.primary,
                   disabled: true,
                   onPressed: () {},
                 ),
                 ELink(
                   text: 'Success Link',
-                  type: EColorType.success,
+                  colorType: EColorType.success,
                   disabled: true,
                   onPressed: () {},
                 ),
                 ELink(
                   text: 'Warning Link',
-                  type: EColorType.warning,
+                  colorType: EColorType.warning,
                   disabled: true,
                   onPressed: () {},
                 ),
                 ELink(
                   text: 'Danger Link',
-                  type: EColorType.danger,
+                  colorType: EColorType.danger,
                   disabled: true,
                   onPressed: () {},
                 ),
                 ELink(
                   text: 'Info Link',
-                  type: EColorType.info,
+                  colorType: EColorType.info,
                   disabled: true,
                   onPressed: () {},
                 ),
@@ -112,19 +112,19 @@ class LinkPage extends StatelessWidget {
               children: [
                 ELink(
                   text: 'Edit',
-                  type: EColorType.primary,
+                  colorType: EColorType.primary,
                   icon: Icons.edit,
                   onPressed: () {},
                 ),
                 ELink(
                   text: 'Delete',
-                  type: EColorType.danger,
+                  colorType: EColorType.danger,
                   icon: Icons.delete,
                   onPressed: () {},
                 ),
                 ELink(
                   text: 'View',
-                  type: EColorType.info,
+                  colorType: EColorType.info,
                   icon: Icons.visibility,
                   onPressed: () {},
                 ),
@@ -139,18 +139,18 @@ class LinkPage extends StatelessWidget {
               children: [
                 ELink(
                   text: 'Default Link',
-                  type: EColorType.default_,
+                  colorType: EColorType.default_,
                   underline: false,
                   target: '_blank',
                 ),
                 ELink(
                   text: 'Primary Link',
-                  type: EColorType.primary,
+                  colorType: EColorType.primary,
                   underline: false,
                 ),
                 ELink(
                   text: 'Success Link',
-                  type: EColorType.success,
+                  colorType: EColorType.success,
                   underline: false,
                 ),
               ],
@@ -163,7 +163,7 @@ class LinkPage extends StatelessWidget {
               children: [
                 ELink(
                   text: 'Default Link',
-                  type: EColorType.default_,
+                  colorType: EColorType.default_,
                   underline: false,
                   target: '_blank',
                   href: 'https://www.flutter-element.com',
@@ -171,7 +171,7 @@ class LinkPage extends StatelessWidget {
                 ),
                 ELink(
                   text: 'Primary Link',
-                  type: EColorType.primary,
+                  colorType: EColorType.primary,
                   underline: false,
                   onPressed: () {
                     Loglevel.d('onPressed');
@@ -179,7 +179,7 @@ class LinkPage extends StatelessWidget {
                 ),
                 ELink(
                   text: 'Success Link',
-                  type: EColorType.success,
+                  colorType: EColorType.success,
                   underline: false,
                   onPressed: () {},
                 ),

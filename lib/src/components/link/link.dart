@@ -8,7 +8,8 @@ class ELink extends StatelessWidget {
 
   /// The type of the link, which determines its color scheme.
   /// Default is [ELinkType.defaultType].
-  final EColorType type;
+  final EColorType colorType;
+  final ESizeItem size;
 
   /// Whether the link is disabled.
   /// When true, the link cannot be clicked and shows a disabled style.
@@ -35,39 +36,43 @@ class ELink extends StatelessWidget {
 
   /// The size of the link text.
   /// Default is [ESizeItem.medium].
-  final ESizeItem size;
-  final double? fontSize;
-  final double? iconSize;
+
+  final double? customFontSize;
+  final double? customIconSize;
+  final ValueChanged<bool>? onHover;
+
   const ELink({
     super.key,
     required this.text,
-    this.type = EColorType.default_,
+    this.colorType = EColorType.default_,
+    this.size = ESizeItem.medium,
+    this.customFontSize,
+    this.customIconSize,
     this.disabled = false,
     this.underline = true,
     this.icon,
-    this.onPressed,
     this.href,
     this.target,
-    this.size = ESizeItem.medium,
-    this.fontSize,
-    this.iconSize,
+    this.onHover,
+    this.onPressed,
   });
 
   @override
   Widget build(BuildContext context) {
-    final basicColor = getColorByType(type: type);
+    final basicColor = getColorByType(type: colorType);
     final contentColor = calculateContentColor(basicColor,
         isDisabled: disabled, isLink: true, isPlain: true);
-    final fontSize =
-        this.fontSize ?? ElememtSize(size: size).getInputFontSize();
-    final iconSize = this.iconSize ?? ElememtSize(size: size).getIconSize();
+    final customFontSize = ElememtSize(size: size)
+        .getInputFontSize(customFontSize: this.customFontSize);
+    final customIconSize = ElememtSize(size: size)
+        .getIconSize(customIconSize: this.customIconSize);
     Widget linkContent = Row(
       mainAxisSize: MainAxisSize.min,
       children: [
         if (icon != null) ...[
           Icon(
             icon,
-            size: iconSize,
+            size: customIconSize,
             color: contentColor,
           ),
           const SizedBox(width: 8),
@@ -76,7 +81,7 @@ class ELink extends StatelessWidget {
           text,
           style: TextStyle(
             color: contentColor,
-            fontSize: fontSize,
+            fontSize: customFontSize,
           ),
         ),
       ],
@@ -85,6 +90,8 @@ class ELink extends StatelessWidget {
     linkContent = MouseRegion(
       cursor:
           disabled ? SystemMouseCursors.forbidden : SystemMouseCursors.click,
+      onEnter: (_) => onHover?.call(true),
+      onExit: (_) => onHover?.call(false),
       child: underline
           ? Container(
               decoration: BoxDecoration(

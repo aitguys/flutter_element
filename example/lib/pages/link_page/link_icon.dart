@@ -40,19 +40,19 @@ Widget _viewerContent() {
       children: [
         ELink(
           text: 'Edit',
-          type: EColorType.primary,
+          colorType: EColorType.primary,
           icon: Icons.edit,
           onPressed: () {},
         ),
         ELink(
           text: 'Delete',
-          type: EColorType.danger,
+          colorType: EColorType.danger,
           icon: Icons.delete,
           onPressed: () {},
         ),
         ELink(
           text: 'View',
-          type: EColorType.info,
+          colorType: EColorType.info,
           icon: Icons.visibility,
           onPressed: () {},
         ),
