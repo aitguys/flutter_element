@@ -1,3 +1,7 @@
+## 0.1.2
+
+Fixed display issues with some controls and added display for some controls
+
 ## 0.1.1
 
 Fixed some bugs and added multiple control displays
