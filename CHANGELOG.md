@@ -1,3 +1,7 @@
+## 0.1.18
+
+Fixed display issues with DatePicker
+
 ## 0.1.17
 
 Fixed display issues with DatePicker
