@@ -72,7 +72,7 @@ Widget _viewerContent() {
     ),
   ];
 
-  void _onCheck(List<dynamic> checkedKeys) {
+  void onCheck(List<dynamic> checkedKeys) {
     Logger().d('选中的节点: $checkedKeys');
   }
 
@@ -80,7 +80,7 @@ Widget _viewerContent() {
     builder: (context) => FlTree(
       data: data,
       showCheckbox: true,
-      onCheck: _onCheck,
+      onCheck: onCheck,
     ),
   );
 }

@@ -72,7 +72,7 @@ Widget _viewerContent() {
     ),
   ];
 
-  void _onCheck(List<dynamic> checkedKeys) {
+  void onCheck(List<dynamic> checkedKeys) {
     Logger().d('选中的节点: $checkedKeys');
   }
 
@@ -82,7 +82,7 @@ Widget _viewerContent() {
       showCheckbox: true,
       defaultExpandAll: true,
       defaultCheckedKeys: ['1-1-1', '2-1-1'],
-      onCheck: _onCheck,
+      onCheck: onCheck,
     ),
   );
 }

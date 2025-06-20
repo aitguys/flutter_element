@@ -224,7 +224,7 @@ class _FlTreeState extends State<FlTree> {
                     top: 8,
                     bottom: 8,
                   ),
-                  color: isSelected ? Colors.blue.withOpacity(0.1) : null,
+                  color: isSelected ? Colors.blue.withValues(alpha: 0.1) : null,
                   child: Row(
                     children: [
                       if (widget.showCheckbox)

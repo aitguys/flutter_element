@@ -86,7 +86,7 @@ class _CalendarState extends State<Calendar> {
       case ESizeItem.small:
         return 36;
       case ESizeItem.medium:
-      default:
+      // default:
         return 45;
     }
   }
@@ -98,7 +98,7 @@ class _CalendarState extends State<Calendar> {
       case ESizeItem.small:
         return 12;
       case ESizeItem.medium:
-      default:
+      // default:
         return 14;
     }
   }
@@ -110,7 +110,7 @@ class _CalendarState extends State<Calendar> {
       case ESizeItem.small:
         return 14;
       case ESizeItem.medium:
-      default:
+      // default:
         return 16;
     }
   }
@@ -122,7 +122,7 @@ class _CalendarState extends State<Calendar> {
       case ESizeItem.small:
         return 16;
       case ESizeItem.medium:
-      default:
+      // default:
         return 20;
     }
   }
