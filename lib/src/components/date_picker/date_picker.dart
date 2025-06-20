@@ -69,7 +69,6 @@ class _EDatePickerState extends State<EDatePicker> {
   final LayerLink _layerLink = LayerLink();
   OverlayEntry? _overlayEntry;
   bool _isDisposed = false; // 添加标志防止重复销毁
-  bool _shouldShowCalendar = false; // 添加标志控制是否应该显示日历
 
   @override
   void initState() {
@@ -91,7 +90,7 @@ class _EDatePickerState extends State<EDatePicker> {
   }
 
   void _showCalendar() {
-    if (widget.disabled || _isDisposed || !_shouldShowCalendar) return; // 添加标志检查
+    if (widget.disabled || _isDisposed) return; // 移除标志检查
     if (_controller.text.isNotEmpty) {
       _selectedDate = _controller.text;
     }
@@ -232,7 +231,6 @@ class _EDatePickerState extends State<EDatePicker> {
     // 重置焦点状态，确保输入框边框恢复正常
     if (!_isDisposed) {
       _focusNode.unfocus();
-      _shouldShowCalendar = false; // 重置标志
     }
   }
 
@@ -252,7 +250,6 @@ class _EDatePickerState extends State<EDatePicker> {
       child: GestureDetector(
         onTap: () {
           if (!widget.disabled && !_isDisposed) {
-            _shouldShowCalendar = true; // 设置标志
             _showCalendar();
           }
         },
@@ -267,12 +264,7 @@ class _EDatePickerState extends State<EDatePicker> {
           suffix: widget.suffix,
           size: widget.size,
           readOnly: true,
-          onFocus: () {
-            if (!widget.disabled && !_isDisposed) {
-              _shouldShowCalendar = true; // 设置标志
-              _showCalendar();
-            }
-          },
+          onFocus: _showCalendar,
           onBlur: () {
             // 失焦时关闭日期选择器
             if (!_isDisposed) {
