@@ -67,6 +67,7 @@ class _EDatePickerState extends State<EDatePicker> {
   String? _selectedDate;
   final LayerLink _layerLink = LayerLink();
   OverlayEntry? _overlayEntry;
+  bool _isDisposed = false; // 添加标志防止重复销毁
 
   @override
   void initState() {
@@ -87,7 +88,7 @@ class _EDatePickerState extends State<EDatePicker> {
   }
 
   void _showCalendar() {
-    if (widget.disabled) return;
+    if (widget.disabled || _isDisposed) return; // 添加disposed检查
     if (_controller.text.isNotEmpty) {
       _selectedDate = _controller.text;
     }
@@ -172,7 +173,7 @@ class _EDatePickerState extends State<EDatePicker> {
                       maxDate: widget.maxDate,
                       onSelect: (date) {
                         _removeOverlay();
-                        if (date != null) {
+                        if (date != null && !_isDisposed) { // 添加disposed检查
                           setState(() {
                             if (date is String) {
                               _controller.text = date;
@@ -205,14 +206,17 @@ class _EDatePickerState extends State<EDatePicker> {
   }
 
   void _removeOverlay() {
-    _overlayEntry?.remove();
-    _overlayEntry = null;
+    if (_overlayEntry != null) {
+      _overlayEntry!.remove();
+      _overlayEntry = null;
+    }
   }
 
   @override
   void dispose() {
+    _isDisposed = true; // 设置销毁标志
     _removeOverlay();
-    _controller.dispose();
+    _controller.dispose(); // 直接销毁控制器
     super.dispose();
   }
 

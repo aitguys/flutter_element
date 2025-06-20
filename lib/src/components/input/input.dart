@@ -181,6 +181,9 @@ class _EInputState extends State<EInput> {
     if (widget.textController != oldWidget.textController &&
         widget.textController != _controller) {
       _controller.removeListener(_handleTextChange);
+      if (oldWidget.textController == null) {
+        _controller.dispose();
+      }
       _controller = widget.textController ?? TextEditingController();
       _controller.addListener(_handleTextChange);
       _hasValue = _controller.text.isNotEmpty;
@@ -210,7 +213,9 @@ class _EInputState extends State<EInput> {
   @override
   void dispose() {
     _controller.removeListener(_handleTextChange);
-    _controller.dispose();
+    if (widget.textController == null) {
+      _controller.dispose();
+    }
     _focusNode.dispose();
     super.dispose();
   }

@@ -113,15 +113,16 @@ class ETimePicker extends StatefulWidget {
 }
 
 class _ETimePickerState extends State<ETimePicker> {
-  late TimeOfDay _selected;
   late TextEditingController _controller;
-  OverlayEntry? _overlayEntry;
   final LayerLink _layerLink = LayerLink();
-  // bool _isOpen = false;
+  OverlayEntry? _overlayEntry;
+  TimeOfDay? _selected;
   int _selectedHour = 0;
   int _selectedMinute = 0;
   int _selectedSecond = 0;
   bool _isAM = true;
+  bool _isDisposed = false;
+
   late FixedExtentScrollController _hourController;
   late FixedExtentScrollController _minuteController;
   late FixedExtentScrollController _secondController;
@@ -134,12 +135,12 @@ class _ETimePickerState extends State<ETimePicker> {
     final now = widget.value ?? DateTime.now();
     _selected = TimeOfDay(hour: now.hour, minute: now.minute);
     _selectedHour =
-        widget.use24HourFormat ? _selected.hour : _selected.hourOfPeriod;
-    _selectedMinute = _selected.minute;
+        widget.use24HourFormat ? _selected!.hour : _selected!.hourOfPeriod;
+    _selectedMinute = _selected!.minute;
     _selectedSecond = now.second;
-    _isAM = _selected.hour < 12;
+    _isAM = _selected!.hour < 12;
     _controller = TextEditingController(
-      text: _formatTime(_selected),
+      text: _formatTime(_selected!),
     );
     _hourController = FixedExtentScrollController(initialItem: _selectedHour);
     _minuteController =
@@ -205,19 +206,21 @@ class _ETimePickerState extends State<ETimePicker> {
                               value: _selectedHour,
                               max: widget.use24HourFormat ? 23 : 11,
                               onChanged: (v) {
-                                setState(() {
-                                  _selectedHour = v;
-                                  if (!widget.use24HourFormat) {
-                                    final actualHour = _isAM ? v : (v + 12);
-                                    _selected = TimeOfDay(
-                                        hour: actualHour,
-                                        minute: _selectedMinute);
-                                  } else {
-                                    _selected = TimeOfDay(
-                                        hour: v, minute: _selectedMinute);
-                                  }
-                                  _controller.text = _formatTime(_selected);
-                                });
+                                if (!_isDisposed) {
+                                  setState(() {
+                                    _selectedHour = v;
+                                    if (!widget.use24HourFormat) {
+                                      final actualHour = _isAM ? v : (v + 12);
+                                      _selected = TimeOfDay(
+                                          hour: actualHour,
+                                          minute: _selectedMinute);
+                                    } else {
+                                      _selected = TimeOfDay(
+                                          hour: v, minute: _selectedMinute);
+                                    }
+                                    _controller.text = _formatTime(_selected!);
+                                  });
+                                }
                               },
                               controller: _hourController,
                             ),
@@ -226,16 +229,18 @@ class _ETimePickerState extends State<ETimePicker> {
                               value: _selectedMinute,
                               max: 59,
                               onChanged: (v) {
-                                setState(() {
-                                  _selectedMinute = v;
-                                  final hour = widget.use24HourFormat
-                                      ? _selectedHour
-                                      : (_isAM
-                                          ? _selectedHour
-                                          : _selectedHour + 12);
-                                  _selected = TimeOfDay(hour: hour, minute: v);
-                                  _controller.text = _formatTime(_selected);
-                                });
+                                if (!_isDisposed) {
+                                  setState(() {
+                                    _selectedMinute = v;
+                                    final hour = widget.use24HourFormat
+                                        ? _selectedHour
+                                        : (_isAM
+                                            ? _selectedHour
+                                            : _selectedHour + 12);
+                                    _selected = TimeOfDay(hour: hour, minute: v);
+                                    _controller.text = _formatTime(_selected!);
+                                  });
+                                }
                               },
                               controller: _minuteController,
                             ),
@@ -244,10 +249,12 @@ class _ETimePickerState extends State<ETimePicker> {
                               value: _selectedSecond,
                               max: 59,
                               onChanged: (v) {
-                                setState(() {
-                                  _selectedSecond = v;
-                                  _controller.text = _formatTime(_selected);
-                                });
+                                if (!_isDisposed) {
+                                  setState(() {
+                                    _selectedSecond = v;
+                                    _controller.text = _formatTime(_selected!);
+                                  });
+                                }
                               },
                               controller: _secondController,
                             ),
@@ -262,16 +269,18 @@ class _ETimePickerState extends State<ETimePicker> {
                                   physics: const FixedExtentScrollPhysics(),
                                   controller: _periodController,
                                   onSelectedItemChanged: (index) {
-                                    setState(() {
-                                      _isAM = index == 0;
-                                      final actualHour = _isAM
-                                          ? _selectedHour
-                                          : (_selectedHour + 12);
-                                      _selected = TimeOfDay(
-                                          hour: actualHour,
-                                          minute: _selectedMinute);
-                                      _controller.text = _formatTime(_selected);
-                                    });
+                                    if (!_isDisposed) {
+                                      setState(() {
+                                        _isAM = index == 0;
+                                        final actualHour = _isAM
+                                            ? _selectedHour
+                                            : (_selectedHour + 12);
+                                        _selected = TimeOfDay(
+                                            hour: actualHour,
+                                            minute: _selectedMinute);
+                                        _controller.text = _formatTime(_selected!);
+                                      });
+                                    }
                                   },
                                   childDelegate: ListWheelChildBuilderDelegate(
                                     childCount: 2,
@@ -306,39 +315,43 @@ class _ETimePickerState extends State<ETimePicker> {
                           children: [
                             TextButton(
                               onPressed: () {
-                                setState(() {
-                                  _selectedHour = initialHour;
-                                  _selectedMinute = initialMinute;
-                                  _selectedSecond = initialSecond;
-                                  _isAM = initialIsAM;
-                                  final hour = widget.use24HourFormat
-                                      ? _selectedHour
-                                      : (_isAM
-                                          ? _selectedHour
-                                          : _selectedHour + 12);
-                                  _selected = TimeOfDay(
-                                      hour: hour, minute: _selectedMinute);
-                                  _controller.text = _formatTime(_selected);
-                                  _hourController.jumpToItem(_selectedHour);
-                                  _minuteController.jumpToItem(_selectedMinute);
-                                  _secondController.jumpToItem(_selectedSecond);
-                                  if (!widget.use24HourFormat) {
-                                    _periodController.jumpToItem(_isAM ? 0 : 1);
-                                  }
-                                });
+                                if (!_isDisposed) {
+                                  setState(() {
+                                    _selectedHour = initialHour;
+                                    _selectedMinute = initialMinute;
+                                    _selectedSecond = initialSecond;
+                                    _isAM = initialIsAM;
+                                    final hour = widget.use24HourFormat
+                                        ? _selectedHour
+                                        : (_isAM
+                                            ? _selectedHour
+                                            : _selectedHour + 12);
+                                    _selected = TimeOfDay(
+                                        hour: hour, minute: _selectedMinute);
+                                    _controller.text = _formatTime(_selected!);
+                                    _hourController.jumpToItem(_selectedHour);
+                                    _minuteController.jumpToItem(_selectedMinute);
+                                    _secondController.jumpToItem(_selectedSecond);
+                                    if (!widget.use24HourFormat) {
+                                      _periodController.jumpToItem(_isAM ? 0 : 1);
+                                    }
+                                  });
+                                }
                                 _hidePicker();
                               },
                               child: const Text('Cancel'),
                             ),
                             TextButton(
                               onPressed: () {
-                                final hour = widget.use24HourFormat
-                                    ? _selectedHour
-                                    : (_isAM
-                                        ? _selectedHour
-                                        : _selectedHour + 12);
-                                widget.onChange?.call(TimeOfDay(
-                                    hour: hour, minute: _selectedMinute));
+                                if (!_isDisposed) {
+                                  final hour = widget.use24HourFormat
+                                      ? _selectedHour
+                                      : (_isAM
+                                          ? _selectedHour
+                                          : _selectedHour + 12);
+                                  widget.onChange?.call(TimeOfDay(
+                                      hour: hour, minute: _selectedMinute));
+                                }
                                 _hidePicker();
                               },
                               child: const Text('OK',
@@ -357,17 +370,21 @@ class _ETimePickerState extends State<ETimePicker> {
       }),
     );
     Overlay.of(context).insert(_overlayEntry!);
-    setState(() {
-      // _isOpen = true;
-    });
+    if (!_isDisposed) {
+      setState(() {
+        // _isOpen = true;
+      });
+    }
   }
 
   void _hidePicker() {
     _overlayEntry?.remove();
     _overlayEntry = null;
-    setState(() {
-      // _isOpen = false;
-    });
+    if (!_isDisposed) {
+      setState(() {
+        // _isOpen = false;
+      });
+    }
   }
 
   Widget _buildPicker({
@@ -381,7 +398,9 @@ class _ETimePickerState extends State<ETimePicker> {
       height: 150,
       child: NotificationListener<ScrollNotification>(
         onNotification: (_) {
-          setState(() {});
+          if (!_isDisposed) {
+            setState(() {});
+          }
           return false;
         },
         child: ListWheelScrollView.useDelegate(
@@ -413,15 +432,17 @@ class _ETimePickerState extends State<ETimePicker> {
   }
 
   void _handleClear() {
-    setState(() {
-      _controller.clear();
-      _selectedHour = 0;
-      _selectedMinute = 0;
-      _selectedSecond = 0;
-      _isAM = true;
-      _selected = const TimeOfDay(hour: 0, minute: 0);
-    });
-    widget.onClear?.call();
+    if (!_isDisposed) {
+      setState(() {
+        _controller.clear();
+        _selectedHour = 0;
+        _selectedMinute = 0;
+        _selectedSecond = 0;
+        _isAM = true;
+        _selected = const TimeOfDay(hour: 0, minute: 0);
+      });
+      widget.onClear?.call();
+    }
   }
 
   @override
@@ -455,6 +476,7 @@ class _ETimePickerState extends State<ETimePicker> {
 
   @override
   void dispose() {
+    _isDisposed = true;
     _controller.dispose();
     _overlayEntry?.remove();
     _hourController.dispose();

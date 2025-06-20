@@ -119,48 +119,49 @@ class ESelect extends StatefulWidget {
 class _ESelectState extends State<ESelect> {
   final LayerLink _layerLink = LayerLink();
   OverlayEntry? _overlayEntry;
-  final FocusNode _focusNode = FocusNode();
-  // bool _isFocused = false;
+  late FocusNode _focusNode;
+  late TextEditingController _controller;
   List<String> _selectedValues = [];
-
-  List<SelectOption> get _selectedOptions {
-    if (widget.value == null) return [];
-    if (widget.multiple) {
-      return widget.options
-          .where((option) => _selectedValues.contains(option.value))
-          .toList();
-    } else {
-      return widget.options
-          .where((option) => option.value == widget.value)
-          .toList();
-    }
-  }
+  bool _isDisposed = false;
 
   String get _displayText {
-    if (_selectedOptions.isEmpty) return widget.placeholder ?? '';
     if (widget.multiple) {
-      return _selectedOptions.map((e) => e.label).join(', ');
+      if (_selectedValues.isEmpty) return '';
+      return _selectedValues
+          .map((value) => widget.options
+              .firstWhere((option) => option.value == value,
+                  orElse: () => SelectOption(label: value, value: value))
+              .label)
+          .join(', ');
     } else {
-      return _selectedOptions.first.label;
+      if (widget.value == null) return '';
+      return widget.options
+          .firstWhere((option) => option.value == widget.value,
+              orElse: () => SelectOption(label: widget.value!, value: widget.value!))
+          .label;
     }
   }
 
   void _handleOptionSelected(SelectOption option) {
-    if (widget.multiple) {
-      setState(() {
-        if (_selectedValues.contains(option.value)) {
-          _selectedValues.remove(option.value);
-        } else {
-          _selectedValues.add(option.value);
-        }
-        widget.onChanged?.call(_selectedValues);
-        _updateOverlay();
-      });
-    } else {
-      setState(() {
-        widget.onChanged?.call(option.value);
-        _hideOverlay();
-      });
+    if (!_isDisposed) {
+      if (widget.multiple) {
+        setState(() {
+          if (_selectedValues.contains(option.value)) {
+            _selectedValues.remove(option.value);
+          } else {
+            _selectedValues.add(option.value);
+          }
+          widget.onChanged?.call(_selectedValues);
+          _updateOverlay();
+        });
+        _controller.text = _displayText;
+      } else {
+        setState(() {
+          widget.onChanged?.call(option.value);
+          _hideOverlay();
+        });
+        _controller.text = _displayText;
+      }
     }
   }
 
@@ -296,10 +297,9 @@ class _ESelectState extends State<ESelect> {
   @override
   void initState() {
     super.initState();
+    _focusNode = FocusNode();
+    _controller = TextEditingController(text: _displayText);
     _focusNode.addListener(() {
-      setState(() {
-        // _isFocused = _focusNode.hasFocus;
-      });
       if (_focusNode.hasFocus) {
         _showOverlay();
       }
@@ -315,24 +315,32 @@ class _ESelectState extends State<ESelect> {
     if (widget.multiple && widget.value != null) {
       _selectedValues = List<String>.from(widget.value);
     }
+    if (!_isDisposed) {
+      _controller.text = _displayText;
+    }
   }
 
   void _handleClear() {
-    setState(() {
-      _selectedValues = [];
-      if (widget.multiple) {
-        widget.onChanged?.call(_selectedValues);
-      } else {
-        widget.onChanged?.call(null);
-      }
-      _hideOverlay();
-    });
-    widget.onClear?.call();
+    if (!_isDisposed) {
+      setState(() {
+        _selectedValues = [];
+        if (widget.multiple) {
+          widget.onChanged?.call(_selectedValues);
+        } else {
+          widget.onChanged?.call(null);
+        }
+        _hideOverlay();
+      });
+      _controller.text = _displayText;
+      widget.onClear?.call();
+    }
   }
 
   @override
   void dispose() {
+    _isDisposed = true;
     _focusNode.dispose();
+    _controller.dispose();
     _hideOverlay();
     super.dispose();
   }
@@ -342,7 +350,7 @@ class _ESelectState extends State<ESelect> {
     return CompositedTransformTarget(
       link: _layerLink,
       child: EInput(
-        textController: TextEditingController(text: _displayText),
+        textController: _controller,
         focusNode: _focusNode,
         disabled: widget.disabled,
         readOnly: true,
