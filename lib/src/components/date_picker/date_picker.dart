@@ -240,23 +240,30 @@ class _EDatePickerState extends State<EDatePicker> {
   Widget build(BuildContext context) {
     return CompositedTransformTarget(
       link: _layerLink,
-      child: EInput(
-        textController: _controller,
-        placeholder: widget.placeholder,
-        clearable: widget.clearable,
-        disabled: widget.disabled,
-        prefix:
-            widget.prefix ?? const Icon(Icons.calendar_month_rounded, size: 20),
-        suffix: widget.suffix,
-        size: widget.size,
-        readOnly: true,
-        onFocus: _showCalendar,
-        colorType: widget.colorType,
-        customColor: widget.customColor,
-        borderColor: widget.defaultColor,
-        customHeight: widget.customHeight,
-        customFontSize: widget.customFontSize,
-        customBorderRadius: widget.customBorderRadius,
+      child: GestureDetector(
+        onTap: () {
+          if (!widget.disabled && !_isDisposed) {
+            _showCalendar();
+          }
+        },
+        child: EInput(
+          textController: _controller,
+          placeholder: widget.placeholder,
+          clearable: widget.clearable,
+          disabled: widget.disabled,
+          prefix:
+              widget.prefix ?? const Icon(Icons.calendar_month_rounded, size: 20),
+          suffix: widget.suffix,
+          size: widget.size,
+          readOnly: true,
+          onFocus: _showCalendar,
+          colorType: widget.colorType,
+          customColor: widget.customColor,
+          borderColor: widget.defaultColor,
+          customHeight: widget.customHeight,
+          customFontSize: widget.customFontSize,
+          customBorderRadius: widget.customBorderRadius,
+        ),
       ),
     );
   }
