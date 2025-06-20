@@ -13,7 +13,7 @@
 <CodeView
   codeUrl="link_page/link_basic.dart"
   reviewUrl="link/basic"
-  height="300px"
+  height="100px"
 />
 
 ## 禁用状态
@@ -23,7 +23,7 @@
 <CodeView
   codeUrl="link_page/link_disabled.dart"
   reviewUrl="link/disabled"
-  height="300px"
+  height="100px"
 />
 
 ## 下划线
@@ -33,7 +33,7 @@
 <CodeView
   codeUrl="link_page/link_underline.dart"
   reviewUrl="link/underline"
-  height="300px"
+  height="100px"
 />
 
 ## 图标链接
@@ -43,7 +43,7 @@
 <CodeView
   codeUrl="link_page/link_icon.dart"
   reviewUrl="link/icon"
-  height="300px"
+  height="100px"
 />
 
 ## 链接属性
@@ -53,7 +53,7 @@
 <CodeView
   codeUrl="link_page/link_href.dart"
   reviewUrl="link/href"
-  height="300px"
+  height="100px"
 />
 
 ## 路由跳转
@@ -63,7 +63,7 @@
 <CodeView
   codeUrl="link_page/route.dart"
   reviewUrl="link/route"
-  height="300px"
+  height="100px"
 />
 
 ## API
@@ -73,13 +73,15 @@
 | 属性名    | 说明             | 类型         | 默认值               |
 | --------- | ---------------- | ------------ | -------------------- |
 | text      | 链接文字         | `String`     | -                    |
-| type      | 链接类型         | `EColorType` | `EColorType.default` |
+| colorType      | 链接类型         | `EColorType` | `EColorType.default` |
+| size      | 链接大小         | `ESizeItem`  | `ESizeItem.medium`   |
+| customFontSize      | 自定义链接文字大小         | `double`  | -                    |
+| customIconSize      | 自定义链接图标大小         | `double`  | -                    |
 | disabled  | 是否禁用状态     | `boolean`    | `false`              |
 | underline | 是否显示下划线   | `boolean`    | `true`               |
 | icon      | 图标             | `Widget`     | -                    |
 | href      | 原生链接地址     | `String`     | -                    |
-| target    | 原生链接打开方式 | `String`     | -                    |
-| route     | 应用内路由地址   | `String`     | -                    |
+
 
 ### Link 事件
 

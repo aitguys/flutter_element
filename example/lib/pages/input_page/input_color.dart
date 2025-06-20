@@ -47,7 +47,7 @@ Widget _viewerContent() {
         textController: textController,
         placeholder: '请输入内容',
         colorType: EColorType.success,
-        defaultColor: Colors.purple,
+        borderColor: Colors.purple,
       ),
       const SizedBox(height: 10),
       EInput(

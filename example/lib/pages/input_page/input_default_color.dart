@@ -41,19 +41,26 @@ Widget _viewerContent() {
   TextEditingController textController = TextEditingController();
   return Column(
     children: [
-      const Text('defaultColor 可以指定输入框的默认颜色'),
+      const Text('borderColor 可以指定输入框的默认颜色'),
       const SizedBox(height: 10),
       EInput(
         textController: textController,
         placeholder: '请输入内容',
         colorType: EColorType.success,
-        defaultColor: Colors.purple,
+        borderColor: Colors.purple,
       ),
       const SizedBox(height: 10),
       EInput(
         textController: textController,
         placeholder: '请输入内容',
         customColor: Colors.red,
+      ),
+      const SizedBox(height: 10),
+      EInput(
+        textController: textController,
+        placeholder: '请输入内容',
+        customColor: Colors.red,
+        showPlaceholderOnTop: true,
       ),
     ],
   );

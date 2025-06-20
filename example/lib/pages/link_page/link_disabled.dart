@@ -34,42 +34,43 @@ class LinkDisabledView extends StatelessWidget {
 
 Widget _viewerContent() {
   return Builder(
-    builder: (context) => Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    builder: (context) => Wrap(
+      spacing: 20,
+      runSpacing: 20,
       children: [
         ELink(
           text: 'Default Link',
-          type: EColorType.default_,
+          colorType: EColorType.default_,
           disabled: true,
           onPressed: () {},
         ),
         ELink(
           text: 'Primary Link',
-          type: EColorType.primary,
+          colorType: EColorType.primary,
           disabled: true,
           onPressed: () {},
         ),
         ELink(
           text: 'Success Link',
-          type: EColorType.success,
+          colorType: EColorType.success,
           disabled: true,
           onPressed: () {},
         ),
         ELink(
           text: 'Warning Link',
-          type: EColorType.warning,
+          colorType: EColorType.warning,
           disabled: true,
           onPressed: () {},
         ),
         ELink(
           text: 'Danger Link',
-          type: EColorType.danger,
+          colorType: EColorType.danger,
           disabled: true,
           onPressed: () {},
         ),
         ELink(
           text: 'Info Link',
-          type: EColorType.info,
+          colorType: EColorType.info,
           disabled: true,
           onPressed: () {},
         ),

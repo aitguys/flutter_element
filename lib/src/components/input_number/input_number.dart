@@ -259,7 +259,7 @@ class _EInputNumberState extends State<EInputNumber> {
       suffix: widget.suffix,
       colorType: widget.colorType,
       customColor: widget.customColor,
-      defaultColor: widget.defaultColor,
+      borderColor: widget.defaultColor,
       size: widget.size,
       customHeight: widget.customHeight,
       customFontSize: widget.customFontSize,

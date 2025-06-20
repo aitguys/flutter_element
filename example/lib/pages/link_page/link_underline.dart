@@ -39,17 +39,17 @@ Widget _viewerContent() {
       children: [
         ELink(
           text: 'Default Link',
-          type: EColorType.default_,
+          colorType: EColorType.default_,
           underline: false,
         ),
         ELink(
           text: 'Primary Link',
-          type: EColorType.primary,
+          colorType: EColorType.primary,
           underline: false,
         ),
         ELink(
           text: 'Success Link',
-          type: EColorType.success,
+          colorType: EColorType.success,
           underline: false,
         ),
       ],

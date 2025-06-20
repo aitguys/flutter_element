@@ -110,7 +110,7 @@ input 组件提供 onFocus, onBlur， onChanged 事件， 可以监听输入框�
 | suffix               | 输入框后缀           | `Widget`                | -                         |
 | colorType            | 输入框颜色类型       | `EColorType`            | `EColorType.primary`      |
 | customColor          | 自定义颜色           | `Color`                 | -                         |
-| defaultColor         | 默认边框颜色         | `Color`                 | `EBasicColors.borderGray` |
+| borderColor         | 默认边框颜色         | `Color`                 | `EBasicColors.borderGray` |
 | size                 | 输入框尺寸           | `ESizeItem`             | `ESizeItem.medium`        |
 | customHeight         | 自定义高度           | `double`                | -                         |
 | customFontSize       | 自定义字体大小       | `double`                | -                         |

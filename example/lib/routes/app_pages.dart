@@ -12,7 +12,7 @@ import '../pages/tag_page/route.dart';
 import '../pages/timeline_page/timeline_page.dart';
 import '../pages/statistic/statistic.dart';
 import '../pages/home/home_page.dart';
-import '../pages/tree/tree.dart';
+import '../pages/tree/route.dart';
 import '../pages/link_page/route.dart';
 import '../pages/scrollbar_page/scrollbar_page.dart';
 import '../pages/checkbox_page/route.dart';
@@ -52,7 +52,14 @@ abstract class Routes {
   static const segmented = '/segmented';
   static const table = '/table';
   static const timeline = '/timeline';
-  static const tree = '/tree';
+  static const tree = TreeRoutes.tree;
+  static const treeBasic = TreeRoutes.treeBasic;
+  static const treeCheckbox = TreeRoutes.treeCheckbox;
+  static const treeDefault = TreeRoutes.treeDefault;
+  static const treeDisabled = TreeRoutes.treeDisabled;
+  static const treeIcon = TreeRoutes.treeIcon;
+  static const treeDraggable = TreeRoutes.treeDraggable;
+  static const treeApi = TreeRoutes.treeApi;
   static const statistic = '/statistic';
   static const button = ButtonRoutes.button;
   static const buttonBasic = ButtonRoutes.buttonBasic;
@@ -245,10 +252,7 @@ class AppPages {
       name: Routes.statistic,
       page: () => const StatisticPage(),
     ),
-    GetPage(
-      name: Routes.tree,
-      page: () => const TreePage(),
-    ),
+
     ...buttonRoutesPages,
     ...autocompleteRoutesPages,
     ...inputRoutesPages,
@@ -359,5 +363,6 @@ class AppPages {
     ...timePickerRoutesPages,
     ...imageRoutesPages,
     ...cardRoutesPages,
+    ...treeRoutesPages,
   ];
 }

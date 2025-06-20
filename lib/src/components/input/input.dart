@@ -79,7 +79,7 @@ class EInput extends StatefulWidget {
   ///
   /// This is used when the input is not focused and not disabled.
   /// Defaults to [EBasicColors.borderGray].
-  final Color defaultColor;
+  final Color borderColor;
 
   /// A custom height for the input.
   ///
@@ -130,9 +130,9 @@ class EInput extends StatefulWidget {
     this.prepend,
     this.append,
     this.colorType = EColorType.primary,
-    this.customColor,
-    this.defaultColor = EBasicColors.borderGray,
     this.size = ESizeItem.medium,
+    this.customColor,
+    this.borderColor = EBasicColors.borderGray,
     this.customHeight,
     this.customFontSize,
     this.customBorderRadius,
@@ -237,17 +237,17 @@ class _EInputState extends State<EInput> {
             }),
             child: Container(
               padding: EdgeInsets.only(
-                  left: widget.prepend != null ? 0 : 8,
-                  right: widget.append != null ? 0 : 8),
+                  left: widget.prepend != null ? 0 : 0,
+                  right: widget.append != null ? 0 : 0),
               decoration: BoxDecoration(
                 border: Border.all(
                   color: widget.disabled
-                      ? widget.defaultColor
+                      ? widget.borderColor
                       : _isFocused
                           ? getColorByType(
                               type: widget.colorType,
                               customColor: widget.customColor)
-                          : widget.defaultColor,
+                          : widget.borderColor,
                 ),
                 borderRadius: BorderRadius.circular(
                     ElememtSize(size: widget.size).getInputBorderRadius(

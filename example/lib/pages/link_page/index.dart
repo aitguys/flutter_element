@@ -10,15 +10,24 @@ class LinkPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SingleChildScrollView(
-      child: Column(
-        children: [
-          LinkBasicPreview(),
-          LinkDisabledPreview(),
-          LinkIconPreview(),
-          LinkUnderlinePreview(),
-          LinkHrefPreview(),
-        ],
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('链接组件'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => Navigator.pop(context),
+        ),
+      ),
+      body: const SingleChildScrollView(
+        child: Column(
+          children: [
+            LinkBasicPreview(),
+            LinkDisabledPreview(),
+            LinkIconPreview(),
+            LinkUnderlinePreview(),
+            LinkHrefPreview(),
+          ],
+        ),
       ),
     );
   }

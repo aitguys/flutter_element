@@ -50,6 +50,7 @@ class Calendar extends StatefulWidget {
   final Widget? nextYear;
   final String? format;
   final bool weekDate;
+  final ESizeItem size;
 
   const Calendar({
     super.key,
@@ -65,6 +66,7 @@ class Calendar extends StatefulWidget {
     this.nextYear,
     this.format,
     this.weekDate = false,
+    this.size = ESizeItem.medium,
   });
 
   @override
@@ -76,6 +78,54 @@ class _CalendarState extends State<Calendar> {
   List<String>? _selectedDates;
   // List<DateTime>? _selectedRange;
   late DateTime _currentMonth;
+
+  double get _cellWidth {
+    switch (widget.size) {
+      case ESizeItem.large:
+        return 52;
+      case ESizeItem.small:
+        return 36;
+      case ESizeItem.medium:
+      default:
+        return 45;
+    }
+  }
+
+  double get _fontSize {
+    switch (widget.size) {
+      case ESizeItem.large:
+        return 16;
+      case ESizeItem.small:
+        return 12;
+      case ESizeItem.medium:
+      default:
+        return 14;
+    }
+  }
+
+  double get _headerFontSize {
+    switch (widget.size) {
+      case ESizeItem.large:
+        return 18;
+      case ESizeItem.small:
+        return 14;
+      case ESizeItem.medium:
+      default:
+        return 16;
+    }
+  }
+
+  double get _iconSize {
+    switch (widget.size) {
+      case ESizeItem.large:
+        return 24;
+      case ESizeItem.small:
+        return 16;
+      case ESizeItem.medium:
+      default:
+        return 20;
+    }
+  }
 
   @override
   void initState() {
@@ -142,7 +192,7 @@ class _CalendarState extends State<Calendar> {
         children: [
           IconButton(
             icon: widget.prevYear ??
-                const Icon(Icons.keyboard_double_arrow_left, size: 20),
+                Icon(Icons.keyboard_double_arrow_left, size: _iconSize),
             onPressed: () {
               setState(() {
                 _currentMonth = DateTime(
@@ -154,14 +204,14 @@ class _CalendarState extends State<Calendar> {
           ),
           Text(
             '$decadeStart - $decadeEnd',
-            style: const TextStyle(
-              fontSize: 16,
+            style: TextStyle(
+              fontSize: _headerFontSize,
               fontWeight: FontWeight.w500,
             ),
           ),
           IconButton(
             icon: widget.nextYear ??
-                const Icon(Icons.keyboard_double_arrow_right, size: 20),
+                Icon(Icons.keyboard_double_arrow_right, size: _iconSize),
             onPressed: () {
               setState(() {
                 _currentMonth = DateTime(
@@ -186,7 +236,7 @@ class _CalendarState extends State<Calendar> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           IconButton(
-            icon: widget.prevMonth ?? const Icon(Icons.chevron_left, size: 20),
+            icon: widget.prevMonth ?? Icon(Icons.chevron_left, size: _iconSize),
             onPressed: () {
               setState(() {
                 _currentMonth = DateTime(
@@ -198,13 +248,14 @@ class _CalendarState extends State<Calendar> {
           ),
           Text(
             _currentMonth.year.toString(),
-            style: const TextStyle(
-              fontSize: 16,
+            style: TextStyle(
+              fontSize: _headerFontSize,
               fontWeight: FontWeight.w500,
             ),
           ),
           IconButton(
-            icon: widget.nextMonth ?? const Icon(Icons.chevron_right, size: 20),
+            icon:
+                widget.nextMonth ?? Icon(Icons.chevron_right, size: _iconSize),
             onPressed: () {
               setState(() {
                 _currentMonth = DateTime(
@@ -234,7 +285,7 @@ class _CalendarState extends State<Calendar> {
             children: [
               IconButton(
                 icon: widget.prevYear ??
-                    const Icon(Icons.keyboard_double_arrow_left, size: 20),
+                    Icon(Icons.keyboard_double_arrow_left, size: _iconSize),
                 onPressed: () {
                   setState(() {
                     _currentMonth =
@@ -244,7 +295,7 @@ class _CalendarState extends State<Calendar> {
               ),
               IconButton(
                 icon: widget.prevMonth ??
-                    const Icon(Icons.chevron_left, size: 20),
+                    Icon(Icons.chevron_left, size: _iconSize),
                 onPressed: () {
                   setState(() {
                     _currentMonth =
@@ -256,8 +307,8 @@ class _CalendarState extends State<Calendar> {
           ),
           Text(
             monthName,
-            style: const TextStyle(
-              fontSize: 16,
+            style: TextStyle(
+              fontSize: _headerFontSize,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -265,7 +316,7 @@ class _CalendarState extends State<Calendar> {
             children: [
               IconButton(
                 icon: widget.nextMonth ??
-                    const Icon(Icons.chevron_right, size: 20),
+                    Icon(Icons.chevron_right, size: _iconSize),
                 onPressed: () {
                   setState(() {
                     _currentMonth =
@@ -275,7 +326,7 @@ class _CalendarState extends State<Calendar> {
               ),
               IconButton(
                 icon: widget.nextYear ??
-                    const Icon(Icons.keyboard_double_arrow_right, size: 20),
+                    Icon(Icons.keyboard_double_arrow_right, size: _iconSize),
                 onPressed: () {
                   setState(() {
                     _currentMonth =
@@ -306,9 +357,9 @@ class _CalendarState extends State<Calendar> {
                   child: Center(
                     child: Text(
                       day,
-                      style: const TextStyle(
-                        color: Color(0xFF606266),
-                        fontSize: 14,
+                      style: TextStyle(
+                        color: const Color(0xFF606266),
+                        fontSize: _fontSize,
                       ),
                     ),
                   ),
@@ -397,7 +448,7 @@ class _CalendarState extends State<Calendar> {
             });
           },
           child: Container(
-            height: 32,
+            height: _cellWidth,
             alignment: Alignment.center,
             margin: const EdgeInsets.all(2),
             decoration: BoxDecoration(
@@ -429,7 +480,7 @@ class _CalendarState extends State<Calendar> {
                             isSelected
                         ? Colors.white
                         : const Color(0xFF606266),
-                fontSize: 14,
+                fontSize: _fontSize,
               ),
             ),
           ),
@@ -521,7 +572,7 @@ class _CalendarState extends State<Calendar> {
             });
           },
           child: Container(
-            height: 32,
+            height: _cellWidth,
             alignment: Alignment.center,
             margin: const EdgeInsets.all(2),
             decoration: BoxDecoration(
@@ -559,7 +610,7 @@ class _CalendarState extends State<Calendar> {
                             true
                         ? Colors.white
                         : const Color(0xFF606266),
-                fontSize: 14,
+                fontSize: _fontSize,
               ),
             ),
           ),
@@ -612,9 +663,6 @@ class _CalendarState extends State<Calendar> {
         return DateTime(_currentMonth.year, _currentMonth.month, day);
       }
     });
-    // 获取父组件的宽度
-    double cellWidth = 45;
-    // double parentWidth = cellWidth * 7;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: List.generate(6, (i) {
@@ -683,7 +731,7 @@ class _CalendarState extends State<Calendar> {
                     });
                   },
                   child: Container(
-                    height: cellWidth,
+                    height: _cellWidth,
                     alignment: Alignment.center,
                     margin: const EdgeInsets.all(2),
                     decoration: BoxDecoration(
@@ -715,7 +763,7 @@ class _CalendarState extends State<Calendar> {
                                 : !isCurrentMonth
                                     ? const Color(0xFFCCCCCC)
                                     : const Color(0xFF606266),
-                        fontSize: 14,
+                        fontSize: _fontSize,
                       ),
                     ),
                   ),
@@ -737,7 +785,7 @@ class _CalendarState extends State<Calendar> {
     return Row(
       children: [
         IconButton(
-          icon: const Icon(Icons.chevron_left, size: 20),
+          icon: Icon(Icons.chevron_left, size: _iconSize),
           onPressed: () {
             setState(() {
               _currentMonth = _currentMonth.subtract(const Duration(days: 7));
@@ -770,7 +818,7 @@ class _CalendarState extends State<Calendar> {
                       });
                     },
                     child: Container(
-                      height: 45,
+                      height: _cellWidth,
                       alignment: Alignment.center,
                       margin: const EdgeInsets.all(2),
                       decoration: BoxDecoration(
@@ -793,7 +841,7 @@ class _CalendarState extends State<Calendar> {
                                   : isSelected
                                       ? Colors.white
                                       : const Color(0xFF606266),
-                              fontSize: 12,
+                              fontSize: _fontSize - 2,
                             ),
                           ),
                           const SizedBox(height: 2),
@@ -805,7 +853,7 @@ class _CalendarState extends State<Calendar> {
                                   : isSelected
                                       ? Colors.white
                                       : const Color(0xFF606266),
-                              fontSize: 14,
+                              fontSize: _fontSize,
                             ),
                           ),
                         ],
@@ -818,7 +866,7 @@ class _CalendarState extends State<Calendar> {
           ),
         ),
         IconButton(
-          icon: const Icon(Icons.chevron_right, size: 20),
+          icon: Icon(Icons.chevron_right, size: _iconSize),
           onPressed: () {
             setState(() {
               _currentMonth = _currentMonth.add(const Duration(days: 7));

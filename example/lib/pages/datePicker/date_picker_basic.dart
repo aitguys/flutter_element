@@ -40,15 +40,20 @@ Widget _viewerContent() {
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            width: 240,
-            child: EDatePicker(
-              type: CalendarType.date,
-              placeholder: '选择日期',
-              onSelect: (date) {
-                debugPrint('onSelect 触发： Selected date: $date');
-              },
-            ),
+          Row(
+            children: [
+              const Text('请选择选择日期'),
+              SizedBox(
+                width: 240,
+                child: EDatePicker(
+                  type: CalendarType.date,
+                  placeholder: '选择日期',
+                  onSelect: (date) {
+                    debugPrint('onSelect 触发： Selected date: $date');
+                  },
+                ),
+              ),
+            ],
           ),
         ],
       ),

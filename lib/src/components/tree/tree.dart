@@ -59,10 +59,8 @@ class FlTree extends StatefulWidget {
   final Function(dynamic, bool)? onNodeClick;
 
   /// Whether to enable drag and drop functionality.
-  final bool draggable;
 
   /// Callback function when a node is dropped onto another node.
-  final Function(FlTreeNode, FlTreeNode)? onDragEnd;
 
   const FlTree({
     super.key,
@@ -74,8 +72,6 @@ class FlTree extends StatefulWidget {
     this.checkStrictly = false,
     this.onCheck,
     this.onNodeClick,
-    this.draggable = false,
-    this.onDragEnd,
   });
 
   @override
@@ -86,6 +82,7 @@ class _FlTreeState extends State<FlTree> {
   Set<dynamic> _expandedKeys = {};
   Set<dynamic> _checkedKeys = {};
   final Set<dynamic> _halfCheckedKeys = {};
+  dynamic _selectedKey;
 
   @override
   void initState() {
@@ -189,6 +186,7 @@ class _FlTreeState extends State<FlTree> {
     bool isChecked = _checkedKeys.contains(node.value);
     bool isHalfChecked = _halfCheckedKeys.contains(node.value);
     bool hasChildren = node.children != null && node.children!.isNotEmpty;
+    bool isSelected = _selectedKey == node.value;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -205,14 +203,13 @@ class _FlTreeState extends State<FlTree> {
             ),
           ),
           child: DragTarget<FlTreeNode>(
-            onAcceptWithDetails: (data) {
-              if (widget.onDragEnd != null) {
-                widget.onDragEnd!(data.data, node);
-              }
-            },
+            onAcceptWithDetails: (data) {},
             builder: (context, candidateData, rejectedData) {
               return InkWell(
                 onTap: () {
+                  setState(() {
+                    _selectedKey = node.value;
+                  });
                   if (widget.onNodeClick != null) {
                     widget.onNodeClick!(node.value, !isExpanded);
                   }
@@ -227,6 +224,7 @@ class _FlTreeState extends State<FlTree> {
                     top: 8,
                     bottom: 8,
                   ),
+                  color: isSelected ? Colors.blue.withOpacity(0.1) : null,
                   child: Row(
                     children: [
                       if (widget.showCheckbox)
@@ -257,6 +255,7 @@ class _FlTreeState extends State<FlTree> {
                           node.label,
                           style: TextStyle(
                             color: node.disabled ? Colors.grey : null,
+                            fontWeight: isSelected ? FontWeight.bold : null,
                           ),
                         ),
                       ),

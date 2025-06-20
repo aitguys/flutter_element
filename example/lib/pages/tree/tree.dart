@@ -70,6 +70,10 @@ class _TreePageState extends State<TreePage> {
             const SizedBox(height: 20),
             FlTree(
               data: data,
+              defaultExpandAll: true,
+              onNodeClick: (value, isExpanded) {
+                Logger().d('点击节点: $value, 是否展开: $isExpanded');
+              },
             ),
             const SizedBox(height: 40),
             const Text(
@@ -127,6 +131,7 @@ class _TreePageState extends State<TreePage> {
             ),
             const SizedBox(height: 20),
             const FlTree(
+              showCheckbox: true,
               data: [
                 FlTreeNode(
                   label: '一级 1',
@@ -157,10 +162,6 @@ class _TreePageState extends State<TreePage> {
             const SizedBox(height: 20),
             FlTree(
               data: data,
-              draggable: true,
-              onDragEnd: (source, target) {
-                Logger().d('拖拽源节点: ${source.label}, 目标节点: ${target.label}');
-              },
             ),
           ],
         ),

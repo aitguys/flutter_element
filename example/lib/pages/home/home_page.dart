@@ -94,6 +94,7 @@ class HomePage extends StatelessWidget {
                       child:
                           const Text('Link 链接', style: TextStyle(fontSize: 15)),
                     ),
+
                     // FlNavItem(
                     //   suffix: const Icon(Icons.arrow_forward_ios, size: 16),
                     //   padding: const EdgeInsets.symmetric(horizontal: 4),
@@ -279,6 +280,13 @@ class HomePage extends StatelessWidget {
                       onTap: () => Get.toNamed(Routes.card),
                       child:
                           const Text('Card 卡片', style: TextStyle(fontSize: 15)),
+                    ),
+                    FlNavItem(
+                      suffix: const Icon(Icons.arrow_forward_ios, size: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      onTap: () => Get.toNamed(Routes.tree),
+                      child: const Text('Tree 树形控件',
+                          style: TextStyle(fontSize: 15)),
                     ),
                   ],
                 ),
