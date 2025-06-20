@@ -304,6 +304,9 @@ class _EInputState extends State<EInput> {
                             : widget.placeholder,
                       ),
                       onChanged: widget.onChanged,
+                      onTap: widget.readOnly ? () {
+                        widget.onFocus?.call();
+                      } : null,
                       enableInteractiveSelection: false,
                     ),
                   ),
