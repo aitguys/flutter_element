@@ -290,6 +290,7 @@ class _EInputState extends State<EInput> {
                       focusNode: _focusNode,
                       enabled: !widget.disabled,
                       readOnly: widget.readOnly,
+                      cursorOpacityAnimates: false,
                       obscureText: _isPasswordVisible,
                       style: TextStyle(
                           fontSize: ElememtSize(size: widget.size)
@@ -304,9 +305,11 @@ class _EInputState extends State<EInput> {
                             : widget.placeholder,
                       ),
                       onChanged: widget.onChanged,
-                      onTap: widget.readOnly ? () {
-                        widget.onFocus?.call();
-                      } : null,
+                      onTap: widget.readOnly
+                          ? () {
+                              widget.onFocus?.call();
+                            }
+                          : null,
                       enableInteractiveSelection: false,
                     ),
                   ),
