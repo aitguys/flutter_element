@@ -1,3 +1,7 @@
+## 0.1.17
+
+Fixed display issues with DatePicker
+
 ## 0.1.16
 
 fix ios input cpu issue
