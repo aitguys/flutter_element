@@ -188,6 +188,16 @@ class _EInputState extends State<EInput> {
       _controller.addListener(_handleTextChange);
       _hasValue = _controller.text.isNotEmpty;
     }
+    
+    // 处理FocusNode更新
+    if (widget.focusNode != oldWidget.focusNode) {
+      _focusNode.removeListener(_handleFocusChange);
+      if (oldWidget.focusNode == null) {
+        _focusNode.dispose();
+      }
+      _focusNode = widget.focusNode ?? FocusNode();
+      _focusNode.addListener(_handleFocusChange);
+    }
   }
 
   void _handleFocusChange() {
@@ -216,7 +226,9 @@ class _EInputState extends State<EInput> {
     if (widget.textController == null) {
       _controller.dispose();
     }
-    _focusNode.dispose();
+    if (widget.focusNode == null) {
+      _focusNode.dispose();
+    }
     super.dispose();
   }
 

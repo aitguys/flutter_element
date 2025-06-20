@@ -64,10 +64,12 @@ class EDatePicker extends StatefulWidget {
 
 class _EDatePickerState extends State<EDatePicker> {
   late TextEditingController _controller;
+  late FocusNode _focusNode;
   String? _selectedDate;
   final LayerLink _layerLink = LayerLink();
   OverlayEntry? _overlayEntry;
   bool _isDisposed = false; // 添加标志防止重复销毁
+  bool _shouldShowCalendar = false; // 添加标志控制是否应该显示日历
 
   @override
   void initState() {
@@ -76,6 +78,7 @@ class _EDatePickerState extends State<EDatePicker> {
     _controller = TextEditingController(
       text: _selectedDate ?? '',
     );
+    _focusNode = FocusNode();
   }
 
   @override
@@ -88,7 +91,7 @@ class _EDatePickerState extends State<EDatePicker> {
   }
 
   void _showCalendar() {
-    if (widget.disabled || _isDisposed) return; // 添加disposed检查
+    if (widget.disabled || _isDisposed || !_shouldShowCalendar) return; // 添加标志检查
     if (_controller.text.isNotEmpty) {
       _selectedDate = _controller.text;
     }
@@ -226,6 +229,11 @@ class _EDatePickerState extends State<EDatePicker> {
       _overlayEntry!.remove();
       _overlayEntry = null;
     }
+    // 重置焦点状态，确保输入框边框恢复正常
+    if (!_isDisposed) {
+      _focusNode.unfocus();
+      _shouldShowCalendar = false; // 重置标志
+    }
   }
 
   @override
@@ -233,6 +241,7 @@ class _EDatePickerState extends State<EDatePicker> {
     _isDisposed = true; // 设置销毁标志
     _removeOverlay();
     _controller.dispose(); // 直接销毁控制器
+    _focusNode.dispose(); // 销毁FocusNode
     super.dispose();
   }
 
@@ -243,11 +252,13 @@ class _EDatePickerState extends State<EDatePicker> {
       child: GestureDetector(
         onTap: () {
           if (!widget.disabled && !_isDisposed) {
+            _shouldShowCalendar = true; // 设置标志
             _showCalendar();
           }
         },
         child: EInput(
           textController: _controller,
+          focusNode: _focusNode,
           placeholder: widget.placeholder,
           clearable: widget.clearable,
           disabled: widget.disabled,
@@ -256,7 +267,18 @@ class _EDatePickerState extends State<EDatePicker> {
           suffix: widget.suffix,
           size: widget.size,
           readOnly: true,
-          onFocus: _showCalendar,
+          onFocus: () {
+            if (!widget.disabled && !_isDisposed) {
+              _shouldShowCalendar = true; // 设置标志
+              _showCalendar();
+            }
+          },
+          onBlur: () {
+            // 失焦时关闭日期选择器
+            if (!_isDisposed) {
+              _removeOverlay();
+            }
+          },
           colorType: widget.colorType,
           customColor: widget.customColor,
           borderColor: widget.defaultColor,
