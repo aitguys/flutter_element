@@ -40,10 +40,14 @@ Widget _viewerContent() {
         spacing: 8,
         runSpacing: 16,
         children: [
-          EButton(
-            text: 'Primary Button',
-            type: EColorType.primary,
-            onPressed: () {},
+          SizedBox(
+            width: 400,
+            child: EButton(
+              text: 'Primary Button',
+              loading: true,
+              type: EColorType.primary,
+              onPressed: () {},
+            ),
           ),
           EButton(
             text: 'Success Button',
