@@ -284,6 +284,13 @@ class HomePage extends StatelessWidget {
                     FlNavItem(
                       suffix: const Icon(Icons.arrow_forward_ios, size: 16),
                       padding: const EdgeInsets.symmetric(horizontal: 4),
+                      onTap: () => Get.toNamed(Routes.descriptions),
+                      child: const Text('Descriptions 描述列表',
+                          style: TextStyle(fontSize: 15)),
+                    ),
+                    FlNavItem(
+                      suffix: const Icon(Icons.arrow_forward_ios, size: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
                       onTap: () => Get.toNamed(Routes.tree),
                       child: const Text('Tree 树形控件',
                           style: TextStyle(fontSize: 15)),

@@ -32,7 +32,7 @@ import '../pages/select_page/route.dart';
 import '../pages/slider_page/slider_page.dart';
 import '../pages/carousel_page/carousel_page.dart';
 import '../pages/collapse_page/collapse_page.dart';
-import '../pages/descriptions_page/descriptions_page.dart';
+import '../pages/descriptions_page/route.dart';
 import '../pages/empty_page/empty_page.dart';
 import '../pages/infinite_scroll_page/infinite_scroll_page.dart';
 import '../pages/pagination_page/pagination_page.dart';
@@ -184,7 +184,12 @@ abstract class Routes {
   static const cardShadow = CardRoutes.cardShadow;
   static const carousel = '/carousel';
   static const collapse = '/collapse';
-  static const descriptions = '/descriptions';
+  static const descriptions = DescriptionsRoutes.descriptions;
+  static const descriptionsBasic = DescriptionsRoutes.descriptionsBasic;
+  static const descriptionsBorder = DescriptionsRoutes.descriptionsBorder;
+  static const descriptionsColumn = DescriptionsRoutes.descriptionsColumn;
+  static const descriptionsSize = DescriptionsRoutes.descriptionsSize;
+  static const descriptionsApi = DescriptionsRoutes.descriptionsApi;
   static const empty = '/empty';
   static const image = ImageRoutes.image;
   static const imageBasic = ImageRoutes.imageBasic;
@@ -299,10 +304,7 @@ class AppPages {
       name: Routes.collapse,
       page: () => const CollapsePage(),
     ),
-    GetPage(
-      name: Routes.descriptions,
-      page: () => const DescriptionsPage(),
-    ),
+    ...descriptionsRoutesPages,
     GetPage(
       name: Routes.empty,
       page: () => const EmptyPage(),
