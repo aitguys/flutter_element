@@ -54,6 +54,7 @@ Widget _viewerContent() {
         size: ESizeItem.medium,
         placeholder: '请输入内容 disabled',
         disabled: true,
+        borderColor: Colors.red,
       ),
     ],
   );

@@ -21,7 +21,7 @@ import '../pages/progress_page/route.dart';
 import '../pages/avatar_page/route.dart';
 import '../pages/image_page/route.dart';
 import '../pages/card_page/route.dart';
-
+import '../pages/form/route.dart';
 import '../pages/datePicker/route.dart';
 import '../pages/time_picker_page/route.dart';
 import '../pages/mention_page/mention_page.dart';
@@ -230,6 +230,8 @@ abstract class Routes {
   static const navItem = '/nav_item';
   static const backTop = '/back_top';
   static const widgetPreview = '/widget_preview';
+
+  static const form = FormRoutes.form;
 }
 
 class AppPages {
@@ -257,7 +259,6 @@ class AppPages {
       name: Routes.statistic,
       page: () => const StatisticPage(),
     ),
-
     ...buttonRoutesPages,
     ...autocompleteRoutesPages,
     ...inputRoutesPages,
@@ -277,6 +278,7 @@ class AppPages {
     ...avatarRoutesPages,
     ...timePickerRoutesPages,
     ...imageRoutesPages,
+    ...formRoutesPages,
     GetPage(
       name: Routes.scrollbar,
       page: () => const ScrollbarPage(),

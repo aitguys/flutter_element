@@ -125,6 +125,13 @@ class HomePage extends StatelessWidget {
                     FlNavItem(
                       suffix: const Icon(Icons.arrow_forward_ios, size: 16),
                       padding: const EdgeInsets.symmetric(horizontal: 4),
+                      onTap: () => Get.toNamed(Routes.form),
+                      child:
+                          const Text('Form 表单', style: TextStyle(fontSize: 15)),
+                    ),
+                    FlNavItem(
+                      suffix: const Icon(Icons.arrow_forward_ios, size: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
                       onTap: () => Get.toNamed(Routes.input),
                       child: const Text('Input 输入框',
                           style: TextStyle(fontSize: 15)),

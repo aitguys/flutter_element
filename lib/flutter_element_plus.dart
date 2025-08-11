@@ -46,3 +46,4 @@ export 'src/components/radio/index.dart';
 export 'src/components/progress/index.dart';
 export 'src/components/rate/index.dart';
 export 'src/components/slider/index.dart';
+export 'src/components/form/index.dart';

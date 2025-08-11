@@ -48,7 +48,6 @@ Widget _viewerContent() {
         ESelect(
           value: value,
           options: options,
-          placeholder: '请选择',
           size: ESizeItem.large,
           onChanged: (v) {},
         ),

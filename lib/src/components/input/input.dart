@@ -188,7 +188,7 @@ class _EInputState extends State<EInput> {
       _controller.addListener(_handleTextChange);
       _hasValue = _controller.text.isNotEmpty;
     }
-    
+
     // 处理FocusNode更新
     if (widget.focusNode != oldWidget.focusNode) {
       _focusNode.removeListener(_handleFocusChange);
@@ -197,6 +197,13 @@ class _EInputState extends State<EInput> {
       }
       _focusNode = widget.focusNode ?? FocusNode();
       _focusNode.addListener(_handleFocusChange);
+    }
+
+    // 同步外部 textController 的文本内容变化
+    if (widget.textController != null &&
+        widget.textController!.text != _controller.text) {
+      _controller.text = widget.textController!.text;
+      _hasValue = _controller.text.isNotEmpty;
     }
   }
 

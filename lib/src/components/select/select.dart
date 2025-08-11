@@ -2,19 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_element_plus/src/theme/index.dart';
 import '../input/input.dart';
 
-/// Represents an option in the select component.
+/// Select 组件的选项
 class SelectOption {
-  /// The value associated with this option.
   final String value;
-
-  /// The text label to display for this option.
   final String label;
-
-  /// Whether this option is disabled.
-  /// Disabled options cannot be selected.
   final bool disabled;
-
-  /// Additional data associated with this option.
   final dynamic extra;
 
   const SelectOption({
@@ -27,64 +19,25 @@ class SelectOption {
 
 class ESelect extends StatefulWidget {
   final dynamic value;
-
   final List<SelectOption> options;
-
-  /// Whether the select component is disabled.
-  /// When disabled, the component cannot be interacted with.
   final bool disabled;
-
-  /// Whether the selected value can be cleared.
-  /// When true, a clear button appears when a value is selected.
   final bool clearable;
-
-  /// Whether multiple options can be selected.
-  /// When true, the component allows selecting multiple values.
   final bool multiple;
-
-  /// The size of the select component.
-  /// Affects the height and font size of the component.
   final ESizeItem size;
-
-  /// The placeholder text to display when no value is selected.
   final String? placeholder;
-
-  /// A custom widget to display at the top of the dropdown.
   final Widget? header;
-
-  /// The color type of the select.
   final EColorType colorType;
-
-  /// A custom widget to display at the end of the select.
   final Widget? suffix;
   final Widget? prefix;
   final Widget? prepend;
   final Widget? append;
-
-  /// A custom color to use for the select.
   final Color? customColor;
-
-  /// The default color for the select's border.
   final Color defaultColor;
-
-  /// A custom height for the select.
   final double? customHeight;
-
-  /// A custom font size for the select text.
   final double? customFontSize;
-
-  /// A custom border radius for the select.
   final double? customBorderRadius;
-
-  /// Whether to show the placeholder text above the select when focused.
   final bool showPlaceholderOnTop;
-
-  /// Callback function when the selected value(s) change.
-  /// For single select, the callback receives a `String`.
-  /// For multiple select, the callback receives a `List<String>`.
   final ValueChanged<dynamic>? onChanged;
-
-  /// Callback function when the clear button is clicked.
   final VoidCallback? onClear;
 
   const ESelect({
@@ -124,6 +77,7 @@ class _ESelectState extends State<ESelect> {
   List<String> _selectedValues = [];
   bool _isDisposed = false;
 
+  // 计算显示文本
   String get _displayText {
     if (widget.multiple) {
       if (_selectedValues.isEmpty) return '';
@@ -134,11 +88,20 @@ class _ESelectState extends State<ESelect> {
               .label)
           .join(', ');
     } else {
-      if (widget.value == null) return '';
-      return widget.options
-          .firstWhere((option) => option.value == widget.value,
-              orElse: () => SelectOption(label: widget.value!, value: widget.value!))
-          .label;
+      // 优先使用 _selectedValues（内部状态），如果没有则使用 widget.value
+      String? currentValue =
+          _selectedValues.isNotEmpty ? _selectedValues.first : widget.value;
+      if (currentValue == null || currentValue.isEmpty) return '';
+
+      try {
+        return widget.options
+            .firstWhere((option) => option.value == currentValue,
+                orElse: () =>
+                    SelectOption(label: currentValue!, value: currentValue!))
+            .label;
+      } catch (e) {
+        return currentValue.toString();
+      }
     }
   }
 
@@ -151,16 +114,21 @@ class _ESelectState extends State<ESelect> {
           } else {
             _selectedValues.add(option.value);
           }
+          _controller.text = _displayText;
           widget.onChanged?.call(_selectedValues);
           _updateOverlay();
         });
-        _controller.text = _displayText;
+        // 更新输入框显示内容
       } else {
         setState(() {
+          // 单选模式下，清空之前的选择，设置新的选择
+          _selectedValues.clear();
+          _selectedValues.add(option.value);
+          _controller.text = _displayText;
           widget.onChanged?.call(option.value);
           _hideOverlay();
         });
-        _controller.text = _displayText;
+        // 更新输入框显示内容
       }
     }
   }
@@ -304,19 +272,41 @@ class _ESelectState extends State<ESelect> {
         _showOverlay();
       }
     });
+
+    // 初始化选中值
     if (widget.multiple && widget.value != null) {
       _selectedValues = List<String>.from(widget.value);
+    } else if (!widget.multiple &&
+        widget.value != null &&
+        widget.value.toString().isNotEmpty) {
+      _selectedValues = [widget.value.toString()];
     }
+
+    // 设置初始显示文本
+    _controller.text = _displayText;
   }
 
   @override
   void didUpdateWidget(ESelect oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.multiple && widget.value != null) {
-      _selectedValues = List<String>.from(widget.value);
-    }
-    if (!_isDisposed) {
-      _controller.text = _displayText;
+
+    // 检查 value 是否发生变化
+    if (widget.value != oldWidget.value) {
+      if (widget.multiple && widget.value != null) {
+        _selectedValues = List<String>.from(widget.value);
+      } else if (!widget.multiple &&
+          widget.value != null &&
+          widget.value.toString().isNotEmpty) {
+        _selectedValues = [widget.value.toString()];
+      } else {
+        // 如果 value 为空或 null，清空内部状态
+        _selectedValues.clear();
+      }
+
+      // 更新输入框显示内容
+      if (!_isDisposed) {
+        _controller.text = _displayText;
+      }
     }
   }
 
@@ -331,6 +321,7 @@ class _ESelectState extends State<ESelect> {
         }
         _hideOverlay();
       });
+      // 更新输入框显示内容
       _controller.text = _displayText;
       widget.onClear?.call();
     }
