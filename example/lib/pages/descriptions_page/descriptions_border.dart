@@ -47,6 +47,19 @@ Widget _viewerContent() {
             EDescriptionItem(label: '金额', content: Text('¥100.00')),
           ],
         ),
+        EDescriptions(
+          title: '订单信息',
+          border: true,
+          direction: EDescriptionsDirection.vertical,
+          items: [
+            EDescriptionItem(label: 'Username', content: Text('zhangsan')),
+            EDescriptionItem(
+                label: 'Phone Number', content: Text('12345678901')),
+            EDescriptionItem(label: 'Address', content: Text('北京市朝阳区')),
+            EDescriptionItem(label: 'Remark', content: Text('VIP用户')),
+            EDescriptionItem(label: 'Address', content: Text('北京市朝阳区')),
+          ],
+        ),
       ],
     ),
   );

@@ -36,6 +36,31 @@ enum EDescriptionsDirection {
   vertical,
 }
 
+/// 标题渲染部分单独提取为方法
+Widget? buildDescriptionsTitle({
+  Widget? titleWidget,
+  String? title,
+  TextStyle? titleStyle,
+}) {
+  if (titleWidget != null) {
+    return titleWidget;
+  } else if (title != null && title.isNotEmpty) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      child: Text(
+        title,
+        style: titleStyle ??
+            const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              letterSpacing: 0.5,
+            ),
+      ),
+    );
+  }
+  return null;
+}
+
 /// 美化后的描述列表组件
 class EDescriptions extends StatelessWidget {
   final Widget? titleWidget;
@@ -46,7 +71,6 @@ class EDescriptions extends StatelessWidget {
   final int column;
   final bool border;
   final List<EDescriptionItem> items;
-  final EdgeInsetsGeometry? padding;
   final TextStyle? labelStyle; // 新增全局label样式
   final EDescriptionsDirection direction; // 新增方向属性
 
@@ -58,14 +82,11 @@ class EDescriptions extends StatelessWidget {
     this.column = 3,
     this.border = false,
     required this.items,
-    this.padding,
     this.labelStyle,
     this.direction = EDescriptionsDirection.horizontal, // 默认水平
   });
 
   Color get _labelColor => Colors.black;
-  Color get _contentColor => const Color(0xFF303133);
-  // Color get _bgColor => Colors.white;
   Color get _borderColor => const Color(0xFFE4E7ED);
 
   @override
@@ -96,35 +117,16 @@ class EDescriptions extends StatelessWidget {
       }
 
       return Container(
-        // decoration: BoxDecoration(
-        //   color: _bgColor,
-        //   borderRadius: BorderRadius.circular(4),
-        //   border: border ? Border.all(color: _borderColor, width: 1) : null,
-        // ),
         margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 0),
         child: Padding(
-          padding: padding ?? const EdgeInsets.all(0),
+          padding: const EdgeInsets.all(0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (titleWidget != null)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  child: titleWidget!,
-                )
-              else if (title != null && title!.isNotEmpty)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  child: Text(
-                    title!,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: _contentColor,
-                      letterSpacing: 0.5,
-                    ),
-                  ),
-                ),
+              buildDescriptionsTitle(
+                  titleWidget: titleWidget,
+                  title: title,
+                  titleStyle: titleStyle)!,
               Table(
                 border: border
                     ? TableBorder.all(color: _borderColor, width: 1)
@@ -173,28 +175,14 @@ class EDescriptions extends StatelessWidget {
       // ),
       margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 0),
       child: Padding(
-        padding: padding ?? const EdgeInsets.all(0),
+        padding: const EdgeInsets.all(0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (titleWidget != null)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: titleWidget!,
-              )
-            else if (title != null && title!.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: Text(
-                  title!,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: _contentColor,
-                    letterSpacing: 0.5,
-                  ),
-                ),
-              ),
+            buildDescriptionsTitle(
+                titleWidget: titleWidget,
+                title: title,
+                titleStyle: titleStyle)!,
             Table(
               border: border
                   ? TableBorder.all(color: _borderColor, width: 1)
@@ -217,7 +205,7 @@ class EDescriptions extends StatelessWidget {
     return Container(
       height: 40,
       decoration: border
-          ? BoxDecoration(
+          ? const BoxDecoration(
               color: Colors.white,
             )
           : null,
@@ -230,7 +218,7 @@ class EDescriptions extends StatelessWidget {
     final TextStyle defaultLabelStyle = TextStyle(
       fontSize: 15,
       color: _labelColor,
-      fontWeight: FontWeight.w500,
+      fontWeight: FontWeight.w600,
       letterSpacing: 0.2,
     );
     final TextStyle mergedLabelStyle =
@@ -239,34 +227,40 @@ class EDescriptions extends StatelessWidget {
     return TableCell(
       verticalAlignment: TableCellVerticalAlignment.top,
       child: Container(
-        decoration: border
-            ? BoxDecoration(
-                color: Colors.white,
-              )
-            : null,
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 0),
         margin: EdgeInsets.zero,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            item.labelWidget != null
-                ? DefaultTextStyle(
-                    style: mergedLabelStyle,
-                    child: item.labelWidget!,
-                  )
-                : Text(
-                    item.label,
-                    textAlign: item.labelAlign ?? TextAlign.left,
-                    style: mergedLabelStyle,
-                  ),
+            Container(
+              width: double.infinity,
+              color: border ? const Color(0xFFF5F7FA) : null,
+              padding: border
+                  ? const EdgeInsets.only(left: 8, top: 12, bottom: 12)
+                  : const EdgeInsets.only(top: 12, bottom: 12),
+              child: item.labelWidget != null
+                  ? DefaultTextStyle(
+                      style: mergedLabelStyle,
+                      child: item.labelWidget!,
+                    )
+                  : Text(
+                      item.label,
+                      textAlign: item.labelAlign ?? TextAlign.left,
+                      style: mergedLabelStyle,
+                    ),
+            ),
             const SizedBox(height: 6),
             DefaultTextStyle(
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 14,
-                color: _contentColor,
                 fontWeight: FontWeight.normal,
               ),
-              child: item.content,
+              child: Container(
+                width: double.infinity,
+                padding: border
+                    ? const EdgeInsets.only(left: 8, top: 10, bottom: 10)
+                    : const EdgeInsets.only(top: 0, bottom: 0),
+                child: item.content,
+              ),
             ),
           ],
         ),
@@ -280,7 +274,7 @@ class EDescriptions extends StatelessWidget {
     final TextStyle defaultLabelStyle = TextStyle(
       fontSize: 15,
       color: _labelColor,
-      fontWeight: FontWeight.w500,
+      fontWeight: FontWeight.w600,
       letterSpacing: 0.2,
     );
     final TextStyle mergedLabelStyle =
@@ -289,11 +283,11 @@ class EDescriptions extends StatelessWidget {
     return TableCell(
       verticalAlignment: TableCellVerticalAlignment.middle,
       child: Container(
-        padding: const EdgeInsets.symmetric(
-          vertical: 12,
-        ),
+        // padding: const EdgeInsets.symmetric(
+        //   vertical: 12,
+        // ),
         decoration: border
-            ? BoxDecoration(
+            ? const BoxDecoration(
                 color: Colors.white,
               )
             : null,
@@ -306,6 +300,10 @@ class EDescriptions extends StatelessWidget {
                 minWidth: item.labelWidth ?? 80,
                 maxWidth: item.labelWidth ?? 120,
               ),
+              color: border ? const Color(0xFFF5F7FA) : null,
+              padding: border
+                  ? const EdgeInsets.only(left: 8, top: 10, bottom: 10)
+                  : const EdgeInsets.only(top: 10, bottom: 10),
               margin: const EdgeInsets.only(right: 12),
               child: item.labelWidget != null
                   ? DefaultTextStyle(
@@ -320,9 +318,8 @@ class EDescriptions extends StatelessWidget {
             ),
             Expanded(
               child: DefaultTextStyle(
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 14,
-                  color: _contentColor,
                   fontWeight: FontWeight.normal,
                 ),
                 child: item.content,
