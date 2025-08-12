@@ -66,6 +66,8 @@ class EDescriptions extends StatelessWidget {
   final Widget? titleWidget;
   final String? title;
   final TextStyle? titleStyle;
+  final double itemLabelFontSize;
+  final double itemContentFontSize;
 
   /// column 可选，不传时为 auto，自动换行
   final int column;
@@ -79,6 +81,8 @@ class EDescriptions extends StatelessWidget {
     this.title,
     this.titleWidget,
     this.titleStyle,
+    this.itemLabelFontSize = 15,
+    this.itemContentFontSize = 14,
     this.column = 3,
     this.border = false,
     required this.items,
@@ -216,7 +220,7 @@ class EDescriptions extends StatelessWidget {
   Widget _buildVerticalCell(EDescriptionItem item, int span, bool isFirstRow,
       bool isFirstCol, bool isLastRow, bool isLastCol) {
     final TextStyle defaultLabelStyle = TextStyle(
-      fontSize: 15,
+      fontSize: itemLabelFontSize,
       color: _labelColor,
       fontWeight: FontWeight.w600,
       letterSpacing: 0.2,
@@ -272,7 +276,7 @@ class EDescriptions extends StatelessWidget {
   Widget _buildCell(EDescriptionItem item, int span, bool isFirstRow,
       bool isFirstCol, bool isLastRow, bool isLastCol) {
     final TextStyle defaultLabelStyle = TextStyle(
-      fontSize: 15,
+      fontSize: itemLabelFontSize,
       color: _labelColor,
       fontWeight: FontWeight.w600,
       letterSpacing: 0.2,
@@ -318,8 +322,8 @@ class EDescriptions extends StatelessWidget {
             ),
             Expanded(
               child: DefaultTextStyle(
-                style: const TextStyle(
-                  fontSize: 14,
+                style: TextStyle(
+                  fontSize: itemContentFontSize,
                   fontWeight: FontWeight.normal,
                 ),
                 child: item.content,

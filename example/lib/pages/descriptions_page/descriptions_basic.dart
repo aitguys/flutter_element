@@ -39,6 +39,8 @@ Widget _viewerContent() {
       children: [
         EDescriptions(
           title: 'User Info - direction: horizontal',
+          itemLabelFontSize: 16,
+          itemContentFontSize: 15,
           items: [
             EDescriptionItem(label: 'Username', content: Text('zhangsan')),
             EDescriptionItem(
