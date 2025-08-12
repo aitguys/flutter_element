@@ -21,7 +21,7 @@ class _RadioDisablePreviewState extends State<RadioDisablePreview> {
           const Text('单个禁用'),
           const SizedBox(height: 10),
           ERadioGroup(
-            value: value1,
+            textController: TextEditingController(text: value1),
             onChanged: (v) => setState(() => value1 = v),
             children: [
               const ERadio(value: '1', label: 'option1', disabled: true),
@@ -32,7 +32,7 @@ class _RadioDisablePreviewState extends State<RadioDisablePreview> {
           const Text('整组禁用'),
           const SizedBox(height: 10),
           ERadioGroup(
-            value: value2,
+            textController: TextEditingController(text: value2),
             disabled: true,
             onChanged: (v) => setState(() => value2 = v),
             children: [
@@ -71,7 +71,7 @@ class _RadioDisableViewState extends State<RadioDisableView> {
               const Text('单个禁用'),
               const SizedBox(height: 10),
               ERadioGroup(
-                value: value1,
+                textController: TextEditingController(text: value1),
                 onChanged: (v) => setState(() => value1 = v),
                 children: [
                   const ERadio(value: '1', label: 'option1', disabled: true),
@@ -82,7 +82,7 @@ class _RadioDisableViewState extends State<RadioDisableView> {
               const Text('整组禁用'),
               const SizedBox(height: 10),
               ERadioGroup(
-                value: value2,
+                textController: TextEditingController(text: value2),
                 disabled: true,
                 onChanged: (v) => setState(() => value2 = v),
                 children: [

@@ -1,86 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element_plus/src/theme/index.dart';
 
-/// A radio button component that follows Element Plus design guidelines.
-///
-/// The [ERadio] widget provides a single radio button that can be used independently
-/// or as part of a [ERadioGroup]. It supports different sizes, states, and styles.
-///
-/// ## Example
-///
-/// ```dart
-/// // Single radio button
-/// ERadio(
-///   value: '1',
-///   label: 'Option 1',
-///   onChanged: (value) => print('Selected: $value'),
-/// )
-///
-/// // Radio group
-/// ERadioGroup(
-///   value: '1',
-///   onChanged: (value) => print('Selected: $value'),
-///   children: [
-///     ERadio(value: '1', label: 'Option 1'),
-///     ERadio(value: '2', label: 'Option 2'),
-///   ],
-/// )
-/// ```
+/// ERadio 组件，支持独立使用或与 ERadioGroup 组合使用，支持不同尺寸、状态和样式。
 class ERadio extends StatefulWidget {
-  /// The value of the radio button.
-  ///
-  /// This value is used to identify the radio button in a group.
   final String? value;
-
-  /// The label text to display next to the radio button.
   final String? label;
-
-  /// Whether the radio button is disabled.
-  ///
-  /// When true, the radio button cannot be selected and will show a disabled style.
   final bool disabled;
-
-  /// Whether to show a border around the radio button.
-  ///
-  /// When true, the radio button will be displayed with a border.
   final bool border;
-
-  /// The color type of the radio button.
-  ///
-  /// This determines the color scheme used for the radio button's border and focus state.
-  /// Defaults to [EColorType.primary].
   final EColorType fontColorType;
-
-  /// A custom color to use for the radio button.
-  ///
-  /// If provided, this overrides the color determined by [colorType].
   final Color? fontCustomColor;
-
   final EColorType iconColorType;
-
   final Color? iconCustomColor;
-
-  /// The size of the radio button.
-  ///
-  /// If not provided, the size will be inherited from the parent [ERadioGroup]
-  /// or default to [ESizeItem.medium].
   final ESizeItem? size;
-
-  /// A custom font size for the radio button.
-  ///
-  /// If provided, this overrides the font size determined by [size].
   final double? customFontSize;
-
-  /// The name of the radio button.
-  ///
-  /// This is used for form submission and accessibility.
   final String? name;
 
-  /// Callback function when the radio button is selected.
-  ///
-  /// The callback receives the [value] of the selected radio button.
+  /// 仅当作为 ERadioGroup 子项时由 ERadioGroup 注入
+  final String? groupValue;
+  final bool? groupDisabled;
+  final ValueChanged<String>? groupOnChanged;
+  final ESizeItem? groupSize;
+  final double? groupCustomFontSize;
+  final EColorType? groupFontColorType;
+  final Color? groupFontCustomColor;
+  final EColorType? groupIconColorType;
+  final Color? groupIconCustomColor;
 
-  /// Creates an [ERadio] widget.
   const ERadio({
     super.key,
     this.value,
@@ -94,6 +39,16 @@ class ERadio extends StatefulWidget {
     this.size,
     this.customFontSize,
     this.name,
+    // 以下参数仅 ERadioGroup 注入
+    this.groupValue,
+    this.groupDisabled,
+    this.groupOnChanged,
+    this.groupSize,
+    this.groupCustomFontSize,
+    this.groupFontColorType,
+    this.groupFontCustomColor,
+    this.groupIconColorType,
+    this.groupIconCustomColor,
   });
 
   @override
@@ -105,18 +60,19 @@ class _ERadioState extends State<ERadio> {
 
   @override
   Widget build(BuildContext context) {
-    final radioGroup = RadioGroup.of(context);
-
-    final isChecked = radioGroup?.value == widget.value;
-    final isDisabled = widget.disabled || radioGroup?.disabled == true;
-    final size = widget.size ?? radioGroup?.size ?? ESizeItem.medium;
-    final customFontSize = widget.customFontSize ?? radioGroup?.customFontSize;
-    final fontColorType = widget.fontColorType;
+    // 优先使用 group 传递的参数，否则用自身
+    final isChecked = (widget.groupValue ?? widget.value) == widget.value;
+    final isDisabled = widget.disabled || (widget.groupDisabled ?? false);
+    final size = widget.size ?? widget.groupSize ?? ESizeItem.medium;
+    final customFontSize = widget.customFontSize ?? widget.groupCustomFontSize;
+    final fontColorType =
+        widget.fontColorType ?? widget.groupFontColorType ?? EColorType.primary;
     final fontCustomColor =
-        widget.fontCustomColor ?? radioGroup?.fontCustomColor;
-    final iconColorType = widget.iconColorType;
+        widget.fontCustomColor ?? widget.groupFontCustomColor;
+    final iconColorType =
+        widget.iconColorType ?? widget.groupIconColorType ?? EColorType.primary;
     final iconCustomColor =
-        widget.iconCustomColor ?? radioGroup?.iconCustomColor;
+        widget.iconCustomColor ?? widget.groupIconCustomColor;
 
     Widget radio = MouseRegion(
       onEnter: (_) => setState(() => _isHovered = true),
@@ -124,7 +80,11 @@ class _ERadioState extends State<ERadio> {
       child: GestureDetector(
         onTap: isDisabled
             ? null
-            : () => radioGroup?.onChanged?.call(widget.value ?? ''),
+            : () {
+                if (widget.groupOnChanged != null) {
+                  widget.groupOnChanged!(widget.value ?? '');
+                }
+              },
         child: Container(
           padding: const EdgeInsets.all(4),
           decoration: widget.border
@@ -215,107 +175,36 @@ class _ERadioState extends State<ERadio> {
   }
 }
 
-/// An inherited widget that provides radio group state to its descendants.
+/// 一组单选框，管理选中状态
 ///
-/// This widget is used internally by [ERadioGroup] to manage the state of
-/// a group of radio buttons.
-class RadioGroup extends InheritedWidget {
-  /// The currently selected value in the radio group.
-  final String? value;
-
-  /// Whether all radio buttons in the group are disabled.
-  final bool disabled;
-
-  /// Callback function when a radio button in the group is selected.
-  final ValueChanged<String>? onChanged;
-
-  /// The size of radio buttons in the group.
-  final ESizeItem size;
-
-  final double? customFontSize;
-  final EColorType fontColorType;
-  final Color? fontCustomColor;
-  final EColorType iconColorType;
-  final Color? iconCustomColor;
-
-  /// Creates a [RadioGroup] widget.
-  const RadioGroup({
-    super.key,
-    required super.child,
-    this.value,
-    this.disabled = false,
-    this.onChanged,
-    this.size = ESizeItem.medium,
-    this.customFontSize,
-    this.fontColorType = EColorType.primary,
-    this.fontCustomColor,
-    this.iconColorType = EColorType.primary,
-    this.iconCustomColor,
-  });
-
-  /// Returns the nearest [RadioGroup] widget in the widget tree.
-  ///
-  /// This method is used by [ERadio] widgets to access the group's state.
-  static RadioGroup? of(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<RadioGroup>();
-  }
-
-  @override
-  bool updateShouldNotify(RadioGroup oldWidget) {
-    return value != oldWidget.value ||
-        disabled != oldWidget.disabled ||
-        size != oldWidget.size;
-  }
-}
-
-/// A group of radio buttons that work together.
-///
-/// The [ERadioGroup] widget manages a group of [ERadio] widgets, ensuring that
-/// only one radio button can be selected at a time.
-///
-/// ## Example
+/// 用法：
 ///
 /// ```dart
 /// ERadioGroup(
 ///   value: '1',
 ///   onChanged: (value) => print('Selected: $value'),
 ///   children: [
-///     ERadio(value: '1', label: 'Option 1'),
-///     ERadio(value: '2', label: 'Option 2'),
-///     ERadio(value: '3', label: 'Option 3'),
+///     ERadio(value: '1', label: '选项1'),
+///     ERadio(value: '2', label: '选项2'),
+///     ERadio(value: '3', label: '选项3'),
 ///   ],
 /// )
 /// ```
 class ERadioGroup extends StatefulWidget {
-  /// The currently selected value in the radio group.
-  final String? value;
-
-  /// Whether all radio buttons in the group are disabled.
+  final TextEditingController? textController;
   final bool disabled;
-
-  /// Callback function when a radio button in the group is selected.
   final ValueChanged<String>? onChanged;
-
-  /// The size of radio buttons in the group.
   final ESizeItem size;
-
   final double? customFontSize;
   final EColorType fontColorType;
   final Color? fontCustomColor;
   final EColorType iconColorType;
   final Color? iconCustomColor;
-
-  /// The list of radio buttons in the group.
-  ///
-  /// Each child should be an [ERadio] widget.
   final List<Widget> children;
 
-  /// Creates an [ERadioGroup] widget.
-  ///
-  /// The [children] argument must not be null and must contain [ERadio] widgets.
   const ERadioGroup({
     super.key,
-    this.value,
+    this.textController,
     this.disabled = false,
     this.onChanged,
     this.size = ESizeItem.medium,
@@ -332,22 +221,74 @@ class ERadioGroup extends StatefulWidget {
 }
 
 class _ERadioGroupState extends State<ERadioGroup> {
+  String? _groupValue;
+
+  @override
+  void initState() {
+    super.initState();
+    _groupValue = widget.textController?.text;
+  }
+
+  @override
+  void didUpdateWidget(covariant ERadioGroup oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // 如果外部 value 变化，内部也要同步
+    if (widget.textController?.text != oldWidget.textController?.text) {
+      setState(() {
+        _groupValue = widget.textController?.text;
+      });
+    }
+  }
+
+  void _onChanged(String value) {
+    if (_groupValue != value) {
+      setState(() {
+        _groupValue = value;
+      });
+      // 新增：同步更新 textController 的值
+      if (widget.textController != null) {
+        widget.textController!.text = value;
+      }
+      if (widget.onChanged != null) {
+        widget.onChanged!(value);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return RadioGroup(
-      value: widget.value,
-      disabled: widget.disabled,
-      onChanged: widget.onChanged,
-      size: widget.size,
-      customFontSize: widget.customFontSize,
-      fontColorType: widget.fontColorType,
-      fontCustomColor: widget.fontCustomColor,
-      iconColorType: widget.iconColorType,
-      iconCustomColor: widget.iconCustomColor,
-      child: Wrap(
-        spacing: 16,
-        children: widget.children,
-      ),
+    // 遍历 children，注入 group 相关参数
+    List<Widget> radios = widget.children.map((child) {
+      if (child is ERadio) {
+        return ERadio(
+          value: child.value,
+          label: child.label,
+          disabled: child.disabled,
+          border: child.border,
+          fontColorType: child.fontColorType,
+          fontCustomColor: child.fontCustomColor,
+          iconColorType: child.iconColorType,
+          iconCustomColor: child.iconCustomColor,
+          size: child.size,
+          customFontSize: child.customFontSize,
+          name: child.name,
+          groupValue: _groupValue,
+          groupDisabled: widget.disabled,
+          groupOnChanged: _onChanged,
+          groupSize: widget.size,
+          groupCustomFontSize: widget.customFontSize,
+          groupFontColorType: widget.fontColorType,
+          groupFontCustomColor: widget.fontCustomColor,
+          groupIconColorType: widget.iconColorType,
+          groupIconCustomColor: widget.iconCustomColor,
+        );
+      }
+      return child;
+    }).toList();
+
+    return Wrap(
+      spacing: 16,
+      children: radios,
     );
   }
 }

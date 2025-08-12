@@ -22,7 +22,7 @@ class _RadioSizePreviewState extends State<RadioSizePreview> {
           const Text('大尺寸'),
           const SizedBox(height: 10),
           ERadioGroup(
-            value: value1,
+            textController: TextEditingController(text: value1),
             size: ESizeItem.large,
             onChanged: (v) => setState(() => value1 = v),
             children: [
@@ -34,7 +34,7 @@ class _RadioSizePreviewState extends State<RadioSizePreview> {
           const Text('中尺寸'),
           const SizedBox(height: 10),
           ERadioGroup(
-            value: value2,
+            textController: TextEditingController(text: value2),
             size: ESizeItem.medium,
             onChanged: (v) => setState(() => value2 = v),
             children: [
@@ -46,7 +46,7 @@ class _RadioSizePreviewState extends State<RadioSizePreview> {
           const Text('小尺寸'),
           const SizedBox(height: 10),
           ERadioGroup(
-            value: value3,
+            textController: TextEditingController(text: value3),
             size: ESizeItem.small,
             onChanged: (v) => setState(() => value3 = v),
             children: [
@@ -58,7 +58,7 @@ class _RadioSizePreviewState extends State<RadioSizePreview> {
           const Text('自定义尺寸'),
           const SizedBox(height: 10),
           ERadioGroup(
-            value: value3,
+            textController: TextEditingController(text: value3),
             customFontSize: 30,
             onChanged: (v) => setState(() => value3 = v),
             children: [
@@ -98,7 +98,7 @@ class _RadioSizeViewState extends State<RadioSizeView> {
               const Text('大尺寸'),
               const SizedBox(height: 10),
               ERadioGroup(
-                value: value1,
+                textController: TextEditingController(text: value1),
                 size: ESizeItem.large,
                 onChanged: (v) => setState(() => value1 = v),
                 children: [
@@ -110,7 +110,7 @@ class _RadioSizeViewState extends State<RadioSizeView> {
               const Text('中尺寸'),
               const SizedBox(height: 10),
               ERadioGroup(
-                value: value2,
+                textController: TextEditingController(text: value2),
                 size: ESizeItem.medium,
                 onChanged: (v) => setState(() => value2 = v),
                 children: [
@@ -122,7 +122,7 @@ class _RadioSizeViewState extends State<RadioSizeView> {
               const Text('小尺寸'),
               const SizedBox(height: 10),
               ERadioGroup(
-                value: value3,
+                textController: TextEditingController(text: value3),
                 size: ESizeItem.small,
                 onChanged: (v) => setState(() => value3 = v),
                 children: [
@@ -133,7 +133,7 @@ class _RadioSizeViewState extends State<RadioSizeView> {
               const Text('自定义尺寸'),
               const SizedBox(height: 10),
               ERadioGroup(
-                value: value3,
+                textController: TextEditingController(text: value3),
                 customFontSize: 30,
                 onChanged: (v) => setState(() => value3 = v),
                 children: [

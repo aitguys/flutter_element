@@ -18,7 +18,7 @@ class _RadioBorderPreviewState extends State<RadioBorderPreview> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ERadioGroup(
-            value: value,
+            textController: TextEditingController(text: value),
             onChanged: (v) => setState(() => value = v),
             children: [
               const ERadio(value: '1', label: 'option1', border: true),
@@ -54,7 +54,7 @@ class _RadioBorderViewState extends State<RadioBorderView> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ERadioGroup(
-                value: value,
+                textController: TextEditingController(text: value),
                 onChanged: (v) => setState(() => value = v),
                 children: [
                   const ERadio(value: '1', label: 'option1', border: true),

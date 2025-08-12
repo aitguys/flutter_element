@@ -19,7 +19,7 @@ class _RadioColorPreviewState extends State<RadioColorPreview> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ERadioGroup(
-            value: value,
+            textController: TextEditingController(text: value),
             onChanged: (v) => setState(() {
               value = v;
               Loglevel.d(v);
@@ -48,7 +48,7 @@ class _RadioColorPreviewState extends State<RadioColorPreview> {
           const Text('也可以把属性定义在ERadioGroup中，这样所有子元素都会继承这些属性'),
           const SizedBox(height: 10),
           ERadioGroup(
-            value: value,
+            textController: TextEditingController(text: value),
             fontColorType: EColorType.warning,
             fontCustomColor: Colors.black,
             iconColorType: EColorType.primary,
@@ -96,7 +96,7 @@ class _RadioColorViewState extends State<RadioColorView> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ERadioGroup(
-                value: value,
+                textController: TextEditingController(text: value),
                 onChanged: (v) => setState(() => value = v),
                 children: [
                   const ERadio(

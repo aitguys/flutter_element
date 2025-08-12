@@ -44,7 +44,7 @@ Widget _viewerContent() {
             width: 240,
             child: EDatePicker(
               type: CalendarType.date,
-              value: '2025-01-01',
+              textController: TextEditingController(text: '2025-01-01'),
               placeholder: '单个日期默认值',
               onSelect: (date) {
                 debugPrint('onSelect 触发： Selected date: $date');
@@ -60,7 +60,8 @@ Widget _viewerContent() {
             width: 240,
             child: EDatePicker(
               type: CalendarType.dates,
-              value: '2025-01-01,2025-01-02',
+              textController:
+                  TextEditingController(text: '2025-01-01,2025-01-02'),
               placeholder: '多个日期默认值',
               onSelect: (dates) {
                 debugPrint('onSelect 触发： Selected dates: $dates');

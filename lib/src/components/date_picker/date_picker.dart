@@ -7,7 +7,7 @@ import 'calendar.dart';
 import 'package:intl/intl.dart';
 
 class EDatePicker extends StatefulWidget {
-  final String? value;
+  final TextEditingController? textController;
   final String? format;
   final DateTime? minDate;
   final DateTime? maxDate;
@@ -33,7 +33,7 @@ class EDatePicker extends StatefulWidget {
   final ValueChanged<String?>? onSelect;
   const EDatePicker({
     super.key,
-    this.value,
+    this.textController,
     this.onSelect,
     this.format,
     this.type = CalendarType.date,
@@ -73,18 +73,19 @@ class _EDatePickerState extends State<EDatePicker> {
   @override
   void initState() {
     super.initState();
-    _selectedDate = widget.value;
-    _controller = TextEditingController(
-      text: _selectedDate ?? '',
-    );
+    _selectedDate = widget.textController?.text;
+    _controller = widget.textController ??
+        TextEditingController(
+          text: _selectedDate ?? '',
+        );
     _focusNode = FocusNode();
   }
 
   @override
   void didUpdateWidget(EDatePicker oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.value != oldWidget.value) {
-      _selectedDate = widget.value;
+    if (widget.textController?.text != oldWidget.textController?.text) {
+      _selectedDate = widget.textController?.text;
       _controller.text = _selectedDate ?? '';
     }
   }
@@ -191,7 +192,8 @@ class _EDatePickerState extends State<EDatePicker> {
                       maxDate: widget.maxDate,
                       onSelect: (date) {
                         _removeOverlay();
-                        if (date != null && !_isDisposed) { // 添加disposed检查
+                        if (date != null && !_isDisposed) {
+                          // 添加disposed检查
                           setState(() {
                             if (date is String) {
                               _controller.text = date;
@@ -259,8 +261,8 @@ class _EDatePickerState extends State<EDatePicker> {
           placeholder: widget.placeholder,
           clearable: widget.clearable,
           disabled: widget.disabled,
-          prefix:
-              widget.prefix ?? const Icon(Icons.calendar_month_rounded, size: 20),
+          prefix: widget.prefix ??
+              const Icon(Icons.calendar_month_rounded, size: 20),
           suffix: widget.suffix,
           size: widget.size,
           readOnly: true,

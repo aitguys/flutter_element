@@ -22,7 +22,8 @@ class _FormPreviewState extends State<FormPreview> {
     final bioController = TextEditingController();
     final cityController = TextEditingController();
     final countryController = TextEditingController(text: '');
-
+    final dateController = TextEditingController(text: '2024-11-09');
+    final genderController = TextEditingController(text: 'female');
     return Scaffold(
       appBar: AppBar(
         title: const Text('表单组件'),
@@ -40,7 +41,7 @@ class _FormPreviewState extends State<FormPreview> {
               // 表单
               EForm(
                   key: formController.key,
-                  labelPosition: EFormLabelPosition.left,
+                  labelPosition: EFormLabelPosition.top,
                   controller: formController,
                   labelWidth: 'auto',
                   children: [
@@ -49,7 +50,7 @@ class _FormPreviewState extends State<FormPreview> {
                       child: Column(
                         children: [
                           EFormItem(
-                              label: 'username',
+                              label: 'UserName',
                               isRequired: true,
                               child: EInput(
                                 textController: usernameController,
@@ -57,7 +58,18 @@ class _FormPreviewState extends State<FormPreview> {
                                 size: ESizeItem.small,
                               )),
                           EFormItem(
-                              label: 'email',
+                              label: 'Gender',
+                              isRequired: true,
+                              child: ERadioGroup(
+                                textController: genderController,
+                                onChanged: (value) {},
+                                children: const [
+                                  ERadio(label: 'Male', value: 'male'),
+                                  ERadio(label: 'Female', value: 'female'),
+                                ],
+                              )),
+                          EFormItem(
+                              label: 'Email',
                               isRequired: true,
                               validator: () {
                                 final email = emailController.text.trim();
@@ -77,7 +89,7 @@ class _FormPreviewState extends State<FormPreview> {
                                 size: ESizeItem.small,
                               )),
                           EFormItem(
-                              label: 'password',
+                              label: 'Password',
                               isRequired: true,
                               validator: () {
                                 final password = passwordController.text;
@@ -99,7 +111,7 @@ class _FormPreviewState extends State<FormPreview> {
                                 password: true,
                               )),
                           EFormItem(
-                              label: 'confirm',
+                              label: 'Confirm Password',
                               isRequired: true,
                               validator: () {
                                 final confirmPassword =
@@ -120,40 +132,22 @@ class _FormPreviewState extends State<FormPreview> {
                                 password: true,
                               )),
                           EFormItem(
-                              label: 'age',
-                              isRequired: false,
+                              label: 'Date Of Birth',
+                              isRequired: true,
                               validator: () {
-                                final age = ageController.text.trim();
-                                if (age.isNotEmpty) {
-                                  final ageNum = int.tryParse(age);
-                                  if (ageNum == null) {
-                                    return '请输入有效的年龄';
-                                  }
-                                  if (ageNum < 0 || ageNum > 120) {
-                                    return '年龄必须在0-120之间';
-                                  }
+                                if (dateController.text.isEmpty) {
+                                  return '请选择日期';
                                 }
                                 return null;
                               },
-                              child: EInput(
-                                textController: ageController,
-                                placeholder: '请输入年龄',
+                              child: EDatePicker(
+                                placeholder: '请选择日期',
                                 size: ESizeItem.small,
-                              )),
-                          EFormItem(
-                              label: 'description',
-                              isRequired: false,
-                              validator: () {
-                                final bio = bioController.text.trim();
-                                if (bio.isNotEmpty && bio.length > 200) {
-                                  return '个人简介不能超过200个字符';
-                                }
-                                return null;
-                              },
-                              child: EInput(
-                                textController: bioController,
-                                placeholder: '请输入个人简介',
-                                size: ESizeItem.small,
+                                type: CalendarType.date,
+                                textController: dateController,
+                                onSelect: (value) {
+                                  // date = value ?? '';
+                                },
                               )),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -244,6 +238,10 @@ class _FormPreviewState extends State<FormPreview> {
                                       print('邮箱: ${emailController.text}');
                                       print('年龄: ${ageController.text}');
                                       print('简介: ${bioController.text}');
+                                      print('日期: ${dateController.text}');
+                                      print('性别: ${genderController.text}');
+                                      print('城市: ${cityController.text}');
+                                      print('国家: ${countryController.text}');
                                     } else {
                                       // 验证失败，显示错误信息
                                       print('验证失败，显示错误信息');
@@ -263,7 +261,6 @@ class _FormPreviewState extends State<FormPreview> {
                                 child: EButton(
                                   text: '重置表单',
                                   onPressed: () {
-                                    formController.reset();
                                     // 清空所有输入框
                                     usernameController.clear();
                                     emailController.clear();
@@ -359,45 +356,6 @@ class _FormPreviewState extends State<FormPreview> {
               ),
 
               const SizedBox(height: 16),
-
-              // 验证规则说明
-              ECard(
-                header: const Text('验证规则说明'),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text('用户名验证规则:',
-                        style: TextStyle(fontWeight: FontWeight.bold)),
-                    const Text('• 必填字段'),
-                    const Text('• 长度3-20个字符'),
-                    const SizedBox(height: 8),
-                    const Text('邮箱验证规则:',
-                        style: TextStyle(fontWeight: FontWeight.bold)),
-                    const Text('• 必填字段'),
-                    const Text('• 符合邮箱格式'),
-                    const SizedBox(height: 8),
-                    const Text('密码验证规则:',
-                        style: TextStyle(fontWeight: FontWeight.bold)),
-                    const Text('• 必填字段'),
-                    const Text('• 长度6-20个字符'),
-                    const SizedBox(height: 8),
-                    const Text('确认密码验证规则:',
-                        style: TextStyle(fontWeight: FontWeight.bold)),
-                    const Text('• 必填字段'),
-                    const Text('• 与密码一致'),
-                    const SizedBox(height: 8),
-                    const Text('年龄验证规则:',
-                        style: TextStyle(fontWeight: FontWeight.bold)),
-                    const Text('• 可选字段'),
-                    const Text('• 0-120之间的整数'),
-                    const SizedBox(height: 8),
-                    const Text('简介验证规则:',
-                        style: TextStyle(fontWeight: FontWeight.bold)),
-                    const Text('• 可选字段'),
-                    const Text('• 不超过200个字符'),
-                  ],
-                ),
-              ),
             ],
           ),
         ),

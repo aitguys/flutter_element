@@ -19,7 +19,7 @@ class _RadioBasicPreviewState extends State<RadioBasicPreview> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ERadioGroup(
-            value: value,
+            textController: TextEditingController(text: value),
             onChanged: (v) => setState(() {
               value = v;
               Loglevel.d(v);
@@ -63,8 +63,8 @@ class _RadioBasicViewState extends State<RadioBasicView> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ERadioGroup(
-                value: value,
-                onChanged: (v) => setState(() => value = v),
+                textController: TextEditingController(text: value),
+                // onChanged: (v) => setState(() => value = v),
                 children: [
                   const ERadio(value: '1', label: 'option1'),
                   const ERadio(value: '2', label: 'option2'),
