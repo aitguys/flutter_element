@@ -254,8 +254,8 @@ class EDescriptions extends StatelessWidget {
             ),
             const SizedBox(height: 6),
             DefaultTextStyle(
-              style: const TextStyle(
-                fontSize: 14,
+              style: TextStyle(
+                fontSize: itemContentFontSize,
                 fontWeight: FontWeight.normal,
               ),
               child: Container(
