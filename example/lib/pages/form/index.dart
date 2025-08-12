@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element_plus/flutter_element_plus.dart';
+import '../../logger/logger.dart';
 
 class FormPreview extends StatefulWidget {
   const FormPreview({super.key});
@@ -233,18 +234,21 @@ class _FormPreviewState extends State<FormPreview> {
                                       );
 
                                       // 打印表单数据
-                                      print('表单数据:');
-                                      print('用户名: ${usernameController.text}');
-                                      print('邮箱: ${emailController.text}');
-                                      print('年龄: ${ageController.text}');
-                                      print('简介: ${bioController.text}');
-                                      print('日期: ${dateController.text}');
-                                      print('性别: ${genderController.text}');
-                                      print('城市: ${cityController.text}');
-                                      print('国家: ${countryController.text}');
+                                      Loglevel.d('表单数据:');
+                                      Loglevel.d(
+                                          '用户名: ${usernameController.text}');
+                                      Loglevel.d('邮箱: ${emailController.text}');
+                                      Loglevel.d('年龄: ${ageController.text}');
+                                      Loglevel.d('简介: ${bioController.text}');
+                                      Loglevel.d('日期: ${dateController.text}');
+                                      Loglevel.d(
+                                          '性别: ${genderController.text}');
+                                      Loglevel.d('城市: ${cityController.text}');
+                                      Loglevel.d(
+                                          '国家: ${countryController.text}');
                                     } else {
                                       // 验证失败，显示错误信息
-                                      print('验证失败，显示错误信息');
+                                      Loglevel.d('验证失败，显示错误信息');
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         const SnackBar(
@@ -294,9 +298,9 @@ class _FormPreviewState extends State<FormPreview> {
                                   text: '测试验证',
                                   onPressed: () {
                                     // 测试单个字段验证
-                                    print('测试表单验证...');
+                                    Loglevel.d('测试表单验证...');
                                     final isValid = formController.valid();
-                                    print('表单验证结果: $isValid');
+                                    Loglevel.d('表单验证结果: $isValid');
                                   },
                                 ),
                               ),

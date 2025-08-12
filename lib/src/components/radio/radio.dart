@@ -65,12 +65,9 @@ class _ERadioState extends State<ERadio> {
     final isDisabled = widget.disabled || (widget.groupDisabled ?? false);
     final size = widget.size ?? widget.groupSize ?? ESizeItem.medium;
     final customFontSize = widget.customFontSize ?? widget.groupCustomFontSize;
-    final fontColorType =
-        widget.fontColorType ?? widget.groupFontColorType ?? EColorType.primary;
-    final fontCustomColor =
-        widget.fontCustomColor ?? widget.groupFontCustomColor;
-    final iconColorType =
-        widget.iconColorType ?? widget.groupIconColorType ?? EColorType.primary;
+    final fontColorType = widget.fontColorType;
+    final fontCustomColor = widget.fontCustomColor;
+    final iconColorType = widget.iconColorType;
     final iconCustomColor =
         widget.iconCustomColor ?? widget.groupIconCustomColor;
 

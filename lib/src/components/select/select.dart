@@ -97,7 +97,7 @@ class _ESelectState extends State<ESelect> {
         return widget.options
             .firstWhere((option) => option.value == currentValue,
                 orElse: () =>
-                    SelectOption(label: currentValue!, value: currentValue!))
+                    SelectOption(label: currentValue, value: currentValue))
             .label;
       } catch (e) {
         return currentValue.toString();

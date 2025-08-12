@@ -16,6 +16,7 @@ class EFormController {
   final GlobalKey<_EFormState> _key;
 
   EFormController() : _key = GlobalKey<_EFormState>();
+  // ignore: library_private_types_in_public_api
   GlobalKey<_EFormState> get key => _key;
 
   /// 校验表单
@@ -37,11 +38,11 @@ class _EFormInherited extends InheritedWidget {
   final double? autoLabelWidth;
 
   const _EFormInherited({
-    required Widget child,
+    required super.child,
     required this.labelPosition,
     required this.labelWidth,
     required this.autoLabelWidth,
-  }) : super(child: child);
+  });
 
   static _EFormInherited? of(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<_EFormInherited>();
