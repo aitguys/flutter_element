@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'descriptions_basic.dart';
 import 'descriptions_border.dart';
-import 'descriptions_column.dart';
-import 'descriptions_size.dart';
 
 class DescriptionsPreview extends StatelessWidget {
   const DescriptionsPreview({super.key});
@@ -22,8 +20,6 @@ class DescriptionsPreview extends StatelessWidget {
           children: [
             DescriptionsBasicPreview(),
             DescriptionsBorderPreview(),
-            DescriptionsColumnPreview(),
-            DescriptionsSizePreview(),
           ],
         ),
       ),

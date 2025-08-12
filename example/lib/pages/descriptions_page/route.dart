@@ -2,8 +2,6 @@ import 'package:get/get.dart';
 import 'index.dart';
 import 'descriptions_basic.dart';
 import 'descriptions_border.dart';
-import 'descriptions_column.dart';
-import 'descriptions_size.dart';
 
 abstract class DescriptionsRoutes {
   static const descriptions = '/descriptions';
@@ -26,13 +24,5 @@ final descriptionsRoutesPages = [
   GetPage(
     name: DescriptionsRoutes.descriptionsBorder,
     page: () => const DescriptionsBorderView(),
-  ),
-  GetPage(
-    name: DescriptionsRoutes.descriptionsColumn,
-    page: () => const DescriptionsColumnView(),
-  ),
-  GetPage(
-    name: DescriptionsRoutes.descriptionsSize,
-    page: () => const DescriptionsSizeView(),
   ),
 ];

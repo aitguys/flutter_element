@@ -38,12 +38,26 @@ Widget _viewerContent() {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         EDescriptions(
-          title: '用户信息',
+          title: 'User Info - direction: horizontal',
           items: [
-            EDescriptionItem(label: '用户名', content: Text('张三')),
-            EDescriptionItem(label: '手机号', content: Text('12345678901')),
-            EDescriptionItem(label: '住址', content: Text('北京市朝阳区')),
-            EDescriptionItem(label: '备注', content: Text('VIP用户')),
+            EDescriptionItem(label: 'Username', content: Text('zhangsan')),
+            EDescriptionItem(
+                label: 'Phone Number', content: Text('12345678901')),
+            EDescriptionItem(label: 'Address', content: Text('北京市朝阳区')),
+            EDescriptionItem(label: 'Remark', content: Text('VIP用户')),
+            EDescriptionItem(label: 'Address', content: Text('北京市朝阳区')),
+          ],
+        ),
+        EDescriptions(
+          title: 'User Info - direction: vertical',
+          direction: EDescriptionsDirection.vertical,
+          items: [
+            EDescriptionItem(label: 'Username', content: Text('zhangsan')),
+            EDescriptionItem(
+                label: 'Phone Number', content: Text('12345678901')),
+            EDescriptionItem(label: 'Address', content: Text('北京市朝阳区')),
+            EDescriptionItem(label: 'Remark', content: Text('VIP用户')),
+            EDescriptionItem(label: 'Address', content: Text('北京市朝阳区')),
           ],
         ),
       ],

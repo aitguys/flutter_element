@@ -63,12 +63,11 @@ Widget _viewerContent() {
           SizedBox(
             width: 240,
             child: EDatePicker(
-              type: CalendarType.month,
-              placeholder: '选择月份',
-              onSelect: (date) {
-                debugPrint('onSelect 触发： Selected date: $date');
-              },
-            ),
+                type: CalendarType.month,
+                placeholder: '选择月份',
+                onSelect: (date) {
+                  debugPrint('onSelect 触发： Selected date: $date');
+                }),
           ),
         ],
       ),
