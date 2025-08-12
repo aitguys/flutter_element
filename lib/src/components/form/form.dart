@@ -36,12 +36,14 @@ class _EFormInherited extends InheritedWidget {
   final String labelPosition;
   final dynamic labelWidth; // double 或 'auto'
   final double? autoLabelWidth;
+  final TextStyle formItemTextStyle;
 
   const _EFormInherited({
     required super.child,
     required this.labelPosition,
     required this.labelWidth,
     required this.autoLabelWidth,
+    required this.formItemTextStyle,
   });
 
   static _EFormInherited? of(BuildContext context) {
@@ -52,7 +54,8 @@ class _EFormInherited extends InheritedWidget {
   bool updateShouldNotify(_EFormInherited oldWidget) {
     return labelPosition != oldWidget.labelPosition ||
         labelWidth != oldWidget.labelWidth ||
-        autoLabelWidth != oldWidget.autoLabelWidth;
+        autoLabelWidth != oldWidget.autoLabelWidth ||
+        formItemTextStyle != oldWidget.formItemTextStyle;
   }
 }
 
@@ -61,6 +64,7 @@ class EForm extends StatefulWidget {
   final String labelPosition;
   final dynamic labelWidth; // double 或 'auto'
   final EFormController controller;
+  final TextStyle formItemTextStyle;
 
   const EForm({
     super.key,
@@ -68,6 +72,7 @@ class EForm extends StatefulWidget {
     this.labelPosition = EFormLabelPosition.left,
     this.labelWidth = 'auto',
     required this.controller,
+    this.formItemTextStyle = const TextStyle(fontSize: 14),
   });
 
   @override
@@ -143,7 +148,9 @@ class _EFormState extends State<EForm> {
 
     for (final item in _itemStates) {
       if (item.mounted) {
-        double fontSize = item.widget.fontSize;
+        double fontSize = item.widget.textStyle?.fontSize ??
+            widget.formItemTextStyle.fontSize ??
+            14;
         if (RegExp(r'[\u4e00-\u9fa5]').hasMatch(item.widget.label)) {
           fontSize = fontSize * 2;
         }
@@ -163,8 +170,7 @@ class _EFormState extends State<EForm> {
           final starPainter = TextPainter(
             text: TextSpan(
               text: '*',
-              style:
-                  TextStyle(color: Colors.red, fontSize: item.widget.fontSize),
+              style: TextStyle(color: Colors.red, fontSize: fontSize),
             ),
             textDirection: TextDirection.ltr,
           );
@@ -191,6 +197,7 @@ class _EFormState extends State<EForm> {
       labelPosition: widget.labelPosition,
       labelWidth: widget.labelWidth,
       autoLabelWidth: _autoLabelWidth,
+      formItemTextStyle: widget.formItemTextStyle,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: widget.children,
@@ -204,7 +211,7 @@ typedef EFormItemValidator = String? Function();
 class EFormItem extends StatefulWidget {
   final String label;
   final Widget child;
-  final double fontSize;
+  final TextStyle? textStyle; // 改为可空，如果没有提供则从 EForm 继承
   final String? labelPosition;
   final bool isRequired;
   final dynamic labelWidth; // double 或 'auto'
@@ -214,7 +221,7 @@ class EFormItem extends StatefulWidget {
     super.key,
     required this.label,
     required this.child,
-    this.fontSize = 14,
+    this.textStyle, // 移除默认值
     this.labelPosition,
     this.isRequired = false,
     this.labelWidth,
@@ -249,6 +256,15 @@ class _EFormItemState extends State<EFormItem> {
   void dispose() {
     _formState?.unregisterItem(this);
     super.dispose();
+  }
+
+  /// 获取有效的字体大小，优先使用自身的，否则从 EForm 继承
+  TextStyle _getEffectiveTextStyle(BuildContext context) {
+    if (widget.textStyle != null) {
+      return widget.textStyle!;
+    }
+    final inherited = _EFormInherited.of(context);
+    return inherited?.formItemTextStyle ?? const TextStyle(fontSize: 14);
   }
 
   String _getEffectiveLabelPosition(BuildContext context) {
@@ -327,11 +343,11 @@ class _EFormItemState extends State<EFormItem> {
   }
 
   /// 测量当前标签的实际宽度
-  double _measureActualLabelWidth({required double fontSize}) {
+  double _measureActualLabelWidth({required TextStyle textStyle}) {
     final textPainter = TextPainter(
       text: TextSpan(
         text: widget.label,
-        style: TextStyle(fontSize: fontSize),
+        style: textStyle,
       ),
       textDirection: TextDirection.ltr,
     );
@@ -343,7 +359,7 @@ class _EFormItemState extends State<EFormItem> {
       final starPainter = TextPainter(
         text: TextSpan(
           text: '*',
-          style: TextStyle(color: Colors.red, fontSize: fontSize),
+          style: textStyle,
         ),
         textDirection: TextDirection.ltr,
       );
@@ -359,6 +375,7 @@ class _EFormItemState extends State<EFormItem> {
     final effectiveLabelPosition = _getEffectiveLabelPosition(context);
     final effectiveLabelWidth = _getEffectiveLabelWidth(context);
     final autoLabelWidth = _getAutoLabelWidth(context);
+    final effectiveTextStyle = _getEffectiveTextStyle(context);
 
     Widget mainContent;
     if (effectiveLabelPosition == EFormLabelPosition.left ||
@@ -366,7 +383,7 @@ class _EFormItemState extends State<EFormItem> {
       // 横向布局
       Widget labelWidget = _EFormItemLabelMeasure(
         label: widget.label,
-        fontSize: widget.fontSize,
+        textStyle: effectiveTextStyle,
         isRequired: widget.isRequired,
         labelPosition: effectiveLabelPosition,
       );
@@ -381,7 +398,7 @@ class _EFormItemState extends State<EFormItem> {
       Widget labelBox;
       if (width != null) {
         final actualLabelWidth =
-            _measureActualLabelWidth(fontSize: widget.fontSize);
+            _measureActualLabelWidth(textStyle: effectiveTextStyle);
         final shouldUseFixedWidth = actualLabelWidth <= width;
 
         if (shouldUseFixedWidth) {
@@ -463,7 +480,7 @@ class _EFormItemState extends State<EFormItem> {
         children: [
           Row(
             children: [
-              Text(widget.label, style: TextStyle(fontSize: widget.fontSize)),
+              Text(widget.label, style: effectiveTextStyle),
               Padding(
                 padding: const EdgeInsets.only(left: 2.0),
                 child: widget.isRequired
@@ -494,13 +511,13 @@ class _EFormItemState extends State<EFormItem> {
 /// 用于测量label宽度的组件
 class _EFormItemLabelMeasure extends StatelessWidget {
   final String label;
-  final double fontSize;
+  final TextStyle textStyle;
   final bool isRequired;
   final String? labelPosition;
 
   const _EFormItemLabelMeasure({
     required this.label,
-    required this.fontSize,
+    required this.textStyle,
     required this.isRequired,
     this.labelPosition,
   });
@@ -524,14 +541,14 @@ class _EFormItemLabelMeasure extends StatelessWidget {
                   )
                 : const SizedBox(width: 10),
           ),
-          Text(label, style: TextStyle(fontSize: fontSize)),
+          Text(label, style: textStyle),
         ],
       );
     } else {
       return Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(label, style: TextStyle(fontSize: fontSize)),
+          Text(label, style: textStyle),
           Padding(
             padding: const EdgeInsets.only(left: 2.0),
             child: isRequired

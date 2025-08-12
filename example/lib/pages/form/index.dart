@@ -44,6 +44,8 @@ class _FormPreviewState extends State<FormPreview> {
                   key: formController.key,
                   labelPosition: EFormLabelPosition.top,
                   controller: formController,
+                  formItemTextStyle:
+                      const TextStyle(fontSize: 16, color: Colors.black),
                   labelWidth: 'auto',
                   children: [
                     ECard(
