@@ -1,3 +1,7 @@
+## 0.1.21
+
+add form widget and valid func
+
 ## 0.1.20
 
 Added form element
