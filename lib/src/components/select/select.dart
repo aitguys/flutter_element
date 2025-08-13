@@ -21,6 +21,7 @@ class ESelect extends StatefulWidget {
   final dynamic value;
   final List<SelectOption> options;
   final bool disabled;
+  final bool readOnly;
   final bool clearable;
   final bool multiple;
   final ESizeItem size;
@@ -45,6 +46,7 @@ class ESelect extends StatefulWidget {
     this.value,
     required this.options,
     this.disabled = false,
+    this.readOnly = false,
     this.clearable = false,
     this.multiple = false,
     this.size = ESizeItem.medium,
@@ -67,6 +69,56 @@ class ESelect extends StatefulWidget {
 
   @override
   State<ESelect> createState() => _ESelectState();
+
+  ESelect copyWith({
+    dynamic? value,
+    List<SelectOption>? options,
+    bool? disabled,
+    bool? readOnly,
+    bool? clearable,
+    bool? multiple,
+    ESizeItem? size,
+    String? placeholder,
+    Widget? header,
+    EColorType? colorType,
+    Widget? suffix,
+    Widget? prefix,
+    Widget? prepend,
+    Widget? append,
+    Color? customColor,
+    Color? defaultColor,
+    double? customHeight,
+    double? customFontSize,
+    double? customBorderRadius,
+    bool? showPlaceholderOnTop,
+    ValueChanged<dynamic>? onChanged,
+    VoidCallback? onClear,
+  }) {
+    return ESelect(
+      value: value ?? this.value,
+      options: options ?? this.options,
+      disabled: disabled ?? this.disabled,
+      readOnly: readOnly ?? this.readOnly,
+      clearable: clearable ?? this.clearable,
+      multiple: multiple ?? this.multiple,
+      size: size ?? this.size,
+      placeholder: placeholder ?? this.placeholder,
+      header: header ?? this.header,
+      colorType: colorType ?? this.colorType,
+      customColor: customColor ?? this.customColor,
+      defaultColor: defaultColor ?? this.defaultColor,
+      customHeight: customHeight ?? this.customHeight,
+      customFontSize: customFontSize ?? this.customFontSize,
+      customBorderRadius: customBorderRadius ?? this.customBorderRadius,
+      showPlaceholderOnTop: showPlaceholderOnTop ?? this.showPlaceholderOnTop,
+      onChanged: onChanged ?? this.onChanged,
+      onClear: onClear ?? this.onClear,
+      suffix: suffix ?? this.suffix,
+      prefix: prefix ?? this.prefix,
+      prepend: prepend ?? this.prepend,
+      append: append ?? this.append,
+    );
+  }
 }
 
 class _ESelectState extends State<ESelect> {
@@ -185,8 +237,9 @@ class _ESelectState extends State<ESelect> {
                             final isSelected = widget.multiple
                                 ? _selectedValues.contains(option.value)
                                 : option.value == widget.value;
-                            final isDisabled =
-                                option.disabled || widget.disabled;
+                            final isDisabled = option.disabled ||
+                                widget.disabled ||
+                                widget.readOnly;
 
                             return InkWell(
                               onTap: isDisabled
@@ -344,7 +397,7 @@ class _ESelectState extends State<ESelect> {
         textController: _controller,
         focusNode: _focusNode,
         disabled: widget.disabled,
-        readOnly: true,
+        readOnly: widget.readOnly,
         clearable: widget.clearable,
         placeholder: widget.placeholder,
         colorType: widget.colorType,

@@ -4,6 +4,8 @@ import '../select/select.dart';
 import '../input_number/input_number.dart';
 import '../input_tag/input_tag.dart';
 import '../radio/radio.dart';
+import 'package:flutter_element_plus/src/theme/index.dart';
+import '../date_picker/date_picker.dart';
 
 class EFormLabelPosition {
   static const left = 'left';
@@ -37,6 +39,9 @@ class _EFormInherited extends InheritedWidget {
   final dynamic labelWidth; // double 或 'auto'
   final double? autoLabelWidth;
   final TextStyle formItemTextStyle;
+  final bool? disabled;
+  final bool? readOnly;
+  final ESizeItem? size;
 
   const _EFormInherited({
     required super.child,
@@ -44,6 +49,9 @@ class _EFormInherited extends InheritedWidget {
     required this.labelWidth,
     required this.autoLabelWidth,
     required this.formItemTextStyle,
+    this.disabled,
+    this.readOnly,
+    this.size,
   });
 
   static _EFormInherited? of(BuildContext context) {
@@ -55,7 +63,10 @@ class _EFormInherited extends InheritedWidget {
     return labelPosition != oldWidget.labelPosition ||
         labelWidth != oldWidget.labelWidth ||
         autoLabelWidth != oldWidget.autoLabelWidth ||
-        formItemTextStyle != oldWidget.formItemTextStyle;
+        formItemTextStyle != oldWidget.formItemTextStyle ||
+        disabled != oldWidget.disabled ||
+        readOnly != oldWidget.readOnly ||
+        size != oldWidget.size;
   }
 }
 
@@ -65,7 +76,9 @@ class EForm extends StatefulWidget {
   final dynamic labelWidth; // double 或 'auto'
   final EFormController controller;
   final TextStyle formItemTextStyle;
-
+  final bool disabled;
+  final bool readOnly;
+  final ESizeItem size;
   const EForm({
     super.key,
     required this.children,
@@ -73,6 +86,9 @@ class EForm extends StatefulWidget {
     this.labelWidth = 'auto',
     required this.controller,
     this.formItemTextStyle = const TextStyle(fontSize: 14),
+    this.disabled = false,
+    this.readOnly = false,
+    this.size = ESizeItem.small,
   });
 
   @override
@@ -198,6 +214,9 @@ class _EFormState extends State<EForm> {
       labelWidth: widget.labelWidth,
       autoLabelWidth: _autoLabelWidth,
       formItemTextStyle: widget.formItemTextStyle,
+      disabled: widget.disabled,
+      readOnly: widget.readOnly,
+      size: widget.size,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: widget.children,
@@ -281,6 +300,21 @@ class _EFormItemState extends State<EFormItem> {
   double? _getAutoLabelWidth(BuildContext context) {
     final inherited = _EFormInherited.of(context);
     return inherited?.autoLabelWidth;
+  }
+
+  bool _getFormDisabled(BuildContext context) {
+    final inherited = _EFormInherited.of(context);
+    return inherited?.disabled ?? false;
+  }
+
+  bool _getFormReadOnly(BuildContext context) {
+    final inherited = _EFormInherited.of(context);
+    return inherited?.readOnly ?? false;
+  }
+
+  ESizeItem _getFormSize(BuildContext context) {
+    final inherited = _EFormInherited.of(context);
+    return inherited?.size ?? ESizeItem.small;
   }
 
   /// 校验本item
@@ -370,14 +404,46 @@ class _EFormItemState extends State<EFormItem> {
     return labelWidth;
   }
 
+  /// 根据类型自动注入 disabled 属性
+  Widget _injectPropsToChild(
+      Widget child, bool disabled, bool readOnly, ESizeItem size) {
+    if (child is EInput) {
+      // 使用 copyWith 方法，只覆盖 disabled 属性
+      return child.copyWith(disabled: disabled, size: size, readOnly: readOnly);
+    } else if (child is EDatePicker) {
+      return child.copyWith(
+        disabled: disabled,
+        size: size,
+      );
+    } else if (child is ERadioGroup) {
+      return child.copyWith(
+        disabled: disabled,
+        size: size,
+      );
+    } else if (child is ESelect) {
+      return child.copyWith(
+        disabled: disabled,
+        size: size,
+      );
+    }
+    // 其他类型不处理
+    return child;
+  }
+
   @override
   Widget build(BuildContext context) {
     final effectiveLabelPosition = _getEffectiveLabelPosition(context);
     final effectiveLabelWidth = _getEffectiveLabelWidth(context);
     final autoLabelWidth = _getAutoLabelWidth(context);
     final effectiveTextStyle = _getEffectiveTextStyle(context);
+    final formDisabled = _getFormDisabled(context);
+    final formReadOnly = _getFormReadOnly(context);
+    final formSize = _getFormSize(context);
 
     Widget mainContent;
+    Widget childWithDisabled =
+        _injectPropsToChild(widget.child, formDisabled, formReadOnly, formSize);
+
     if (effectiveLabelPosition == EFormLabelPosition.left ||
         effectiveLabelPosition == EFormLabelPosition.right) {
       // 横向布局
@@ -450,7 +516,7 @@ class _EFormItemState extends State<EFormItem> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              widget.child,
+              childWithDisabled,
               if (errorWidget != null) errorWidget,
             ],
           ),
@@ -493,7 +559,7 @@ class _EFormItemState extends State<EFormItem> {
             ],
           ),
           const SizedBox(height: 8),
-          widget.child,
+          childWithDisabled,
           if (errorWidget != null) errorWidget,
         ],
       );

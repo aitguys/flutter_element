@@ -60,6 +60,57 @@ class EDatePicker extends StatefulWidget {
   });
   @override
   State<EDatePicker> createState() => _EDatePickerState();
+  EDatePicker copyWith({
+    TextEditingController? textController,
+    ValueChanged<String?>? onSelect,
+    String? format,
+    CalendarType? type,
+    bool? weekDate,
+    DateTime? minDate,
+    DateTime? maxDate,
+    Widget? prevMonth,
+    Widget? nextMonth,
+    Widget? prevYear,
+    Widget? nextYear,
+    String? placeholder,
+    bool? disabled,
+    bool? clearable,
+    ESizeItem? size,
+    Widget? prefix,
+    Widget? suffix,
+    EColorType? colorType,
+    Color? customColor,
+    Color? defaultColor,
+    double? customHeight,
+    double? customFontSize,
+    double? customBorderRadius,
+  }) {
+    return EDatePicker(
+      textController: textController ?? this.textController,
+      onSelect: onSelect ?? this.onSelect,
+      format: format ?? this.format,
+      type: type ?? this.type,
+      weekDate: weekDate ?? this.weekDate,
+      minDate: minDate ?? this.minDate,
+      maxDate: maxDate ?? this.maxDate,
+      prevMonth: prevMonth ?? this.prevMonth,
+      nextMonth: nextMonth ?? this.nextMonth,
+      prevYear: prevYear ?? this.prevYear,
+      nextYear: nextYear ?? this.nextYear,
+      placeholder: placeholder ?? this.placeholder,
+      disabled: disabled ?? this.disabled,
+      clearable: clearable ?? this.clearable,
+      size: size ?? this.size,
+      prefix: this.prefix,
+      suffix: this.suffix,
+      colorType: this.colorType,
+      customColor: this.customColor,
+      defaultColor: this.defaultColor,
+      customHeight: this.customHeight,
+      customFontSize: this.customFontSize,
+      customBorderRadius: this.customBorderRadius,
+    );
+  }
 }
 
 class _EDatePickerState extends State<EDatePicker> {

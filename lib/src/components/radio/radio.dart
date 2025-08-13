@@ -215,6 +215,32 @@ class ERadioGroup extends StatefulWidget {
 
   @override
   State<ERadioGroup> createState() => _ERadioGroupState();
+
+  ERadioGroup copyWith({
+    TextEditingController? textController,
+    bool? disabled,
+    ValueChanged<String>? onChanged,
+    ESizeItem? size,
+    double? customFontSize,
+    EColorType? fontColorType,
+    Color? fontCustomColor,
+    EColorType? iconColorType,
+    Color? iconCustomColor,
+    List<Widget>? children,
+  }) {
+    return ERadioGroup(
+      textController: textController ?? this.textController,
+      disabled: disabled ?? this.disabled,
+      onChanged: onChanged ?? this.onChanged,
+      size: size ?? this.size,
+      customFontSize: customFontSize ?? this.customFontSize,
+      fontColorType: fontColorType ?? this.fontColorType,
+      fontCustomColor: fontCustomColor ?? this.fontCustomColor,
+      iconColorType: iconColorType ?? this.iconColorType,
+      iconCustomColor: iconCustomColor ?? this.iconCustomColor,
+      children: children ?? this.children,
+    );
+  }
 }
 
 class _ERadioGroupState extends State<ERadioGroup> {

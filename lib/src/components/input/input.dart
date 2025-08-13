@@ -146,6 +146,61 @@ class EInput extends StatefulWidget {
 
   @override
   State<EInput> createState() => _EInputState();
+
+  /// 创建一个新的 EInput 实例，支持覆盖特定属性
+  EInput copyWith({
+    Key? key,
+    TextEditingController? textController,
+    ValueChanged<String>? onChanged,
+    String? placeholder,
+    bool? clearable,
+    bool? disabled,
+    bool? readOnly,
+    Widget? prefix,
+    Widget? suffix,
+    Widget? prepend,
+    Widget? append,
+    EColorType? colorType,
+    ESizeItem? size,
+    Color? customColor,
+    Color? borderColor,
+    double? customHeight,
+    double? customFontSize,
+    double? customBorderRadius,
+    VoidCallback? onFocus,
+    VoidCallback? onBlur,
+    bool? showPlaceholderOnTop,
+    bool? password,
+    FocusNode? focusNode,
+    VoidCallback? onClear,
+  }) {
+    return EInput(
+      key: key ?? this.key,
+      textController: textController ?? this.textController,
+      onChanged: onChanged ?? this.onChanged,
+      placeholder: placeholder ?? this.placeholder,
+      clearable: clearable ?? this.clearable,
+      disabled: disabled ?? this.disabled,
+      readOnly: readOnly ?? this.readOnly,
+      prefix: prefix ?? this.prefix,
+      suffix: suffix ?? this.suffix,
+      prepend: prepend ?? this.prepend,
+      append: append ?? this.append,
+      colorType: colorType ?? this.colorType,
+      size: size ?? this.size,
+      customColor: customColor ?? this.customColor,
+      borderColor: borderColor ?? this.borderColor,
+      customHeight: customHeight ?? this.customHeight,
+      customFontSize: customFontSize ?? this.customFontSize,
+      customBorderRadius: customBorderRadius ?? this.customBorderRadius,
+      onFocus: onFocus ?? this.onFocus,
+      onBlur: onBlur ?? this.onBlur,
+      showPlaceholderOnTop: showPlaceholderOnTop ?? this.showPlaceholderOnTop,
+      password: password ?? this.password,
+      focusNode: focusNode ?? this.focusNode,
+      onClear: onClear ?? this.onClear,
+    );
+  }
 }
 
 class _EInputState extends State<EInput> {
@@ -329,7 +384,7 @@ class _EInputState extends State<EInput> {
                               widget.onFocus?.call();
                             }
                           : null,
-                      enableInteractiveSelection: false,
+                      enableInteractiveSelection: true,
                     ),
                   ),
                   if (widget.clearable && _hasValue && !widget.disabled)
