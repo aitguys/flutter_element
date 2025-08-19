@@ -71,7 +71,7 @@ class ESelect extends StatefulWidget {
   State<ESelect> createState() => _ESelectState();
 
   ESelect copyWith({
-    dynamic? value,
+    dynamic value,
     List<SelectOption>? options,
     bool? disabled,
     bool? readOnly,

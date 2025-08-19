@@ -192,7 +192,6 @@ class _FormPreviewState extends State<FormPreview> {
                                             return '错误';
                                           }
                                           return null;
-                                          return null;
                                         },
                                         child: ESelect(
                                           key: ValueKey(countryController
