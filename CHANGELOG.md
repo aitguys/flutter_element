@@ -1,3 +1,7 @@
+## 0.1.25
+
+Bugs Fixed
+
 ## 0.1.24
 
 Added MaxLine
