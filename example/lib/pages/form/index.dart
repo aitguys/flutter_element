@@ -78,6 +78,14 @@ class _FormPreviewState extends State<FormPreview> {
                               EFormItem(
                                   label: 'Email',
                                   isRequired: true,
+                                  labelRightChild: EButton(
+                                    onPressed: () {
+                                      print('help');
+                                    },
+                                    isLink: true,
+                                    size: ESizeItem.small,
+                                    icon: Icons.help_outline,
+                                  ),
                                   validator: () {
                                     final email = emailController.text.trim();
                                     if (email.isEmpty) {

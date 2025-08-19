@@ -235,6 +235,7 @@ class EFormItem extends StatefulWidget {
   final bool isRequired;
   final dynamic labelWidth; // double 或 'auto'
   final EFormItemValidator? validator;
+  final Widget? labelRightChild; // 添加label右侧子组件
 
   const EFormItem({
     super.key,
@@ -245,6 +246,7 @@ class EFormItem extends StatefulWidget {
     this.isRequired = false,
     this.labelWidth,
     this.validator,
+    this.labelRightChild, // 添加label右侧子组件参数
   });
 
   @override
@@ -547,6 +549,13 @@ class _EFormItemState extends State<EFormItem> {
           Row(
             children: [
               Text(widget.label, style: effectiveTextStyle),
+              Visibility(
+                visible: widget.labelRightChild != null,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 2.0,right: 2.0),
+                  child: widget.labelRightChild ?? const SizedBox(width: 8),
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.only(left: 2.0),
                 child: widget.isRequired
@@ -556,6 +565,7 @@ class _EFormItemState extends State<EFormItem> {
                       )
                     : const SizedBox(width: 8),
               ),
+              
             ],
           ),
           const SizedBox(height: 8),
