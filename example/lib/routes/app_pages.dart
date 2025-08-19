@@ -232,6 +232,7 @@ abstract class Routes {
   static const widgetPreview = '/widget_preview';
 
   static const form = FormRoutes.form;
+  static const formBasic = FormRoutes.formBasic;
 }
 
 class AppPages {
