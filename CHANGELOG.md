@@ -1,3 +1,7 @@
+## 0.1.24
+
+Added MaxLine
+
 ## 0.1.23
 
 Added description element
