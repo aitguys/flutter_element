@@ -555,7 +555,7 @@ class _EFormItemState extends State<EFormItem> {
               Visibility(
                 visible: widget.labelRightChild != null,
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 2.0,right: 2.0),
+                  padding: const EdgeInsets.only(left: 2.0, right: 2.0),
                   child: widget.labelRightChild ?? const SizedBox(width: 8),
                 ),
               ),
@@ -568,7 +568,6 @@ class _EFormItemState extends State<EFormItem> {
                       )
                     : const SizedBox(width: 8),
               ),
-              
             ],
           ),
           const SizedBox(height: 8),

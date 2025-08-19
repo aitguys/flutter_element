@@ -158,7 +158,7 @@ class _ESelectState extends State<ESelect> {
   }
 
   void _handleOptionSelected(SelectOption option) {
-    print('option: $option');
+    // print('option: $option');
     if (!_isDisposed) {
       if (widget.multiple) {
         setState(() {
