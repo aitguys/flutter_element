@@ -300,6 +300,7 @@ class _EInputState extends State<EInput> {
   }
 
   void _handleClear() {
+    if (widget.readOnly) return;
     setState(() {
       _controller.clear();
       _hasValue = false;
@@ -343,7 +344,9 @@ class _EInputState extends State<EInput> {
                   right: widget.append != null ? 0 : 0),
               decoration: BoxDecoration(
                 border: Border.all(
-                  color: widget.disabled
+                  color: widget.readOnly? 
+                    Colors.grey[100]!: 
+                    widget.disabled
                       ? widget.borderColor
                       : _isFocused
                           ? getColorByType(
@@ -404,7 +407,7 @@ class _EInputState extends State<EInput> {
                         border: InputBorder.none,
                         isDense: true,
                         isCollapsed: widget.maxLines == null || widget.maxLines == 1,
-                        hintText: widget.showPlaceholderOnTop && _isFocused
+                        hintText: widget.readOnly? null: widget.showPlaceholderOnTop && _isFocused
                             ? null
                             : widget.placeholder,
                       ),

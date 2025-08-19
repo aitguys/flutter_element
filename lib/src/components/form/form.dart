@@ -416,16 +416,19 @@ class _EFormItemState extends State<EFormItem> {
       return child.copyWith(
         disabled: disabled,
         size: size,
+        readOnly: readOnly,
       );
     } else if (child is ERadioGroup) {
       return child.copyWith(
         disabled: disabled,
         size: size,
+        readOnly: readOnly,
       );
     } else if (child is ESelect) {
       return child.copyWith(
         disabled: disabled,
         size: size,
+        readOnly: readOnly,
       );
     }
     // 其他类型不处理

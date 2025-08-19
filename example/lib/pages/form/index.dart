@@ -65,6 +65,15 @@ class _FormPreviewState extends State<FormPreview> {
                                     size: ESizeItem.small,
                                   )),
                               EFormItem(
+                                  label: 'FirstName',
+                                  isRequired: true,
+                                  labelPosition: EFormLabelPosition.left,
+                                  child: EInput(
+                                    textController: usernameController,
+                                    placeholder: '请输入用户名',
+                                    size: ESizeItem.small,
+                                  )),
+                              EFormItem(
                                   label: 'Gender',
                                   isRequired: true,
                                   child: ERadioGroup(

@@ -158,6 +158,7 @@ class _ESelectState extends State<ESelect> {
   }
 
   void _handleOptionSelected(SelectOption option) {
+    print('option: $option');
     if (!_isDisposed) {
       if (widget.multiple) {
         setState(() {
@@ -321,7 +322,7 @@ class _ESelectState extends State<ESelect> {
     _focusNode = FocusNode();
     _controller = TextEditingController(text: _displayText);
     _focusNode.addListener(() {
-      if (_focusNode.hasFocus) {
+      if (_focusNode.hasFocus && !widget.readOnly) {
         _showOverlay();
       }
     });
