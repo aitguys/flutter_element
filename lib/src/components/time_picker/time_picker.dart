@@ -237,7 +237,8 @@ class _ETimePickerState extends State<ETimePicker> {
                                         : (_isAM
                                             ? _selectedHour
                                             : _selectedHour + 12);
-                                    _selected = TimeOfDay(hour: hour, minute: v);
+                                    _selected =
+                                        TimeOfDay(hour: hour, minute: v);
                                     _controller.text = _formatTime(_selected!);
                                   });
                                 }
@@ -278,7 +279,8 @@ class _ETimePickerState extends State<ETimePicker> {
                                         _selected = TimeOfDay(
                                             hour: actualHour,
                                             minute: _selectedMinute);
-                                        _controller.text = _formatTime(_selected!);
+                                        _controller.text =
+                                            _formatTime(_selected!);
                                       });
                                     }
                                   },
@@ -330,10 +332,13 @@ class _ETimePickerState extends State<ETimePicker> {
                                         hour: hour, minute: _selectedMinute);
                                     _controller.text = _formatTime(_selected!);
                                     _hourController.jumpToItem(_selectedHour);
-                                    _minuteController.jumpToItem(_selectedMinute);
-                                    _secondController.jumpToItem(_selectedSecond);
+                                    _minuteController
+                                        .jumpToItem(_selectedMinute);
+                                    _secondController
+                                        .jumpToItem(_selectedSecond);
                                     if (!widget.use24HourFormat) {
-                                      _periodController.jumpToItem(_isAM ? 0 : 1);
+                                      _periodController
+                                          .jumpToItem(_isAM ? 0 : 1);
                                     }
                                   });
                                 }

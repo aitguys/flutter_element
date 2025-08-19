@@ -15,7 +15,7 @@ import 'package:flutter_element_plus/src/theme/index.dart';
 ///   prefix: Icon(Icons.person),
 ///   onChanged: (value) => print('Input: $value'),
 /// )
-/// 
+///
 /// // 多行输入示例
 /// EInput(
 ///   placeholder: 'Enter your message',
