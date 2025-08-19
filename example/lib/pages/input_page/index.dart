@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_element_example/pages/input_page/input_lines.dart';
 import 'input_basic.dart';
 import 'input_color.dart';
 import 'input_fix.dart';
@@ -30,6 +31,7 @@ class InputPreview extends StatelessWidget {
             InputDisablePreview(),
             InputDefaultColorPreview(),
             InputPasswordPreview(),
+            InputLinesPreview(),
           ],
         ),
       ),

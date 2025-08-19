@@ -326,8 +326,10 @@ class _EInputState extends State<EInput> {
       clipBehavior: Clip.none,
       children: [
         SizedBox(
-          height: ElememtSize(size: widget.size)
-              .getInputHeight(customHeight: widget.customHeight),
+          height: widget.customHeight ?? 
+              (widget.maxLines != null && widget.maxLines! > 1 
+                  ? null 
+                  : ElememtSize(size: widget.size).getInputHeight()),
           child: MouseRegion(
             onEnter: (_) => setState(() {
               _isHovered = true;
@@ -401,7 +403,7 @@ class _EInputState extends State<EInput> {
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         isDense: true,
-                        isCollapsed: true,
+                        isCollapsed: widget.maxLines == null || widget.maxLines == 1,
                         hintText: widget.showPlaceholderOnTop && _isFocused
                             ? null
                             : widget.placeholder,
