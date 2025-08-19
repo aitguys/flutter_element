@@ -15,6 +15,14 @@ import 'package:flutter_element_plus/src/theme/index.dart';
 ///   prefix: Icon(Icons.person),
 ///   onChanged: (value) => print('Input: $value'),
 /// )
+/// 
+/// // 多行输入示例
+/// EInput(
+///   placeholder: 'Enter your message',
+///   minLines: 3,
+///   maxLines: 5,
+///   onChanged: (value) => print('Message: $value'),
+/// )
 /// ```
 class EInput extends StatefulWidget {
   /// The controller for the text input.
@@ -114,6 +122,18 @@ class EInput extends StatefulWidget {
   final VoidCallback? onClear;
   final FocusNode? focusNode;
 
+  /// The minimum number of lines for the input.
+  ///
+  /// This determines the minimum height of the input field.
+  /// Defaults to 1.
+  final int? minLines;
+
+  /// The maximum number of lines for the input.
+  ///
+  /// This determines the maximum height of the input field.
+  /// Defaults to 1.
+  final int? maxLines;
+
   /// Creates an [EInput] widget.
   ///
   /// The [placeholder] argument defaults to an empty string.
@@ -142,6 +162,8 @@ class EInput extends StatefulWidget {
     this.password = false,
     this.focusNode,
     this.onClear,
+    this.minLines,
+    this.maxLines,
   });
 
   @override
@@ -173,6 +195,8 @@ class EInput extends StatefulWidget {
     bool? password,
     FocusNode? focusNode,
     VoidCallback? onClear,
+    int? minLines,
+    int? maxLines,
   }) {
     return EInput(
       key: key ?? this.key,
@@ -199,6 +223,8 @@ class EInput extends StatefulWidget {
       password: password ?? this.password,
       focusNode: focusNode ?? this.focusNode,
       onClear: onClear ?? this.onClear,
+      minLines: minLines ?? this.minLines,
+      maxLines: maxLines ?? this.maxLines,
     );
   }
 }
@@ -366,6 +392,8 @@ class _EInputState extends State<EInput> {
                       readOnly: widget.readOnly,
                       cursorOpacityAnimates: false,
                       obscureText: _isPasswordVisible,
+                      maxLines: widget.maxLines ?? 1,
+                      minLines: widget.minLines ?? 1,
                       style: TextStyle(
                           fontSize: ElememtSize(size: widget.size)
                               .getInputFontSize(
