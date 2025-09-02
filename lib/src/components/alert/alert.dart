@@ -1,6 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element_plus/src/theme/index.dart';
 
+/// The position of the alert when displayed as an overlay.
+enum EAlertPosition {
+  /// Position the alert on the left side.
+  left,
+
+  /// Position the alert in the center.
+  center,
+
+  /// Position the alert on the right side.
+  right,
+}
+
 /// An alert component that follows Element Plus design guidelines.
 ///
 /// The [EAlert] widget provides a customizable alert message with various
@@ -15,6 +27,7 @@ import 'package:flutter_element_plus/src/theme/index.dart';
 ///   type: EColorType.success,
 ///   closable: true,
 ///   onClose: () => print('Alert closed'),
+///   width: 320,
 /// )
 /// ```
 class EAlert extends StatefulWidget {
@@ -82,6 +95,17 @@ class EAlert extends StatefulWidget {
   /// Defaults to [EThemeType.dark].
   final EThemeType theme;
 
+  /// The width of the alert.
+  ///
+  /// If provided, sets the width of the alert container.
+  final double? width;
+
+  /// The position of the alert when displayed as an overlay.
+  ///
+  /// This determines whether the alert appears on the left, center, or right
+  /// of the screen. Defaults to [EAlertPosition.center].
+  final EAlertPosition position;
+
   /// Creates an [EAlert] widget.
   ///
   /// The [title] argument is required.
@@ -99,6 +123,8 @@ class EAlert extends StatefulWidget {
     this.closeButton,
     this.padding,
     this.theme = EThemeType.dark,
+    this.width,
+    this.position = EAlertPosition.center,
   });
 
   @override
@@ -137,93 +163,95 @@ class _EAlertState extends State<EAlert> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     if (!_isVisible) return const SizedBox.shrink();
 
-    return FadeTransition(
-      opacity: _animation,
-      child: Container(
-        padding: widget.padding ?? const EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          color: getBackGroundColorByTypeAndTheme(
-              type: widget.type,
-              theme: widget.theme,
-              customColor: widget.customColor),
-          borderRadius: BorderRadius.circular(4),
-        ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            if (widget.showIcon) ...[
-              Padding(
-                padding:
-                    EdgeInsets.only(top: widget.description != null ? 4 : 0),
-                child: Icon(
-                  getDefaultIconByType(widget.type, customIcon: widget.icon),
-                  color: getDefaultContentColorByTypeAndTheme(
-                      type: widget.type,
-                      theme: widget.theme,
-                      customColor: widget.customColor),
-                  size: 24,
-                ),
+    Widget alertContent = Container(
+      width: widget.width,
+      padding: widget.padding ?? const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: getBackGroundColorByTypeAndTheme(
+            type: widget.type,
+            theme: widget.theme,
+            customColor: widget.customColor),
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          if (widget.showIcon) ...[
+            Padding(
+              padding: EdgeInsets.only(top: widget.description != null ? 4 : 0),
+              child: Icon(
+                getDefaultIconByType(widget.type, customIcon: widget.icon),
+                color: getDefaultContentColorByTypeAndTheme(
+                    type: widget.type,
+                    theme: widget.theme,
+                    customColor: widget.customColor),
+                size: 24,
               ),
-              const SizedBox(width: 8),
-            ],
-            Expanded(
-              child: Column(
-                crossAxisAlignment: widget.center
-                    ? CrossAxisAlignment.center
-                    : CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
+            ),
+            const SizedBox(width: 8),
+          ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: widget.center
+                  ? CrossAxisAlignment.center
+                  : CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  widget.title,
+                  style: TextStyle(
+                    color: getDefaultContentColorByTypeAndTheme(
+                        type: widget.type,
+                        theme: widget.theme,
+                        customColor: widget.customColor),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                if (widget.description != null) ...[
+                  const SizedBox(height: 4),
                   Text(
-                    widget.title,
+                    widget.description!,
                     style: TextStyle(
                       color: getDefaultContentColorByTypeAndTheme(
                           type: widget.type,
                           theme: widget.theme,
                           customColor: widget.customColor),
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
+                      fontSize: 14,
                     ),
                   ),
-                  if (widget.description != null) ...[
-                    const SizedBox(height: 4),
-                    Text(
-                      widget.description!,
-                      style: TextStyle(
-                        color: getDefaultContentColorByTypeAndTheme(
-                            type: widget.type,
-                            theme: widget.theme,
-                            customColor: widget.customColor),
-                        fontSize: 14,
-                      ),
-                    ),
-                  ],
                 ],
-              ),
+              ],
             ),
-            if (widget.closable) ...[
-              const SizedBox(width: 8),
-              widget.closeButton != null
-                  ? MouseRegion(
-                      cursor: SystemMouseCursors.click,
-                      child: GestureDetector(
-                        onTap: _close,
-                        child: widget.closeButton,
-                      ))
-                  : InkWell(
+          ),
+          if (widget.closable) ...[
+            const SizedBox(width: 8),
+            widget.closeButton != null
+                ? MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    child: GestureDetector(
                       onTap: _close,
-                      child: Icon(
-                        Icons.close,
-                        size: 16,
-                        color: getDefaultContentColorByTypeAndTheme(
-                            type: widget.type,
-                            theme: widget.theme,
-                            customColor: widget.customColor),
-                      ),
+                      child: widget.closeButton,
+                    ))
+                : InkWell(
+                    onTap: _close,
+                    child: Icon(
+                      Icons.close,
+                      size: 16,
+                      color: getDefaultContentColorByTypeAndTheme(
+                          type: widget.type,
+                          theme: widget.theme,
+                          customColor: widget.customColor),
                     ),
-            ],
+                  ),
           ],
-        ),
+        ],
       ),
+    );
+
+    return FadeTransition(
+      opacity: _animation,
+      child: alertContent,
     );
   }
 }
@@ -243,6 +271,8 @@ class _EAlertState extends State<EAlert> with SingleTickerProviderStateMixin {
 ///   description: 'Operation completed successfully',
 ///   type: EColorType.success,
 ///   autoCloseDuration: Duration(seconds: 3),
+///   width: 320,
+///   position: EAlertPosition.center,
 /// )
 /// ```
 ///
@@ -263,35 +293,107 @@ Future<void> showAlert({
   EdgeInsets? padding,
   Duration? autoCloseDuration,
   EThemeType theme = EThemeType.dark,
+  double? width,
+  EAlertPosition position = EAlertPosition.center,
 }) async {
   late final OverlayEntry entry;
 
   entry = OverlayEntry(
-    builder: (context) => Positioned(
-      top: 16,
-      left: 16,
-      right: 16,
-      child: Material(
-        color: Colors.transparent,
-        child: EAlert(
-          title: title,
-          description: description,
-          type: type,
-          customColor: customColor,
-          closable: closable,
-          showIcon: showIcon,
-          icon: icon,
-          onClose: () {
-            entry.remove();
-            onClose?.call();
-          },
-          center: center,
-          closeButton: closeButton,
-          padding: padding,
-          theme: theme,
-        ),
-      ),
-    ),
+    builder: (context) {
+      Widget positionedAlert;
+
+      switch (position) {
+        case EAlertPosition.left:
+          positionedAlert = Positioned(
+            top: 16,
+            left: 16,
+            child: Material(
+              color: Colors.transparent,
+              child: EAlert(
+                title: title,
+                description: description,
+                type: type,
+                customColor: customColor,
+                closable: closable,
+                showIcon: showIcon,
+                icon: icon,
+                onClose: () {
+                  entry.remove();
+                  onClose?.call();
+                },
+                center: center,
+                closeButton: closeButton,
+                padding: padding,
+                theme: theme,
+                width: width,
+                position: position,
+              ),
+            ),
+          );
+          break;
+        case EAlertPosition.center:
+          positionedAlert = Positioned(
+            top: 16,
+            left: 16,
+            right: 16,
+            child: Center(
+              child: Material(
+                color: Colors.transparent,
+                child: EAlert(
+                  title: title,
+                  description: description,
+                  type: type,
+                  customColor: customColor,
+                  closable: closable,
+                  showIcon: showIcon,
+                  icon: icon,
+                  onClose: () {
+                    entry.remove();
+                    onClose?.call();
+                  },
+                  center: center,
+                  closeButton: closeButton,
+                  padding: padding,
+                  theme: theme,
+                  width: width,
+                  position: position,
+                ),
+              ),
+            ),
+          );
+          break;
+        case EAlertPosition.right:
+          positionedAlert = Positioned(
+            top: 16,
+            right: 16,
+            child: Material(
+              color: Colors.transparent,
+              child: EAlert(
+                title: title,
+                description: description,
+                type: type,
+                customColor: customColor,
+                closable: closable,
+                showIcon: showIcon,
+                icon: icon,
+                onClose: () {
+                  entry.remove();
+                  onClose?.call();
+                },
+                center: center,
+                closeButton: closeButton,
+                padding: padding,
+                theme: theme,
+                width: width,
+                position: position,
+              ),
+            ),
+          );
+          break;
+      }
+
+      return positionedAlert;
+    },
   );
 
   Overlay.of(context).insert(entry);
