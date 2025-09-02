@@ -2,6 +2,10 @@
 
 add width for alert
 
+## 0.1.28
+
+add width for alert
+
 ## 0.1.27
 
 Bugs Fixed
