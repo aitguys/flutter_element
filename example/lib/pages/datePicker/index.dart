@@ -6,6 +6,7 @@ import 'date_picker_style.dart';
 import 'date_picker_format.dart';
 import 'date_picker_calendar.dart';
 import 'date_picker_api.dart';
+import 'date_picker_range_test.dart';
 
 class DatePickerPreview extends StatelessWidget {
   const DatePickerPreview({super.key});
@@ -22,6 +23,7 @@ class DatePickerPreview extends StatelessWidget {
           DatePickerFormatPreview(),
           DatePickerCalendarPreview(),
           DatePickerApiPreview(),
+          DatePickerRangeTestPreview(),
         ],
       ),
     );
