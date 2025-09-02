@@ -16,6 +16,7 @@ class EDatePicker extends StatefulWidget {
   final String? placeholder;
   final bool disabled;
   final bool clearable;
+  final bool readOnly;
   final ESizeItem size;
   final Widget? prefix;
   final Widget? suffix;
@@ -48,6 +49,7 @@ class EDatePicker extends StatefulWidget {
     this.placeholder = '选择日期',
     this.disabled = false,
     this.clearable = true,
+    this.readOnly = false,
     this.prefix,
     this.suffix,
     this.colorType = EColorType.primary,
@@ -75,6 +77,7 @@ class EDatePicker extends StatefulWidget {
     String? placeholder,
     bool? disabled,
     bool? clearable,
+    bool? readOnly,
     ESizeItem? size,
     Widget? prefix,
     Widget? suffix,
@@ -100,6 +103,7 @@ class EDatePicker extends StatefulWidget {
       placeholder: placeholder ?? this.placeholder,
       disabled: disabled ?? this.disabled,
       clearable: clearable ?? this.clearable,
+      readOnly: readOnly ?? this.readOnly,
       size: size ?? this.size,
       prefix: this.prefix,
       suffix: this.suffix,
@@ -142,7 +146,7 @@ class _EDatePickerState extends State<EDatePicker> {
   }
 
   void _showCalendar() {
-    if (widget.disabled || _isDisposed) return; // 移除标志检查
+    if (widget.disabled || _isDisposed || widget.readOnly) return; // 移除标志检查
     if (_controller.text.isNotEmpty) {
       _selectedDate = _controller.text;
     }
@@ -316,7 +320,7 @@ class _EDatePickerState extends State<EDatePicker> {
               const Icon(Icons.calendar_month_rounded, size: 20),
           suffix: widget.suffix,
           size: widget.size,
-          readOnly: true,
+          readOnly: widget.readOnly,
           onFocus: _showCalendar,
           onBlur: () {
             // 失焦时关闭日期选择器

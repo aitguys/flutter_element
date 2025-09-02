@@ -300,6 +300,7 @@ class _EInputState extends State<EInput> {
   }
 
   void _handleClear() {
+    if (widget.readOnly) return;
     setState(() {
       _controller.clear();
       _hasValue = false;
@@ -326,9 +327,9 @@ class _EInputState extends State<EInput> {
       clipBehavior: Clip.none,
       children: [
         SizedBox(
-          height: widget.customHeight ?? 
-              (widget.maxLines != null && widget.maxLines! > 1 
-                  ? null 
+          height: widget.customHeight ??
+              (widget.maxLines != null && widget.maxLines! > 1
+                  ? null
                   : ElememtSize(size: widget.size).getInputHeight()),
           child: MouseRegion(
             onEnter: (_) => setState(() {
@@ -343,13 +344,15 @@ class _EInputState extends State<EInput> {
                   right: widget.append != null ? 0 : 0),
               decoration: BoxDecoration(
                 border: Border.all(
-                  color: widget.disabled
-                      ? widget.borderColor
-                      : _isFocused
-                          ? getColorByType(
-                              type: widget.colorType,
-                              customColor: widget.customColor)
-                          : widget.borderColor,
+                  color: widget.readOnly
+                      ? Colors.grey[100]!
+                      : widget.disabled
+                          ? widget.borderColor
+                          : _isFocused
+                              ? getColorByType(
+                                  type: widget.colorType,
+                                  customColor: widget.customColor)
+                              : widget.borderColor,
                 ),
                 borderRadius: BorderRadius.circular(
                     ElememtSize(size: widget.size).getInputBorderRadius(
@@ -403,10 +406,13 @@ class _EInputState extends State<EInput> {
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         isDense: true,
-                        isCollapsed: widget.maxLines == null || widget.maxLines == 1,
-                        hintText: widget.showPlaceholderOnTop && _isFocused
+                        isCollapsed:
+                            widget.maxLines == null || widget.maxLines == 1,
+                        hintText: widget.readOnly
                             ? null
-                            : widget.placeholder,
+                            : widget.showPlaceholderOnTop && _isFocused
+                                ? null
+                                : widget.placeholder,
                       ),
                       onChanged: widget.onChanged,
                       onTap: widget.readOnly

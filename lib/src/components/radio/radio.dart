@@ -6,6 +6,7 @@ class ERadio extends StatefulWidget {
   final String? value;
   final String? label;
   final bool disabled;
+  final bool readOnly;
   final bool border;
   final EColorType fontColorType;
   final Color? fontCustomColor;
@@ -18,6 +19,7 @@ class ERadio extends StatefulWidget {
   /// 仅当作为 ERadioGroup 子项时由 ERadioGroup 注入
   final String? groupValue;
   final bool? groupDisabled;
+  final bool? groupReadOnly;
   final ValueChanged<String>? groupOnChanged;
   final ESizeItem? groupSize;
   final double? groupCustomFontSize;
@@ -31,6 +33,7 @@ class ERadio extends StatefulWidget {
     this.value,
     this.label,
     this.disabled = false,
+    this.readOnly = false,
     this.border = false,
     this.fontColorType = EColorType.primary,
     this.fontCustomColor,
@@ -42,6 +45,7 @@ class ERadio extends StatefulWidget {
     // 以下参数仅 ERadioGroup 注入
     this.groupValue,
     this.groupDisabled,
+    this.groupReadOnly,
     this.groupOnChanged,
     this.groupSize,
     this.groupCustomFontSize,
@@ -63,6 +67,7 @@ class _ERadioState extends State<ERadio> {
     // 优先使用 group 传递的参数，否则用自身
     final isChecked = (widget.groupValue ?? widget.value) == widget.value;
     final isDisabled = widget.disabled || (widget.groupDisabled ?? false);
+    final isReadOnly = widget.readOnly || (widget.groupReadOnly ?? false);
     final size = widget.size ?? widget.groupSize ?? ESizeItem.medium;
     final customFontSize = widget.customFontSize ?? widget.groupCustomFontSize;
     final fontColorType = widget.fontColorType;
@@ -75,7 +80,7 @@ class _ERadioState extends State<ERadio> {
       onEnter: (_) => setState(() => _isHovered = true),
       onExit: (_) => setState(() => _isHovered = false),
       child: GestureDetector(
-        onTap: isDisabled
+        onTap: (isDisabled || isReadOnly)
             ? null
             : () {
                 if (widget.groupOnChanged != null) {
@@ -190,6 +195,7 @@ class _ERadioState extends State<ERadio> {
 class ERadioGroup extends StatefulWidget {
   final TextEditingController? textController;
   final bool disabled;
+  final bool readOnly;
   final ValueChanged<String>? onChanged;
   final ESizeItem size;
   final double? customFontSize;
@@ -203,6 +209,7 @@ class ERadioGroup extends StatefulWidget {
     super.key,
     this.textController,
     this.disabled = false,
+    this.readOnly = false,
     this.onChanged,
     this.size = ESizeItem.medium,
     this.customFontSize,
@@ -219,6 +226,7 @@ class ERadioGroup extends StatefulWidget {
   ERadioGroup copyWith({
     TextEditingController? textController,
     bool? disabled,
+    bool? readOnly,
     ValueChanged<String>? onChanged,
     ESizeItem? size,
     double? customFontSize,
@@ -231,6 +239,7 @@ class ERadioGroup extends StatefulWidget {
     return ERadioGroup(
       textController: textController ?? this.textController,
       disabled: disabled ?? this.disabled,
+      readOnly: readOnly ?? this.readOnly,
       onChanged: onChanged ?? this.onChanged,
       size: size ?? this.size,
       customFontSize: customFontSize ?? this.customFontSize,
@@ -287,6 +296,7 @@ class _ERadioGroupState extends State<ERadioGroup> {
           value: child.value,
           label: child.label,
           disabled: child.disabled,
+          readOnly: child.readOnly,
           border: child.border,
           fontColorType: child.fontColorType,
           fontCustomColor: child.fontCustomColor,
@@ -297,6 +307,7 @@ class _ERadioGroupState extends State<ERadioGroup> {
           name: child.name,
           groupValue: _groupValue,
           groupDisabled: widget.disabled,
+          groupReadOnly: widget.readOnly,
           groupOnChanged: _onChanged,
           groupSize: widget.size,
           groupCustomFontSize: widget.customFontSize,

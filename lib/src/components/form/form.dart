@@ -416,16 +416,19 @@ class _EFormItemState extends State<EFormItem> {
       return child.copyWith(
         disabled: disabled,
         size: size,
+        readOnly: readOnly,
       );
     } else if (child is ERadioGroup) {
       return child.copyWith(
         disabled: disabled,
         size: size,
+        readOnly: readOnly,
       );
     } else if (child is ESelect) {
       return child.copyWith(
         disabled: disabled,
         size: size,
+        readOnly: readOnly,
       );
     }
     // 其他类型不处理
@@ -552,7 +555,7 @@ class _EFormItemState extends State<EFormItem> {
               Visibility(
                 visible: widget.labelRightChild != null,
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 2.0,right: 2.0),
+                  padding: const EdgeInsets.only(left: 2.0, right: 2.0),
                   child: widget.labelRightChild ?? const SizedBox(width: 8),
                 ),
               ),
@@ -565,7 +568,6 @@ class _EFormItemState extends State<EFormItem> {
                       )
                     : const SizedBox(width: 8),
               ),
-              
             ],
           ),
           const SizedBox(height: 8),
