@@ -216,7 +216,7 @@ class _ESelectState extends State<ESelect> {
       _handleOptionSelected(exactMatch, triggerOnChange: true);
       // 自动选中后去除焦点，避免重复触发
       _focusNode.unfocus();
-      _hideOverlay();
+      _hideOverlay(unfocus: true);
       // 重置标志位
       Future.delayed(const Duration(milliseconds: 100), () {
         _isAutoSelecting = false;
@@ -250,9 +250,8 @@ class _ESelectState extends State<ESelect> {
           if (triggerOnChange) {
             widget.onChanged?.call(option.value);
           }
-          // 隐藏 Overlay 并收起键盘
-          _hideOverlay();
-          FocusScope.of(context).unfocus(); // 确保键盘收起
+          // 隐藏 Overlay，但不立即收起键盘
+          _hideOverlay(unfocus: false);
         });
       }
     }
@@ -260,7 +259,8 @@ class _ESelectState extends State<ESelect> {
 
   void _handleTextChanged(String text) {
     if (!_isDisposed && !_isAutoSelecting) {
-      _filterOptions(text);
+      // 多选时仅用最后一项作为筛选
+      widget.multiple ? null : _filterOptions(text);
       _updateOverlay();
 
       // 取消之前的定时器
@@ -277,7 +277,7 @@ class _ESelectState extends State<ESelect> {
       }
 
       // 延迟自动选中，避免频繁触发
-      _autoSelectTimer = Timer(const Duration(milliseconds: 500), () {
+      _autoSelectTimer = Timer(const Duration(milliseconds: 100), () {
         if (!_isDisposed && _searchText == text && !_isAutoSelecting) {
           _autoSelectMatchedOption(text);
         }
@@ -288,6 +288,8 @@ class _ESelectState extends State<ESelect> {
   void _updateOverlay() {
     if (_overlayEntry != null && _isOverlayVisible) {
       _overlayEntry!.markNeedsBuild();
+    } else {
+      _showOverlay();
     }
   }
 
@@ -305,8 +307,7 @@ class _ESelectState extends State<ESelect> {
             child: GestureDetector(
               behavior: HitTestBehavior.translucent,
               onTap: () {
-                _hideOverlay();
-                FocusScope.of(context).unfocus(); // 点击外部时收起键盘
+                _hideOverlay(unfocus: true);
               },
             ),
           ),
@@ -418,14 +419,16 @@ class _ESelectState extends State<ESelect> {
     _isOverlayVisible = true;
   }
 
-  void _hideOverlay() {
+  void _hideOverlay({bool unfocus = true}) {
     if (_overlayEntry != null) {
       _overlayEntry?.remove();
       _overlayEntry = null;
     }
     _isOverlayVisible = false;
-    // 确保键盘收起
-    FocusScope.of(context).unfocus();
+    // 根据参数决定是否收起键盘
+    if (unfocus) {
+      FocusScope.of(context).unfocus();
+    }
   }
 
   @override
@@ -440,10 +443,11 @@ class _ESelectState extends State<ESelect> {
         _showOverlay();
         // 聚焦时重置用户输入标志位
         _isUserTyping = false;
-      } else if (!_focusNode.hasFocus) {
-        // 失去焦点时隐藏 Overlay
-        _hideOverlay();
       }
+      // else if (!_focusNode.hasFocus) {
+      //   // 失去焦点时隐藏 Overlay
+      //   _hideOverlay(unfocus: true);
+      // }
     });
 
     // 添加文本变化监听
@@ -530,7 +534,7 @@ class _ESelectState extends State<ESelect> {
         } else {
           widget.onChanged?.call(null);
         }
-        _hideOverlay();
+        _hideOverlay(unfocus: true);
       });
       // 更新输入框显示内容
       _controller.text = _displayText;
@@ -545,7 +549,7 @@ class _ESelectState extends State<ESelect> {
     _filterDebounceTimer?.cancel();
     _focusNode.dispose();
     _controller.dispose();
-    _hideOverlay();
+    _hideOverlay(unfocus: false);
     super.dispose();
   }
 
