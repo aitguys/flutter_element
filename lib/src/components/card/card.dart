@@ -145,7 +145,8 @@ class _ECardState extends State<ECard> {
         children: [
           if (widget.header != null)
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              padding: widget.padding ??
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               child: widget.header,
             ),
           if (widget.header != null)
@@ -165,7 +166,8 @@ class _ECardState extends State<ECard> {
             ),
           if (widget.footer != null)
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              padding: widget.padding ??
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               child: widget.footer,
             ),
         ],
