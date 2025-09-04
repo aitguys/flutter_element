@@ -1,3 +1,7 @@
+## 0.1.29
+
+fix eselect issue, update eselect ui
+
 ## 0.1.28
 
 add width for alert
