@@ -38,6 +38,7 @@ class ESelect extends StatefulWidget {
   final double? customHeight;
   final double? customFontSize;
   final double? customBorderRadius;
+  final double? maxHeight;
   final bool showPlaceholderOnTop;
   final ValueChanged<dynamic>? onChanged;
   final VoidCallback? onClear;
@@ -59,6 +60,7 @@ class ESelect extends StatefulWidget {
     this.customHeight,
     this.customFontSize,
     this.customBorderRadius,
+    this.maxHeight,
     this.showPlaceholderOnTop = false,
     this.onChanged,
     this.onClear,
@@ -91,6 +93,7 @@ class ESelect extends StatefulWidget {
     double? customHeight,
     double? customFontSize,
     double? customBorderRadius,
+    double? maxHeight,
     bool? showPlaceholderOnTop,
     ValueChanged<dynamic>? onChanged,
     VoidCallback? onClear,
@@ -111,6 +114,7 @@ class ESelect extends StatefulWidget {
       customHeight: customHeight ?? this.customHeight,
       customFontSize: customFontSize ?? this.customFontSize,
       customBorderRadius: customBorderRadius ?? this.customBorderRadius,
+      maxHeight: maxHeight ?? this.maxHeight,
       showPlaceholderOnTop: showPlaceholderOnTop ?? this.showPlaceholderOnTop,
       onChanged: onChanged ?? this.onChanged,
       onClear: onClear ?? this.onClear,
@@ -327,13 +331,17 @@ class _ESelectState extends State<ESelect> {
                         customBorderRadius: widget.customBorderRadius)),
                 child: Container(
                   width: size.width,
-                  constraints: const BoxConstraints(maxHeight: 300),
+                  constraints: widget.customHeight != null
+                      ? BoxConstraints(maxHeight: widget.customHeight!)
+                      : BoxConstraints(
+                          maxHeight: widget.maxHeight ?? 300.0,
+                        ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       if (widget.header != null) widget.header!,
-                      Expanded(
+                      Flexible(
                         child: ListView.builder(
                           shrinkWrap: true,
                           padding: EdgeInsets.zero,
