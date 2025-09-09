@@ -1,10 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+import 'dart:io';
+
+/// 平台类型枚举
+enum EDialogPlatform {
+  /// 自动检测平台
+  auto,
+
+  /// iOS 平台样式
+  ios,
+
+  /// Android 平台样式
+  android,
+
+  /// Web 平台样式
+  web,
+}
 
 /// A dialog component that follows Element Plus design guidelines.
 ///
 /// The [EDialog] widget provides a modal dialog with customizable header,
 /// content, and footer sections. It supports various features like draggable
 /// dialogs, custom close behavior, and scroll locking.
+///
+/// Supports different platform styles: iOS, Android, and Web.
 ///
 /// ## Example
 ///
@@ -120,6 +139,12 @@ class EDialog extends StatefulWidget {
   /// If provided, this overrides the default footer with action buttons.
   final Widget? customFooter;
 
+  /// The platform style for the dialog.
+  ///
+  /// When set to [EDialogPlatform.auto], the platform will be automatically detected.
+  /// Defaults to [EDialogPlatform.auto].
+  final EDialogPlatform platform;
+
   /// Creates an [EDialog] widget.
   ///
   /// The [visible] argument defaults to false.
@@ -134,7 +159,7 @@ class EDialog extends StatefulWidget {
     this.width = 420,
     this.height,
     this.padding,
-    this.margin = const EdgeInsets.symmetric(horizontal: 16),
+    this.margin = const EdgeInsets.symmetric(horizontal: 40),
     this.center = false,
     this.lockScroll = true,
     this.closeOnClickModal = true,
@@ -142,6 +167,7 @@ class EDialog extends StatefulWidget {
     this.draggable = false,
     this.customHeader,
     this.customFooter,
+    this.platform = EDialogPlatform.auto,
   });
 
   @override
@@ -153,16 +179,33 @@ class _EDialogState extends State<EDialog> with SingleTickerProviderStateMixin {
   late Animation<double> _animation;
   Offset _dragOffset = Offset.zero;
 
+  /// 获取当前平台
+  EDialogPlatform get _currentPlatform {
+    if (widget.platform != EDialogPlatform.auto) {
+      return widget.platform;
+    }
+
+    if (kIsWeb) {
+      return EDialogPlatform.web;
+    } else if (Platform.isIOS) {
+      return EDialogPlatform.ios;
+    } else if (Platform.isAndroid) {
+      return EDialogPlatform.android;
+    } else {
+      return EDialogPlatform.web; // 默认使用 web 样式
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 250),
+      duration: _getAnimationDuration(),
       vsync: this,
     );
     _animation = CurvedAnimation(
       parent: _controller,
-      curve: Curves.easeInOut,
+      curve: _getAnimationCurve(),
     );
 
     if (widget.visible) {
@@ -190,6 +233,222 @@ class _EDialogState extends State<EDialog> with SingleTickerProviderStateMixin {
 
   void _handleClose() {
     widget.onClose?.call();
+  }
+
+  /// 获取平台特定的背景色
+  Color _getBackgroundColor(ThemeData theme) {
+    switch (_currentPlatform) {
+      case EDialogPlatform.ios:
+        return Colors.white;
+      case EDialogPlatform.android:
+        return theme.dialogBackgroundColor;
+      case EDialogPlatform.web:
+        return theme.dialogBackgroundColor;
+      case EDialogPlatform.auto:
+        return Colors.white;
+    }
+  }
+
+  /// 获取平台特定的圆角
+  BorderRadius _getBorderRadius() {
+    switch (_currentPlatform) {
+      case EDialogPlatform.ios:
+        return BorderRadius.circular(20);
+      case EDialogPlatform.android:
+        return BorderRadius.circular(8);
+      case EDialogPlatform.web:
+        return BorderRadius.circular(8);
+      case EDialogPlatform.auto:
+        return BorderRadius.circular(8);
+    }
+  }
+
+  /// 获取平台特定的阴影
+  List<BoxShadow> _getBoxShadow() {
+    switch (_currentPlatform) {
+      case EDialogPlatform.ios:
+        return [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.15),
+            blurRadius: 16,
+            offset: const Offset(0, 8),
+          ),
+        ];
+      case EDialogPlatform.android:
+        return [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.25),
+            blurRadius: 12,
+            offset: const Offset(0, 6),
+          ),
+        ];
+      case EDialogPlatform.web:
+        return [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.15),
+            blurRadius: 12,
+            offset: const Offset(0, 6),
+          ),
+        ];
+      case EDialogPlatform.auto:
+        return [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.15),
+            blurRadius: 12,
+            offset: const Offset(0, 6),
+          ),
+        ];
+    }
+  }
+
+  /// 获取平台特定的动画曲线
+  Curve _getAnimationCurve() {
+    switch (_currentPlatform) {
+      case EDialogPlatform.ios:
+        return Curves.easeOutCubic;
+      case EDialogPlatform.android:
+        return Curves.fastOutSlowIn;
+      case EDialogPlatform.web:
+        return Curves.easeInOut;
+      case EDialogPlatform.auto:
+        return Curves.easeInOut;
+    }
+  }
+
+  /// 获取平台特定的动画时长
+  Duration _getAnimationDuration() {
+    switch (_currentPlatform) {
+      case EDialogPlatform.ios:
+        return const Duration(milliseconds: 300);
+      case EDialogPlatform.android:
+        return const Duration(milliseconds: 200);
+      case EDialogPlatform.web:
+        return const Duration(milliseconds: 250);
+      case EDialogPlatform.auto:
+        return const Duration(milliseconds: 250);
+    }
+  }
+
+  /// 获取平台特定的内边距
+  EdgeInsets _getPlatformPadding() {
+    switch (_currentPlatform) {
+      case EDialogPlatform.ios:
+        return const EdgeInsets.all(24);
+      case EDialogPlatform.android:
+        return const EdgeInsets.all(20);
+      case EDialogPlatform.web:
+        return const EdgeInsets.all(20);
+      case EDialogPlatform.auto:
+        return const EdgeInsets.all(20);
+    }
+  }
+
+  /// 获取平台特定的标题样式
+  TextStyle _getTitleStyle(ThemeData theme) {
+    switch (_currentPlatform) {
+      case EDialogPlatform.ios:
+        return theme.textTheme.titleLarge?.copyWith(
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+              color: Colors.black,
+            ) ??
+            const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+              color: Colors.black,
+            );
+      case EDialogPlatform.android:
+        return theme.textTheme.titleLarge?.copyWith(
+              fontSize: 22,
+              fontWeight: FontWeight.w500,
+            ) ??
+            theme.textTheme.titleLarge ??
+            const TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.w500,
+            );
+      case EDialogPlatform.web:
+        return theme.textTheme.titleLarge?.copyWith(
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+            ) ??
+            theme.textTheme.titleLarge ??
+            const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+            );
+      case EDialogPlatform.auto:
+        return theme.textTheme.titleLarge?.copyWith(
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+            ) ??
+            theme.textTheme.titleLarge ??
+            const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+            );
+    }
+  }
+
+  /// 获取平台特定的内容样式
+  TextStyle _getContentStyle(ThemeData theme) {
+    switch (_currentPlatform) {
+      case EDialogPlatform.ios:
+        return theme.textTheme.bodyMedium?.copyWith(
+              fontSize: 16,
+              color: Colors.black87,
+              height: 1.4,
+            ) ??
+            const TextStyle(
+              fontSize: 16,
+              color: Colors.black87,
+              height: 1.4,
+            );
+      case EDialogPlatform.android:
+        return theme.textTheme.bodyMedium?.copyWith(
+              fontSize: 16,
+              height: 1.4,
+            ) ??
+            theme.textTheme.bodyMedium ??
+            const TextStyle(
+              fontSize: 16,
+              height: 1.4,
+            );
+      case EDialogPlatform.web:
+        return theme.textTheme.bodyMedium?.copyWith(
+              fontSize: 16,
+              height: 1.4,
+            ) ??
+            theme.textTheme.bodyMedium ??
+            const TextStyle(
+              fontSize: 16,
+              height: 1.4,
+            );
+      case EDialogPlatform.auto:
+        return theme.textTheme.bodyMedium?.copyWith(
+              fontSize: 16,
+              height: 1.4,
+            ) ??
+            theme.textTheme.bodyMedium ??
+            const TextStyle(
+              fontSize: 16,
+              height: 1.4,
+            );
+    }
+  }
+
+  /// 获取平台特定的 action 对齐方式
+  MainAxisAlignment _getActionAlignment() {
+    switch (_currentPlatform) {
+      case EDialogPlatform.ios:
+        return MainAxisAlignment.center;
+      case EDialogPlatform.android:
+        return MainAxisAlignment.center;
+      case EDialogPlatform.web:
+        return MainAxisAlignment.end;
+      case EDialogPlatform.auto:
+        return MainAxisAlignment.end;
+    }
   }
 
   @override
@@ -245,14 +504,16 @@ class _EDialogState extends State<EDialog> with SingleTickerProviderStateMixin {
                         cursor: widget.draggable
                             ? SystemMouseCursors.move
                             : SystemMouseCursors.basic,
-                        child: Material(
-                          // ignore: deprecated_member_use
-                          color: theme.dialogBackgroundColor,
-                          borderRadius: BorderRadius.circular(4),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: _getBackgroundColor(theme),
+                            borderRadius: _getBorderRadius(),
+                            boxShadow: _getBoxShadow(),
+                          ),
                           child: Container(
                             width: dialogWidth,
                             height: widget.height,
-                            padding: widget.padding ?? const EdgeInsets.all(20),
+                            padding: widget.padding ?? _getPlatformPadding(),
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -265,7 +526,7 @@ class _EDialogState extends State<EDialog> with SingleTickerProviderStateMixin {
                                           Expanded(
                                             child: Text(
                                               widget.title!,
-                                              style: theme.textTheme.titleLarge,
+                                              style: _getTitleStyle(theme),
                                             ),
                                           ),
                                         if (widget.showClose)
@@ -279,7 +540,11 @@ class _EDialogState extends State<EDialog> with SingleTickerProviderStateMixin {
                                     ),
                                 if (widget.title != null ||
                                     widget.customHeader != null)
-                                  const SizedBox(height: 20),
+                                  SizedBox(
+                                      height: _currentPlatform ==
+                                              EDialogPlatform.ios
+                                          ? 16
+                                          : 20),
                                 // Content
                                 if (widget.content != null)
                                   Flexible(
@@ -287,17 +552,24 @@ class _EDialogState extends State<EDialog> with SingleTickerProviderStateMixin {
                                       physics: widget.lockScroll
                                           ? const NeverScrollableScrollPhysics()
                                           : null,
-                                      child: widget.content!,
+                                      child: DefaultTextStyle(
+                                        style: _getContentStyle(theme),
+                                        child: widget.content!,
+                                      ),
                                     ),
                                   ),
                                 // Footer
                                 if (widget.actions != null ||
                                     widget.customFooter != null) ...[
-                                  const SizedBox(height: 20),
+                                  SizedBox(
+                                      height: _currentPlatform ==
+                                              EDialogPlatform.ios
+                                          ? 16
+                                          : 20),
                                   widget.customFooter ??
                                       Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.end,
+                                            _getActionAlignment(),
                                         children: widget.actions!,
                                       ),
                                 ],
@@ -336,6 +608,7 @@ Future<void> showEDialog({
   bool draggable = false,
   Widget? customHeader,
   Widget? customFooter,
+  EDialogPlatform platform = EDialogPlatform.auto,
 }) {
   return showDialog(
     context: context,
@@ -358,6 +631,7 @@ Future<void> showEDialog({
       draggable: draggable,
       customHeader: customHeader,
       customFooter: customFooter,
+      platform: platform,
     ),
   );
 }

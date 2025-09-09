@@ -43,6 +43,7 @@ Widget _viewerContent() {
           onPressed: () {
             showEDialog(
               context: context,
+              platform: EDialogPlatform.ios,
               title: '提示',
               content: const Text('这是一段内容'),
               actions: [
@@ -50,12 +51,14 @@ Widget _viewerContent() {
                   onPressed: () => Navigator.pop(context),
                   text: 'Cancel',
                   type: EColorType.default_,
+                  isRound: true,
                 ),
                 const SizedBox(width: 10),
                 EButton(
                   onPressed: () => Navigator.pop(context),
                   text: 'Confirm',
                   type: EColorType.primary,
+                  isRound: true,
                 ),
               ],
             );

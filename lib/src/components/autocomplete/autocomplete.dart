@@ -58,6 +58,7 @@ class EAutocomplete extends StatefulWidget {
   final double? customFontSize;
   final double? customBorderRadius;
   final bool showPlaceholderOnTop;
+  final bool remote;
 
   const EAutocomplete({
     super.key,
@@ -90,6 +91,7 @@ class EAutocomplete extends StatefulWidget {
     this.customFontSize,
     this.customBorderRadius,
     this.showPlaceholderOnTop = false,
+    this.remote = false,
   });
 
   @override
@@ -245,10 +247,13 @@ class _EAutocompleteState extends State<EAutocomplete> {
         if (!mounted || _isSelecting) return;
         setState(() {
           // _allSuggestions = suggestions;
-          _suggestions = suggestions.where((item) {
-            final value = item[widget.valueKey]?.toString().toLowerCase() ?? '';
-            return value.contains(query.toLowerCase());
-          }).toList();
+          _suggestions = widget.remote
+              ? suggestions
+              : suggestions.where((item) {
+                  final value =
+                      item[widget.valueKey]?.toString().toLowerCase() ?? '';
+                  return value.contains(query.toLowerCase());
+                }).toList();
           _isLoading = false;
           if (_suggestions.isNotEmpty && !widget.disabled) {
             _showOverlay();

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_element_example/logger/logger.dart';
 import 'package:flutter_element_plus/flutter_element_plus.dart';
 import '../../const/index.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class AutocompleteBasicPreview extends StatelessWidget {
   const AutocompleteBasicPreview({super.key});
@@ -73,6 +75,37 @@ Widget _viewerContent() {
         },
         onClear: () {
           Loglevel.d('onClear');
+        },
+      ),
+      const SizedBox(height: 10),
+      EAutocomplete(
+        textController: textController1,
+        size: ESizeItem.small,
+        placeholder: '请输入内容',
+        clearable: true,
+        remote: true,
+        fetchSuggestions: (query, callback) async {
+          // 获取mock数据 https://68bffda40b196b9ce1c2db6a.mockapi.io/api/v1/user
+          try {
+            final response = await http.get(Uri.parse(
+                'https://68bffda40b196b9ce1c2db6a.mockapi.io/api/v1/user'));
+            if (response.statusCode == 200) {
+              // 假设返回的是json数组
+              final List<dynamic> data = jsonDecode(response.body);
+              // 这里假设每个元素有 'name' 字段作为 value
+              callback(
+                  data.map((item) => {'value': item['value'] ?? ''}).toList());
+              return;
+            }
+          } catch (e) {
+            // 可以根据需要处理异常
+          }
+          // 如果请求失败，返回默认数据
+          callback([
+            {'value': 'nihao'},
+            {'value': 'nihao2'},
+            {'value': 'nihao3'},
+          ]);
         },
       ),
       const SizedBox(height: 10),

@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 
-enum EColorType { primary, success, warning, danger, info, default_ }
+enum EColorType {
+  primary,
+  success,
+  warning,
+  danger,
+  info,
+  default_,
+}
 
 enum EThemeType { light, dark }
 
 // Element Plus color type
 class EColorTypes {
   // Primary color - Blue
-  static const Color primary = Color(0xFF409EFF);
+  static const Color primary = Color(0xFF4982f7);
 
   // Success color - Green
   static const Color success = Color(0xFF67C23A);
