@@ -292,8 +292,6 @@ class _ESelectState extends State<ESelect> {
   void _updateOverlay() {
     if (_overlayEntry != null && _isOverlayVisible) {
       _overlayEntry!.markNeedsBuild();
-    } else {
-      _showOverlay();
     }
   }
 
@@ -528,7 +526,10 @@ class _ESelectState extends State<ESelect> {
     // 检查 options 是否发生变化
     if (widget.options != oldWidget.options) {
       _filteredOptions = widget.options;
-      _filterOptions(_searchText);
+      // 只在有搜索文本时才调用 _filterOptions，避免初始化时展开弹窗
+      if (_searchText.isNotEmpty) {
+        _filterOptions(_searchText);
+      }
     }
   }
 

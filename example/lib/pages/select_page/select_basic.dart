@@ -95,7 +95,7 @@ Widget _viewerContent() {
     SelectOption(value: '4', label: '选项4'),
     SelectOption(value: '5', label: '选项5'),
   ];
-  String? value;
+  String? value = 'CA';
   return Builder(
     builder: (context) => Column(
       crossAxisAlignment: CrossAxisAlignment.start,
