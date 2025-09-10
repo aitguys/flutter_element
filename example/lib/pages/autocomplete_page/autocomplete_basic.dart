@@ -84,8 +84,52 @@ Widget _viewerContent() {
         placeholder: '请输入内容',
         clearable: true,
         remote: true,
+        onSelect: (item) {
+          Loglevel.d('onSelect: $item');
+        },
+        customItemBuilder: (item, index, isHighlighted) {
+          return Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            decoration: BoxDecoration(
+              color: isHighlighted
+                  ? Colors.blue.withValues(alpha: 0.1)
+                  : Colors.white,
+              border: const Border(
+                bottom: BorderSide(
+                  color: Colors.grey,
+                  width: 0.5,
+                ),
+              ),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  item['name'] ?? '',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: isHighlighted ? Colors.blue : Colors.black87,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  'ID: ${item['id'] ?? ''}',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.grey[600],
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
         fetchSuggestions: (query, callback) async {
           // 获取mock数据 https://68bffda40b196b9ce1c2db6a.mockapi.io/api/v1/user
+          if (query.length < 3) {
+            return;
+          }
           try {
             final response = await http.get(Uri.parse(
                 'https://68bffda40b196b9ce1c2db6a.mockapi.io/api/v1/user'));
@@ -94,18 +138,14 @@ Widget _viewerContent() {
               final List<dynamic> data = jsonDecode(response.body);
               // 这里假设每个元素有 'name' 字段作为 value
               callback(
-                  data.map((item) => {'value': item['value'] ?? ''}).toList());
+                  data.map((item) => item as Map<String, dynamic>).toList());
               return;
             }
           } catch (e) {
             // 可以根据需要处理异常
           }
           // 如果请求失败，返回默认数据
-          callback([
-            {'value': 'nihao'},
-            {'value': 'nihao2'},
-            {'value': 'nihao3'},
-          ]);
+          callback([]);
         },
       ),
       const SizedBox(height: 10),
