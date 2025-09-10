@@ -1,3 +1,7 @@
+## 0.1.31
+
+update autocomplate
+
 ## 0.1.30
 
 fix eselect issue, update eselect ui
