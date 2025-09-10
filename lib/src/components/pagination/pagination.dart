@@ -120,8 +120,6 @@ class EPagination extends StatelessWidget {
 
   /// Builds a widget component based on layout string
   Widget _buildLayoutComponent(String component) {
-    final primaryColor = customColor ?? getColorByType(type: colorType);
-
     switch (component) {
       case EPaginationLayout.total:
         return Padding(

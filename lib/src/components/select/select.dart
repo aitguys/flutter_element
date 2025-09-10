@@ -206,7 +206,7 @@ class _ESelectState extends State<ESelect> {
       (option) =>
           option.label.toLowerCase() == searchText.toLowerCase() ||
           option.value.toString().toLowerCase() == searchText.toLowerCase(),
-      orElse: () => SelectOption(value: '', label: ''),
+      orElse: () => const SelectOption(value: '', label: ''),
     );
 
     if (exactMatch.value.isNotEmpty && !exactMatch.disabled) {
@@ -368,7 +368,7 @@ class _ESelectState extends State<ESelect> {
                                     ? getColorByType(
                                             type: widget.colorType,
                                             customColor: widget.customColor)
-                                        .withOpacity(0.1)
+                                        .withValues(alpha: 0.1)
                                     : null,
                                 child: Row(
                                   children: [

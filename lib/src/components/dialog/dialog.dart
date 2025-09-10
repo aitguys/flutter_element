@@ -241,9 +241,9 @@ class _EDialogState extends State<EDialog> with SingleTickerProviderStateMixin {
       case EDialogPlatform.ios:
         return Colors.white;
       case EDialogPlatform.android:
-        return theme.dialogBackgroundColor;
+        return Colors.white;
       case EDialogPlatform.web:
-        return theme.dialogBackgroundColor;
+        return Colors.white;
       case EDialogPlatform.auto:
         return Colors.white;
     }
@@ -269,7 +269,7 @@ class _EDialogState extends State<EDialog> with SingleTickerProviderStateMixin {
       case EDialogPlatform.ios:
         return [
           BoxShadow(
-            color: Colors.black.withOpacity(0.15),
+            color: Colors.black.withValues(alpha: 0.15),
             blurRadius: 16,
             offset: const Offset(0, 8),
           ),
@@ -277,7 +277,7 @@ class _EDialogState extends State<EDialog> with SingleTickerProviderStateMixin {
       case EDialogPlatform.android:
         return [
           BoxShadow(
-            color: Colors.black.withOpacity(0.25),
+            color: Colors.black.withValues(alpha: 0.25),
             blurRadius: 12,
             offset: const Offset(0, 6),
           ),
@@ -285,7 +285,7 @@ class _EDialogState extends State<EDialog> with SingleTickerProviderStateMixin {
       case EDialogPlatform.web:
         return [
           BoxShadow(
-            color: Colors.black.withOpacity(0.15),
+            color: Colors.black.withValues(alpha: 0.15),
             blurRadius: 12,
             offset: const Offset(0, 6),
           ),
@@ -293,7 +293,7 @@ class _EDialogState extends State<EDialog> with SingleTickerProviderStateMixin {
       case EDialogPlatform.auto:
         return [
           BoxShadow(
-            color: Colors.black.withOpacity(0.15),
+            color: Colors.black.withValues(alpha: 0.15),
             blurRadius: 12,
             offset: const Offset(0, 6),
           ),

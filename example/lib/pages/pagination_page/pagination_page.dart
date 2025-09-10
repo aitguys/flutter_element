@@ -38,11 +38,9 @@ class _PaginationPageState extends State<PaginationPage> {
               currentPage: _currentPage,
               onPageChange: (p) => setState(() {
                 _currentPage = p;
-                print('currentPage: $p');
               }),
               onPageSizeChange: (s) => setState(() {
                 _pageSize = s;
-                print('pageSize: $s');
               }),
             ),
             const SizedBox(height: 32),
