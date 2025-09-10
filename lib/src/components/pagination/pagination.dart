@@ -1,4 +1,15 @@
 import 'package:flutter/material.dart';
+import '../../theme/color.dart';
+// import '../button/button.dart';
+
+class EPaginationLayout {
+  static const total = 'total';
+  static const prev = 'prev';
+  static const pager = 'pager';
+  static const next = 'next';
+  static const sizes = 'sizes';
+  static const jumper = 'jumper';
+}
 
 /// A pagination component that follows Element Plus design guidelines.
 ///
@@ -50,14 +61,15 @@ class EPagination extends StatelessWidget {
   /// The callback receives the new page size.
   final ValueChanged<int>? onPageSizeChange;
 
-  /// Whether to show the page size selector.
-  /// Default is false.
-  final bool showSizeChanger;
+  final List<String> layout; // layout="[total, prev, pager, next]"
 
   /// Whether to show the page jumper input.
-  /// Default is false.
-  final bool showJumper;
 
+  /// Color type for the pagination theme
+  final EColorType colorType;
+  final Color? customColor;
+  final bool isRound;
+  final bool showBackground;
   const EPagination({
     super.key,
     required this.total,
@@ -66,8 +78,15 @@ class EPagination extends StatelessWidget {
     this.pageSizes = const [10, 20, 50, 100],
     this.onPageChange,
     this.onPageSizeChange,
-    this.showSizeChanger = false,
-    this.showJumper = false,
+    this.layout = const [
+      EPaginationLayout.prev,
+      EPaginationLayout.pager,
+      EPaginationLayout.next
+    ],
+    this.colorType = EColorType.primary,
+    this.customColor,
+    this.isRound = false,
+    this.showBackground = true,
   });
 
   /// Calculates the total number of pages based on total items and page size.
@@ -99,61 +118,231 @@ class EPagination extends StatelessWidget {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Wrap(
-      crossAxisAlignment: WrapCrossAlignment.center,
-      spacing: 8,
-      children: [
-        IconButton(
-          icon: const Icon(Icons.chevron_left),
-          onPressed: currentPage > 1
-              ? () => onPageChange?.call(currentPage - 1)
-              : null,
-        ),
-        ...pageList.map((p) => p == -1
-            ? const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 4),
-                child: Text('...'),
-              )
-            : TextButton(
-                style: TextButton.styleFrom(
-                  backgroundColor: p == currentPage ? Colors.blue : null,
-                  foregroundColor:
-                      p == currentPage ? Colors.white : Colors.black87,
-                  minimumSize: const Size(36, 36),
-                  padding: EdgeInsets.zero,
+  /// Builds a widget component based on layout string
+  Widget _buildLayoutComponent(String component) {
+    final primaryColor = customColor ?? getColorByType(type: colorType);
+
+    switch (component) {
+      case EPaginationLayout.total:
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Text(
+            'Total $total ',
+            style: TextStyle(
+              color: calculateContentColor(EColorTypes.default_),
+              fontSize: 14,
+            ),
+          ),
+        );
+
+      case EPaginationLayout.prev:
+        final isDisabled = currentPage <= 1;
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 2),
+          child: SizedBox(
+            height: 32,
+            width: 32,
+            child: TextButton(
+              style: TextButton.styleFrom(
+                padding: EdgeInsets.zero,
+                backgroundColor: showBackground
+                    ? const Color(0xFFF0F1F5)
+                    : Colors.transparent,
+                shape: isRound
+                    ? RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      )
+                    : RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                minimumSize: const Size(32, 32),
+              ),
+              onPressed:
+                  isDisabled ? null : () => onPageChange?.call(currentPage - 1),
+              child: Icon(
+                Icons.chevron_left,
+                color: showBackground
+                    ? (isDisabled
+                        ? calculateContentColor(EColorTypes.default_,
+                            isDisabled: true)
+                        : calculateContentColor(EColorTypes.default_))
+                    : (isDisabled
+                        ? calculateContentColor(EColorTypes.default_,
+                            isDisabled: true)
+                        : calculateContentColor(EColorTypes.default_)),
+                size: 20,
+              ),
+            ),
+          ),
+        );
+
+      case EPaginationLayout.pager:
+        return Row(
+          mainAxisSize: MainAxisSize.min,
+          children: pageList.map((p) {
+            if (p == -1) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+                child: Text(
+                  '...',
+                  style: TextStyle(
+                    color: calculateContentColor(EColorTypes.default_),
+                  ),
                 ),
-                onPressed:
-                    p == currentPage ? null : () => onPageChange?.call(p),
-                child: Text('$p'),
-              )),
-        IconButton(
-          icon: const Icon(Icons.chevron_right),
-          onPressed: currentPage < pageCount
-              ? () => onPageChange?.call(currentPage + 1)
-              : null,
-        ),
-        if (showSizeChanger)
-          DropdownButton<int>(
+              );
+            }
+
+            final isActive = p == currentPage;
+
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 2),
+              child: SizedBox(
+                height: 32,
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor: showBackground && isActive
+                        ? (customColor ?? getColorByType(type: colorType))
+                        : showBackground
+                            ? const Color(0xFFF0F1F5)
+                            : Colors.transparent,
+                    shape: isRound
+                        ? RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          )
+                        : RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                    minimumSize: const Size(32, 32),
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                  ),
+                  onPressed: isActive ? null : () => onPageChange?.call(p),
+                  child: Text(
+                    '$p',
+                    style: TextStyle(
+                      color: showBackground
+                          ? (isActive
+                              ? Colors.white
+                              : calculateContentColor(EColorTypes.default_))
+                          : (isActive
+                              ? customColor ?? EColorTypes.primary
+                              : calculateContentColor(EColorTypes.default_)),
+                      fontWeight: showBackground && isActive
+                          ? FontWeight.bold
+                          : FontWeight.normal,
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
+              ),
+            );
+          }).toList(),
+        );
+
+      case EPaginationLayout.next:
+        final isDisabled = currentPage >= pageCount;
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 2),
+          child: SizedBox(
+            height: 32,
+            width: 32,
+            child: TextButton(
+              style: TextButton.styleFrom(
+                padding: EdgeInsets.zero,
+                backgroundColor: showBackground
+                    ? const Color(0xFFF0F1F5)
+                    : Colors.transparent,
+                shape: isRound
+                    ? RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      )
+                    : RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                minimumSize: const Size(32, 32),
+              ),
+              onPressed:
+                  isDisabled ? null : () => onPageChange?.call(currentPage + 1),
+              child: Icon(
+                Icons.chevron_right,
+                size: 20,
+                color: showBackground
+                    ? (isDisabled
+                        ? calculateContentColor(EColorTypes.default_,
+                            isDisabled: true)
+                        : calculateContentColor(EColorTypes.default_))
+                    : (isDisabled
+                        ? calculateContentColor(EColorTypes.default_,
+                            isDisabled: true)
+                        : calculateContentColor(EColorTypes.default_)),
+              ),
+            ),
+          ),
+        );
+
+      case EPaginationLayout.sizes:
+        return Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: DropdownButton<int>(
             value: pageSize,
+            underline: Container(),
+            style: TextStyle(
+              color: calculateContentColor(EColorTypes.default_),
+              fontSize: 14,
+            ),
             items: pageSizes
-                .map((s) => DropdownMenuItem(value: s, child: Text('$s/页')))
+                .map((s) => DropdownMenuItem(
+                      value: s,
+                      child: Text('$s/page'),
+                    ))
                 .toList(),
             onChanged: (v) => v != null ? onPageSizeChange?.call(v) : null,
           ),
-        if (showJumper)
-          _Jumper(
-            pageCount: pageCount,
-            onJump: (p) {
-              if (p >= 1 && p <= pageCount) onPageChange?.call(p);
-            },
-          ),
-        Padding(
-          padding: const EdgeInsets.only(left: 8),
-          child: Text('共 $total 条'),
-        ),
-      ],
+        );
+
+      case EPaginationLayout.jumper:
+        return _Jumper(
+          pageCount: pageCount,
+          onJump: (p) {
+            if (p >= 1 && p <= pageCount) onPageChange?.call(p);
+          },
+        );
+
+      default:
+        return const SizedBox.shrink();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // Build components in the exact order specified in layout array
+    final List<Widget> orderedComponents = [];
+
+    for (final component in layout) {
+      // Check if component should be displayed based on flags
+      bool shouldShow = true;
+      switch (component) {
+        case EPaginationLayout.total:
+          shouldShow = true;
+          break;
+        case EPaginationLayout.sizes:
+          shouldShow = true;
+          break;
+        case EPaginationLayout.jumper:
+          shouldShow = true;
+          break;
+        default:
+          shouldShow = true;
+      }
+
+      if (shouldShow) {
+        orderedComponents.add(_buildLayoutComponent(component));
+      }
+    }
+
+    return Wrap(
+      crossAxisAlignment: WrapCrossAlignment.center,
+      spacing: 8,
+      children: orderedComponents,
     );
   }
 }
@@ -189,7 +378,8 @@ class _JumperState extends State<_Jumper> {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        const Text('跳至'),
+        const Text('Go to'),
+        const SizedBox(width: 8),
         SizedBox(
           width: 40,
           child: TextField(
@@ -206,7 +396,6 @@ class _JumperState extends State<_Jumper> {
             },
           ),
         ),
-        const Text('页'),
       ],
     );
   }

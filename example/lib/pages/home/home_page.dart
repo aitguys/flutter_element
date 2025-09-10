@@ -302,6 +302,13 @@ class HomePage extends StatelessWidget {
                       child: const Text('Tree 树形控件',
                           style: TextStyle(fontSize: 15)),
                     ),
+                    FlNavItem(
+                      suffix: const Icon(Icons.arrow_forward_ios, size: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      onTap: () => Get.toNamed(Routes.pagination),
+                      child: const Text('Pagination 分页',
+                          style: TextStyle(fontSize: 15)),
+                    ),
                   ],
                 ),
               ),
