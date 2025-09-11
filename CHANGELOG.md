@@ -1,3 +1,7 @@
+## 0.1.33
+
+fix autocomplete select issue
+
 ## 0.1.32
 
 add support for page
