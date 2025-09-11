@@ -458,6 +458,8 @@ class _EAutocompleteState extends State<EAutocomplete> {
                                 height: double.infinity,
                                 child: widget.prepend!,
                               ),
+                            if (widget.prepend != null)
+                              const SizedBox(width: 8),
                             if (widget.prefix != null)
                               Padding(
                                 padding: const EdgeInsets.only(right: 4),

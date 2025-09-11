@@ -87,6 +87,7 @@ Widget _viewerContent() {
         onSelect: (item) {
           Loglevel.d('onSelect: $item');
         },
+        prepend: const Icon(Icons.search),
         customItemBuilder: (item, index, isHighlighted) {
           return Container(
             width: double.infinity,
