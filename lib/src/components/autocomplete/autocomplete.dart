@@ -155,12 +155,12 @@ class _EAutocompleteState extends State<EAutocomplete> {
         _fetchSuggestions('');
       }
     } else {
-      Future.delayed(const Duration(milliseconds: 100), () {
-        if (mounted) {
-          _removeOverlay();
-          widget.onBlur?.call();
-        }
-      });
+      // Future.delayed(const Duration(milliseconds: 100), () {
+      //   if (mounted) {
+      //     _removeOverlay();
+      //     widget.onBlur?.call();
+      //   }
+      // });
     }
   }
 
@@ -206,7 +206,7 @@ class _EAutocompleteState extends State<EAutocomplete> {
 
   void _handleSelect(dynamic item) {
     final selectedText = item[widget.valueKey]?.toString() ?? '';
-
+    widget.onSelect?.call(item);
     _removeOverlay();
 
     setState(() {
@@ -337,12 +337,15 @@ class _EAutocompleteState extends State<EAutocomplete> {
 
                         // 如果提供了自定义构建器，使用自定义组件
                         if (widget.customItemBuilder != null) {
-                          return InkWell(
-                            onTap: () {
-                              _handleSelect(item);
-                            },
-                            child: widget.customItemBuilder!(
-                                item, index, isHighlighted),
+                          return MouseRegion(
+                            cursor: SystemMouseCursors.click,
+                            child: InkWell(
+                              onTap: () {
+                                _handleSelect(item);
+                              },
+                              child: widget.customItemBuilder!(
+                                  item, index, isHighlighted),
+                            ),
                           );
                         }
 
