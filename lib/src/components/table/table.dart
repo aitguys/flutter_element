@@ -140,6 +140,30 @@ class _ETableState extends State<ETable> {
   @override
   Widget build(BuildContext context) {
     final borderSide = BorderSide(color: Theme.of(context).dividerColor);
+    return Table(
+      defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+      textBaseline: TextBaseline.ideographic,
+      columnWidths: Map.fromEntries(
+        widget.columns.asMap().entries.map(
+              (e) => MapEntry(
+                e.key,
+                e.value.width != null
+                    ? FixedColumnWidth(e.value.width!)
+                    : const FlexColumnWidth(),
+              ),
+            ),
+      ),
+      border: widget.border
+          ? TableBorder(
+              top: borderSide,
+              bottom: borderSide,
+              left: borderSide,
+              right: borderSide,
+              horizontalInside: borderSide,
+              verticalInside: borderSide)
+          : null,
+      children: _buildRows(),
+    );
 
     return Container(
       decoration: widget.border
@@ -257,11 +281,6 @@ class _ETableState extends State<ETable> {
           final value = row[column.prop];
 
           return Container(
-            decoration: widget.border && !isLastColumn
-                ? BoxDecoration(
-                    border: Border(right: borderSide),
-                  )
-                : null,
             child: InkWell(
               onTap:
                   widget.onRowTap != null ? () => widget.onRowTap!(row) : null,
