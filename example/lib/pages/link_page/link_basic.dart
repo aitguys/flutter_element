@@ -68,6 +68,12 @@ Widget _viewerContent() {
           colorType: EColorType.info,
           onPressed: () {},
         ),
+        ELink(
+          text: 'Custom Color Link',
+          colorType: EColorType.default_,
+          customColor: Colors.red,
+          onPressed: () {},
+        ),
       ],
     ),
   );
