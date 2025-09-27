@@ -6,6 +6,10 @@ Added customColor to Elink
 
 Added customColor to Elink
 
+## 0.1.34
+
+Added customColor to Elink
+
 ## 0.1.33
 
 fix autocomplete select issue
