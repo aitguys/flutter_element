@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_element_plus/src/theme/index.dart';
 
 enum ETabType {
   card,
@@ -22,18 +23,23 @@ class ETabs extends StatefulWidget {
   final ValueChanged<int>? onChange;
   final double? tabWidth;
   final bool stretch;
+  final EColorType colorType;
+  final Color? customColor;
+  final Color? contentColor;
 
-  const ETabs({
-    super.key,
-    required this.tabs,
-    this.initialActive = 0,
-    this.type = ETabType.card,
-    this.position = ETabPosition.top,
-    this.closable = false,
-    this.onChange,
-    this.tabWidth,
-    this.stretch = false,
-  });
+  const ETabs(
+      {super.key,
+      required this.tabs,
+      this.initialActive = 0,
+      this.type = ETabType.card,
+      this.position = ETabPosition.top,
+      this.closable = false,
+      this.onChange,
+      this.tabWidth,
+      this.stretch = false,
+      this.colorType = EColorType.primary,
+      this.customColor,
+      this.contentColor});
 
   @override
   State<ETabs> createState() => _ETabsState();
@@ -80,9 +86,16 @@ class _ETabsState extends State<ETabs> with SingleTickerProviderStateMixin {
     Widget tabBar = TabBar(
       controller: _controller,
       isScrollable: !widget.stretch,
-      labelColor: theme.primaryColor,
-      unselectedLabelColor: theme.textTheme.bodyMedium?.color,
+      padding: const EdgeInsets.all(0),
+      indicatorWeight: 0,
+      labelColor: calculateContentColor(
+        widget.contentColor ?? getColorByType(type: widget.colorType),
+      ),
+      unselectedLabelColor: getColorByType(
+          type: widget.colorType, customColor: widget.customColor),
       indicator: _buildIndicator(theme),
+      indicatorColor: getColorByType(
+          type: widget.colorType, customColor: widget.customColor),
       labelStyle: const TextStyle(fontWeight: FontWeight.w500),
       tabs: widget.tabs.map((tab) => _buildTab(tab, theme)).toList(),
     );
@@ -126,10 +139,11 @@ class _ETabsState extends State<ETabs> with SingleTickerProviderStateMixin {
   Widget _wrapTabBar(Widget tabBar) {
     if (widget.type == ETabType.segment) {
       return Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(0),
         child: Container(
           decoration: BoxDecoration(
-            color: Theme.of(context).cardColor,
+            color: getColorByType(
+                type: widget.colorType, customColor: widget.customColor),
             borderRadius: BorderRadius.circular(8),
             border: Border.all(color: Theme.of(context).dividerColor),
           ),
@@ -189,7 +203,7 @@ class _ETabsState extends State<ETabs> with SingleTickerProviderStateMixin {
         return Tab(
           height: 32,
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.all(0),
             child: tabContent,
           ),
         );

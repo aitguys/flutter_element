@@ -94,7 +94,14 @@ class HomePage extends StatelessWidget {
                       child:
                           const Text('Link 链接', style: TextStyle(fontSize: 15)),
                     ),
-
+                    // Tab
+                    FlNavItem(
+                      suffix: const Icon(Icons.arrow_forward_ios, size: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      onTap: () => Get.toNamed(Routes.tabs),
+                      child:
+                          const Text('Tab 标签', style: TextStyle(fontSize: 15)),
+                    ),
                     // FlNavItem(
                     //   suffix: const Icon(Icons.arrow_forward_ios, size: 16),
                     //   padding: const EdgeInsets.symmetric(horizontal: 4),

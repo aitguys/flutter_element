@@ -87,9 +87,11 @@ class _TabsPageState extends State<TabsPage> {
             const SizedBox(height: 16),
             SizedBox(
               height: 200,
+              width: 200,
               child: ETabs(
-                tabs: _tabs.sublist(0, 3),
+                tabs: _tabs.sublist(0, 2),
                 type: ETabType.segment,
+                tabWidth: 100,
               ),
             ),
             const SizedBox(height: 32),
