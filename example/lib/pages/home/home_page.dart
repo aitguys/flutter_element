@@ -94,7 +94,20 @@ class HomePage extends StatelessWidget {
                       child:
                           const Text('Link 链接', style: TextStyle(fontSize: 15)),
                     ),
-
+                    FlNavItem(
+                      suffix: const Icon(Icons.arrow_forward_ios, size: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      onTap: () => Get.toNamed(Routes.tabs),
+                      child: const Text('Tabs 标签页',
+                          style: TextStyle(fontSize: 15)),
+                    ),
+                    FlNavItem(
+                      suffix: const Icon(Icons.arrow_forward_ios, size: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      onTap: () => Get.toNamed(Routes.segmented),
+                      child: const Text('Segmented 分段器',
+                          style: TextStyle(fontSize: 15)),
+                    ),
                     // FlNavItem(
                     //   suffix: const Icon(Icons.arrow_forward_ios, size: 16),
                     //   padding: const EdgeInsets.symmetric(horizontal: 4),

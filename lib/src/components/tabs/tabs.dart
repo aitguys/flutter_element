@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_element_plus/src/theme/index.dart';
 
 enum ETabType {
   card,
@@ -6,33 +7,32 @@ enum ETabType {
   segment,
 }
 
-enum ETabPosition {
-  top,
-  right,
-  bottom,
-  left,
-}
-
 class ETabs extends StatefulWidget {
   final List<ETabPane> tabs;
   final int initialActive;
   final ETabType type;
-  final ETabPosition position;
   final bool closable;
   final ValueChanged<int>? onChange;
   final double? tabWidth;
   final bool stretch;
+  final EColorType colorType;
+  final Color? customColor;
+
+  /// 新增 width 属性，默认 'auto'，也可以传入数字
+  final dynamic width; // double 或 'auto'
 
   const ETabs({
     super.key,
     required this.tabs,
     this.initialActive = 0,
     this.type = ETabType.card,
-    this.position = ETabPosition.top,
     this.closable = false,
     this.onChange,
     this.tabWidth,
     this.stretch = false,
+    this.colorType = EColorType.primary,
+    this.customColor,
+    this.width = 'auto', // 默认 auto
   });
 
   @override
@@ -74,17 +74,21 @@ class _ETabsState extends State<ETabs> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final isVertical = widget.position == ETabPosition.left ||
-        widget.position == ETabPosition.right;
 
     Widget tabBar = TabBar(
       controller: _controller,
-      isScrollable: !widget.stretch,
+      isScrollable: !widget.stretch && widget.width == 'auto',
       labelColor: theme.primaryColor,
       unselectedLabelColor: theme.textTheme.bodyMedium?.color,
       indicator: _buildIndicator(theme),
       labelStyle: const TextStyle(fontWeight: FontWeight.w500),
-      tabs: widget.tabs.map((tab) => _buildTab(tab, theme)).toList(),
+      padding: EdgeInsets.zero,
+      tabAlignment: TabAlignment.start,
+      tabs: widget.tabs
+          .asMap()
+          .entries
+          .map((entry) => _buildTab(entry.value, theme, entry.key))
+          .toList(),
     );
 
     Widget tabBarView = TabBarView(
@@ -92,55 +96,23 @@ class _ETabsState extends State<ETabs> with SingleTickerProviderStateMixin {
       children: widget.tabs.map((tab) => tab.content).toList(),
     );
 
-    if (isVertical) {
-      return Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        textDirection: widget.position == ETabPosition.left
-            ? TextDirection.ltr
-            : TextDirection.rtl,
-        children: [
-          SizedBox(
-            width: widget.tabWidth ?? 200,
-            child: RotatedBox(
-              quarterTurns: 0,
-              child: tabBar,
-            ),
-          ),
-          Expanded(child: tabBarView),
-        ],
-      );
-    }
-
-    return Column(
+    return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
-      textDirection: widget.position == ETabPosition.top
-          ? TextDirection.ltr
-          : TextDirection.rtl,
+      textDirection: TextDirection.ltr,
       children: [
-        _wrapTabBar(tabBar),
+        SizedBox(
+          width: widget.tabWidth ?? 200,
+          child: RotatedBox(
+            quarterTurns: 0,
+            child: tabBar,
+          ),
+        ),
         Expanded(child: tabBarView),
       ],
     );
   }
 
-  Widget _wrapTabBar(Widget tabBar) {
-    if (widget.type == ETabType.segment) {
-      return Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-          decoration: BoxDecoration(
-            color: Theme.of(context).cardColor,
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: Theme.of(context).dividerColor),
-          ),
-          child: tabBar,
-        ),
-      );
-    }
-    return tabBar;
-  }
-
-  Widget _buildTab(ETabPane tab, ThemeData theme) {
+  Widget _buildTab(ETabPane tab, ThemeData theme, int index) {
     final tabContent = Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -148,7 +120,12 @@ class _ETabsState extends State<ETabs> with SingleTickerProviderStateMixin {
           Icon(tab.icon, size: 16),
           const SizedBox(width: 8),
         ],
-        Text(tab.label),
+        Text(
+          tab.label,
+          style: TextStyle(
+              color: calculateContentColor(getBackGroundColorByTypeAndTheme(
+                  type: widget.colorType, customColor: widget.customColor))),
+        ),
         if (widget.closable && tab.closable != false) ...[
           const SizedBox(width: 8),
           InkWell(
@@ -161,37 +138,36 @@ class _ETabsState extends State<ETabs> with SingleTickerProviderStateMixin {
       ],
     );
 
+    Widget tabChild = Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: tabContent,
+    );
+
     switch (widget.type) {
       case ETabType.card:
         return Tab(
+          iconMargin: EdgeInsets.zero,
           height: 40,
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
             decoration: BoxDecoration(
               borderRadius:
                   const BorderRadius.vertical(top: Radius.circular(4)),
-              border: _currentIndex == widget.tabs.indexOf(tab)
+              border: _currentIndex == index
                   ? Border.all(color: theme.dividerColor)
                   : null,
             ),
-            child: tabContent,
+            child: tabChild,
           ),
         );
       case ETabType.border:
         return Tab(
           height: 40,
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: tabContent,
-          ),
+          child: tabChild,
         );
       case ETabType.segment:
         return Tab(
           height: 32,
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: tabContent,
-          ),
+          child: tabChild,
         );
     }
   }
@@ -206,8 +182,9 @@ class _ETabsState extends State<ETabs> with SingleTickerProviderStateMixin {
         );
       case ETabType.segment:
         return BoxDecoration(
-          color: theme.primaryColor,
-          borderRadius: BorderRadius.circular(6),
+          color: getColorByType(
+              type: widget.colorType, customColor: widget.customColor),
+          borderRadius: BorderRadius.circular(2),
         );
     }
   }

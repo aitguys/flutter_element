@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_element_plus/src/theme/index.dart';
 
 /// A segmented control option with label, value, and optional icon.
 class FlSegmentedOption<T> {
@@ -40,16 +41,19 @@ class FlSegmented<T> extends StatefulWidget {
   final Size? size;
 
   /// Text style for unselected options.
-  final TextStyle? textStyle;
 
   /// Text style for selected option.
-  final TextStyle? selectedTextStyle;
 
   /// Background color of the control.
   final Color? backgroundColor;
 
+  final EColorType selectedColorType;
+
   /// Background color of selected option.
   final Color? selectedBackgroundColor;
+
+  final Color? contentColor;
+  final Color? selectedContentColor;
 
   /// Border color of the control.
   final Color? borderColor;
@@ -60,6 +64,12 @@ class FlSegmented<T> extends StatefulWidget {
   /// Padding around each option.
   final EdgeInsetsGeometry? padding;
 
+  /// Whether the segmented control is round.
+  final bool isRound;
+
+  /// The width of the segmented control. If null or 'auto', the width is determined by content.
+  final double? width;
+
   const FlSegmented({
     super.key,
     required this.options,
@@ -67,13 +77,16 @@ class FlSegmented<T> extends StatefulWidget {
     this.onChange,
     this.block = false,
     this.size,
-    this.textStyle,
-    this.selectedTextStyle,
     this.backgroundColor,
     this.selectedBackgroundColor,
     this.borderColor,
+    this.selectedColorType = EColorType.primary,
+    this.contentColor,
+    this.selectedContentColor,
     this.borderRadius = 4.0,
     this.padding,
+    this.isRound = false, // 新增 isRound 属性，默认 false
+    this.width, // 新增 width 属性，默认 auto
   });
 
   @override
@@ -81,38 +94,66 @@ class FlSegmented<T> extends StatefulWidget {
 }
 
 class _FlSegmentedState<T> extends State<FlSegmented<T>>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
+    with SingleTickerProviderStateMixin, WidgetsBindingObserver {
   int _selectedIndex = 0;
   final GlobalKey _segmentedKey = GlobalKey();
   final List<GlobalKey> _optionKeys = [];
 
+  // For animation of left/width
+  double _backgroundLeft = 0;
+  double _backgroundWidth = 0;
+
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      duration: const Duration(milliseconds: 200),
-      vsync: this,
-    );
-    CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeInOut,
-    );
+    WidgetsBinding.instance.addObserver(this);
     if (widget.value != null) {
       _selectedIndex =
           widget.options.indexWhere((option) => option.value == widget.value);
       if (_selectedIndex == -1) _selectedIndex = 0;
     }
-
     _optionKeys.addAll(
       List.generate(widget.options.length, (index) => GlobalKey()),
     );
+    // Wait for first frame to get correct positions
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _updateBackgroundPosition();
+    });
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
+  }
+
+  @override
+  void didChangeMetrics() {
+    // Called when the screen size changes (e.g., orientation, resize)
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _updateBackgroundPosition();
+    });
+  }
+
+  @override
+  void didUpdateWidget(covariant FlSegmented<T> oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.value != null) {
+      final idx =
+          widget.options.indexWhere((option) => option.value == widget.value);
+      if (idx != -1 && idx != _selectedIndex) {
+        setState(() {
+          _selectedIndex = idx;
+        });
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _updateBackgroundPosition();
+        });
+      }
+    } else {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _updateBackgroundPosition();
+      });
+    }
   }
 
   void _onTap(int index) {
@@ -123,6 +164,50 @@ class _FlSegmentedState<T> extends State<FlSegmented<T>>
     });
 
     widget.onChange?.call(widget.options[index].value);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _updateBackgroundPosition();
+    });
+  }
+
+  void _updateBackgroundPosition() {
+    if (!mounted) return;
+    final key = _optionKeys.length > _selectedIndex
+        ? _optionKeys[_selectedIndex]
+        : null;
+    final parentBox = _segmentedKey.currentContext?.findRenderObject();
+    if (key != null &&
+        key.currentContext != null &&
+        parentBox is RenderBox &&
+        key.currentContext!.findRenderObject() is RenderBox) {
+      final box = key.currentContext!.findRenderObject() as RenderBox;
+      final parentOffset = parentBox.localToGlobal(Offset.zero);
+      final childOffset = box.localToGlobal(Offset.zero);
+      final left = childOffset.dx - parentOffset.dx;
+      final width = box.size.width;
+      setState(() {
+        _backgroundLeft = left;
+        _backgroundWidth = width;
+      });
+    }
+  }
+
+  double _getBorderRadius() {
+    if (widget.isRound) {
+      // Use a large value for round effect, e.g. 999
+      return 999.0;
+    }
+    return widget.borderRadius;
+  }
+
+  Color _calculateContentColor(bool isSelected, bool isDisabled) {
+    return isSelected
+        ? calculateContentColor(
+            getBackGroundColorByTypeAndTheme(
+                type: widget.selectedColorType,
+                customColor: widget.contentColor),
+            isDisabled: isDisabled)
+        : Colors.black;
   }
 
   @override
@@ -133,77 +218,148 @@ class _FlSegmentedState<T> extends State<FlSegmented<T>>
       color: theme.colorScheme.primary,
     );
 
-    return Container(
-      key: _segmentedKey,
-      width: widget.block ? double.infinity : null,
-      decoration: BoxDecoration(
-        color: widget.backgroundColor ?? theme.colorScheme.surface,
-        borderRadius: BorderRadius.circular(widget.borderRadius),
-        border: Border.all(
-          color: widget.borderColor ?? theme.dividerColor,
-        ),
-      ),
-      child: Row(
-        mainAxisSize: widget.block ? MainAxisSize.max : MainAxisSize.min,
-        children: widget.options.asMap().entries.map((entry) {
-          final index = entry.key;
-          final option = entry.value;
-          final isSelected = index == _selectedIndex;
-          final isDisabled = option.disabled;
+    Widget content = LayoutBuilder(
+      builder: (context, constraints) {
+        final optionCount = widget.options.length;
+        // Determine the totalWidth based on width property, block, and size
+        double? totalWidth;
+        if (widget.width != null) {
+          totalWidth = widget.width;
+        } else if (widget.block) {
+          totalWidth = constraints.maxWidth.isFinite
+              ? constraints.maxWidth
+              : (widget.size?.width ?? 0);
+        } else if (widget.size?.width != null) {
+          totalWidth = widget.size!.width;
+        } else {
+          totalWidth = null; // auto
+        }
 
-          return Expanded(
-            key: _optionKeys[index],
-            child: GestureDetector(
-              onTap: isDisabled ? null : () => _onTap(index),
-              child: Container(
-                padding: widget.padding ??
-                    const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
-                    ),
-                decoration: BoxDecoration(
-                  color: isSelected
-                      ? (widget.selectedBackgroundColor ??
-                          theme.colorScheme.primary.withValues(alpha: 0.1))
-                      : Colors.transparent,
-                  borderRadius: BorderRadius.circular(widget.borderRadius - 1),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    if (option.icon != null) ...[
-                      IconTheme(
-                        data: IconThemeData(
-                          color: isSelected
-                              ? (widget.selectedTextStyle?.color ??
-                                  theme.colorScheme.primary)
-                              : (widget.textStyle?.color ??
-                                  defaultTextStyle.color),
-                          size: 16,
-                        ),
-                        child: option.icon!,
-                      ),
-                      const SizedBox(width: 4),
-                    ],
-                    Text(
-                      option.label,
-                      style: (isSelected
-                              ? widget.selectedTextStyle
-                              : widget.textStyle) ??
-                          (isSelected
-                                  ? defaultSelectedTextStyle
-                                  : defaultTextStyle)
-                              .copyWith(
-                            color: isDisabled ? theme.disabledColor : null,
-                          ),
-                    ),
-                  ],
+        final double optionWidth =
+            widget.block && totalWidth != null && totalWidth > 0
+                ? totalWidth / optionCount
+                : double.infinity;
+
+        // If block, we can calculate left/width directly
+        double? left, width;
+        if (widget.block && totalWidth != null && totalWidth > 0) {
+          left = optionWidth * _selectedIndex;
+          width = optionWidth;
+        } else {
+          left = _backgroundLeft;
+          width = _backgroundWidth;
+        }
+
+        // 监听布局变化，防止屏幕缩放时浮层不更新
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _updateBackgroundPosition();
+        });
+
+        return Container(
+          key: _segmentedKey,
+          width: totalWidth,
+          decoration: BoxDecoration(
+            color: widget.backgroundColor ??
+                const Color.fromRGBO(245, 247, 250, 1),
+            borderRadius: BorderRadius.circular(
+                widget.isRound ? 999.0 : widget.borderRadius),
+            // border: Border.all(
+            //   color: widget.borderColor ?? theme.dividerColor,
+            // ),
+          ),
+          child: Stack(
+            alignment: Alignment.centerLeft,
+            children: [
+              // Animated background for selected option
+              AnimatedPositioned(
+                duration: const Duration(milliseconds: 220),
+                curve: Curves.easeInOut,
+                left: left,
+                top: 0,
+                bottom: 0,
+                width: width,
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 220),
+                  curve: Curves.easeInOut,
+                  decoration: BoxDecoration(
+                    color: getColorByType(
+                        type: widget.selectedColorType,
+                        customColor: widget.selectedBackgroundColor),
+                    borderRadius: BorderRadius.circular(_getBorderRadius() - 1),
+                  ),
                 ),
               ),
-            ),
-          );
-        }).toList(),
-      ),
+              Row(
+                mainAxisSize: widget.block || totalWidth != null
+                    ? MainAxisSize.max
+                    : MainAxisSize.min,
+                children: widget.options.asMap().entries.map((entry) {
+                  final index = entry.key;
+                  final option = entry.value;
+                  final isSelected = index == _selectedIndex;
+                  final isDisabled = option.disabled;
+
+                  return Expanded(
+                    key: _optionKeys[index],
+                    child: GestureDetector(
+                      onTap: isDisabled ? null : () => _onTap(index),
+                      child: AnimatedDefaultTextStyle(
+                        style: TextStyle(
+                          color: calculateContentColor(
+                              getBackGroundColorByTypeAndTheme(
+                                  type: widget.selectedColorType,
+                                  customColor: widget.contentColor)),
+                        ),
+                        duration: const Duration(milliseconds: 220),
+                        curve: Curves.easeInOut,
+                        child: Container(
+                          width: widget.block || totalWidth != null
+                              ? double.infinity
+                              : null,
+                          padding: widget.padding ??
+                              const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 8,
+                              ),
+                          // Remove color here, handled by animated background
+                          decoration: const BoxDecoration(
+                            color: Colors.transparent,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              if (option.icon != null) ...[
+                                IconTheme(
+                                  data: IconThemeData(
+                                    color: _calculateContentColor(
+                                        isSelected, isDisabled),
+                                    size: 16,
+                                  ),
+                                  child: option.icon!,
+                                ),
+                                const SizedBox(width: 4),
+                              ],
+                              Text(
+                                option.label,
+                                style: TextStyle(
+                                  color: _calculateContentColor(
+                                      isSelected, isDisabled),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ],
+          ),
+        );
+      },
     );
+
+    return content;
   }
 }

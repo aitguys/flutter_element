@@ -17,6 +17,7 @@ class _SegmentedPageState extends State<SegmentedPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text('Segmented 分段控制器'),
       ),
@@ -72,35 +73,38 @@ class _SegmentedPageState extends State<SegmentedPage> {
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20),
-            FlSegmented<String>(
-              options: const [
-                FlSegmentedOption(
-                  label: 'Spring',
-                  value: 'Spring',
-                  icon: Icon(Icons.wb_sunny),
-                ),
-                FlSegmentedOption(
-                  label: 'Summer',
-                  value: 'Summer',
-                  icon: Icon(Icons.beach_access),
-                ),
-                FlSegmentedOption(
-                  label: 'Autumn',
-                  value: 'Autumn',
-                  icon: Icon(Icons.forest),
-                ),
-                FlSegmentedOption(
-                  label: 'Winter',
-                  value: 'Winter',
-                  icon: Icon(Icons.ac_unit),
-                ),
-              ],
-              value: _selectedValue3,
-              onChange: (value) {
-                setState(() {
-                  _selectedValue3 = value;
-                });
-              },
+            SizedBox(
+              width: 500,
+              child: FlSegmented<String>(
+                options: const [
+                  FlSegmentedOption(
+                    label: 'Spring',
+                    value: 'Spring',
+                    icon: Icon(Icons.wb_sunny),
+                  ),
+                  FlSegmentedOption(
+                    label: 'Summer',
+                    value: 'Summer',
+                    icon: Icon(Icons.beach_access),
+                  ),
+                  FlSegmentedOption(
+                    label: 'Autumn',
+                    value: 'Autumn',
+                    icon: Icon(Icons.forest),
+                  ),
+                  FlSegmentedOption(
+                    label: 'Winter',
+                    value: 'Winter',
+                    icon: Icon(Icons.ac_unit),
+                  ),
+                ],
+                value: _selectedValue3,
+                onChange: (value) {
+                  setState(() {
+                    _selectedValue3 = value;
+                  });
+                },
+              ),
             ),
             const SizedBox(height: 40),
             const Text(
@@ -108,7 +112,10 @@ class _SegmentedPageState extends State<SegmentedPage> {
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20),
-            FlSegmented<String>(
+            FlSegmented(
+              isRound: true,
+              width: 400,
+              size: const Size(100, 40),
               options: const [
                 FlSegmentedOption(label: 'Option A', value: 'Option A'),
                 FlSegmentedOption(label: 'Option B', value: 'Option B'),
@@ -121,17 +128,7 @@ class _SegmentedPageState extends State<SegmentedPage> {
                 });
               },
               block: true,
-              backgroundColor: Colors.grey[100],
-              selectedBackgroundColor: Colors.blue[100],
               borderColor: Colors.blue,
-              textStyle: const TextStyle(
-                color: Colors.grey,
-                fontWeight: FontWeight.bold,
-              ),
-              selectedTextStyle: const TextStyle(
-                color: Colors.blue,
-                fontWeight: FontWeight.bold,
-              ),
               padding: const EdgeInsets.symmetric(
                 horizontal: 24,
                 vertical: 12,
