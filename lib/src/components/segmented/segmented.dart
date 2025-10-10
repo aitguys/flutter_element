@@ -219,12 +219,6 @@ class _FlSegmentedState<T> extends State<FlSegmented<T>>
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final defaultTextStyle = theme.textTheme.bodyMedium!;
-    final defaultSelectedTextStyle = defaultTextStyle.copyWith(
-      color: theme.colorScheme.primary,
-    );
-
     Widget content = LayoutBuilder(
       builder: (context, constraints) {
         final optionCount = widget.options.length;
