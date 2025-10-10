@@ -40,6 +40,9 @@ class FlSegmented<T> extends StatefulWidget {
   /// The size of the control.
   final Size? size;
 
+  /// 高度属性，高度为 null/auto 时由内容自动决定
+  final double? height;
+
   /// Text style for unselected options.
 
   /// Text style for selected option.
@@ -61,33 +64,37 @@ class FlSegmented<T> extends StatefulWidget {
   /// Border radius of the control.
   final double borderRadius;
 
-  /// Padding around each option.
-  final EdgeInsetsGeometry? padding;
-
   /// Whether the segmented control is round.
   final bool isRound;
 
   /// The width of the segmented control. If null or 'auto', the width is determined by content.
   final double? width;
+  final TextStyle? textStyle;
+  final TextStyle? selectedTextStyle;
+  final IconThemeData? iconTheme;
+  final IconThemeData? selectedIconTheme;
 
-  const FlSegmented({
-    super.key,
-    required this.options,
-    this.value,
-    this.onChange,
-    this.block = false,
-    this.size,
-    this.backgroundColor,
-    this.selectedBackgroundColor,
-    this.borderColor,
-    this.selectedColorType = EColorType.primary,
-    this.contentColor,
-    this.selectedContentColor,
-    this.borderRadius = 4.0,
-    this.padding,
-    this.isRound = false, // 新增 isRound 属性，默认 false
-    this.width, // 新增 width 属性，默认 auto
-  });
+  const FlSegmented(
+      {super.key,
+      required this.options,
+      this.value,
+      this.onChange,
+      this.block = false,
+      this.size,
+      this.height = 40, // 新增 height 属性，默认 auto
+      this.backgroundColor,
+      this.selectedBackgroundColor,
+      this.borderColor,
+      this.selectedColorType = EColorType.primary,
+      this.contentColor,
+      this.selectedContentColor,
+      this.borderRadius = 4.0,
+      this.isRound = false, // 新增 isRound 属性，默认 false
+      this.width, // 新增 width 属性，默认 auto
+      this.textStyle,
+      this.selectedTextStyle,
+      this.iconTheme,
+      this.selectedIconTheme});
 
   @override
   State<FlSegmented<T>> createState() => _FlSegmentedState<T>();
@@ -258,6 +265,7 @@ class _FlSegmentedState<T> extends State<FlSegmented<T>>
         return Container(
           key: _segmentedKey,
           width: totalWidth,
+          height: widget.height, // 支持外部设置高度
           decoration: BoxDecoration(
             color: widget.backgroundColor ??
                 const Color.fromRGBO(245, 247, 250, 1),
@@ -316,11 +324,8 @@ class _FlSegmentedState<T> extends State<FlSegmented<T>>
                           width: widget.block || totalWidth != null
                               ? double.infinity
                               : null,
-                          padding: widget.padding ??
-                              const EdgeInsets.symmetric(
-                                horizontal: 16,
-                                vertical: 8,
-                              ),
+                          padding: EdgeInsets.zero,
+                          // 默认 padding 为 0
                           // Remove color here, handled by animated background
                           decoration: const BoxDecoration(
                             color: Colors.transparent,
@@ -330,21 +335,36 @@ class _FlSegmentedState<T> extends State<FlSegmented<T>>
                             children: [
                               if (option.icon != null) ...[
                                 IconTheme(
-                                  data: IconThemeData(
-                                    color: _calculateContentColor(
-                                        isSelected, isDisabled),
-                                    size: 16,
-                                  ),
+                                  data: isSelected
+                                      ? widget.selectedIconTheme ??
+                                          IconThemeData(
+                                            color: _calculateContentColor(
+                                                isSelected, isDisabled),
+                                            size: 16,
+                                          )
+                                      : widget.iconTheme ??
+                                          IconThemeData(
+                                            color: _calculateContentColor(
+                                                isSelected, isDisabled),
+                                            size: 16,
+                                          ),
                                   child: option.icon!,
                                 ),
                                 const SizedBox(width: 4),
                               ],
                               Text(
                                 option.label,
-                                style: TextStyle(
-                                  color: _calculateContentColor(
-                                      isSelected, isDisabled),
-                                ),
+                                style: isSelected
+                                    ? widget.selectedTextStyle ??
+                                        TextStyle(
+                                          color: _calculateContentColor(
+                                              isSelected, isDisabled),
+                                        )
+                                    : widget.textStyle ??
+                                        TextStyle(
+                                          color: _calculateContentColor(
+                                              isSelected, isDisabled),
+                                        ),
                               ),
                             ],
                           ),

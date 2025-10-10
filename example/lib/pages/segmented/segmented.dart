@@ -76,6 +76,13 @@ class _SegmentedPageState extends State<SegmentedPage> {
             SizedBox(
               width: 500,
               child: FlSegmented<String>(
+                isRound: true,
+                iconTheme: const IconThemeData(
+                  color: Colors.blue,
+                ),
+                selectedIconTheme: const IconThemeData(
+                  color: Colors.white,
+                ),
                 options: const [
                   FlSegmentedOption(
                     label: 'Spring',
@@ -127,12 +134,9 @@ class _SegmentedPageState extends State<SegmentedPage> {
                   _selectedValue4 = value;
                 });
               },
-              block: true,
+              selectedTextStyle: const TextStyle(
+                  color: Colors.white, fontWeight: FontWeight.bold),
               borderColor: Colors.blue,
-              padding: const EdgeInsets.symmetric(
-                horizontal: 24,
-                vertical: 12,
-              ),
             ),
           ],
         ),
