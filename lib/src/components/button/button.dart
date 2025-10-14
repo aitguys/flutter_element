@@ -48,6 +48,10 @@ class EButton extends StatefulWidget {
   /// If provided, this overrides the color determined by [type].
   final Color? color;
 
+  /// Gradient for the button background. If provided and not null,
+  /// the button background will use the gradient instead of a solid color.
+  final Gradient? gradient;
+
   /// Whether the button should be rendered as a link.
   ///
   /// When true, the button will have no background or border.
@@ -131,6 +135,7 @@ class EButton extends StatefulWidget {
     this.suffixIcon,
     this.child,
     this.color,
+    this.gradient,
     this.loading = false,
     this.autoLoading = false,
     this.isDisabled = false,
@@ -177,6 +182,61 @@ class _EButtonState extends State<EButton> {
 
     final isIconOnly = isOnlyIcon(widget.icon, widget.text, widget.child);
 
+    // 优先级：isLink > gradient > color
+    BoxDecoration? boxDecoration;
+    if (widget.isLink) {
+      boxDecoration = null;
+    } else if (widget.gradient != null) {
+      boxDecoration = BoxDecoration(
+        gradient: widget.gradient,
+        // 使用一个带透明度的蒙版色覆盖在渐变上
+        // 这里我们以白色带一定透明度做常规蒙版，可按需调整
+        color: isHovered
+            ? calculateBackgroundColor(Colors.white.withOpacity(0.8),
+                isPlain: widget.isPlain,
+                isActive: true,
+                isDisabled: widget.isDisabled)
+            : calculateBackgroundColor(Colors.white.withOpacity(1),
+                isPlain: widget.isPlain,
+                isActive: false,
+                isDisabled: widget.isDisabled),
+        borderRadius: isIconOnly && widget.isCircle
+            ? BorderRadius.circular(100)
+            : widget.isRound
+                ? BorderRadius.circular(100)
+                : BorderRadius.circular(5),
+      );
+    } else {
+      boxDecoration = BoxDecoration(
+        color: isHovered
+            ? calculateBackgroundColor(buttonColor,
+                isPlain: widget.isPlain,
+                isActive: true,
+                isDisabled: widget.isDisabled)
+            : calculateBackgroundColor(buttonColor,
+                isPlain: widget.isPlain,
+                isActive: false,
+                isDisabled: widget.isDisabled),
+        borderRadius: isIconOnly && widget.isCircle
+            ? BorderRadius.circular(100)
+            : widget.isRound
+                ? BorderRadius.circular(100)
+                : BorderRadius.circular(5),
+        border: Border.all(
+          color: isHovered
+              ? calculateBorderColor(buttonColor,
+                  isPlain: widget.isPlain,
+                  isActive: true,
+                  isDisabled: widget.isDisabled)
+              : calculateBorderColor(buttonColor,
+                  isPlain: widget.isPlain,
+                  isActive: false,
+                  isDisabled: widget.isDisabled),
+          width: 1,
+        ),
+      );
+    }
+
     Widget btn = MouseRegion(
       cursor: widget.isDisabled
           ? SystemMouseCursors.forbidden
@@ -196,36 +256,7 @@ class _EButtonState extends State<EButton> {
           padding: isIconOnly && widget.isCircle
               ? ElememtSize(size: widget.size).getButtonRoundPadding()
               : ElememtSize(size: widget.size).getButtonPadding(),
-          decoration: widget.isLink
-              ? null
-              : BoxDecoration(
-                  color: isHovered
-                      ? calculateBackgroundColor(buttonColor,
-                          isPlain: widget.isPlain,
-                          isActive: true,
-                          isDisabled: widget.isDisabled)
-                      : calculateBackgroundColor(buttonColor,
-                          isPlain: widget.isPlain,
-                          isActive: false,
-                          isDisabled: widget.isDisabled),
-                  borderRadius: isIconOnly && widget.isCircle
-                      ? BorderRadius.circular(100)
-                      : widget.isRound
-                          ? BorderRadius.circular(100)
-                          : BorderRadius.circular(5),
-                  border: Border.all(
-                    color: isHovered
-                        ? calculateBorderColor(buttonColor,
-                            isPlain: widget.isPlain,
-                            isActive: true,
-                            isDisabled: widget.isDisabled)
-                        : calculateBorderColor(buttonColor,
-                            isPlain: widget.isPlain,
-                            isActive: false,
-                            isDisabled: widget.isDisabled),
-                    width: 1,
-                  ),
-                ),
+          decoration: boxDecoration,
           child: Builder(
             builder: (context) {
               return calculateButtonContent(
