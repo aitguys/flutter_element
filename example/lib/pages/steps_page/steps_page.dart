@@ -13,21 +13,20 @@ class _StepsPageState extends State<StepsPage> {
 
   final List<EStep> _steps = [
     const EStep(
-      title: '步骤 1',
-      description: '这是一段很长的描述性文字',
-      icon: Icons.edit,
+      title: 'Step 1',
+      description: 'Some description',
     ),
     const EStep(
-      title: '步骤 2',
-      description: '这是一段很长的描述性文字',
+      title: 'Step 2',
+      description: 'Some description',
     ),
     const EStep(
-      title: '步骤 3',
-      description: '这是一段很长的描述性文字',
+      title: 'Step 3',
+      description: 'Some description',
     ),
     const EStep(
-      title: '步骤 4',
-      description: '这是一段很长的描述性文字',
+      title: 'Step 4',
+      description: 'Some description',
     ),
   ];
 
@@ -102,11 +101,6 @@ class _StepsPageState extends State<StepsPage> {
             const Text('点状步骤条',
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             const SizedBox(height: 16),
-            ESteps(
-              steps: _steps,
-              active: _active,
-              progressDot: true,
-            ),
           ],
         ),
       ),
