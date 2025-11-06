@@ -16,7 +16,7 @@ class TrianglePainter extends CustomPainter {
       ..close(); // Close the path
 
     // Scale up the triangle by 20%
-    final matrix = Matrix4.identity()..scale(1.2);
+    final matrix = Matrix4.identity()..scaleByDouble(1.2, 1.2, 1.2, 1.2);
     final scaledPath = path.transform(matrix.storage);
 
     canvas.drawPath(scaledPath, Paint()..color = color);
