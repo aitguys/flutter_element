@@ -51,7 +51,7 @@ class ESteps extends StatelessWidget {
   final Widget? finishWidget;
 
   const ESteps({
-    Key? key,
+    super.key,
     required this.steps,
     this.active = 0,
     this.direction = EStepDirection.horizontal,
@@ -60,7 +60,7 @@ class ESteps extends StatelessWidget {
     this.finishColorType = EColorType.success,
     this.space,
     this.finishWidget,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -159,7 +159,6 @@ class _StepItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ColorScheme colorScheme = Theme.of(context).colorScheme;
     Widget iconWidget;
     if (isFinished) {
       iconWidget = Container(
@@ -199,7 +198,7 @@ class _StepItem extends StatelessWidget {
     }
 
     // 连接线条
-    Widget connector = SizedBox.shrink();
+    Widget connector = const SizedBox.shrink();
     if (!isLast) {
       connector = direction == EStepDirection.horizontal
           ? Expanded(
@@ -279,7 +278,7 @@ class _StepItem extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(width: 8),
+          const SizedBox(width: 8),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

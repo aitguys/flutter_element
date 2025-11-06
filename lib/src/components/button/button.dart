@@ -192,11 +192,11 @@ class _EButtonState extends State<EButton> {
         // 使用一个带透明度的蒙版色覆盖在渐变上
         // 这里我们以白色带一定透明度做常规蒙版，可按需调整
         color: isHovered
-            ? calculateBackgroundColor(Colors.white.withOpacity(0.8),
+            ? calculateBackgroundColor(Colors.white.withValues(alpha: 0.8),
                 isPlain: widget.isPlain,
                 isActive: true,
                 isDisabled: widget.isDisabled)
-            : calculateBackgroundColor(Colors.white.withOpacity(1),
+            : calculateBackgroundColor(Colors.white.withValues(alpha: 1),
                 isPlain: widget.isPlain,
                 isActive: false,
                 isDisabled: widget.isDisabled),
