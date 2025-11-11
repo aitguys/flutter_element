@@ -16,6 +16,8 @@ class EList extends StatefulWidget {
   final Axis scrollDirection;
   final bool reverse;
   final bool enablePullDown;
+  // 偏移阈值
+  final double offsetThreshold;
 
   /// 自定义刷新头构建器 (context, mode, offset)
   final Widget Function(
@@ -38,6 +40,7 @@ class EList extends StatefulWidget {
     this.reverse = false,
     this.enablePullDown = true,
     this.refreshHeaderBuilder,
+    this.offsetThreshold = 40.0,
   });
 
   @override
@@ -199,26 +202,39 @@ class _EListState extends State<EList> {
     // https://api.flutter.dev/flutter/widgets/ScrollNotification-class.html
     return NotificationListener<ScrollNotification>(
       onNotification: (ScrollNotification notification) {
+        // print(
+        //     'notification: ${notification},${notification.metrics.hasPixels}, Date: ${DateTime.now()}');
         final metrics = notification.metrics;
-        print('metrics: ${metrics.pixels}');
         if (metrics.pixels < 0) {
           // 下拉刷新
           setState(() {
             _dragOffset = metrics.pixels.abs();
           });
         }
-        // // 只在非刷新且下拉时记录距离
-        // if (notification is OverscrollNotification && !_refreshing) {
-        //   setState(() {
-        //     _dragOffset += notification.overscroll / 2;
-        //     if (_dragOffset < 0) _dragOffset = 0.0;
-        //   });
-        // } else
 
-        if (notification is ScrollUpdateNotification &&
-            _dragOffset > 80 &&
-            !_refreshing) {
-          _handleRefresh();
+        if (notification is ScrollUpdateNotification) {
+          print(notification.dragDetails);
+          if (notification.dragDetails != null) {
+            if (_dragOffset < widget.offsetThreshold) {
+              setState(() {
+                _refreshMode = RefreshHeaderMode.drag;
+              });
+            } else if (_dragOffset >= widget.offsetThreshold) {
+              setState(() {
+                _refreshMode = RefreshHeaderMode.armed;
+              });
+            }
+          } else {
+            // 用户松手了
+            setState(() {
+              _refreshMode = RefreshHeaderMode.refresh;
+            });
+            _handleRefresh().then((value) {
+              setState(() {
+                _refreshMode = RefreshHeaderMode.done;
+              });
+            });
+          }
         } else if (notification is ScrollEndNotification &&
             _dragOffset <= 80 &&
             !_refreshing) {
@@ -234,7 +250,7 @@ class _EListState extends State<EList> {
         children: [
           listView,
           // 顶部下拉头部
-          if (_dragOffset > 0 || _refreshing)
+          if (_dragOffset > 0)
             Positioned(
               top: -80 + _dragOffset,
               left: 0,
@@ -247,40 +263,17 @@ class _EListState extends State<EList> {
   }
 
   Widget _buildCustomHeader(BuildContext context) {
-    print('buildCustomHeader: $_refreshing');
-    if (_refreshing) {
-      return Container(
-        height: 80,
-        alignment: Alignment.center,
-        child: const CircularProgressIndicator(),
-      );
-    } else if (_dragOffset < 40) {
-      return Container(
-        height: 80,
-        alignment: Alignment.bottomCenter,
-        child: Text("下拉刷新 (${_dragOffset.toStringAsFixed(1)} px)"),
-      );
-    } else {
-      return Container(
-        height: 80,
-        alignment: Alignment.center,
-        child: const Text("松开立即刷新", style: TextStyle(color: Colors.blue)),
-      );
+    switch (_refreshMode) {
+      case RefreshHeaderMode.drag:
+        return const Center(child: Text("继续下拉"));
+      case RefreshHeaderMode.armed:
+        return const Center(child: Text("松开刷新"));
+      case RefreshHeaderMode.refresh:
+        return const Center(child: CircularProgressIndicator());
+      case RefreshHeaderMode.done:
+        return const Center(child: Text("刷新完成"));
+      default:
+        return const SizedBox.shrink();
     }
   }
-
-  // Widget _defaultHeader(BuildContext context) {
-  //   switch (_refreshMode) {
-  //     case RefreshHeaderMode.drag:
-  //       return const Center(child: Text("继续下拉"));
-  //     case RefreshHeaderMode.armed:
-  //       return const Center(child: Text("松开刷新"));
-  //     case RefreshHeaderMode.refresh:
-  //       return const Center(child: CircularProgressIndicator());
-  //     case RefreshHeaderMode.done:
-  //       return const Center(child: Text("刷新完成"));
-  //     default:
-  //       return const SizedBox.shrink();
-  //   }
-  // }
 }

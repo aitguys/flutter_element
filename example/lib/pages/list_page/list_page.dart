@@ -32,7 +32,7 @@ class _ListPageState extends State<ListPage> {
 
   Future<void> _handleRefresh() async {
     // 模拟刷新数据
-    await Future.delayed(const Duration(seconds: 1));
+    await Future.delayed(const Duration(seconds: 5));
     setState(() {
       _currentPage = 1;
       _hasMore = true;
