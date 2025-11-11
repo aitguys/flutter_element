@@ -7,9 +7,13 @@ enum RefreshHeaderMode { idle, drag, armed, refresh, done }
 /// 限制顶部下拉的最大回弹距离为 [maxOverscroll]
 class MaxOverscrollPhysics extends ScrollPhysics {
   final double maxOverscroll;
+  final bool holdAtTop;
+  final double holdExtent; // 正值，表示期望顶部悬停的可见高度
 
   const MaxOverscrollPhysics({
     required this.maxOverscroll,
+    this.holdAtTop = false,
+    this.holdExtent = 0.0,
     ScrollPhysics? parent,
   }) : super(parent: parent);
 
@@ -17,6 +21,8 @@ class MaxOverscrollPhysics extends ScrollPhysics {
   MaxOverscrollPhysics applyTo(ScrollPhysics? ancestor) {
     return MaxOverscrollPhysics(
       maxOverscroll: maxOverscroll,
+      holdAtTop: holdAtTop,
+      holdExtent: holdExtent,
       parent: buildParent(ancestor),
     );
   }
@@ -29,9 +35,11 @@ class MaxOverscrollPhysics extends ScrollPhysics {
       if (parentResult != 0.0) return parentResult;
     }
 
-    // 自定义顶部边界：允许到 minScrollExtent - maxOverscroll
+    // 自定义顶部边界：
+    // 刷新/展示 done 期间固定在 holdExtent，其他时候允许到 maxOverscroll
+    final double limit = holdAtTop ? holdExtent : maxOverscroll;
     final double customTopBoundary =
-        position.minScrollExtent - maxOverscroll; // 通常 min 为 0
+        position.minScrollExtent - limit; // 通常 min 为 0
 
     // 试图越过我们自定义的顶部边界
     if (value < customTopBoundary && position.pixels >= customTopBoundary) {
@@ -42,6 +50,20 @@ class MaxOverscrollPhysics extends ScrollPhysics {
       return value - position.pixels;
     }
     return 0.0;
+  }
+
+  @override
+  Simulation? createBallisticSimulation(
+      ScrollMetrics position, double velocity) {
+    // 刷新/展示 done 期间，如果在顶部区域，尽量维持在 -holdExtent，形成“悬停”
+    if (holdAtTop && position.pixels < position.minScrollExtent) {
+      final double target = position.minScrollExtent - holdExtent;
+      if ((position.pixels - target).abs() < toleranceFor(position).distance) {
+        return parent?.createBallisticSimulation(position, velocity);
+      }
+    }
+    return parent?.createBallisticSimulation(position, velocity) ??
+        super.createBallisticSimulation(position, velocity);
   }
 }
 
@@ -186,11 +208,23 @@ class _EListState extends State<EList> {
       await Future.delayed(const Duration(milliseconds: 500));
     } finally {
       if (mounted) {
+        // 关闭悬停保持，并在 done 显示后再回到顶部
         setState(() {
           _refreshing = false;
-          _dragOffset = 0;
-          _refreshMode = RefreshHeaderMode.idle;
         });
+        if (_controller.hasClients) {
+          await _controller.animateTo(
+            0.0,
+            duration: const Duration(milliseconds: 250),
+            curve: Curves.easeOut,
+          );
+        }
+        if (mounted) {
+          setState(() {
+            _dragOffset = 0.0;
+            _refreshMode = RefreshHeaderMode.idle;
+          });
+        }
       }
     }
   }
@@ -217,6 +251,10 @@ class _EListState extends State<EList> {
       padding: widget.padding,
       physics: MaxOverscrollPhysics(
         maxOverscroll: widget.offsetThresholdMax,
+        holdAtTop: _refreshing ||
+            _refreshMode == RefreshHeaderMode.refresh ||
+            _refreshMode == RefreshHeaderMode.done,
+        holdExtent: widget.offsetThresholdMin,
         parent: widget.physics ?? const AlwaysScrollableScrollPhysics(),
       ),
       shrinkWrap: widget.shrinkWrap,
@@ -254,9 +292,7 @@ class _EListState extends State<EList> {
         final metrics = notification.metrics;
         if (metrics.pixels < 0) {
           // 下拉刷新
-
           if (notification is ScrollUpdateNotification) {
-            print(notification.dragDetails);
             if (notification.dragDetails != null) {
               if (_dragOffset < widget.offsetThresholdMin) {
                 setState(() {
@@ -272,22 +308,22 @@ class _EListState extends State<EList> {
               });
             } else {
               // 用户松手了
-              setState(() {
-                _refreshMode = RefreshHeaderMode.refresh;
-              });
-              _handleRefresh().then((value) {
+              if (_dragOffset >= widget.offsetThresholdMin) {
                 setState(() {
-                  _refreshMode = RefreshHeaderMode.done;
+                  _refreshMode = RefreshHeaderMode.refresh;
                 });
-              });
+                _handleRefresh().then((value) {
+                  setState(() {
+                    _refreshMode = RefreshHeaderMode.done;
+                  });
+                });
+              } else {
+                setState(() {
+                  _dragOffset = 0.0;
+                  _refreshMode = RefreshHeaderMode.idle;
+                });
+              }
             }
-          } else if (notification is ScrollEndNotification &&
-              _dragOffset <= 80 &&
-              !_refreshing) {
-            setState(() {
-              _dragOffset = 0.0;
-              _refreshMode = RefreshHeaderMode.idle;
-            });
           }
         }
         return false;
@@ -296,24 +332,25 @@ class _EListState extends State<EList> {
         alignment: Alignment.topCenter,
         children: [
           Container(
-              height: min(_dragOffset, 80),
               color: Colors.red,
-              child: _buildCustomHeader(context)),
+              height: min(_dragOffset, widget.offsetThresholdMax),
+              child: Row(
+                children: [
+                  _buildCustomHeader(context),
+                  Text('偏移：$_dragOffset')
+                ],
+              )),
           listView,
-          // 顶部下拉头部
-          // if (_dragOffset > 0)
-          //   Positioned(
-          //     top: -80 + _dragOffset,
-          //     left: 0,
-          //     right: 0,
-          //     child: _buildCustomHeader(context),
-          //   ),
         ],
       ),
     );
   }
 
   Widget _buildCustomHeader(BuildContext context) {
+    // 如果传入了 refreshHeaderBuilder，使用它；否则用默认的
+    if (widget.refreshHeaderBuilder != null) {
+      return widget.refreshHeaderBuilder!(context, _refreshMode, _dragOffset);
+    }
     switch (_refreshMode) {
       case RefreshHeaderMode.drag:
         return const Center(child: Text("继续下拉"));

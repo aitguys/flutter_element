@@ -32,7 +32,7 @@ class _ListPageState extends State<ListPage> {
 
   Future<void> _handleRefresh() async {
     // 模拟刷新数据
-    await Future.delayed(const Duration(seconds: 5));
+    await Future.delayed(const Duration(seconds: 2));
     setState(() {
       _currentPage = 1;
       _hasMore = true;
@@ -89,20 +89,20 @@ class _ListPageState extends State<ListPage> {
         onRefresh: _handleRefresh,
         onLoadMore: _handleLoadMore,
         hasMore: _hasMore,
-        refreshHeaderBuilder: (context, mode, offset) {
-          switch (mode) {
-            case RefreshHeaderMode.drag:
-              return const Center(child: Text("继续下拉"));
-            case RefreshHeaderMode.armed:
-              return const Center(child: Text("松开刷新"));
-            case RefreshHeaderMode.refresh:
-              return const Center(child: Text("正在刷新"));
-            case RefreshHeaderMode.done:
-              return const Center(child: Text("刷新完成"));
-            default:
-              return const SizedBox.shrink();
-          }
-        },
+        // refreshHeaderBuilder: (context, mode, offset) {
+        //   switch (mode) {
+        //     case RefreshHeaderMode.drag:
+        //       return const Center(child: Text("继续下拉"));
+        //     case RefreshHeaderMode.armed:
+        //       return const Center(child: Text("松开刷新"));
+        //     case RefreshHeaderMode.refresh:
+        //       return const Center(child: Text("正在刷新"));
+        //     case RefreshHeaderMode.done:
+        //       return const Center(child: Text("刷新完成"));
+        //     default:
+        //       return const SizedBox.shrink();
+        //   }
+        // },
         loadingWidget: Padding(
           padding: const EdgeInsets.symmetric(vertical: 20),
           child: Center(
