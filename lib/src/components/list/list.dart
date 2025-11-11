@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 enum RefreshHeaderMode { idle, drag, armed, refresh, done }
@@ -17,7 +19,8 @@ class EList extends StatefulWidget {
   final bool reverse;
   final bool enablePullDown;
   // 偏移阈值
-  final double offsetThreshold;
+  final double offsetThresholdMin;
+  final double offsetThresholdMax;
 
   /// 自定义刷新头构建器 (context, mode, offset)
   final Widget Function(
@@ -40,7 +43,8 @@ class EList extends StatefulWidget {
     this.reverse = false,
     this.enablePullDown = true,
     this.refreshHeaderBuilder,
-    this.offsetThreshold = 40.0,
+    this.offsetThresholdMin = 40.0,
+    this.offsetThresholdMax = 80.0,
   });
 
   @override
@@ -207,56 +211,60 @@ class _EListState extends State<EList> {
         final metrics = notification.metrics;
         if (metrics.pixels < 0) {
           // 下拉刷新
-          setState(() {
-            _dragOffset = metrics.pixels.abs();
-          });
-        }
 
-        if (notification is ScrollUpdateNotification) {
-          print(notification.dragDetails);
-          if (notification.dragDetails != null) {
-            if (_dragOffset < widget.offsetThreshold) {
+          if (notification is ScrollUpdateNotification) {
+            print(notification.dragDetails);
+            if (notification.dragDetails != null) {
+              if (_dragOffset < widget.offsetThresholdMin) {
+                setState(() {
+                  _refreshMode = RefreshHeaderMode.drag;
+                });
+              } else if (_dragOffset >= widget.offsetThresholdMin) {
+                setState(() {
+                  _refreshMode = RefreshHeaderMode.armed;
+                });
+              }
               setState(() {
-                _refreshMode = RefreshHeaderMode.drag;
+                _dragOffset = metrics.pixels.abs();
               });
-            } else if (_dragOffset >= widget.offsetThreshold) {
+            } else {
+              // 用户松手了
               setState(() {
-                _refreshMode = RefreshHeaderMode.armed;
+                _refreshMode = RefreshHeaderMode.refresh;
+              });
+              _handleRefresh().then((value) {
+                setState(() {
+                  _refreshMode = RefreshHeaderMode.done;
+                });
               });
             }
-          } else {
-            // 用户松手了
+          } else if (notification is ScrollEndNotification &&
+              _dragOffset <= 80 &&
+              !_refreshing) {
             setState(() {
-              _refreshMode = RefreshHeaderMode.refresh;
-            });
-            _handleRefresh().then((value) {
-              setState(() {
-                _refreshMode = RefreshHeaderMode.done;
-              });
+              _dragOffset = 0.0;
+              _refreshMode = RefreshHeaderMode.idle;
             });
           }
-        } else if (notification is ScrollEndNotification &&
-            _dragOffset <= 80 &&
-            !_refreshing) {
-          setState(() {
-            _dragOffset = 0.0;
-            _refreshMode = RefreshHeaderMode.idle;
-          });
         }
         return false;
       },
       child: Stack(
         alignment: Alignment.topCenter,
         children: [
+          Container(
+              height: min(_dragOffset, 80),
+              color: Colors.red,
+              child: _buildCustomHeader(context)),
           listView,
           // 顶部下拉头部
-          if (_dragOffset > 0)
-            Positioned(
-              top: -80 + _dragOffset,
-              left: 0,
-              right: 0,
-              child: _buildCustomHeader(context),
-            ),
+          // if (_dragOffset > 0)
+          //   Positioned(
+          //     top: -80 + _dragOffset,
+          //     left: 0,
+          //     right: 0,
+          //     child: _buildCustomHeader(context),
+          //   ),
         ],
       ),
     );
