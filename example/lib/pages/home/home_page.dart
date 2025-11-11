@@ -342,6 +342,13 @@ class HomePage extends StatelessWidget {
                       child: const Text('Pagination 分页',
                           style: TextStyle(fontSize: 15)),
                     ),
+                    FlNavItem(
+                      suffix: const Icon(Icons.arrow_forward_ios, size: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      onTap: () => Get.toNamed(Routes.list),
+                      child:
+                          const Text('List 列表', style: TextStyle(fontSize: 15)),
+                    ),
                     // step
                     FlNavItem(
                       suffix: const Icon(Icons.arrow_forward_ios, size: 16),

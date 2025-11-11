@@ -22,6 +22,7 @@ export 'src/components/descriptions/index.dart';
 export 'src/components/empty/index.dart';
 export 'src/components/image/index.dart';
 export 'src/components/infinite_scroll/index.dart';
+export 'src/components/list/index.dart';
 export 'src/components/pagination/index.dart';
 export 'src/components/result/index.dart';
 export 'src/components/skeleton/index.dart';

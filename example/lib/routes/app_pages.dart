@@ -35,6 +35,7 @@ import '../pages/collapse_page/collapse_page.dart';
 import '../pages/descriptions_page/route.dart';
 import '../pages/empty_page/empty_page.dart';
 import '../pages/infinite_scroll_page/infinite_scroll_page.dart';
+import '../pages/list_page/list_page.dart';
 import '../pages/pagination_page/pagination_page.dart';
 import '../pages/result_page/result_page.dart';
 import '../pages/skeleton_page/skeleton_page.dart';
@@ -198,6 +199,7 @@ abstract class Routes {
   static const imagePlaceholder = ImageRoutes.imagePlaceholder;
   static const imagePreview = ImageRoutes.imagePreview;
   static const infiniteScroll = '/infinite_scroll';
+  static const list = '/list';
   static const pagination = '/pagination';
   static const progress = ProgressRoutes.progress;
   static const progressBasic = ProgressRoutes.progressBasic;
@@ -316,6 +318,10 @@ class AppPages {
     GetPage(
       name: Routes.infiniteScroll,
       page: () => const InfiniteScrollPage(),
+    ),
+    GetPage(
+      name: Routes.list,
+      page: () => const ListPage(),
     ),
     GetPage(
       name: Routes.pagination,
