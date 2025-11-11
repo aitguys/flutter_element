@@ -4,6 +4,47 @@ import 'package:flutter/material.dart';
 
 enum RefreshHeaderMode { idle, drag, armed, refresh, done }
 
+/// 限制顶部下拉的最大回弹距离为 [maxOverscroll]
+class MaxOverscrollPhysics extends ScrollPhysics {
+  final double maxOverscroll;
+
+  const MaxOverscrollPhysics({
+    required this.maxOverscroll,
+    ScrollPhysics? parent,
+  }) : super(parent: parent);
+
+  @override
+  MaxOverscrollPhysics applyTo(ScrollPhysics? ancestor) {
+    return MaxOverscrollPhysics(
+      maxOverscroll: maxOverscroll,
+      parent: buildParent(ancestor),
+    );
+  }
+
+  @override
+  double applyBoundaryConditions(ScrollMetrics position, double value) {
+    // 先让父级处理（平台/外部 physics 的边界），若父级阻止则尊重父级
+    if (parent != null) {
+      final parentResult = parent!.applyBoundaryConditions(position, value);
+      if (parentResult != 0.0) return parentResult;
+    }
+
+    // 自定义顶部边界：允许到 minScrollExtent - maxOverscroll
+    final double customTopBoundary =
+        position.minScrollExtent - maxOverscroll; // 通常 min 为 0
+
+    // 试图越过我们自定义的顶部边界
+    if (value < customTopBoundary && position.pixels >= customTopBoundary) {
+      return value - customTopBoundary;
+    }
+    // 已经在自定义边界之外，且继续往外移动，全部拦截
+    if (value < position.pixels && position.pixels < customTopBoundary) {
+      return value - position.pixels;
+    }
+    return 0.0;
+  }
+}
+
 class EList extends StatefulWidget {
   final List<Widget> children;
   final int currentPage;
@@ -61,7 +102,6 @@ class _EListState extends State<EList> {
   // refresh visuals
   RefreshHeaderMode _refreshMode = RefreshHeaderMode.idle;
   double _dragOffset = 0.0; // px
-  final double _triggerDistance = 80.0; // 触发刷新的距离阈值
   bool _refreshing = false;
 
   @override
@@ -175,7 +215,10 @@ class _EListState extends State<EList> {
     final listView = ListView.builder(
       controller: _controller,
       padding: widget.padding,
-      physics: widget.physics ?? const AlwaysScrollableScrollPhysics(),
+      physics: MaxOverscrollPhysics(
+        maxOverscroll: widget.offsetThresholdMax,
+        parent: widget.physics ?? const AlwaysScrollableScrollPhysics(),
+      ),
       shrinkWrap: widget.shrinkWrap,
       scrollDirection: widget.scrollDirection,
       reverse: widget.reverse,
