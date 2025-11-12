@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-// import 'dart:math';
 
 enum RefreshHeaderMode { idle, drag, armed, refresh, done }
 
@@ -82,8 +81,8 @@ class EList extends StatefulWidget {
     this.reverse = false,
     this.enablePullDown = true,
     this.refreshHeaderBuilder,
-    this.offsetThresholdMin = 45,
-    this.offsetThresholdMax = 100,
+    this.offsetThresholdMin = 60,
+    this.offsetThresholdMax = 120,
     this.headerPinnedToTop = false,
   });
 
@@ -115,10 +114,13 @@ class _EListState extends State<EList> with TickerProviderStateMixin {
     _hasMore = widget.hasMore;
 
     _headerAnimController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 250));
+      vsync: this,
+      duration: const Duration(milliseconds: 200),
+    );
+
     _headerAnim = Tween<double>(begin: 0, end: 0).animate(
-        CurvedAnimation(parent: _headerAnimController, curve: Curves.easeOut))
-      ..addListener(() => setState(() {}));
+      CurvedAnimation(parent: _headerAnimController, curve: Curves.easeOut),
+    )..addListener(() => setState(() {}));
   }
 
   @override
@@ -183,24 +185,34 @@ class _EListState extends State<EList> with TickerProviderStateMixin {
           _refreshMode = RefreshHeaderMode.done;
         });
       }
-      await Future.delayed(const Duration(milliseconds: 500));
     } finally {
       if (!mounted) return;
-
-      _animateHeaderHide();
+      // 完成后立即隐藏
+      _animateHeaderHide(immediate: true);
     }
   }
 
-  void _animateHeaderHide() {
+  void _animateHeaderHide({bool immediate = false}) {
+    if (immediate) {
+      setState(() {
+        _dragOffset = 0;
+        _headerHeight = 0;
+        _refreshing = false;
+        _refreshMode = RefreshHeaderMode.idle;
+      });
+      return;
+    }
+
     _headerAnim = Tween<double>(begin: _headerHeight, end: 0).animate(
-        CurvedAnimation(parent: _headerAnimController, curve: Curves.easeOut));
+      CurvedAnimation(parent: _headerAnimController, curve: Curves.easeOut),
+    );
     _headerAnimController.forward(from: 0).whenComplete(() {
       if (mounted) {
         setState(() {
-          _refreshing = false;
-          _refreshMode = RefreshHeaderMode.idle;
           _dragOffset = 0;
           _headerHeight = 0;
+          _refreshing = false;
+          _refreshMode = RefreshHeaderMode.idle;
         });
       }
     });
@@ -212,28 +224,29 @@ class _EListState extends State<EList> with TickerProviderStateMixin {
   }
 
   Widget _buildAnimatedHeader(BuildContext context) {
-    double height = _refreshing ||
-            _refreshMode == RefreshHeaderMode.refresh ||
-            _refreshMode == RefreshHeaderMode.done
-        ? widget.offsetThresholdMin
-        : 0;
+    double height;
+    if (widget.headerPinnedToTop) {
+      height = _dragOffset.clamp(0.0, widget.offsetThresholdMax);
+      if (_refreshing || _refreshMode == RefreshHeaderMode.refresh) {
+        height = widget.offsetThresholdMin;
+      }
+    } else {
+      height = (_refreshing ||
+              _refreshMode == RefreshHeaderMode.refresh ||
+              _refreshMode == RefreshHeaderMode.done)
+          ? widget.offsetThresholdMin
+          : _dragOffset.clamp(0.0, widget.offsetThresholdMax);
+    }
 
-    // 优先使用动画值
     if (_headerAnimController.isAnimating) height = _headerAnim.value;
 
     _headerHeight = height;
 
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 200),
+    return SizedBox(
       height: height,
-      child: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 200),
-        switchInCurve: Curves.easeInOut,
-        switchOutCurve: Curves.easeInOut,
-        child: widget.refreshHeaderBuilder != null
-            ? widget.refreshHeaderBuilder!(context, _refreshMode, _headerHeight)
-            : _defaultHeader(context),
-      ),
+      child: widget.refreshHeaderBuilder != null
+          ? widget.refreshHeaderBuilder!(context, _refreshMode, _headerHeight)
+          : _defaultHeader(context),
     );
   }
 
@@ -246,7 +259,7 @@ class _EListState extends State<EList> with TickerProviderStateMixin {
       case RefreshHeaderMode.refresh:
         return const Center(child: CircularProgressIndicator(key: ValueKey(3)));
       case RefreshHeaderMode.done:
-        return const Center(child: Text("刷新完成", key: ValueKey(4)));
+        return const SizedBox.shrink();
       default:
         return const SizedBox.shrink();
     }
@@ -281,10 +294,14 @@ class _EListState extends State<EList> with TickerProviderStateMixin {
     return NotificationListener<ScrollNotification>(
       onNotification: (notification) {
         final metrics = notification.metrics;
+
         if (metrics.pixels < 0 && notification is ScrollUpdateNotification) {
           if (notification.dragDetails != null) {
             setState(() {
-              _dragOffset = metrics.pixels.abs();
+              _dragOffset = widget.headerPinnedToTop
+                  ? (-metrics.pixels).clamp(0.0, widget.offsetThresholdMax)
+                  : metrics.pixels.abs();
+
               _refreshMode = _dragOffset < widget.offsetThresholdMin
                   ? RefreshHeaderMode.drag
                   : RefreshHeaderMode.armed;
@@ -296,6 +313,7 @@ class _EListState extends State<EList> with TickerProviderStateMixin {
               _animateHeaderHide();
           }
         }
+
         return false;
       },
       child: widget.headerPinnedToTop
