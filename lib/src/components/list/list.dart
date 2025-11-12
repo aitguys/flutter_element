@@ -1,6 +1,5 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 enum RefreshHeaderMode { idle, drag, armed, refresh, done }
 
@@ -331,16 +330,11 @@ class _EListState extends State<EList> {
       child: Stack(
         alignment: Alignment.topCenter,
         children: [
-          Container(
-              color: Colors.red,
-              height: min(_dragOffset, widget.offsetThresholdMax),
-              child: Row(
-                children: [
-                  _buildCustomHeader(context),
-                  Text('偏移：$_dragOffset')
-                ],
-              )),
           listView,
+          Container(
+            height: min(_dragOffset, widget.offsetThresholdMax),
+            child: _buildCustomHeader(context),
+          ),
         ],
       ),
     );
