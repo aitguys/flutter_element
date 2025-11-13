@@ -353,34 +353,47 @@ class _ListPageState extends State<ListPage> {
 
   @override
   Widget build(BuildContext context) {
+    final controller = EListController();
     return Scaffold(
       appBar: AppBar(
         title: const Text('List 列表'),
       ),
-      body: EList(
-        children: _items,
-        currentPage: _currentPage,
-        onRefresh: _handleRefresh,
-        onLoadMore: _handleLoadMore,
-        hasMore: _hasMore,
-        loadingWidget: const Padding(
-          padding: EdgeInsets.all(16),
-          child: Center(
-            child: CircularProgressIndicator(
-              color: Colors.red,
+      body: Column(
+        children: [
+          EButton(
+            text: '刷新',
+            onPressed: () => controller.triggerPullDown(),
+          ),
+          SizedBox(
+            height: 300,
+            child: EList(
+              controller: controller,
+              children: _items,
+              currentPage: _currentPage,
+              onRefresh: _handleRefresh,
+              onLoadMore: _handleLoadMore,
+              hasMore: _hasMore,
+              loadingWidget: const Padding(
+                padding: EdgeInsets.all(16),
+                child: Center(
+                  child: CircularProgressIndicator(
+                    color: Colors.red,
+                  ),
+                ),
+              ),
+              noMoreWidget: const Padding(
+                padding: EdgeInsets.all(16),
+                child: Center(
+                  child: Text(
+                    '没有更多了',
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                ),
+              ),
+              padding: const EdgeInsets.symmetric(vertical: 8),
             ),
           ),
-        ),
-        noMoreWidget: const Padding(
-          padding: EdgeInsets.all(16),
-          child: Center(
-            child: Text(
-              '没有更多了',
-              style: TextStyle(color: Colors.grey),
-            ),
-          ),
-        ),
-        padding: const EdgeInsets.symmetric(vertical: 8),
+        ],
       ),
     );
   }

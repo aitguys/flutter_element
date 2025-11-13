@@ -12,11 +12,16 @@ class _ListPageState extends State<ListPage> {
   List<Widget> _items = [];
   int _currentPage = 1;
   bool _hasMore = true;
-
+  bool _initLoading = true;
   @override
   void initState() {
     super.initState();
     // 初始化数据
+    Future.delayed(const Duration(seconds: 2), () {
+      setState(() {
+        _initLoading = false;
+      });
+    });
     _items = List.generate(
       20,
       (i) => ListTile(
@@ -80,85 +85,109 @@ class _ListPageState extends State<ListPage> {
 
   @override
   Widget build(BuildContext context) {
+    final controller = EListController();
     return Scaffold(
       appBar: AppBar(
         title: const Text('List 列表'),
       ),
-      body: EList(
-        currentPage: _currentPage,
-        onRefresh: _handleRefresh,
-        onLoadMore: _handleLoadMore,
-        hasMore: _hasMore,
-        offsetThresholdMin: 30.0,
-        offsetThresholdMax: 60.0,
-        headerPinnedToTop: true,
-        refreshHeaderBuilder: (context, mode, offset) {
-          switch (mode) {
-            case RefreshHeaderMode.drag:
-              return Align(
-                alignment: Alignment.bottomCenter,
-                child: Text("继续下拉, 偏移：$offset"),
-              );
+      body: Column(
+        children: [
+          EButton(
+            text: '刷新',
+            onPressed: () => controller.triggerPullDown(),
+          ),
+          Expanded(
+            child: EList(
+              controller: controller,
+              currentPage: _currentPage,
+              onRefresh: _handleRefresh,
+              initLoading: _initLoading,
+              initLoadingWidget: Padding(
+                padding: EdgeInsets.symmetric(vertical: 20),
+                child: Center(
+                  child: Image.asset(
+                    'assets/image/loading.gif',
+                    width: 36,
+                    height: 36,
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              ),
+              onLoadMore: _handleLoadMore,
+              hasMore: _hasMore,
+              offsetThresholdMin: 30.0,
+              offsetThresholdMax: 60.0,
+              // headerPinnedToTop: false,
+              refreshHeaderBuilder: (context, mode, offset) {
+                switch (mode) {
+                  case RefreshHeaderMode.drag:
+                    return Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Text("继续下拉, 偏移：$offset"),
+                    );
 
-            case RefreshHeaderMode.armed:
-              return Align(
-                alignment: Alignment.bottomCenter,
-                child: Text("松开刷新, 偏移：$offset"),
-              );
-            case RefreshHeaderMode.refresh:
-              return const Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  EButton(
-                    text: "正在刷新",
-                    type: EColorType.primary,
-                    isRound: true,
-                    size: ESizeItem.small,
-                    loading: true,
-                  )
-                ],
-              );
-            case RefreshHeaderMode.done:
-              return const Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  EButton(
-                    text: "刷新完成",
-                    type: EColorType.success,
-                    isRound: true,
-                    size: ESizeItem.small,
-                    icon: Icons.check_circle,
-                  )
-                ],
-              );
-            default:
-              return const SizedBox.shrink();
-          }
-        },
-        loadingWidget: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20),
-          child: Center(
-            child: Image.asset(
-              'assets/image/loading.gif',
-              width: 36,
-              height: 36,
-              fit: BoxFit.contain,
+                  case RefreshHeaderMode.armed:
+                    return Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Text("松开刷新, 偏移：$offset"),
+                    );
+                  case RefreshHeaderMode.refresh:
+                    return const Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        EButton(
+                          text: "正在刷新",
+                          type: EColorType.primary,
+                          isRound: true,
+                          size: ESizeItem.small,
+                          loading: true,
+                        )
+                      ],
+                    );
+                  case RefreshHeaderMode.done:
+                    return const Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        EButton(
+                          text: "刷新完成",
+                          type: EColorType.success,
+                          isRound: true,
+                          size: ESizeItem.small,
+                          icon: Icons.check_circle,
+                        )
+                      ],
+                    );
+                  default:
+                    return const SizedBox.shrink();
+                }
+              },
+              loadingWidget: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                child: Center(
+                  child: Image.asset(
+                    'assets/image/loading.gif',
+                    width: 36,
+                    height: 36,
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              ),
+              noMoreWidget: const Padding(
+                padding: EdgeInsets.all(16),
+                child: Center(
+                  child: Text(
+                    'No more data',
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                ),
+              ),
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              children: _items,
             ),
           ),
-        ),
-        noMoreWidget: const Padding(
-          padding: EdgeInsets.all(16),
-          child: Center(
-            child: Text(
-              '没有更多了',
-              style: TextStyle(color: Colors.grey),
-            ),
-          ),
-        ),
-        padding: const EdgeInsets.symmetric(vertical: 8),
-        children: _items,
+        ],
       ),
     );
   }
