@@ -103,7 +103,7 @@ class _ListPageState extends State<ListPage> {
               onRefresh: _handleRefresh,
               initLoading: _initLoading,
               initLoadingWidget: Padding(
-                padding: EdgeInsets.symmetric(vertical: 20),
+                padding: const EdgeInsets.symmetric(vertical: 20),
                 child: Center(
                   child: Image.asset(
                     'assets/image/loading.gif',

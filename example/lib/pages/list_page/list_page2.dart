@@ -18,125 +18,125 @@ class _ListPageState extends State<ListPage> {
     super.initState();
     // 直接用数组的方式初始化数据
     _items = [
-      ListTile(
+      const ListTile(
         leading: CircleAvatar(child: Text('1')),
         title: Text('列表项 1'),
         subtitle: Text('这是第 1 个列表项的内容'),
-        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+        trailing: Icon(Icons.arrow_forward_ios, size: 16),
       ),
-      ListTile(
+      const ListTile(
         leading: CircleAvatar(child: Text('2')),
         title: Text('列表项 2'),
         subtitle: Text('这是第 2 个列表项的内容'),
-        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+        trailing: Icon(Icons.arrow_forward_ios, size: 16),
       ),
-      ListTile(
+      const ListTile(
         leading: CircleAvatar(child: Text('3')),
         title: Text('列表项 3'),
         subtitle: Text('这是第 3 个列表项的内容'),
-        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+        trailing: Icon(Icons.arrow_forward_ios, size: 16),
       ),
-      ListTile(
+      const ListTile(
         leading: CircleAvatar(child: Text('4')),
         title: Text('列表项 4'),
         subtitle: Text('这是第 4 个列表项的内容'),
-        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+        trailing: Icon(Icons.arrow_forward_ios, size: 16),
       ),
-      ListTile(
+      const ListTile(
         leading: CircleAvatar(child: Text('5')),
         title: Text('列表项 5'),
         subtitle: Text('这是第 5 个列表项的内容'),
-        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+        trailing: Icon(Icons.arrow_forward_ios, size: 16),
       ),
-      ListTile(
+      const ListTile(
         leading: CircleAvatar(child: Text('6')),
         title: Text('列表项 6'),
         subtitle: Text('这是第 6 个列表项的内容'),
-        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+        trailing: Icon(Icons.arrow_forward_ios, size: 16),
       ),
-      ListTile(
+      const ListTile(
         leading: CircleAvatar(child: Text('7')),
         title: Text('列表项 7'),
         subtitle: Text('这是第 7 个列表项的内容'),
-        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+        trailing: Icon(Icons.arrow_forward_ios, size: 16),
       ),
-      ListTile(
+      const ListTile(
         leading: CircleAvatar(child: Text('8')),
         title: Text('列表项 8'),
         subtitle: Text('这是第 8 个列表项的内容'),
-        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+        trailing: Icon(Icons.arrow_forward_ios, size: 16),
       ),
-      ListTile(
+      const ListTile(
         leading: CircleAvatar(child: Text('9')),
         title: Text('列表项 9'),
         subtitle: Text('这是第 9 个列表项的内容'),
-        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+        trailing: Icon(Icons.arrow_forward_ios, size: 16),
       ),
-      ListTile(
+      const ListTile(
         leading: CircleAvatar(child: Text('10')),
         title: Text('列表项 10'),
         subtitle: Text('这是第 10 个列表项的内容'),
-        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+        trailing: Icon(Icons.arrow_forward_ios, size: 16),
       ),
-      ListTile(
+      const ListTile(
         leading: CircleAvatar(child: Text('11')),
         title: Text('列表项 11'),
         subtitle: Text('这是第 11 个列表项的内容'),
-        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+        trailing: Icon(Icons.arrow_forward_ios, size: 16),
       ),
-      ListTile(
+      const ListTile(
         leading: CircleAvatar(child: Text('12')),
         title: Text('列表项 12'),
         subtitle: Text('这是第 12 个列表项的内容'),
-        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+        trailing: Icon(Icons.arrow_forward_ios, size: 16),
       ),
-      ListTile(
+      const ListTile(
         leading: CircleAvatar(child: Text('13')),
         title: Text('列表项 13'),
         subtitle: Text('这是第 13 个列表项的内容'),
-        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+        trailing: Icon(Icons.arrow_forward_ios, size: 16),
       ),
-      ListTile(
+      const ListTile(
         leading: CircleAvatar(child: Text('14')),
         title: Text('列表项 14'),
         subtitle: Text('这是第 14 个列表项的内容'),
-        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+        trailing: Icon(Icons.arrow_forward_ios, size: 16),
       ),
-      ListTile(
+      const ListTile(
         leading: CircleAvatar(child: Text('15')),
         title: Text('列表项 15'),
         subtitle: Text('这是第 15 个列表项的内容'),
-        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+        trailing: Icon(Icons.arrow_forward_ios, size: 16),
       ),
-      ListTile(
+      const ListTile(
         leading: CircleAvatar(child: Text('16')),
         title: Text('列表项 16'),
         subtitle: Text('这是第 16 个列表项的内容'),
-        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+        trailing: Icon(Icons.arrow_forward_ios, size: 16),
       ),
-      ListTile(
+      const ListTile(
         leading: CircleAvatar(child: Text('17')),
         title: Text('列表项 17'),
         subtitle: Text('这是第 17 个列表项的内容'),
-        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+        trailing: Icon(Icons.arrow_forward_ios, size: 16),
       ),
-      ListTile(
+      const ListTile(
         leading: CircleAvatar(child: Text('18')),
         title: Text('列表项 18'),
         subtitle: Text('这是第 18 个列表项的内容'),
-        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+        trailing: Icon(Icons.arrow_forward_ios, size: 16),
       ),
-      ListTile(
+      const ListTile(
         leading: CircleAvatar(child: Text('19')),
         title: Text('列表项 19'),
         subtitle: Text('这是第 19 个列表项的内容'),
-        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+        trailing: Icon(Icons.arrow_forward_ios, size: 16),
       ),
-      ListTile(
+      const ListTile(
         leading: CircleAvatar(child: Text('20')),
         title: Text('列表项 20'),
         subtitle: Text('这是第 20 个列表项的内容'),
-        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+        trailing: Icon(Icons.arrow_forward_ios, size: 16),
       ),
     ];
   }
@@ -149,125 +149,125 @@ class _ListPageState extends State<ListPage> {
       _hasMore = true;
       // 刷新时换成“已刷新”的标签（仍然用数组方式）
       _items = [
-        ListTile(
+        const ListTile(
           leading: CircleAvatar(child: Text('1')),
           title: Text('列表项 1 (已刷新)'),
           subtitle: Text('这是第 1 个列表项的内容'),
-          trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+          trailing: Icon(Icons.arrow_forward_ios, size: 16),
         ),
-        ListTile(
+        const ListTile(
           leading: CircleAvatar(child: Text('2')),
           title: Text('列表项 2 (已刷新)'),
           subtitle: Text('这是第 2 个列表项的内容'),
-          trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+          trailing: Icon(Icons.arrow_forward_ios, size: 16),
         ),
-        ListTile(
+        const ListTile(
           leading: CircleAvatar(child: Text('3')),
           title: Text('列表项 3 (已刷新)'),
           subtitle: Text('这是第 3 个列表项的内容'),
-          trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+          trailing: Icon(Icons.arrow_forward_ios, size: 16),
         ),
-        ListTile(
+        const ListTile(
           leading: CircleAvatar(child: Text('4')),
           title: Text('列表项 4 (已刷新)'),
           subtitle: Text('这是第 4 个列表项的内容'),
-          trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+          trailing: Icon(Icons.arrow_forward_ios, size: 16),
         ),
-        ListTile(
+        const ListTile(
           leading: CircleAvatar(child: Text('5')),
           title: Text('列表项 5 (已刷新)'),
           subtitle: Text('这是第 5 个列表项的内容'),
-          trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+          trailing: Icon(Icons.arrow_forward_ios, size: 16),
         ),
-        ListTile(
+        const ListTile(
           leading: CircleAvatar(child: Text('6')),
           title: Text('列表项 6 (已刷新)'),
           subtitle: Text('这是第 6 个列表项的内容'),
-          trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+          trailing: Icon(Icons.arrow_forward_ios, size: 16),
         ),
-        ListTile(
+        const ListTile(
           leading: CircleAvatar(child: Text('7')),
           title: Text('列表项 7 (已刷新)'),
           subtitle: Text('这是第 7 个列表项的内容'),
-          trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+          trailing: Icon(Icons.arrow_forward_ios, size: 16),
         ),
-        ListTile(
+        const ListTile(
           leading: CircleAvatar(child: Text('8')),
           title: Text('列表项 8 (已刷新)'),
           subtitle: Text('这是第 8 个列表项的内容'),
-          trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+          trailing: Icon(Icons.arrow_forward_ios, size: 16),
         ),
-        ListTile(
+        const ListTile(
           leading: CircleAvatar(child: Text('9')),
           title: Text('列表项 9 (已刷新)'),
           subtitle: Text('这是第 9 个列表项的内容'),
-          trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+          trailing: Icon(Icons.arrow_forward_ios, size: 16),
         ),
-        ListTile(
+        const ListTile(
           leading: CircleAvatar(child: Text('10')),
           title: Text('列表项 10 (已刷新)'),
           subtitle: Text('这是第 10 个列表项的内容'),
-          trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+          trailing: Icon(Icons.arrow_forward_ios, size: 16),
         ),
-        ListTile(
+        const ListTile(
           leading: CircleAvatar(child: Text('11')),
           title: Text('列表项 11 (已刷新)'),
           subtitle: Text('这是第 11 个列表项的内容'),
-          trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+          trailing: Icon(Icons.arrow_forward_ios, size: 16),
         ),
-        ListTile(
+        const ListTile(
           leading: CircleAvatar(child: Text('12')),
           title: Text('列表项 12 (已刷新)'),
           subtitle: Text('这是第 12 个列表项的内容'),
-          trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+          trailing: Icon(Icons.arrow_forward_ios, size: 16),
         ),
-        ListTile(
+        const ListTile(
           leading: CircleAvatar(child: Text('13')),
           title: Text('列表项 13 (已刷新)'),
           subtitle: Text('这是第 13 个列表项的内容'),
-          trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+          trailing: Icon(Icons.arrow_forward_ios, size: 16),
         ),
-        ListTile(
+        const ListTile(
           leading: CircleAvatar(child: Text('14')),
           title: Text('列表项 14 (已刷新)'),
           subtitle: Text('这是第 14 个列表项的内容'),
-          trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+          trailing: Icon(Icons.arrow_forward_ios, size: 16),
         ),
-        ListTile(
+        const ListTile(
           leading: CircleAvatar(child: Text('15')),
           title: Text('列表项 15 (已刷新)'),
           subtitle: Text('这是第 15 个列表项的内容'),
-          trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+          trailing: Icon(Icons.arrow_forward_ios, size: 16),
         ),
-        ListTile(
+        const ListTile(
           leading: CircleAvatar(child: Text('16')),
           title: Text('列表项 16 (已刷新)'),
           subtitle: Text('这是第 16 个列表项的内容'),
-          trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+          trailing: Icon(Icons.arrow_forward_ios, size: 16),
         ),
-        ListTile(
+        const ListTile(
           leading: CircleAvatar(child: Text('17')),
           title: Text('列表项 17 (已刷新)'),
           subtitle: Text('这是第 17 个列表项的内容'),
-          trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+          trailing: Icon(Icons.arrow_forward_ios, size: 16),
         ),
-        ListTile(
+        const ListTile(
           leading: CircleAvatar(child: Text('18')),
           title: Text('列表项 18 (已刷新)'),
           subtitle: Text('这是第 18 个列表项的内容'),
-          trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+          trailing: Icon(Icons.arrow_forward_ios, size: 16),
         ),
-        ListTile(
+        const ListTile(
           leading: CircleAvatar(child: Text('19')),
           title: Text('列表项 19 (已刷新)'),
           subtitle: Text('这是第 19 个列表项的内容'),
-          trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+          trailing: Icon(Icons.arrow_forward_ios, size: 16),
         ),
-        ListTile(
+        const ListTile(
           leading: CircleAvatar(child: Text('20')),
           title: Text('列表项 20 (已刷新)'),
           subtitle: Text('这是第 20 个列表项的内容'),
-          trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+          trailing: Icon(Icons.arrow_forward_ios, size: 16),
         ),
       ];
     });
@@ -368,7 +368,6 @@ class _ListPageState extends State<ListPage> {
             height: 300,
             child: EList(
               controller: controller,
-              children: _items,
               currentPage: _currentPage,
               onRefresh: _handleRefresh,
               onLoadMore: _handleLoadMore,
@@ -391,6 +390,7 @@ class _ListPageState extends State<ListPage> {
                 ),
               ),
               padding: const EdgeInsets.symmetric(vertical: 8),
+              children: _items,
             ),
           ),
         ],

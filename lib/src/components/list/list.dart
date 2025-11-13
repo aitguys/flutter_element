@@ -15,14 +15,13 @@ class EListController extends ChangeNotifier {
   /// 主动触发下拉刷新UI（动画拉下，之后会触发刷新）
   Future<void> triggerPullDown() async {
     if (_state == null) return;
-    if (!_state!.widget.enablePullDown || _state!.widget.onRefresh == null)
-      return;
+    final state = _state!;
+    final widget = state.widget;
+    if (!widget.enablePullDown || widget.onRefresh == null) return;
     // 直接设置至阈值并切换状态
-    _state!.setState(() {
-      _state!._dragOffset = _state!.widget.offsetThresholdMin + 1; // 确保超阈值
-      _state!._refreshMode = RefreshHeaderMode.refresh;
-    });
-    await _state!._handleRefresh();
+    state._dragOffset = widget.offsetThresholdMin + 1; // 确保超阈值
+    state._refreshMode = RefreshHeaderMode.refresh;
+    await state._handleRefresh();
   }
 
   /// 可补充更多控制方法
@@ -37,8 +36,8 @@ class MaxOverscrollPhysics extends ScrollPhysics {
     required this.maxOverscroll,
     this.holdAtTop = false,
     this.holdExtent = 0.0,
-    ScrollPhysics? parent,
-  }) : super(parent: parent);
+    super.parent,
+  });
 
   @override
   MaxOverscrollPhysics applyTo(ScrollPhysics? ancestor) {
@@ -115,7 +114,7 @@ class EList extends StatefulWidget {
   final Widget? initLoadingWidget;
 
   const EList({
-    Key? key,
+    super.key,
     required this.children,
     this.currentPage = 1,
     this.onRefresh,
@@ -135,7 +134,7 @@ class EList extends StatefulWidget {
     this.controller,
     this.initLoading = false,
     this.initLoadingWidget,
-  }) : super(key: key);
+  });
 
   @override
   State<EList> createState() => _EListState();
@@ -353,7 +352,7 @@ class _EListState extends State<EList> {
       return listView;
     }
 
-    bool _skipPullDown = false; // 局部变量用于安全标记本frame
+    bool skipPullDown = false; // 局部变量用于安全标记本frame
 
     return NotificationListener<ScrollNotification>(
       onNotification: (ScrollNotification notification) {
@@ -363,7 +362,7 @@ class _EListState extends State<EList> {
         if (metrics.pixels >= 0) {
           _lastDragDy = null;
           _lastDragTime = null;
-          _skipPullDown = false;
+          skipPullDown = false;
         }
 
         if (metrics.pixels < 0) {
@@ -371,7 +370,7 @@ class _EListState extends State<EList> {
             // 检查快速fling场景，若为快速fling顶部，则不响应下拉逻辑
             if (notification.dragDetails != null) {
               if (_isQuickFling(notification.dragDetails!)) {
-                _skipPullDown = true;
+                skipPullDown = true;
                 // 只要判定为快速fling就直接return，不进入下拉刷新流程
                 return false;
               }
@@ -388,7 +387,7 @@ class _EListState extends State<EList> {
                 _dragOffset = metrics.pixels.abs();
               });
             } else {
-              if (_skipPullDown) {
+              if (skipPullDown) {
                 // 本次fling已判定为快速fling, 跳过
                 setState(() {
                   _dragOffset = 0.0;
@@ -420,7 +419,7 @@ class _EListState extends State<EList> {
         alignment: Alignment.topCenter,
         children: [
           listView,
-          Container(
+          SizedBox(
             height: min(_dragOffset, widget.offsetThresholdMax),
             child: _buildCustomHeader(context),
           ),
