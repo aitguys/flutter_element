@@ -312,6 +312,7 @@ class _EListState extends State<EList> {
     return NotificationListener<ScrollNotification>(
       onNotification: (ScrollNotification notification) {
         final metrics = notification.metrics;
+        if (_refreshing) return false;
         if (metrics.pixels < 0) {
           if (notification is ScrollUpdateNotification) {
             // 手势仍在进行（dragDetails != null），更新 drag 状态
@@ -340,12 +341,14 @@ class _EListState extends State<EList> {
                 // 达到触发阈值：开始刷新
                 setState(() {
                   _refreshMode = RefreshHeaderMode.refresh;
+                  _refreshing = true;
                 });
                 // 发起刷新的异步操作（不阻塞滚动系统）
                 _handleRefresh().then((_) {
                   if (mounted) {
                     setState(() {
                       _refreshMode = RefreshHeaderMode.done;
+                      _refreshing = false;
                     });
                   }
                 });
@@ -355,6 +358,7 @@ class _EListState extends State<EList> {
                   setState(() {
                     _dragOffset = 0.0;
                     _refreshMode = RefreshHeaderMode.idle;
+                    _refreshing = false;
                   });
                   _controller.animateTo(
                     0.0,
@@ -362,10 +366,6 @@ class _EListState extends State<EList> {
                     curve: Curves.easeOut,
                   );
                 }
-                // setState(() {
-                //   _dragOffset = 0.0;
-                //   _refreshMode = RefreshHeaderMode.idle;
-                // });
               }
             }
           }
