@@ -35,7 +35,7 @@ import '../pages/collapse_page/collapse_page.dart';
 import '../pages/descriptions_page/route.dart';
 import '../pages/empty_page/empty_page.dart';
 import '../pages/infinite_scroll_page/infinite_scroll_page.dart';
-import '../pages/list_page/list_page.dart';
+import '../pages/list_page/list_page2.dart';
 import '../pages/pagination_page/pagination_page.dart';
 import '../pages/result_page/result_page.dart';
 import '../pages/skeleton_page/skeleton_page.dart';
@@ -321,7 +321,7 @@ class AppPages {
     ),
     GetPage(
       name: Routes.list,
-      page: () => const ListPage(),
+      page: () => const ListPage2(),
     ),
     GetPage(
       name: Routes.pagination,
