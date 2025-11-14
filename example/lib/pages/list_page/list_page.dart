@@ -116,7 +116,7 @@ class _ListPageState extends State<ListPage> {
               onLoadMore: _handleLoadMore,
               hasMore: _hasMore,
               offsetThresholdMin: 30.0,
-              offsetThresholdMax: 60.0,
+              // offsetThresholdMax: 60.0,
               // headerPinnedToTop: false,
               refreshHeaderBuilder: (context, mode, offset) {
                 switch (mode) {
@@ -133,8 +133,8 @@ class _ListPageState extends State<ListPage> {
                     );
                   case RefreshHeaderMode.refresh:
                     return const Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         EButton(
                           text: "正在刷新",
@@ -147,8 +147,8 @@ class _ListPageState extends State<ListPage> {
                     );
                   case RefreshHeaderMode.done:
                     return const Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         EButton(
                           text: "刷新完成",

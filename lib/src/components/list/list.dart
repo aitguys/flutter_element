@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/physics.dart';
-import 'dart:math';
+// import 'package:flutter/physics.dart';
+// import 'dart:math';
 
 enum RefreshHeaderMode { idle, drag, armed, refresh, done }
 
@@ -29,88 +29,50 @@ class EListController extends ChangeNotifier {
 }
 
 /// 自定义 physics：限制顶部最大overscroll，并在惯性阶段用弹簧回弹处理
-class MaxOverscrollPhysics extends ScrollPhysics {
-  final double maxOverscroll;
-  final bool holdAtTop;
-  final double holdExtent; // 正值，表示期望顶部悬停的可见高度
+// class MaxOverscrollPhysics extends ScrollPhysics {
+//   final double maxOverscroll;
+//   final bool holdAtTop;
+//   final double holdExtent; // 正值，表示期望顶部悬停的可见高度
 
-  const MaxOverscrollPhysics({
-    required this.maxOverscroll,
-    this.holdAtTop = false,
-    this.holdExtent = 0.0,
-    super.parent,
-  });
+//   const MaxOverscrollPhysics({
+//     required this.maxOverscroll,
+//     this.holdAtTop = false,
+//     this.holdExtent = 0.0,
+//     super.parent,
+//   });
 
-  @override
-  MaxOverscrollPhysics applyTo(ScrollPhysics? ancestor) {
-    return MaxOverscrollPhysics(
-      maxOverscroll: maxOverscroll,
-      holdAtTop: holdAtTop,
-      holdExtent: holdExtent,
-      parent: buildParent(ancestor),
-    );
-  }
+//   @override
+//   MaxOverscrollPhysics applyTo(ScrollPhysics? ancestor) {
+//     return MaxOverscrollPhysics(
+//       maxOverscroll: maxOverscroll,
+//       holdAtTop: holdAtTop,
+//       holdExtent: holdExtent,
+//       parent: buildParent(ancestor),
+//     );
+//   }
 
-  @override
-  double applyBoundaryConditions(ScrollMetrics position, double value) {
-    // 首先交给父类处理，如果父类认为存在边界条件则返回其结果
-    if (parent != null) {
-      final parentResult = parent!.applyBoundaryConditions(position, value);
-      if (parentResult != 0.0) return parentResult;
-    }
+//   @override
+//   double applyBoundaryConditions(ScrollMetrics position, double value) {
+//     // 首先交给父类处理，如果父类认为存在边界条件则返回其结果
+//     if (parent != null) {
+//       final parentResult = parent!.applyBoundaryConditions(position, value);
+//       if (parentResult != 0.0) return parentResult;
+//     }
 
-    final double limit = holdAtTop ? holdExtent : maxOverscroll;
-    final double customTopBoundary = position.minScrollExtent - limit;
+//     final double limit = holdAtTop ? holdExtent : maxOverscroll;
+//     final double customTopBoundary = position.minScrollExtent - limit;
 
-    // 当 value 超过自定义顶部边界时，阻止超过
-    if (value < customTopBoundary && position.pixels >= customTopBoundary) {
-      return value - customTopBoundary;
-    }
-    // 当当前位置已经在自定义顶部边界之外（更负），并且继续往负方向移动时，限制移动
-    if (value < position.pixels && position.pixels < customTopBoundary) {
-      return value - position.pixels;
-    }
-    return 0.0;
-  }
-
-  @override
-  Simulation? createBallisticSimulation(
-      ScrollMetrics position, double velocity) {
-    // 当处于顶部越界（负值）时需要自定义弹簧回弹
-    if (position.pixels < position.minScrollExtent) {
-      // 如果要求悬停并且我们在越界范围内，则目标为 minScrollExtent - holdExtent
-      if (holdAtTop) {
-        final double target = position.minScrollExtent - holdExtent;
-        // 如果已经非常接近目标，让父类继续处理（避免重复微抖动）
-        if ((position.pixels - target).abs() <
-            toleranceFor(position).distance) {
-          return parent?.createBallisticSimulation(position, velocity);
-        }
-        // 使用弹簧模拟从当前位置回弹到 target
-        return ScrollSpringSimulation(
-          spring, // 来自 ScrollPhysics 的默认 spring
-          position.pixels,
-          target,
-          velocity,
-          tolerance: toleranceFor(position),
-        );
-      } else {
-        // 不要求悬停：回弹到 minScrollExtent（0）
-        return ScrollSpringSimulation(
-          spring,
-          position.pixels,
-          position.minScrollExtent,
-          velocity,
-          tolerance: toleranceFor(position),
-        );
-      }
-    }
-
-    // 其余情况交给父类或默认实现
-    return parent?.createBallisticSimulation(position, velocity) ??
-        super.createBallisticSimulation(position, velocity);
-  }
-}
+//     // 当 value 超过自定义顶部边界时，阻止超过
+//     if (value < customTopBoundary && position.pixels >= customTopBoundary) {
+//       return value - customTopBoundary;
+//     }
+//     // 当当前位置已经在自定义顶部边界之外（更负），并且继续往负方向移动时，限制移动
+//     if (value < position.pixels && position.pixels < customTopBoundary) {
+//       return value - position.pixels;
+//     }
+//     return 0.0;
+//   }
+// }
 
 class EList extends StatefulWidget {
   final List<Widget> children;
@@ -127,7 +89,7 @@ class EList extends StatefulWidget {
   final bool reverse;
   final bool enablePullDown;
   final double offsetThresholdMin;
-  final double offsetThresholdMax;
+  // final double offsetThresholdMax;
 
   /// 供外部控制EList如刷新等
   final EListController? controller;
@@ -160,7 +122,7 @@ class EList extends StatefulWidget {
     this.enablePullDown = true,
     this.refreshHeaderBuilder,
     this.offsetThresholdMin = 40.0,
-    this.offsetThresholdMax = 80.0,
+    // this.offsetThresholdMax = 80.0,
     this.controller,
     this.initLoading = false,
     this.initLoadingWidget,
@@ -323,13 +285,6 @@ class _EListState extends State<EList> {
     final listView = ListView.builder(
       controller: _controller,
       padding: widget.padding,
-      physics: MaxOverscrollPhysics(
-        maxOverscroll: widget.offsetThresholdMax,
-        // 仅在真正正在 refresh（网络请求中）或处于 refresh 状态时才悬停
-        holdAtTop: _refreshing || _refreshMode == RefreshHeaderMode.refresh,
-        holdExtent: widget.offsetThresholdMin,
-        parent: widget.physics ?? const AlwaysScrollableScrollPhysics(),
-      ),
       shrinkWrap: widget.shrinkWrap,
       scrollDirection: widget.scrollDirection,
       reverse: widget.reverse,
@@ -360,14 +315,8 @@ class _EListState extends State<EList> {
         if (metrics.pixels < 0) {
           if (notification is ScrollUpdateNotification) {
             // 手势仍在进行（dragDetails != null），更新 drag 状态
-            print(notification.dragDetails);
-
-            if (notification.dragDetails != null &&
-                metrics.pixels.abs() != widget.offsetThresholdMax) {
-              // 计算当前 dragOffset 并限制在最大阈值
-              print(metrics.pixels.abs());
-              if (metrics.pixels.abs() < widget.offsetThresholdMax &&
-                  metrics.pixels.abs() >= widget.offsetThresholdMin) {
+            if (notification.dragDetails != null) {
+              if (metrics.pixels.abs() >= widget.offsetThresholdMin) {
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   setState(() {
                     _dragOffset = metrics.pixels.abs();
@@ -386,9 +335,7 @@ class _EListState extends State<EList> {
                   });
                 });
               }
-              print(_refreshMode);
             } else {
-              // 手势已结束，进入惯性阶段或停止（此处由 createBallisticSimulation 处理回弹）
               if (_dragOffset >= widget.offsetThresholdMin) {
                 // 达到触发阈值：开始刷新
                 setState(() {
@@ -405,6 +352,10 @@ class _EListState extends State<EList> {
               } else {
                 // 未达到阈值，恢复到顶部（这里调用 animateTo 以确保滚动有回弹动画）
                 if (_controller.hasClients) {
+                  setState(() {
+                    _dragOffset = 0.0;
+                    _refreshMode = RefreshHeaderMode.idle;
+                  });
                   _controller.animateTo(
                     0.0,
                     duration: const Duration(milliseconds: 250),
@@ -427,7 +378,7 @@ class _EListState extends State<EList> {
           listView,
           // header 的高度受 _dragOffset 限制，最多为 offsetThresholdMax
           SizedBox(
-            height: min(_dragOffset, widget.offsetThresholdMax),
+            height: _dragOffset,
             child: _buildCustomHeader(context),
           ),
         ],
