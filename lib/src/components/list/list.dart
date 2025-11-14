@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/physics.dart';
 import 'dart:math';
 
 enum RefreshHeaderMode { idle, drag, armed, refresh, done }
@@ -27,6 +28,7 @@ class EListController extends ChangeNotifier {
   /// 可补充更多控制方法
 }
 
+/// 自定义 physics：限制顶部最大overscroll，并在惯性阶段用弹簧回弹处理
 class MaxOverscrollPhysics extends ScrollPhysics {
   final double maxOverscroll;
   final bool holdAtTop;
@@ -51,6 +53,7 @@ class MaxOverscrollPhysics extends ScrollPhysics {
 
   @override
   double applyBoundaryConditions(ScrollMetrics position, double value) {
+    // 首先交给父类处理，如果父类认为存在边界条件则返回其结果
     if (parent != null) {
       final parentResult = parent!.applyBoundaryConditions(position, value);
       if (parentResult != 0.0) return parentResult;
@@ -59,9 +62,11 @@ class MaxOverscrollPhysics extends ScrollPhysics {
     final double limit = holdAtTop ? holdExtent : maxOverscroll;
     final double customTopBoundary = position.minScrollExtent - limit;
 
+    // 当 value 超过自定义顶部边界时，阻止超过
     if (value < customTopBoundary && position.pixels >= customTopBoundary) {
       return value - customTopBoundary;
     }
+    // 当当前位置已经在自定义顶部边界之外（更负），并且继续往负方向移动时，限制移动
     if (value < position.pixels && position.pixels < customTopBoundary) {
       return value - position.pixels;
     }
@@ -71,12 +76,37 @@ class MaxOverscrollPhysics extends ScrollPhysics {
   @override
   Simulation? createBallisticSimulation(
       ScrollMetrics position, double velocity) {
-    if (holdAtTop && position.pixels < position.minScrollExtent) {
-      final double target = position.minScrollExtent - holdExtent;
-      if ((position.pixels - target).abs() < toleranceFor(position).distance) {
-        return parent?.createBallisticSimulation(position, velocity);
+    // 当处于顶部越界（负值）时需要自定义弹簧回弹
+    if (position.pixels < position.minScrollExtent) {
+      // 如果要求悬停并且我们在越界范围内，则目标为 minScrollExtent - holdExtent
+      if (holdAtTop) {
+        final double target = position.minScrollExtent - holdExtent;
+        // 如果已经非常接近目标，让父类继续处理（避免重复微抖动）
+        if ((position.pixels - target).abs() <
+            toleranceFor(position).distance) {
+          return parent?.createBallisticSimulation(position, velocity);
+        }
+        // 使用弹簧模拟从当前位置回弹到 target
+        return ScrollSpringSimulation(
+          spring, // 来自 ScrollPhysics 的默认 spring
+          position.pixels,
+          target,
+          velocity,
+          tolerance: toleranceFor(position),
+        );
+      } else {
+        // 不要求悬停：回弹到 minScrollExtent（0）
+        return ScrollSpringSimulation(
+          spring,
+          position.pixels,
+          position.minScrollExtent,
+          velocity,
+          tolerance: toleranceFor(position),
+        );
       }
     }
+
+    // 其余情况交给父类或默认实现
     return parent?.createBallisticSimulation(position, velocity) ??
         super.createBallisticSimulation(position, velocity);
   }
@@ -151,33 +181,6 @@ class _EListState extends State<EList> {
   RefreshHeaderMode _refreshMode = RefreshHeaderMode.idle;
   double _dragOffset = 0.0; // px
   bool _refreshing = false;
-
-  // 用于下拉截流的变量
-  double? _lastDragDy;
-  int? _lastDragTime; // 毫秒时间戳
-
-  // 每多少ms/px的速度就视为快速滑动（如5000px/s，按惯用人手滑动阈值可调）
-  static const double _quickFlingThreshold = 5500.0;
-
-  bool _isQuickFling(DragUpdateDetails details) {
-    final now = DateTime.now().millisecondsSinceEpoch;
-    double speed = 0;
-    if (_lastDragDy != null && _lastDragTime != null) {
-      // 计算dy的变化和时间差，速度px/ms，再转px/s
-      final deltaDy = details.primaryDelta ?? 0;
-      final deltaTime = now - _lastDragTime!;
-      if (deltaTime > 0) {
-        speed = (deltaDy / deltaTime) * 1000; // px/s
-        // 取绝对值，因为往下拉是正数
-        speed = speed.abs();
-      }
-    }
-    _lastDragDy = details.primaryDelta;
-    _lastDragTime = now;
-
-    // 只要每一次dy瞬时速度>阈值就判为快速
-    return speed > _quickFlingThreshold;
-  }
 
   @override
   void initState() {
@@ -322,9 +325,8 @@ class _EListState extends State<EList> {
       padding: widget.padding,
       physics: MaxOverscrollPhysics(
         maxOverscroll: widget.offsetThresholdMax,
-        holdAtTop: _refreshing ||
-            _refreshMode == RefreshHeaderMode.refresh ||
-            _refreshMode == RefreshHeaderMode.done,
+        // 仅在真正正在 refresh（网络请求中）或处于 refresh 状态时才悬停
+        holdAtTop: _refreshing || _refreshMode == RefreshHeaderMode.refresh,
         holdExtent: widget.offsetThresholdMin,
         parent: widget.physics ?? const AlwaysScrollableScrollPhysics(),
       ),
@@ -352,63 +354,67 @@ class _EListState extends State<EList> {
       return listView;
     }
 
-    bool skipPullDown = false; // 局部变量用于安全标记本frame
-
     return NotificationListener<ScrollNotification>(
       onNotification: (ScrollNotification notification) {
         final metrics = notification.metrics;
-
-        // 只要不是负数就清理滑动速率历史
-        if (metrics.pixels >= 0) {
-          _lastDragDy = null;
-          _lastDragTime = null;
-          skipPullDown = false;
-        }
-
         if (metrics.pixels < 0) {
           if (notification is ScrollUpdateNotification) {
-            // 检查快速fling场景，若为快速fling顶部，则不响应下拉逻辑
-            if (notification.dragDetails != null) {
-              if (_isQuickFling(notification.dragDetails!)) {
-                skipPullDown = true;
-                // 只要判定为快速fling就直接return，不进入下拉刷新流程
-                return false;
-              }
-              if (_dragOffset < widget.offsetThresholdMin) {
-                setState(() {
-                  _refreshMode = RefreshHeaderMode.drag;
+            // 手势仍在进行（dragDetails != null），更新 drag 状态
+            print(notification.dragDetails);
+
+            if (notification.dragDetails != null &&
+                metrics.pixels.abs() != widget.offsetThresholdMax) {
+              // 计算当前 dragOffset 并限制在最大阈值
+              print(metrics.pixels.abs());
+              if (metrics.pixels.abs() < widget.offsetThresholdMax &&
+                  metrics.pixels.abs() >= widget.offsetThresholdMin) {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  setState(() {
+                    _dragOffset = metrics.pixels.abs();
+                    _refreshMode = RefreshHeaderMode.armed;
+                  });
                 });
-              } else if (_dragOffset >= widget.offsetThresholdMin) {
+              } else if (_dragOffset < widget.offsetThresholdMin) {
                 setState(() {
-                  _refreshMode = RefreshHeaderMode.armed;
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    if (mounted) {
+                      setState(() {
+                        _dragOffset = metrics.pixels.abs();
+                        _refreshMode = RefreshHeaderMode.drag;
+                      });
+                    }
+                  });
                 });
               }
-              setState(() {
-                _dragOffset = metrics.pixels.abs();
-              });
+              print(_refreshMode);
             } else {
-              if (skipPullDown) {
-                // 本次fling已判定为快速fling, 跳过
-                setState(() {
-                  _dragOffset = 0.0;
-                  _refreshMode = RefreshHeaderMode.idle;
-                });
-                return false;
-              }
+              // 手势已结束，进入惯性阶段或停止（此处由 createBallisticSimulation 处理回弹）
               if (_dragOffset >= widget.offsetThresholdMin) {
+                // 达到触发阈值：开始刷新
                 setState(() {
                   _refreshMode = RefreshHeaderMode.refresh;
                 });
-                _handleRefresh().then((value) {
-                  setState(() {
-                    _refreshMode = RefreshHeaderMode.done;
-                  });
+                // 发起刷新的异步操作（不阻塞滚动系统）
+                _handleRefresh().then((_) {
+                  if (mounted) {
+                    setState(() {
+                      _refreshMode = RefreshHeaderMode.done;
+                    });
+                  }
                 });
               } else {
-                setState(() {
-                  _dragOffset = 0.0;
-                  _refreshMode = RefreshHeaderMode.idle;
-                });
+                // 未达到阈值，恢复到顶部（这里调用 animateTo 以确保滚动有回弹动画）
+                if (_controller.hasClients) {
+                  _controller.animateTo(
+                    0.0,
+                    duration: const Duration(milliseconds: 250),
+                    curve: Curves.easeOut,
+                  );
+                }
+                // setState(() {
+                //   _dragOffset = 0.0;
+                //   _refreshMode = RefreshHeaderMode.idle;
+                // });
               }
             }
           }
@@ -419,6 +425,7 @@ class _EListState extends State<EList> {
         alignment: Alignment.topCenter,
         children: [
           listView,
+          // header 的高度受 _dragOffset 限制，最多为 offsetThresholdMax
           SizedBox(
             height: min(_dragOffset, widget.offsetThresholdMax),
             child: _buildCustomHeader(context),
