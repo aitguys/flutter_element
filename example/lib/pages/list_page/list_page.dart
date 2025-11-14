@@ -92,7 +92,7 @@ class _ListPageState extends State<ListPage> {
       ),
       body: Column(
         children: [
-          Text(
+          const Text(
             '上滑下面这个列表触发 分页/懒加载， 下滑触发刷新。 刷新状态有四个：拖动中、松开刷新、正在刷新、刷新完成，widget 均可以自定义，其父组件为被下拉的空白区域',
             style: TextStyle(color: Colors.blue),
           ),

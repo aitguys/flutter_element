@@ -253,24 +253,23 @@ class _EListState<T> extends State<EList<T>> {
           }
         });
       }
-
-      await Future.delayed(const Duration(milliseconds: 400));
+      await Future.delayed(const Duration(milliseconds: 200));
     } finally {
-      if (!mounted) return;
+      if (mounted) {
+        setState(() {
+          _refreshMode = RefreshHeaderMode.idle;
+          _dragOffset = 0;
+          _refreshing = false;
+        });
 
-      setState(() {
-        _refreshMode = RefreshHeaderMode.idle;
-        _dragOffset = 0;
-        _refreshing = false;
-      });
-
-      // 自动回弹
-      if (_scrollController.hasClients) {
-        await _scrollController.animateTo(
-          0,
-          duration: const Duration(milliseconds: 250),
-          curve: Curves.easeOut,
-        );
+        // 自动回弹
+        if (_scrollController.hasClients) {
+          await _scrollController.animateTo(
+            0,
+            duration: const Duration(milliseconds: 250),
+            curve: Curves.easeOut,
+          );
+        }
       }
     }
   }

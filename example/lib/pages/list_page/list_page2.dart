@@ -56,7 +56,7 @@ class _ListPage2State extends State<ListPage2> {
 
         refreshHeaderBuilder: (ctx, mode, offset) {
           return Container(
-            color: Colors.blue.withOpacity(0.1),
+            color: Colors.blue.withValues(alpha: 0.1),
             child: Center(
               child: Text(
                 "${mode.toString().split('.').last} | offset=$offset",
