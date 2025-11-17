@@ -74,7 +74,7 @@ class _SegmentedPageState extends State<SegmentedPage> {
             ),
             const SizedBox(height: 20),
             SizedBox(
-              width: 500,
+              width: 700,
               child: FlSegmented<String>(
                 isRound: true,
                 iconTheme: const IconThemeData(

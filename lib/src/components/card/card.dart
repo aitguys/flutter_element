@@ -3,16 +3,6 @@ import 'package:flutter/material.dart';
 /// The shadow style of the card.
 ///
 /// This enum defines the different shadow behaviors available for [ECard].
-enum ECardShadow {
-  /// Always show the shadow.
-  always,
-
-  /// Show the shadow only when the card is hovered.
-  hover,
-
-  /// Never show the shadow.
-  never
-}
 
 /// A card component that follows Element Plus design guidelines.
 ///
@@ -51,36 +41,9 @@ class ECard extends StatefulWidget {
   /// This can be used to customize the appearance of the body section.
   final BoxDecoration? bodyStyle;
 
-  /// Custom CSS class for the header section.
-  ///
-  /// This is used for styling the header in web applications.
-  final String? headerClass;
-
-  /// Custom CSS class for the body section.
-  ///
-  /// This is used for styling the body in web applications.
-  final String? bodyClass;
-
-  /// Custom CSS class for the footer section.
-  ///
-  /// This is used for styling the footer in web applications.
-  final String? footerClass;
-
-  /// The shadow style of the card.
-  ///
-  /// This determines when and how the card's shadow is displayed.
-  /// Defaults to [ECardShadow.always].
-  final ECardShadow shadow;
-
-  /// The margin around the card.
-  ///
-  /// If not provided, no margin is applied.
-  final EdgeInsetsGeometry? margin;
-
   /// The padding inside the card body.
   ///
   /// If not provided, a default padding of 16 pixels on all sides is used.
-  final EdgeInsetsGeometry? padding;
 
   /// The width of the card.
   ///
@@ -92,23 +55,22 @@ class ECard extends StatefulWidget {
   /// If not provided, the card will size itself based on its content.
   final double? height;
 
+  final EdgeInsetsGeometry? padding;
+
+  final bool showShadowWhenHover;
+
   /// Creates an [ECard] widget.
   ///
-  /// The [shadow] argument defaults to [ECardShadow.always].
   const ECard({
     super.key,
     this.header,
     this.footer,
     this.child,
     this.bodyStyle,
-    this.headerClass,
-    this.bodyClass,
-    this.footerClass,
-    this.shadow = ECardShadow.always,
-    this.margin,
-    this.padding,
     this.width,
     this.height,
+    this.padding,
+    this.showShadowWhenHover = false,
   });
 
   @override
@@ -116,37 +78,45 @@ class ECard extends StatefulWidget {
 }
 
 class _ECardState extends State<ECard> {
-  bool _isHover = false;
-
-  BoxShadow? get _boxShadow {
-    if (widget.shadow == ECardShadow.never) return null;
-    if (widget.shadow == ECardShadow.hover && !_isHover) return null;
-    return const BoxShadow(
-      color: Color(0x1A000000),
-      blurRadius: 12,
-      offset: Offset(0, 4),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final card = Container(
       width: widget.width,
       height: widget.height,
-      margin: widget.margin ?? const EdgeInsets.all(0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(2),
-        border: Border.all(color: const Color(0xFFE4E7ED), width: 1),
-        boxShadow: _boxShadow != null ? [_boxShadow!] : null,
-      ),
+      padding: widget.padding ?? const EdgeInsets.all(16),
+      decoration: (() {
+        final defaultDecoration = BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(2),
+          border: Border.all(color: const Color(0xFFE4E7ED), width: 1),
+          boxShadow: const [
+            BoxShadow(
+              color: Color(0x1A000000),
+              blurRadius: 12,
+              offset: Offset(0, 4),
+            ),
+          ],
+        );
+        final passedDecoration = widget.bodyStyle;
+        if (passedDecoration == null) return defaultDecoration;
+        return defaultDecoration.copyWith(
+          color: passedDecoration.color ?? defaultDecoration.color,
+          borderRadius:
+              passedDecoration.borderRadius ?? defaultDecoration.borderRadius,
+          border: passedDecoration.border ?? defaultDecoration.border,
+          boxShadow: passedDecoration.boxShadow ?? defaultDecoration.boxShadow,
+          gradient: passedDecoration.gradient ?? defaultDecoration.gradient,
+          backgroundBlendMode: passedDecoration.backgroundBlendMode ??
+              defaultDecoration.backgroundBlendMode,
+          shape: passedDecoration.shape,
+          image: passedDecoration.image ?? defaultDecoration.image,
+        );
+      })(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           if (widget.header != null)
             Container(
-              padding: widget.padding ??
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               child: widget.header,
             ),
           if (widget.header != null)
@@ -154,11 +124,7 @@ class _ECardState extends State<ECard> {
               height: 1,
               color: Color(0xFFE4E7ED),
             ),
-          Container(
-            padding: widget.padding ?? const EdgeInsets.all(16),
-            decoration: widget.bodyStyle,
-            child: widget.child,
-          ),
+          widget.child ?? const SizedBox.shrink(),
           if (widget.footer != null)
             const Divider(
               height: 1,
@@ -166,20 +132,11 @@ class _ECardState extends State<ECard> {
             ),
           if (widget.footer != null)
             Container(
-              padding: widget.padding ??
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               child: widget.footer,
             ),
         ],
       ),
     );
-    if (widget.shadow == ECardShadow.hover) {
-      return MouseRegion(
-        onEnter: (_) => setState(() => _isHover = true),
-        onExit: (_) => setState(() => _isHover = false),
-        child: card,
-      );
-    }
     return card;
   }
 }
