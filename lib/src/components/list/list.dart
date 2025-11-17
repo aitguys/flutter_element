@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/physics.dart';
-import 'dart:math';
 
 enum RefreshHeaderMode { idle, drag, armed, refresh, done }
 
-/// 控制EList组件的Key与方法
+/// 控制 EList 行为：主动刷新、主动下拉显示等
 class EListController extends ChangeNotifier {
   _EListState? _state;
 
@@ -13,139 +11,74 @@ class EListController extends ChangeNotifier {
     await _state?._handleRefresh();
   }
 
-  /// 主动触发下拉刷新UI（动画拉下，之后会触发刷新）
+  /// 主动下拉显示刷新头（动画拉下）
   Future<void> triggerPullDown() async {
-    if (_state == null) return;
-    final state = _state!;
-    final widget = state.widget;
-    if (!widget.enablePullDown || widget.onRefresh == null) return;
-    // 直接设置至阈值并切换状态
-    state._dragOffset = widget.offsetThresholdMin + 1; // 确保超阈值
+    final state = _state;
+    if (state == null) return;
+
+    if (!state.widget.enablePullDown || state.widget.onRefresh == null) return;
+
+    state._dragOffset = state.widget.offsetThresholdMin + 1;
     state._refreshMode = RefreshHeaderMode.refresh;
     await state._handleRefresh();
   }
-
-  /// 可补充更多控制方法
 }
 
-/// 自定义 physics：限制顶部最大overscroll，并在惯性阶段用弹簧回弹处理
-class MaxOverscrollPhysics extends ScrollPhysics {
-  final double maxOverscroll;
-  final bool holdAtTop;
-  final double holdExtent; // 正值，表示期望顶部悬停的可见高度
+/// EList —— 支持 data / itemBuilder 方式的通用下拉刷新 + 分页加载组件
+class EList<T> extends StatefulWidget {
+  /// --- 数据驱动（推荐）
+  final List<T>? data;
+  final Widget Function(BuildContext context, T item, int index)? itemBuilder;
 
-  const MaxOverscrollPhysics({
-    required this.maxOverscroll,
-    this.holdAtTop = false,
-    this.holdExtent = 0.0,
-    super.parent,
-  });
+  /// --- 兼容旧的 children 模式
+  final List<Widget>? children;
 
-  @override
-  MaxOverscrollPhysics applyTo(ScrollPhysics? ancestor) {
-    return MaxOverscrollPhysics(
-      maxOverscroll: maxOverscroll,
-      holdAtTop: holdAtTop,
-      holdExtent: holdExtent,
-      parent: buildParent(ancestor),
-    );
-  }
-
-  @override
-  double applyBoundaryConditions(ScrollMetrics position, double value) {
-    // 首先交给父类处理，如果父类认为存在边界条件则返回其结果
-    if (parent != null) {
-      final parentResult = parent!.applyBoundaryConditions(position, value);
-      if (parentResult != 0.0) return parentResult;
-    }
-
-    final double limit = holdAtTop ? holdExtent : maxOverscroll;
-    final double customTopBoundary = position.minScrollExtent - limit;
-
-    // 当 value 超过自定义顶部边界时，阻止超过
-    if (value < customTopBoundary && position.pixels >= customTopBoundary) {
-      return value - customTopBoundary;
-    }
-    // 当当前位置已经在自定义顶部边界之外（更负），并且继续往负方向移动时，限制移动
-    if (value < position.pixels && position.pixels < customTopBoundary) {
-      return value - position.pixels;
-    }
-    return 0.0;
-  }
-
-  @override
-  Simulation? createBallisticSimulation(
-      ScrollMetrics position, double velocity) {
-    // 当处于顶部越界（负值）时需要自定义弹簧回弹
-    if (position.pixels < position.minScrollExtent) {
-      // 如果要求悬停并且我们在越界范围内，则目标为 minScrollExtent - holdExtent
-      if (holdAtTop) {
-        final double target = position.minScrollExtent - holdExtent;
-        // 如果已经非常接近目标，让父类继续处理（避免重复微抖动）
-        if ((position.pixels - target).abs() <
-            toleranceFor(position).distance) {
-          return parent?.createBallisticSimulation(position, velocity);
-        }
-        // 使用弹簧模拟从当前位置回弹到 target
-        return ScrollSpringSimulation(
-          spring, // 来自 ScrollPhysics 的默认 spring
-          position.pixels,
-          target,
-          velocity,
-          tolerance: toleranceFor(position),
-        );
-      } else {
-        // 不要求悬停：回弹到 minScrollExtent（0）
-        return ScrollSpringSimulation(
-          spring,
-          position.pixels,
-          position.minScrollExtent,
-          velocity,
-          tolerance: toleranceFor(position),
-        );
-      }
-    }
-
-    // 其余情况交给父类或默认实现
-    return parent?.createBallisticSimulation(position, velocity) ??
-        super.createBallisticSimulation(position, velocity);
-  }
-}
-
-class EList extends StatefulWidget {
-  final List<Widget> children;
-  final int currentPage;
+  /// 下拉刷新
   final Future<void> Function()? onRefresh;
-  final Future<List<Widget>> Function(int page)? onLoadMore;
+
+  /// 分页加载
+  final Future<List<T>> Function(int page)? onLoadMore;
+
+  /// 是否还有更多数据
   final bool hasMore;
+
+  /// 页面控制
+  final int currentPage;
+
+  /// 加载中/无更多
   final Widget? loadingWidget;
   final Widget? noMoreWidget;
+
+  /// 布局参数
   final EdgeInsetsGeometry? padding;
   final ScrollPhysics? physics;
   final bool shrinkWrap;
   final Axis scrollDirection;
   final bool reverse;
+
+  /// 下拉刷新控制
   final bool enablePullDown;
   final double offsetThresholdMin;
-  final double offsetThresholdMax;
 
-  /// 供外部控制EList如刷新等
+  /// 外部控制器
   final EListController? controller;
 
-  /// 自定义刷新头构建器 (context, mode, offset)
+  /// 自定义刷新头
   final Widget Function(
-          BuildContext context, RefreshHeaderMode mode, double offset)?
-      refreshHeaderBuilder;
+    BuildContext context,
+    RefreshHeaderMode mode,
+    double offset,
+  )? refreshHeaderBuilder;
 
-  /// 是否为初始化加载状态
+  /// 初始加载逻辑
   final bool initLoading;
-
-  /// 自定义初始化加载动画
   final Widget? initLoadingWidget;
 
   const EList({
     super.key,
-    required this.children,
+    this.data,
+    this.itemBuilder,
+    this.children,
     this.currentPage = 1,
     this.onRefresh,
     this.onLoadMore,
@@ -158,56 +91,81 @@ class EList extends StatefulWidget {
     this.scrollDirection = Axis.vertical,
     this.reverse = false,
     this.enablePullDown = true,
-    this.refreshHeaderBuilder,
-    this.offsetThresholdMin = 40.0,
-    this.offsetThresholdMax = 80.0,
+    this.offsetThresholdMin = 50,
     this.controller,
+    this.refreshHeaderBuilder,
     this.initLoading = false,
     this.initLoadingWidget,
-  });
+  }) : assert(
+          (data != null && itemBuilder != null) ||
+              (children != null) ||
+              (data == null && children == null),
+          '必须提供 data + itemBuilder，或 children 二选一',
+        );
 
   @override
-  State<EList> createState() => _EListState();
+  State<EList<T>> createState() => _EListState<T>();
 }
 
-class _EListState extends State<EList> {
-  late ScrollController _controller;
-  bool _loading = false;
+class _EListState<T> extends State<EList<T>> {
+  late ScrollController _scrollController;
+
+  /// 列表数据
+  late List<T> _dataItems;
+  late List<Widget> _widgetItems;
+
   int _currentPage = 1;
-  List<Widget> _items = [];
+  bool _loadingMore = false;
   bool _hasMore = true;
 
-  // refresh visuals
+  /// 下拉刷新动画状态
   RefreshHeaderMode _refreshMode = RefreshHeaderMode.idle;
-  double _dragOffset = 0.0; // px
+  double _dragOffset = 0;
   bool _refreshing = false;
 
   @override
   void initState() {
     super.initState();
-    _currentPage = widget.currentPage;
-    _items = List<Widget>.from(widget.children);
-    _hasMore = widget.hasMore;
-    _controller = ScrollController();
-    _controller.addListener(_onScroll);
 
-    // 绑定controller到当前state实例
+    _scrollController = ScrollController()..addListener(_onScroll);
+
+    _currentPage = widget.currentPage;
+    _hasMore = widget.hasMore;
+
+    // 初始化数据
+    if (widget.data != null) {
+      _dataItems = List.from(widget.data!);
+      _widgetItems = [];
+    } else {
+      _dataItems = [];
+      _widgetItems = List.from(widget.children ?? []);
+    }
+
     widget.controller?._state = this;
   }
 
   @override
-  void didUpdateWidget(EList oldWidget) {
+  void didUpdateWidget(covariant EList<T> oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.children != widget.children) {
-      _items = List<Widget>.from(widget.children);
+
+    // 更新数据
+    if (widget.data != oldWidget.data) {
+      if (widget.data != null) {
+        _dataItems = List.from(widget.data!);
+      }
     }
-    if (oldWidget.currentPage != widget.currentPage) {
-      _currentPage = widget.currentPage;
+    if (widget.children != oldWidget.children) {
+      if (widget.children != null) {
+        _widgetItems = List.from(widget.children!);
+      }
     }
-    if (oldWidget.hasMore != widget.hasMore) {
-      _hasMore = widget.hasMore;
-    }
-    if (oldWidget.controller != widget.controller) {
+
+    // 更新分页信息
+    _currentPage = widget.currentPage;
+    _hasMore = widget.hasMore;
+
+    // 更新 controller 的绑定
+    if (widget.controller != oldWidget.controller) {
       oldWidget.controller?._state = null;
       widget.controller?._state = this;
     }
@@ -216,137 +174,168 @@ class _EListState extends State<EList> {
   @override
   void dispose() {
     widget.controller?._state = null;
-    _controller.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
+  /// 是否使用 data + itemBuilder 模式
+  bool get _useDataMode => widget.data != null && widget.itemBuilder != null;
+
+  /// 当前列表总数
+  int get _itemCount => _useDataMode ? _dataItems.length : _widgetItems.length;
+
+  /// 取第 index 项
+  Widget _buildItem(BuildContext context, int index) {
+    if (_useDataMode) {
+      return widget.itemBuilder!(context, _dataItems[index], index);
+    }
+    return _widgetItems[index];
+  }
+
+  /// 监听滚动触发分页
   void _onScroll() {
-    if (!_loading && _hasMore && widget.onLoadMore != null) {
-      if (_controller.position.pixels >=
-          _controller.position.maxScrollExtent - 100) {
+    if (!_loadingMore && _hasMore && widget.onLoadMore != null) {
+      if (_scrollController.position.pixels >
+          _scrollController.position.maxScrollExtent - 100) {
         _loadMore();
       }
     }
   }
 
   Future<void> _loadMore() async {
-    if (_loading || !_hasMore) return;
-    setState(() => _loading = true);
+    if (_loadingMore || !_hasMore) return;
+
+    setState(() => _loadingMore = true);
+
     try {
       final nextPage = _currentPage + 1;
-      final newItems = await widget.onLoadMore?.call(nextPage);
-      if (mounted && newItems != null) {
+      final list = await widget.onLoadMore?.call(nextPage);
+
+      if (mounted && list != null) {
         setState(() {
-          _items.addAll(newItems);
+          _dataItems.addAll(list);
           _currentPage = nextPage;
-          if (newItems.isEmpty) _hasMore = false;
+          if (list.isEmpty) _hasMore = false;
         });
       }
     } catch (e) {
-      debugPrint('Error loading more items: $e');
-    } finally {
-      if (mounted) setState(() => _loading = false);
+      debugPrint("EList loadMore error: $e");
+    }
+
+    if (mounted) {
+      setState(() => _loadingMore = false);
     }
   }
 
-  // 实际刷新由 RefreshIndicator 调用
+  /// 下拉刷新核心逻辑
   Future<void> _handleRefresh() async {
     if (widget.onRefresh == null) return;
+
     setState(() {
       _refreshing = true;
       _refreshMode = RefreshHeaderMode.refresh;
     });
+
     try {
       await widget.onRefresh!();
+
       if (mounted) {
         setState(() {
+          _refreshMode = RefreshHeaderMode.done;
           _currentPage = widget.currentPage;
           _hasMore = widget.hasMore;
-          _items = List<Widget>.from(widget.children);
-          _refreshMode = RefreshHeaderMode.done;
+
+          // 刷新数据
+          if (_useDataMode) {
+            _dataItems = List.from(widget.data!);
+          } else {
+            _widgetItems = List.from(widget.children ?? []);
+          }
         });
       }
-      await Future.delayed(const Duration(milliseconds: 500));
+      await Future.delayed(const Duration(milliseconds: 200));
     } finally {
       if (mounted) {
         setState(() {
+          _refreshMode = RefreshHeaderMode.idle;
+          _dragOffset = 0;
           _refreshing = false;
         });
-        if (_controller.hasClients) {
-          await _controller.animateTo(
-            0.0,
+
+        // 自动回弹
+        if (_scrollController.hasClients) {
+          await _scrollController.animateTo(
+            0,
             duration: const Duration(milliseconds: 250),
             curve: Curves.easeOut,
           );
         }
-        if (mounted) {
-          setState(() {
-            _dragOffset = 0.0;
-            _refreshMode = RefreshHeaderMode.idle;
-          });
-        }
       }
     }
   }
 
-  Widget _buildNoMoreWidget() {
-    return widget.noMoreWidget ??
-        const Padding(
-          padding: EdgeInsets.all(16),
-          child: Center(
-            child: Text('没有更多了', style: TextStyle(color: Colors.grey)),
-          ),
-        );
+  /// 构建 footer
+  Widget _buildFooter() {
+    if (_loadingMore) {
+      return widget.loadingWidget ??
+          const Padding(
+            padding: EdgeInsets.all(16),
+            child: Center(child: CircularProgressIndicator()),
+          );
+    }
+    if (!_hasMore) {
+      return widget.noMoreWidget ??
+          const Padding(
+            padding: EdgeInsets.all(16),
+            child: Center(child: Text("没有更多了")),
+          );
+    }
+    return const SizedBox.shrink();
   }
 
-  Widget _buildInitLoadingWidget() {
-    return widget.initLoadingWidget ??
-        const Center(
-          child: Padding(
-            padding: EdgeInsets.all(24),
-            child: CircularProgressIndicator(),
-          ),
-        );
+  /// 自定义刷新头
+  Widget _buildHeader() {
+    if (widget.refreshHeaderBuilder != null) {
+      return widget.refreshHeaderBuilder!(
+        context,
+        _refreshMode,
+        _dragOffset,
+      );
+    }
+
+    switch (_refreshMode) {
+      case RefreshHeaderMode.drag:
+        return const Center(child: Text("继续下拉…"));
+      case RefreshHeaderMode.armed:
+        return const Center(child: Text("松开刷新"));
+      case RefreshHeaderMode.refresh:
+        return const Center(child: CircularProgressIndicator());
+      case RefreshHeaderMode.done:
+        return const Center(child: Text("刷新完成"));
+      default:
+        return const SizedBox.shrink();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    // 新增：初始化加载
     if (widget.initLoading) {
-      return _buildInitLoadingWidget();
+      return widget.initLoadingWidget ??
+          const Center(child: CircularProgressIndicator());
     }
 
-    if (!_hasMore && _items.isEmpty) {
-      return _buildNoMoreWidget();
-    }
-
+    /// 主列表
     final listView = ListView.builder(
-      controller: _controller,
+      controller: _scrollController,
       padding: widget.padding,
-      physics: MaxOverscrollPhysics(
-        maxOverscroll: widget.offsetThresholdMax,
-        // 仅在真正正在 refresh（网络请求中）或处于 refresh 状态时才悬停
-        holdAtTop: _refreshing || _refreshMode == RefreshHeaderMode.refresh,
-        holdExtent: widget.offsetThresholdMin,
-        parent: widget.physics ?? const AlwaysScrollableScrollPhysics(),
-      ),
       shrinkWrap: widget.shrinkWrap,
+      physics: widget.physics ?? const BouncingScrollPhysics(),
       scrollDirection: widget.scrollDirection,
       reverse: widget.reverse,
-      itemCount: _items.length + 1,
-      itemBuilder: (context, index) {
-        if (index < _items.length) return _items[index];
-        if (_loading) {
-          return widget.loadingWidget ??
-              const Padding(
-                padding: EdgeInsets.all(16),
-                child: Center(child: CircularProgressIndicator()),
-              );
-        } else if (!_hasMore) {
-          return _buildNoMoreWidget();
-        } else {
-          return const SizedBox.shrink();
-        }
+      itemCount: _itemCount + 1,
+      itemBuilder: (context, i) {
+        if (i < _itemCount) return _buildItem(context, i);
+        return _buildFooter();
       },
     );
 
@@ -354,68 +343,36 @@ class _EListState extends State<EList> {
       return listView;
     }
 
+    /// 包装下拉刷新
     return NotificationListener<ScrollNotification>(
-      onNotification: (ScrollNotification notification) {
-        final metrics = notification.metrics;
-        if (metrics.pixels < 0) {
-          if (notification is ScrollUpdateNotification) {
-            // 手势仍在进行（dragDetails != null），更新 drag 状态
-            print(notification.dragDetails);
+      onNotification: (notification) {
+        final pixels = notification.metrics.pixels;
 
-            if (notification.dragDetails != null &&
-                metrics.pixels.abs() != widget.offsetThresholdMax) {
-              // 计算当前 dragOffset 并限制在最大阈值
-              print(metrics.pixels.abs());
-              if (metrics.pixels.abs() < widget.offsetThresholdMax &&
-                  metrics.pixels.abs() >= widget.offsetThresholdMin) {
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  setState(() {
-                    _dragOffset = metrics.pixels.abs();
-                    _refreshMode = RefreshHeaderMode.armed;
-                  });
-                });
-              } else if (_dragOffset < widget.offsetThresholdMin) {
-                setState(() {
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    if (mounted) {
-                      setState(() {
-                        _dragOffset = metrics.pixels.abs();
-                        _refreshMode = RefreshHeaderMode.drag;
-                      });
-                    }
-                  });
-                });
-              }
-              print(_refreshMode);
-            } else {
-              // 手势已结束，进入惯性阶段或停止（此处由 createBallisticSimulation 处理回弹）
-              if (_dragOffset >= widget.offsetThresholdMin) {
-                // 达到触发阈值：开始刷新
-                setState(() {
-                  _refreshMode = RefreshHeaderMode.refresh;
-                });
-                // 发起刷新的异步操作（不阻塞滚动系统）
-                _handleRefresh().then((_) {
-                  if (mounted) {
-                    setState(() {
-                      _refreshMode = RefreshHeaderMode.done;
-                    });
-                  }
-                });
+        if (_refreshing) return false;
+
+        if (pixels < 0 && notification is ScrollUpdateNotification) {
+          final offset = pixels.abs();
+
+          if (notification.dragDetails != null) {
+            // 手拖动
+            setState(() {
+              _dragOffset = offset;
+
+              if (offset >= widget.offsetThresholdMin) {
+                _refreshMode = RefreshHeaderMode.armed;
               } else {
-                // 未达到阈值，恢复到顶部（这里调用 animateTo 以确保滚动有回弹动画）
-                if (_controller.hasClients) {
-                  _controller.animateTo(
-                    0.0,
-                    duration: const Duration(milliseconds: 250),
-                    curve: Curves.easeOut,
-                  );
-                }
-                // setState(() {
-                //   _dragOffset = 0.0;
-                //   _refreshMode = RefreshHeaderMode.idle;
-                // });
+                _refreshMode = RefreshHeaderMode.drag;
               }
+            });
+          } else {
+            // 手松开
+            if (_dragOffset >= widget.offsetThresholdMin) {
+              _handleRefresh();
+            } else {
+              setState(() {
+                _dragOffset = 0;
+                _refreshMode = RefreshHeaderMode.idle;
+              });
             }
           }
         }
@@ -425,31 +382,12 @@ class _EListState extends State<EList> {
         alignment: Alignment.topCenter,
         children: [
           listView,
-          // header 的高度受 _dragOffset 限制，最多为 offsetThresholdMax
           SizedBox(
-            height: min(_dragOffset, widget.offsetThresholdMax),
-            child: _buildCustomHeader(context),
+            height: _dragOffset,
+            child: _buildHeader(),
           ),
         ],
       ),
     );
-  }
-
-  Widget _buildCustomHeader(BuildContext context) {
-    if (widget.refreshHeaderBuilder != null) {
-      return widget.refreshHeaderBuilder!(context, _refreshMode, _dragOffset);
-    }
-    switch (_refreshMode) {
-      case RefreshHeaderMode.drag:
-        return const Center(child: Text("Continue to pull down"));
-      case RefreshHeaderMode.armed:
-        return const Center(child: Text("Release to refresh"));
-      case RefreshHeaderMode.refresh:
-        return const Center(child: CircularProgressIndicator());
-      case RefreshHeaderMode.done:
-        return const Center(child: Text("Refresh Successfully"));
-      default:
-        return const SizedBox.shrink();
-    }
   }
 }

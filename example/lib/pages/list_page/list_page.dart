@@ -92,9 +92,9 @@ class _ListPageState extends State<ListPage> {
       ),
       body: Column(
         children: [
-          EButton(
-            text: '刷新',
-            onPressed: () => controller.triggerPullDown(),
+          const Text(
+            '上滑下面这个列表触发 分页/懒加载， 下滑触发刷新。 刷新状态有四个：拖动中、松开刷新、正在刷新、刷新完成，widget 均可以自定义，其父组件为被下拉的空白区域',
+            style: TextStyle(color: Colors.blue),
           ),
           Expanded(
             child: EList(
@@ -116,7 +116,7 @@ class _ListPageState extends State<ListPage> {
               onLoadMore: _handleLoadMore,
               hasMore: _hasMore,
               offsetThresholdMin: 30.0,
-              offsetThresholdMax: 60.0,
+              // offsetThresholdMax: 60.0,
               // headerPinnedToTop: false,
               refreshHeaderBuilder: (context, mode, offset) {
                 switch (mode) {
@@ -133,8 +133,8 @@ class _ListPageState extends State<ListPage> {
                     );
                   case RefreshHeaderMode.refresh:
                     return const Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         EButton(
                           text: "正在刷新",
@@ -147,8 +147,8 @@ class _ListPageState extends State<ListPage> {
                     );
                   case RefreshHeaderMode.done:
                     return const Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         EButton(
                           text: "刷新完成",
