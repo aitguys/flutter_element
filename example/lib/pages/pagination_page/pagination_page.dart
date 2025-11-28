@@ -27,17 +27,30 @@ class _PaginationPageState extends State<PaginationPage> {
             EPagination(
               total: _total,
               pageSize: _pageSize,
+              layout: const [
+                EPaginationLayout.total,
+                EPaginationLayout.prev,
+                EPaginationLayout.pager,
+                EPaginationLayout.next,
+                EPaginationLayout.sizes,
+                EPaginationLayout.jumper,
+              ],
               currentPage: _currentPage,
-              onPageChange: (p) => setState(() => _currentPage = p),
+              onPageChange: (p) => setState(() {
+                _currentPage = p;
+              }),
+              onPageSizeChange: (s) => setState(() {
+                _pageSize = s;
+              }),
             ),
             const SizedBox(height: 32),
-            const Text('每页条数切换'),
+            const Text('自定义颜色'),
             const SizedBox(height: 16),
             EPagination(
               total: _total,
               pageSize: _pageSize,
               currentPage: _currentPage,
-              showSizeChanger: true,
+              customColor: Colors.red,
               onPageChange: (p) => setState(() => _currentPage = p),
               onPageSizeChange: (s) => setState(() {
                 _pageSize = s;
@@ -51,9 +64,23 @@ class _PaginationPageState extends State<PaginationPage> {
               total: _total,
               pageSize: _pageSize,
               currentPage: _currentPage,
-              showJumper: true,
+              isRound: true,
               onPageChange: (p) => setState(() => _currentPage = p),
             ),
+            const Text('自定义背景颜色'),
+            const SizedBox(height: 16),
+            EPagination(
+              total: _total,
+              pageSize: _pageSize,
+              currentPage: _currentPage,
+              showBackground: false,
+              onPageChange: (p) => setState(() => _currentPage = p),
+              onPageSizeChange: (s) => setState(() {
+                _pageSize = s;
+                _currentPage = 1;
+              }),
+            ),
+            const SizedBox(height: 32),
           ],
         ),
       ),

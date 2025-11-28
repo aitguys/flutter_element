@@ -39,9 +39,18 @@ Widget _viewerContent() {
         SizedBox(
           width: 120,
           child: ECard(
+            showShadowWhenHover: false,
             header: Text('Always'),
-            shadow: ECardShadow.always,
             child: SizedBox(height: 60),
+            bodyStyle: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.red,
+                  blurRadius: 12,
+                  offset: Offset(0, 4),
+                ),
+              ],
+            ),
           ),
         ),
         SizedBox(width: 16),
@@ -49,19 +58,10 @@ Widget _viewerContent() {
           width: 120,
           child: ECard(
             header: Text('Hover'),
-            shadow: ECardShadow.hover,
             child: SizedBox(height: 60),
           ),
         ),
         SizedBox(width: 16),
-        SizedBox(
-          width: 120,
-          child: ECard(
-            header: Text('Never'),
-            shadow: ECardShadow.never,
-            child: SizedBox(height: 60),
-          ),
-        ),
       ],
     ),
   );

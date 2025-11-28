@@ -16,7 +16,7 @@ class TrianglePainter extends CustomPainter {
       ..close(); // Close the path
 
     // Scale up the triangle by 20%
-    final matrix = Matrix4.identity()..scale(1.2);
+    final matrix = Matrix4.identity().scaled(1.2, 1.2, 1.2);
     final scaledPath = path.transform(matrix.storage);
 
     canvas.drawPath(scaledPath, Paint()..color = color);
@@ -58,6 +58,10 @@ class EAutocomplete extends StatefulWidget {
   final double? customFontSize;
   final double? customBorderRadius;
   final bool showPlaceholderOnTop;
+  final bool remote;
+  final Widget Function(
+          Map<String, dynamic> item, int index, bool isHighlighted)?
+      customItemBuilder;
 
   const EAutocomplete({
     super.key,
@@ -69,7 +73,7 @@ class EAutocomplete extends StatefulWidget {
     this.debounce = 300,
     required this.fetchSuggestions,
     this.size = ESizeItem.medium,
-    this.triggerOnFocus = true,
+    this.triggerOnFocus = false,
     this.hideLoading = false,
     this.highlightFirstItem = false,
     this.fitInputWidth = false,
@@ -90,6 +94,8 @@ class EAutocomplete extends StatefulWidget {
     this.customFontSize,
     this.customBorderRadius,
     this.showPlaceholderOnTop = false,
+    this.remote = false,
+    this.customItemBuilder,
   });
 
   @override
@@ -149,12 +155,12 @@ class _EAutocompleteState extends State<EAutocomplete> {
         _fetchSuggestions('');
       }
     } else {
-      Future.delayed(const Duration(milliseconds: 100), () {
-        if (mounted) {
-          _removeOverlay();
-          widget.onBlur?.call();
-        }
-      });
+      // Future.delayed(const Duration(milliseconds: 100), () {
+      //   if (mounted) {
+      //     _removeOverlay();
+      //     widget.onBlur?.call();
+      //   }
+      // });
     }
   }
 
@@ -200,7 +206,7 @@ class _EAutocompleteState extends State<EAutocomplete> {
 
   void _handleSelect(dynamic item) {
     final selectedText = item[widget.valueKey]?.toString() ?? '';
-
+    widget.onSelect?.call(item);
     _removeOverlay();
 
     setState(() {
@@ -241,14 +247,17 @@ class _EAutocompleteState extends State<EAutocomplete> {
     });
 
     try {
-      widget.fetchSuggestions(query, (suggestions) {
+      await widget.fetchSuggestions(query, (suggestions) {
         if (!mounted || _isSelecting) return;
         setState(() {
           // _allSuggestions = suggestions;
-          _suggestions = suggestions.where((item) {
-            final value = item[widget.valueKey]?.toString().toLowerCase() ?? '';
-            return value.contains(query.toLowerCase());
-          }).toList();
+          _suggestions = widget.remote
+              ? suggestions
+              : suggestions.where((item) {
+                  final value =
+                      item[widget.valueKey]?.toString().toLowerCase() ?? '';
+                  return value.contains(query.toLowerCase());
+                }).toList();
           _isLoading = false;
           if (_suggestions.isNotEmpty && !widget.disabled) {
             _showOverlay();
@@ -256,6 +265,9 @@ class _EAutocompleteState extends State<EAutocomplete> {
             _removeOverlay();
           }
         });
+      });
+      setState(() {
+        _isLoading = false;
       });
     } catch (e) {
       if (!mounted) return;
@@ -280,6 +292,10 @@ class _EAutocompleteState extends State<EAutocomplete> {
         children: [
           GestureDetector(
             behavior: HitTestBehavior.opaque,
+            onTap: () {
+              _removeOverlay();
+              _focusNode.unfocus();
+            },
             child: Container(
               color: Colors.transparent,
               width: MediaQuery.of(context).size.width,
@@ -313,50 +329,63 @@ class _EAutocompleteState extends State<EAutocomplete> {
                       minWidth: size.width,
                     ),
                     width: size.width,
-                    child: SingleChildScrollView(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: _suggestions.asMap().entries.map((entry) {
-                          final index = entry.key;
-                          final item = entry.value;
-                          final isHighlighted = index == _highlightedIndex;
-                          return InkWell(
-                            onTap: () {
-                              _handleSelect(item);
-                            },
-                            child: Container(
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                color: isHighlighted
-                                    ? getColorByType(
-                                            type: widget.colorType,
-                                            customColor: widget.customColor)
-                                        .withValues(alpha: 0.1)
-                                    : null,
-                                border: const Border(
-                                  bottom: BorderSide(
-                                    color: EBasicColors.borderGray,
-                                    width: 0.5,
-                                  ),
-                                ),
-                              ),
-                              child: ListTile(
-                                dense: true,
-                                title: Text(
-                                  item[widget.valueKey]?.toString() ?? '',
-                                  style: TextStyle(
-                                    color: isHighlighted
-                                        ? getColorByType(
-                                            type: widget.colorType,
-                                            customColor: widget.customColor)
-                                        : Colors.black87,
-                                  ),
+                    child: ListView.builder(
+                      itemCount: _suggestions.length,
+                      itemBuilder: (context, index) {
+                        final item = _suggestions[index];
+                        final isHighlighted = index == _highlightedIndex;
+
+                        // 如果提供了自定义构建器，使用自定义组件
+                        if (widget.customItemBuilder != null) {
+                          return MouseRegion(
+                            cursor: SystemMouseCursors.click,
+                            child: InkWell(
+                              onTap: () {
+                                _handleSelect(item);
+                              },
+                              child: widget.customItemBuilder!(
+                                  item, index, isHighlighted),
+                            ),
+                          );
+                        }
+
+                        // 默认组件
+                        return InkWell(
+                          onTap: () {
+                            _handleSelect(item);
+                          },
+                          child: Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: isHighlighted
+                                  ? getColorByType(
+                                          type: widget.colorType,
+                                          customColor: widget.customColor)
+                                      .withValues(alpha: 0.1)
+                                  : null,
+                              border: const Border(
+                                bottom: BorderSide(
+                                  color: EBasicColors.borderGray,
+                                  width: 0.5,
                                 ),
                               ),
                             ),
-                          );
-                        }).toList(),
-                      ),
+                            child: ListTile(
+                              dense: true,
+                              title: Text(
+                                item[widget.valueKey]?.toString() ?? '',
+                                style: TextStyle(
+                                  color: isHighlighted
+                                      ? getColorByType(
+                                          type: widget.colorType,
+                                          customColor: widget.customColor)
+                                      : Colors.black87,
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ),
@@ -429,6 +458,8 @@ class _EAutocompleteState extends State<EAutocomplete> {
                                 height: double.infinity,
                                 child: widget.prepend!,
                               ),
+                            if (widget.prepend != null)
+                              const SizedBox(width: 8),
                             if (widget.prefix != null)
                               Padding(
                                 padding: const EdgeInsets.only(right: 4),

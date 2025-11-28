@@ -39,6 +39,7 @@ class ELink extends StatelessWidget {
 
   final double? customFontSize;
   final double? customIconSize;
+  final Color? customColor;
   final ValueChanged<bool>? onHover;
 
   const ELink({
@@ -48,6 +49,7 @@ class ELink extends StatelessWidget {
     this.size = ESizeItem.medium,
     this.customFontSize,
     this.customIconSize,
+    this.customColor,
     this.disabled = false,
     this.underline = true,
     this.icon,
@@ -60,8 +62,9 @@ class ELink extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final basicColor = getColorByType(type: colorType);
-    final contentColor = calculateContentColor(basicColor,
-        isDisabled: disabled, isLink: true, isPlain: true);
+    final contentColor = customColor ??
+        calculateContentColor(basicColor,
+            isDisabled: disabled, isLink: true, isPlain: true);
     final customFontSize = ElememtSize(size: size)
         .getInputFontSize(customFontSize: this.customFontSize);
     final customIconSize = ElememtSize(size: size)

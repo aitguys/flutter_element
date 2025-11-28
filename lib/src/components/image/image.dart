@@ -170,7 +170,7 @@ class _ImagePreviewDialogState extends State<_ImagePreviewDialog> {
         child: Transform(
           alignment: Alignment.center,
           transform: Matrix4.identity()
-            ..scale(_scale)
+            ..scaled(_scale, _scale, _scale)
             ..rotateZ(_rotation),
           child: Image.network(widget.src, fit: BoxFit.contain),
         ),

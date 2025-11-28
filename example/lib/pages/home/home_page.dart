@@ -94,7 +94,20 @@ class HomePage extends StatelessWidget {
                       child:
                           const Text('Link 链接', style: TextStyle(fontSize: 15)),
                     ),
-
+                    FlNavItem(
+                      suffix: const Icon(Icons.arrow_forward_ios, size: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      onTap: () => Get.toNamed(Routes.tabs),
+                      child: const Text('Tabs 标签页',
+                          style: TextStyle(fontSize: 15)),
+                    ),
+                    FlNavItem(
+                      suffix: const Icon(Icons.arrow_forward_ios, size: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      onTap: () => Get.toNamed(Routes.segmented),
+                      child: const Text('Segmented 分段器',
+                          style: TextStyle(fontSize: 15)),
+                    ),
                     // FlNavItem(
                     //   suffix: const Icon(Icons.arrow_forward_ios, size: 16),
                     //   padding: const EdgeInsets.symmetric(horizontal: 4),
@@ -255,6 +268,26 @@ class HomePage extends StatelessWidget {
                   children: [
                     Icon(Icons.menu, size: 25),
                     SizedBox(width: 12),
+                    Text('表格'),
+                  ],
+                ),
+                child: Column(
+                  children: [
+                    FlNavItem(
+                      suffix: const Icon(Icons.arrow_forward_ios, size: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      onTap: () => Get.toNamed(Routes.table),
+                      child: const Text('Table 表格组件',
+                          style: TextStyle(fontSize: 15)),
+                    )
+                  ],
+                ),
+              ),
+              ECollapsePanel(
+                title: const Row(
+                  children: [
+                    Icon(Icons.menu, size: 25),
+                    SizedBox(width: 12),
                     Text('其他组件'),
                   ],
                 ),
@@ -300,6 +333,28 @@ class HomePage extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 4),
                       onTap: () => Get.toNamed(Routes.tree),
                       child: const Text('Tree 树形控件',
+                          style: TextStyle(fontSize: 15)),
+                    ),
+                    FlNavItem(
+                      suffix: const Icon(Icons.arrow_forward_ios, size: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      onTap: () => Get.toNamed(Routes.pagination),
+                      child: const Text('Pagination 分页',
+                          style: TextStyle(fontSize: 15)),
+                    ),
+                    FlNavItem(
+                      suffix: const Icon(Icons.arrow_forward_ios, size: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      onTap: () => Get.toNamed(Routes.list),
+                      child:
+                          const Text('List 列表', style: TextStyle(fontSize: 15)),
+                    ),
+                    // step
+                    FlNavItem(
+                      suffix: const Icon(Icons.arrow_forward_ios, size: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      onTap: () => Get.toNamed(Routes.steps),
+                      child: const Text('Steps 步骤条',
                           style: TextStyle(fontSize: 15)),
                     ),
                   ],

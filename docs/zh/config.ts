@@ -45,6 +45,7 @@ export const zhConfig = {
 						{ text: "Rate", link: "/zh/components/rate" },
 						{ text: "Select", link: "/zh/components/select" },
 						{ text: "ColorPicker", link: "/zh/components/color_picker" },
+						{ text: "Form", link: "/zh/components/form" },
 					],
 				},
 				{

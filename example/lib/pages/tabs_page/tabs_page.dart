@@ -112,7 +112,6 @@ class _TabsPageState extends State<TabsPage> {
               height: 200,
               child: ETabs(
                 tabs: _tabs,
-                position: ETabPosition.left,
                 type: ETabType.border,
               ),
             ),

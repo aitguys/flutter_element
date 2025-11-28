@@ -35,18 +35,30 @@ class CardBasicView extends StatelessWidget {
 Widget _viewerContent() {
   return Builder(
     builder: (context) => ECard(
-      width: 400,
-      header: const Text('Card name',
-          style: TextStyle(fontWeight: FontWeight.bold)),
-      footer: const Text('Footer content'),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: List.generate(
-            4,
-            (i) => Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4),
-                  child: Text('List item ${i + 1}'),
-                )),
+      padding: const EdgeInsets.all(0),
+      bodyStyle: BoxDecoration(
+        borderRadius: BorderRadius.circular(5),
+      ),
+      header: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        child: const Text('Card name',
+            style: TextStyle(fontWeight: FontWeight.bold)),
+      ),
+      footer: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        child: const Text('Footer content'),
+      ),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: List.generate(
+              4,
+              (i) => Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 4),
+                    child: Text('List item ${i + 1}'),
+                  )),
+        ),
       ),
     ),
   );

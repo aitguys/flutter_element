@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element_plus/flutter_element_plus.dart';
+import 'package:logger/web.dart';
 import '../../const/index.dart';
 
 class SelectBasicPreview extends StatelessWidget {
@@ -33,6 +34,60 @@ class SelectBasicView extends StatelessWidget {
 }
 
 Widget _viewerContent() {
+  final List<String> stateList = [
+    "AK",
+    "AL",
+    "AR",
+    "AZ",
+    "CA",
+    "CO",
+    "CT",
+    "DE",
+    "FL",
+    "GA",
+    "HI",
+    "ID",
+    "IL",
+    "IN",
+    "IA",
+    "KS",
+    "KY",
+    "LA",
+    "ME",
+    "MD",
+    "MA",
+    "MI",
+    "MN",
+    "MS",
+    "MO",
+    "MT",
+    "NE",
+    "NV",
+    "NH",
+    "NJ",
+    "NM",
+    "NY",
+    "NC",
+    "ND",
+    "OH",
+    "OK",
+    "OR",
+    "PA",
+    "RI",
+    "SC",
+    "SD",
+    "TN",
+    "TX",
+    "UT",
+    "VT",
+    "VA",
+    "WA",
+    "WV",
+    "WI",
+    "WY",
+    "DC"
+  ];
+
   final List<SelectOption> options = const [
     SelectOption(value: '1', label: '选项1'),
     SelectOption(value: '2', label: '选项2'),
@@ -40,11 +95,22 @@ Widget _viewerContent() {
     SelectOption(value: '4', label: '选项4'),
     SelectOption(value: '5', label: '选项5'),
   ];
-  String? value;
+  String? value = 'CA';
   return Builder(
     builder: (context) => Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        ESelect(
+          placeholder: 'State',
+          options: stateList
+              .map((it) => SelectOption(label: it, value: it))
+              .toList(),
+          value: value,
+          onChanged: (newValue) {
+            value = newValue;
+            Logger().d('value: $value');
+          },
+        ),
         ESelect(
           value: value,
           options: options,

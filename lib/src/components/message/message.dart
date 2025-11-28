@@ -181,8 +181,12 @@ class _EMessageState extends State<EMessage>
 
     final theme = Theme.of(context);
 
+    // 解决挖孔屏遮挡问题：使用MediaQuery的padding.top
+    final double safeTop = MediaQuery.of(context).padding.top;
+    final double top = (widget.offset ?? 20) + safeTop;
+
     return Positioned(
-      top: widget.offset ?? 20,
+      top: top,
       left: 0,
       right: 0,
       child: SlideTransition(
@@ -299,7 +303,10 @@ class EMessageController {
     ESizeItem size = ESizeItem.medium,
   }) {
     final overlayState = Overlay.of(context);
-    final double finalOffset = (offset ?? 20) + (_entries.length * 60);
+    final double safeTop = MediaQuery.of(context).padding.top;
+    // offset 为自定义高度补充距离，safeTop 是StatusBar/刘海区域高度
+    final double finalOffset =
+        (offset ?? 20) + safeTop + (_entries.length * 60);
     late final OverlayEntry entry;
 
     entry = OverlayEntry(
@@ -314,7 +321,7 @@ class EMessageController {
           onClose?.call();
         },
         icon: icon,
-        offset: finalOffset,
+        offset: finalOffset - safeTop, // 让EMessage用到预期offset（组件本身又会加safeTop）
         isRound: isRound,
         size: size,
         padding: padding,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
 import 'package:flutter_element_plus/src/theme/index.dart';
 import '../input/input.dart';
 
@@ -37,6 +38,7 @@ class ESelect extends StatefulWidget {
   final double? customHeight;
   final double? customFontSize;
   final double? customBorderRadius;
+  final double? maxHeight;
   final bool showPlaceholderOnTop;
   final ValueChanged<dynamic>? onChanged;
   final VoidCallback? onClear;
@@ -58,6 +60,7 @@ class ESelect extends StatefulWidget {
     this.customHeight,
     this.customFontSize,
     this.customBorderRadius,
+    this.maxHeight,
     this.showPlaceholderOnTop = false,
     this.onChanged,
     this.onClear,
@@ -90,6 +93,7 @@ class ESelect extends StatefulWidget {
     double? customHeight,
     double? customFontSize,
     double? customBorderRadius,
+    double? maxHeight,
     bool? showPlaceholderOnTop,
     ValueChanged<dynamic>? onChanged,
     VoidCallback? onClear,
@@ -110,6 +114,7 @@ class ESelect extends StatefulWidget {
       customHeight: customHeight ?? this.customHeight,
       customFontSize: customFontSize ?? this.customFontSize,
       customBorderRadius: customBorderRadius ?? this.customBorderRadius,
+      maxHeight: maxHeight ?? this.maxHeight,
       showPlaceholderOnTop: showPlaceholderOnTop ?? this.showPlaceholderOnTop,
       onChanged: onChanged ?? this.onChanged,
       onClear: onClear ?? this.onClear,
@@ -128,6 +133,13 @@ class _ESelectState extends State<ESelect> {
   late TextEditingController _controller;
   List<String> _selectedValues = [];
   bool _isDisposed = false;
+  String _searchText = '';
+  List<SelectOption> _filteredOptions = [];
+  Timer? _autoSelectTimer;
+  Timer? _filterDebounceTimer;
+  bool _isAutoSelecting = false;
+  bool _isUserTyping = false;
+  bool _isOverlayVisible = false; // 跟踪 Overlay 显示状态
 
   // 计算显示文本
   String get _displayText {
@@ -157,8 +169,68 @@ class _ESelectState extends State<ESelect> {
     }
   }
 
-  void _handleOptionSelected(SelectOption option) {
-    // print('option: $option');
+  // 过滤选项 - 添加防抖机制
+  void _filterOptions(String searchText) {
+    _searchText = searchText;
+
+    // 取消之前的防抖定时器
+    _filterDebounceTimer?.cancel();
+
+    // 设置新的防抖定时器
+    _filterDebounceTimer = Timer(const Duration(milliseconds: 150), () {
+      if (_isDisposed) return;
+
+      if (searchText.isEmpty) {
+        _filteredOptions = widget.options;
+      } else {
+        _filteredOptions = widget.options
+            .where((option) =>
+                option.label.toLowerCase().contains(searchText.toLowerCase()) ||
+                option.value
+                    .toString()
+                    .toLowerCase()
+                    .contains(searchText.toLowerCase()))
+            .toList();
+      }
+
+      _updateOverlay();
+    });
+  }
+
+  // 自动选中匹配的选项
+  void _autoSelectMatchedOption(String searchText) {
+    if (searchText.isEmpty || _isAutoSelecting || !_isUserTyping) return;
+
+    // 查找完全匹配的选项
+    final exactMatch = _filteredOptions.firstWhere(
+      (option) =>
+          option.label.toLowerCase() == searchText.toLowerCase() ||
+          option.value.toString().toLowerCase() == searchText.toLowerCase(),
+      orElse: () => const SelectOption(value: '', label: ''),
+    );
+
+    if (exactMatch.value.isNotEmpty && !exactMatch.disabled) {
+      // 检查是否与当前选中的值相同，如果相同则不自动选中
+      if (_selectedValues.isNotEmpty &&
+          _selectedValues.first == exactMatch.value) {
+        return;
+      }
+
+      _isAutoSelecting = true;
+      _handleOptionSelected(exactMatch, triggerOnChange: true);
+      // 自动选中后去除焦点，避免重复触发
+      _focusNode.unfocus();
+      _hideOverlay(unfocus: true);
+      // 重置标志位
+      Future.delayed(const Duration(milliseconds: 100), () {
+        _isAutoSelecting = false;
+        _isUserTyping = false;
+      });
+    }
+  }
+
+  void _handleOptionSelected(SelectOption option,
+      {bool triggerOnChange = true}) {
     if (!_isDisposed) {
       if (widget.multiple) {
         setState(() {
@@ -168,32 +240,63 @@ class _ESelectState extends State<ESelect> {
             _selectedValues.add(option.value);
           }
           _controller.text = _displayText;
-          widget.onChanged?.call(_selectedValues);
+          if (triggerOnChange) {
+            widget.onChanged?.call(_selectedValues);
+          }
           _updateOverlay();
         });
-        // 更新输入框显示内容
       } else {
         setState(() {
           // 单选模式下，清空之前的选择，设置新的选择
           _selectedValues.clear();
           _selectedValues.add(option.value);
-          _controller.text = _displayText;
-          widget.onChanged?.call(option.value);
-          _hideOverlay();
+          _controller.text = option.label; // 显示选中选项的标签
+          if (triggerOnChange) {
+            widget.onChanged?.call(option.value);
+          }
+          // 隐藏 Overlay，但不立即收起键盘
+          _hideOverlay(unfocus: false);
         });
-        // 更新输入框显示内容
       }
     }
   }
 
+  void _handleTextChanged(String text) {
+    if (!_isDisposed && !_isAutoSelecting) {
+      // 多选时仅用最后一项作为筛选
+      widget.multiple ? null : _filterOptions(text);
+      _updateOverlay();
+
+      // 取消之前的定时器
+      _autoSelectTimer?.cancel();
+
+      // 如果输入框为空，清空选择
+      if (text.isEmpty) {
+        setState(() {
+          _selectedValues.clear();
+          _controller.text = '';
+          widget.onChanged?.call(widget.multiple ? [] : null);
+        });
+        return;
+      }
+
+      // 延迟自动选中，避免频繁触发
+      _autoSelectTimer = Timer(const Duration(milliseconds: 100), () {
+        if (!_isDisposed && _searchText == text && !_isAutoSelecting) {
+          _autoSelectMatchedOption(text);
+        }
+      });
+    }
+  }
+
   void _updateOverlay() {
-    if (_overlayEntry != null) {
+    if (_overlayEntry != null && _isOverlayVisible) {
       _overlayEntry!.markNeedsBuild();
     }
   }
 
   void _showOverlay() {
-    if (_overlayEntry != null) return;
+    if (_overlayEntry != null || _isOverlayVisible) return;
 
     final RenderBox renderBox = context.findRenderObject() as RenderBox;
     final size = renderBox.size;
@@ -201,14 +304,16 @@ class _ESelectState extends State<ESelect> {
     _overlayEntry = OverlayEntry(
       builder: (context) => Stack(
         children: [
+          // 半透明背景层，点击外部可关闭 Overlay
           Positioned.fill(
             child: GestureDetector(
               behavior: HitTestBehavior.translucent,
               onTap: () {
-                _hideOverlay();
+                _hideOverlay(unfocus: true);
               },
             ),
           ),
+          // 选项列表
           Positioned(
             child: CompositedTransformFollower(
               link: _layerLink,
@@ -224,20 +329,27 @@ class _ESelectState extends State<ESelect> {
                         customBorderRadius: widget.customBorderRadius)),
                 child: Container(
                   width: size.width,
-                  constraints: const BoxConstraints(maxHeight: 300),
+                  constraints: widget.customHeight != null
+                      ? BoxConstraints(maxHeight: widget.customHeight!)
+                      : BoxConstraints(
+                          maxHeight: widget.maxHeight ?? 300.0,
+                        ),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       if (widget.header != null) widget.header!,
                       Flexible(
                         child: ListView.builder(
                           shrinkWrap: true,
-                          itemCount: widget.options.length,
+                          padding: EdgeInsets.zero,
+                          itemCount: _filteredOptions.length,
                           itemBuilder: (context, index) {
-                            final option = widget.options[index];
+                            final option = _filteredOptions[index];
                             final isSelected = widget.multiple
                                 ? _selectedValues.contains(option.value)
-                                : option.value == widget.value;
+                                : _selectedValues.isNotEmpty &&
+                                    _selectedValues.first == option.value;
                             final isDisabled = option.disabled ||
                                 widget.disabled ||
                                 widget.readOnly;
@@ -245,7 +357,8 @@ class _ESelectState extends State<ESelect> {
                             return InkWell(
                               onTap: isDisabled
                                   ? null
-                                  : () => _handleOptionSelected(option),
+                                  : () => _handleOptionSelected(option,
+                                      triggerOnChange: true),
                               child: Container(
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: 12,
@@ -309,11 +422,19 @@ class _ESelectState extends State<ESelect> {
     );
 
     Overlay.of(context).insert(_overlayEntry!);
+    _isOverlayVisible = true;
   }
 
-  void _hideOverlay() {
-    _overlayEntry?.remove();
-    _overlayEntry = null;
+  void _hideOverlay({bool unfocus = true}) {
+    if (_overlayEntry != null) {
+      _overlayEntry?.remove();
+      _overlayEntry = null;
+    }
+    _isOverlayVisible = false;
+    // 根据参数决定是否收起键盘
+    if (unfocus) {
+      FocusScope.of(context).unfocus();
+    }
   }
 
   @override
@@ -321,9 +442,48 @@ class _ESelectState extends State<ESelect> {
     super.initState();
     _focusNode = FocusNode();
     _controller = TextEditingController(text: _displayText);
+    _filteredOptions = widget.options; // 初始化过滤后的选项
+
     _focusNode.addListener(() {
-      if (_focusNode.hasFocus && !widget.readOnly) {
+      if (_focusNode.hasFocus && !widget.readOnly && !widget.disabled) {
         _showOverlay();
+        // 聚焦时重置用户输入标志位
+        _isUserTyping = false;
+      }
+      // else if (!_focusNode.hasFocus) {
+      //   // 失去焦点时隐藏 Overlay
+      //   _hideOverlay(unfocus: true);
+      // }
+    });
+
+    // 添加文本变化监听
+    _controller.addListener(() {
+      if (_focusNode.hasFocus && !widget.readOnly && !_isAutoSelecting) {
+        // 标记用户正在输入
+        _isUserTyping = true;
+
+        // 如果当前有选中的值，且输入文本与选中项的标签不匹配，则清空选择
+        if (_selectedValues.isNotEmpty && !widget.multiple) {
+          String currentLabel = '';
+          try {
+            currentLabel = widget.options
+                .firstWhere((option) => option.value == _selectedValues.first)
+                .label;
+          } catch (e) {
+            currentLabel = '';
+          }
+
+          // 只有当用户实际修改了文本时才清空选择
+          if (_controller.text != currentLabel) {
+            setState(() {
+              _selectedValues.clear();
+            });
+            _handleTextChanged(_controller.text);
+          }
+        } else {
+          // 如果没有选中值，直接处理文本变化
+          _handleTextChanged(_controller.text);
+        }
       }
     });
 
@@ -362,18 +522,28 @@ class _ESelectState extends State<ESelect> {
         _controller.text = _displayText;
       }
     }
+
+    // 检查 options 是否发生变化
+    if (widget.options != oldWidget.options) {
+      _filteredOptions = widget.options;
+      // 只在有搜索文本时才调用 _filterOptions，避免初始化时展开弹窗
+      if (_searchText.isNotEmpty) {
+        _filterOptions(_searchText);
+      }
+    }
   }
 
   void _handleClear() {
     if (!_isDisposed) {
       setState(() {
         _selectedValues = [];
+        _filteredOptions = widget.options; // 重置过滤选项
         if (widget.multiple) {
           widget.onChanged?.call(_selectedValues);
         } else {
           widget.onChanged?.call(null);
         }
-        _hideOverlay();
+        _hideOverlay(unfocus: true);
       });
       // 更新输入框显示内容
       _controller.text = _displayText;
@@ -384,9 +554,11 @@ class _ESelectState extends State<ESelect> {
   @override
   void dispose() {
     _isDisposed = true;
+    _autoSelectTimer?.cancel();
+    _filterDebounceTimer?.cancel();
     _focusNode.dispose();
     _controller.dispose();
-    _hideOverlay();
+    _hideOverlay(unfocus: false);
     super.dispose();
   }
 

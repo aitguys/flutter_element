@@ -38,6 +38,7 @@ Widget _viewerContent() {
               onPressed: () {
                 showAlert(
                   context: context,
+                  width: 500,
                   title: '成功提示',
                   description: '这是一条成功消息提示',
                   type: EColorType.success,

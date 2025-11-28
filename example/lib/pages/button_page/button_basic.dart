@@ -77,6 +77,23 @@ Widget _viewerContent() {
         ],
       ),
       const SizedBox(height: 20),
+      const Text('渐变按钮'),
+      const SizedBox(height: 20),
+      Wrap(
+        spacing: 8,
+        runSpacing: 16,
+        children: [
+          EButton(
+            text: 'Primary Button',
+            type: EColorType.primary,
+            gradient: const LinearGradient(
+              colors: [Color(0xFF9ec7f7), Color(0xFF4982f7)],
+            ),
+            onPressed: () {},
+          ),
+        ],
+      ),
+      const SizedBox(height: 20),
       Wrap(
         spacing: 8,
         runSpacing: 16,
