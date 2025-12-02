@@ -163,7 +163,7 @@ class _EFormState extends State<EForm> {
     double maxWidth = 0;
 
     for (final item in _itemStates) {
-      if (item.mounted) {
+      if (item.mounted && !item.widget.isEmptyLabel) {
         double fontSize = item.widget.textStyle?.fontSize ??
             widget.formItemTextStyle.fontSize ??
             14;
@@ -236,6 +236,7 @@ class EFormItem extends StatefulWidget {
   final dynamic labelWidth; // double 或 'auto'
   final EFormItemValidator? validator;
   final Widget? labelRightChild; // 添加label右侧子组件
+  final bool isEmptyLabel; // 是否不显示label的文本和空间
 
   const EFormItem({
     super.key,
@@ -247,6 +248,7 @@ class EFormItem extends StatefulWidget {
     this.labelWidth,
     this.validator,
     this.labelRightChild, // 添加label右侧子组件参数
+    this.isEmptyLabel = false, // 默认显示label
   });
 
   @override
@@ -449,7 +451,28 @@ class _EFormItemState extends State<EFormItem> {
     Widget childWithDisabled =
         _injectPropsToChild(widget.child, formDisabled, formReadOnly, formSize);
 
-    if (effectiveLabelPosition == EFormLabelPosition.left ||
+    if (widget.isEmptyLabel) {
+      // 不显示label的文本和空间
+      Widget? errorWidget;
+      if (_errorText != null && _errorText!.isNotEmpty) {
+        errorWidget = Padding(
+          padding: const EdgeInsets.only(top: 4.0, left: 4.0),
+          child: Text(
+            _errorText!,
+            style: const TextStyle(color: Colors.red, fontSize: 12),
+          ),
+        );
+      }
+
+      mainContent = Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          childWithDisabled,
+          if (errorWidget != null) errorWidget,
+        ],
+      );
+    } else if (effectiveLabelPosition == EFormLabelPosition.left ||
         effectiveLabelPosition == EFormLabelPosition.right) {
       // 横向布局
       Widget labelWidget = _EFormItemLabelMeasure(
