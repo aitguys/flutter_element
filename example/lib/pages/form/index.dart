@@ -1,12 +1,33 @@
 import 'package:flutter/material.dart';
-import 'form_basic.dart';
-import '../../utils/index.dart';
+import 'package:flutter_element_plus/flutter_element_plus.dart';
+import '../../logger/logger.dart';
+import 'package:get/get.dart';
 
-class FormPreview extends StatelessWidget {
+class  FormPreview extends StatefulWidget {
   const FormPreview({super.key});
 
   @override
+  State<FormPreview> createState() => _FormPreviewState();
+}
+
+class _FormPreviewState extends State<FormPreview> {
+
+  @override
   Widget build(BuildContext context) {
+    final formController = EFormController();
+
+    // 创建控制器来获取输入值
+    final usernameController = TextEditingController();
+    final emailController = TextEditingController();
+    final passwordController = TextEditingController();
+    final confirmPasswordController = TextEditingController();
+    final ageController = TextEditingController();
+    final bioController = TextEditingController();
+    final cityController = TextEditingController();
+    final countryController = TextEditingController(text: 'China');
+    final dateController = TextEditingController(text: '2024-11-09');
+    final genderController = TextEditingController(text: 'female');
+    final formDisabled = false.obs;
     return Scaffold(
       appBar: AppBar(
         title: const Text('按钮组件'),
@@ -220,7 +241,7 @@ class FormPreview extends StatelessWidget {
                                 validator: () {
                                   return null;
                                 },
-                                child: Row(
+                                child: const Row(
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
                                     Expanded(
@@ -382,7 +403,7 @@ class FormPreview extends StatelessWidget {
           ),
         ),
       ),
-      body: const FormBasicView(),
+
     );
   }
 }
