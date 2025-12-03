@@ -6,6 +6,7 @@ class ECheckboxGroup extends StatefulWidget {
   final List<String> value;
   final ESizeItem size;
   final bool disabled;
+  final bool readOnly;
   final int? min;
   final int? max;
   final Function(List<String>)? onChange;
@@ -15,6 +16,7 @@ class ECheckboxGroup extends StatefulWidget {
     required this.value,
     this.size = ESizeItem.medium,
     this.disabled = false,
+    this.readOnly = false,
     this.min,
     this.max,
     this.onChange,
@@ -23,6 +25,30 @@ class ECheckboxGroup extends StatefulWidget {
 
   @override
   State<ECheckboxGroup> createState() => _ECheckboxGroupState();
+
+  ECheckboxGroup copyWith({
+    Key? key,
+    List<String>? value,
+    ESizeItem? size,
+    bool? disabled,
+    bool? readOnly,
+    int? min,
+    int? max,
+    Function(List<String>)? onChange,
+    List<Widget>? children,
+  }) {
+    return ECheckboxGroup(
+      key: key ?? this.key,
+      value: value ?? this.value,
+      size: size ?? this.size,
+      disabled: disabled ?? this.disabled,
+      readOnly: readOnly ?? this.readOnly,
+      min: min ?? this.min,
+      max: max ?? this.max,
+      onChange: onChange ?? this.onChange,
+      children: children ?? this.children,
+    );
+  }
 }
 
 class _ECheckboxGroupState extends State<ECheckboxGroup> {
@@ -43,7 +69,7 @@ class _ECheckboxGroupState extends State<ECheckboxGroup> {
   }
 
   void _handleChange(String value, bool checked) {
-    if (widget.disabled) return;
+    if (widget.disabled || widget.readOnly) return;
 
     final newValues = List<String>.from(_selectedValues);
     if (checked) {
@@ -80,6 +106,7 @@ class _ECheckboxGroupState extends State<ECheckboxGroup> {
             key: child.key,
             label: child.label,
             disabled: widget.disabled || child.disabled,
+            readOnly: widget.readOnly || child.readOnly,
             border: child.border,
             size: widget.size,
             checked: _selectedValues.contains(child.label),

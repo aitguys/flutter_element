@@ -27,6 +27,7 @@ class _FormPreviewState extends State<FormPreview> {
     final countryController = TextEditingController(text: 'China');
     final dateController = TextEditingController(text: '2024-11-09');
     final genderController = TextEditingController(text: 'female');
+    List<String> medicalHistorySelected = [];
     final formDisabled = false.obs;
     return Scaffold(
       appBar: AppBar(
@@ -83,6 +84,21 @@ class _FormPreviewState extends State<FormPreview> {
                                     children: const [
                                       ERadio(label: 'Male', value: 'male'),
                                       ERadio(label: 'Female', value: 'female'),
+                                    ],
+                                  )),
+                              EFormItem(
+                                  label: 'Medical History',
+                                  labelPosition: EFormLabelPosition.top,
+                                  isRequired: true,
+                                  child: ECheckboxGroup(
+                                    value: medicalHistorySelected,
+                                    children: const[
+                                      ECheckbox(label: 'Diabetes'),
+                                      ECheckbox(label: 'Hypertension'),
+                                      ECheckbox(label: 'Heart Disease'),
+                                      ECheckbox(label: 'Stroke'),
+                                      ECheckbox(label: 'Cancer'),
+                                      ECheckbox(label: 'Other'),
                                     ],
                                   )),
                               EFormItem(

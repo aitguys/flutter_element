@@ -29,6 +29,11 @@ class ECheckbox extends StatefulWidget {
   /// When true, the checkbox cannot be selected and will show a disabled style.
   final bool disabled;
 
+  /// Whether the checkbox is read-only.
+  ///
+  /// When true, the checkbox cannot be changed but can still be focused.
+  final bool readOnly;
+
   /// Whether to show a border around the checkbox.
   ///
   /// When true, the checkbox will be displayed with a border.
@@ -89,6 +94,7 @@ class ECheckbox extends StatefulWidget {
     this.value,
     this.label,
     this.disabled = false,
+    this.readOnly = false,
     this.border = false,
     this.size = ESizeItem.medium,
     this.checked = false,
@@ -124,7 +130,7 @@ class _ECheckboxState extends State<ECheckbox> {
   }
 
   void _handleTap() {
-    if (widget.disabled) return;
+    if (widget.disabled || widget.readOnly) return;
     setState(() {
       _isChecked = !_isChecked;
     });

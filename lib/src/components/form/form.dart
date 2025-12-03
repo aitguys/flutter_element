@@ -4,6 +4,7 @@ import '../select/select.dart';
 import '../input_number/input_number.dart';
 import '../input_tag/input_tag.dart';
 import '../radio/radio.dart';
+import '../checkbox/checkbox_group.dart';
 import 'package:flutter_element_plus/src/theme/index.dart';
 import '../date_picker/date_picker.dart';
 
@@ -427,6 +428,12 @@ class _EFormItemState extends State<EFormItem> {
         readOnly: readOnly,
       );
     } else if (child is ESelect) {
+      return child.copyWith(
+        disabled: disabled,
+        size: size,
+        readOnly: readOnly,
+      );
+    } else if (child is ECheckboxGroup) {
       return child.copyWith(
         disabled: disabled,
         size: size,
