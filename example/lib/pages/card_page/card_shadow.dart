@@ -41,7 +41,6 @@ Widget _viewerContent() {
           child: ECard(
             showShadowWhenHover: false,
             header: Text('Always'),
-            child: SizedBox(height: 60),
             bodyStyle: BoxDecoration(
               boxShadow: [
                 BoxShadow(
@@ -51,6 +50,7 @@ Widget _viewerContent() {
                 ),
               ],
             ),
+            child: SizedBox(height: 60),
           ),
         ),
         SizedBox(width: 16),

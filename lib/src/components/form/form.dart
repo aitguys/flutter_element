@@ -164,17 +164,22 @@ class _EFormState extends State<EForm> {
     double maxWidth = 0;
 
     for (final item in _itemStates) {
-      if (item.mounted && !item.widget.isEmptyLabel) {
+      final label = item.widget.label;
+      // 判定为 null 或 空字符串或者 isEmptyLabel，不应参与宽度计算
+      if (item.mounted &&
+          !(item.widget.isEmptyLabel ||
+              label == null ||
+              (label.trim().isEmpty))) {
         double fontSize = item.widget.textStyle?.fontSize ??
             widget.formItemTextStyle.fontSize ??
             14;
-        if (RegExp(r'[\u4e00-\u9fa5]').hasMatch(item.widget.label)) {
+        if (RegExp(r'[\u4e00-\u9fa5]').hasMatch(label)) {
           fontSize = fontSize * 2;
         }
 
         final textPainter = TextPainter(
           text: TextSpan(
-            text: item.widget.label,
+            text: label,
             style: TextStyle(fontSize: fontSize),
           ),
           textDirection: TextDirection.ltr,
@@ -229,27 +234,27 @@ class _EFormState extends State<EForm> {
 typedef EFormItemValidator = String? Function();
 
 class EFormItem extends StatefulWidget {
-  final String label;
+  final String? label;
   final Widget child;
-  final TextStyle? textStyle; // 改为可空，如果没有提供则从 EForm 继承
+  final TextStyle? textStyle;
   final String? labelPosition;
   final bool isRequired;
   final dynamic labelWidth; // double 或 'auto'
   final EFormItemValidator? validator;
-  final Widget? labelRightChild; // 添加label右侧子组件
-  final bool isEmptyLabel; // 是否不显示label的文本和空间
+  final Widget? labelRightChild;
+  final bool isEmptyLabel;
 
   const EFormItem({
     super.key,
-    required this.label,
+    this.label,
     required this.child,
-    this.textStyle, // 移除默认值
+    this.textStyle,
     this.labelPosition,
     this.isRequired = false,
     this.labelWidth,
     this.validator,
-    this.labelRightChild, // 添加label右侧子组件参数
-    this.isEmptyLabel = false, // 默认显示label
+    this.labelRightChild,
+    this.isEmptyLabel = false,
   });
 
   @override
@@ -383,9 +388,11 @@ class _EFormItemState extends State<EFormItem> {
 
   /// 测量当前标签的实际宽度
   double _measureActualLabelWidth({required TextStyle textStyle}) {
+    final label = widget.label;
+    if (label == null || label.trim().isEmpty) return 0;
     final textPainter = TextPainter(
       text: TextSpan(
-        text: widget.label,
+        text: label,
         style: textStyle,
       ),
       textDirection: TextDirection.ltr,
@@ -458,8 +465,13 @@ class _EFormItemState extends State<EFormItem> {
     Widget childWithDisabled =
         _injectPropsToChild(widget.child, formDisabled, formReadOnly, formSize);
 
-    if (widget.isEmptyLabel) {
-      // 不显示label的文本和空间
+    // 判断 label 是否显示（label 不为 null 且不为空字符串，且 isEmptyLabel 为 false）
+    final showLabel = !widget.isEmptyLabel &&
+        widget.label != null &&
+        widget.label!.trim().isNotEmpty;
+
+    if (widget.isEmptyLabel || !showLabel) {
+      // 不显示label的文本和空间（包括 label 本身为 null/空 这种情况）
       Widget? errorWidget;
       if (_errorText != null && _errorText!.isNotEmpty) {
         errorWidget = Padding(
@@ -483,10 +495,11 @@ class _EFormItemState extends State<EFormItem> {
         effectiveLabelPosition == EFormLabelPosition.right) {
       // 横向布局
       Widget labelWidget = _EFormItemLabelMeasure(
-        label: widget.label,
+        label: widget.label!,
         textStyle: effectiveTextStyle,
         isRequired: widget.isRequired,
         labelPosition: effectiveLabelPosition,
+        labelRightChild: widget.labelRightChild,
       );
 
       double? width;
@@ -581,26 +594,29 @@ class _EFormItemState extends State<EFormItem> {
         children: [
           Row(
             children: [
-              Text(widget.label, style: effectiveTextStyle),
-              Visibility(
-                visible: widget.labelRightChild != null,
-                child: Padding(
+              if (widget.label != null && widget.label!.trim().isNotEmpty)
+                Text(widget.label!, style: effectiveTextStyle),
+              if (widget.label != null &&
+                  widget.label!.trim().isNotEmpty &&
+                  widget.labelRightChild != null)
+                Padding(
                   padding: const EdgeInsets.only(left: 2.0, right: 2.0),
                   child: widget.labelRightChild ?? const SizedBox(width: 8),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 2.0),
-                child: widget.isRequired
-                    ? const Text(
-                        '*',
-                        style: TextStyle(color: Colors.red),
-                      )
-                    : const SizedBox(width: 8),
-              ),
+              if (widget.label != null && widget.label!.trim().isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(left: 2.0),
+                  child: widget.isRequired
+                      ? const Text(
+                          '*',
+                          style: TextStyle(color: Colors.red),
+                        )
+                      : const SizedBox(width: 8),
+                ),
             ],
           ),
-          const SizedBox(height: 8),
+          if (widget.label != null && widget.label!.trim().isNotEmpty)
+            const SizedBox(height: 8),
           childWithDisabled,
           if (errorWidget != null) errorWidget,
         ],
@@ -622,12 +638,14 @@ class _EFormItemLabelMeasure extends StatelessWidget {
   final TextStyle textStyle;
   final bool isRequired;
   final String? labelPosition;
+  final Widget? labelRightChild;
 
   const _EFormItemLabelMeasure({
     required this.label,
     required this.textStyle,
     required this.isRequired,
     this.labelPosition,
+    this.labelRightChild,
   });
 
   @override
@@ -650,6 +668,11 @@ class _EFormItemLabelMeasure extends StatelessWidget {
                 : const SizedBox(width: 10),
           ),
           Text(label, style: textStyle),
+          if (labelRightChild != null)
+            Padding(
+              padding: const EdgeInsets.only(left: 2.0),
+              child: labelRightChild,
+            ),
         ],
       );
     } else {
@@ -657,6 +680,11 @@ class _EFormItemLabelMeasure extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(label, style: textStyle),
+          if (labelRightChild != null)
+            Padding(
+              padding: const EdgeInsets.only(left: 2.0),
+              child: labelRightChild,
+            ),
           Padding(
             padding: const EdgeInsets.only(left: 2.0),
             child: isRequired

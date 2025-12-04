@@ -78,7 +78,7 @@ Widget _viewerContent() {
                     child: Column(
                       children: [
                         EFormItem(
-                            label: 'UserName',
+                            label: '',
                             isRequired: true,
                             child: EInput(
                               textController: usernameController,
@@ -86,7 +86,7 @@ Widget _viewerContent() {
                               size: ESizeItem.small,
                             )),
                         EFormItem(
-                            label: 'FirstName',
+                            label: '',
                             isRequired: true,
                             labelPosition: EFormLabelPosition.left,
                             child: EInput(

@@ -3,7 +3,7 @@ import 'package:flutter_element_plus/flutter_element_plus.dart';
 import '../../logger/logger.dart';
 import 'package:get/get.dart';
 
-class  FormPreview extends StatefulWidget {
+class FormPreview extends StatefulWidget {
   const FormPreview({super.key});
 
   @override
@@ -11,7 +11,6 @@ class  FormPreview extends StatefulWidget {
 }
 
 class _FormPreviewState extends State<FormPreview> {
-
   @override
   Widget build(BuildContext context) {
     final formController = EFormController();
@@ -47,6 +46,7 @@ class _FormPreviewState extends State<FormPreview> {
               Obx(() => EForm(
                       key: formController.key,
                       labelPosition: EFormLabelPosition.top,
+                      size: ESizeItem.large,
                       controller: formController,
                       // disabled: formDisabled.value,
                       readOnly: formDisabled.value,
@@ -59,15 +59,14 @@ class _FormPreviewState extends State<FormPreview> {
                           child: Column(
                             children: [
                               EFormItem(
-                                  label: 'UserName',
                                   isRequired: true,
                                   child: EInput(
                                     textController: usernameController,
                                     placeholder: '请输入用户名',
+                                    customBorderRadius: 8,
                                     size: ESizeItem.small,
                                   )),
                               EFormItem(
-                                  label: 'FirstName',
                                   isRequired: true,
                                   labelPosition: EFormLabelPosition.left,
                                   child: EInput(
@@ -92,7 +91,7 @@ class _FormPreviewState extends State<FormPreview> {
                                   isRequired: true,
                                   child: ECheckboxGroup(
                                     value: medicalHistorySelected,
-                                    children: const[
+                                    children: const [
                                       ECheckbox(label: 'Diabetes'),
                                       ECheckbox(label: 'Hypertension'),
                                       ECheckbox(label: 'Heart Disease'),
@@ -247,49 +246,51 @@ class _FormPreviewState extends State<FormPreview> {
                                           },
                                         )),
                                   ),
-                                  
                                 ],
                               ),
                               EFormItem(
-                                label: 'Address',
-                                labelPosition: 'top',
-                                isRequired: true,
-                                validator: () {
-                                  return null;
-                                },
-                                child: const Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Expanded(
-                                      child: EFormItem(
-                                        label: '',
-                                        isEmptyLabel: true,
-                                        labelPosition: 'top',
-                                        labelWidth: 0.0,
-                                        isRequired: false,
-                                        child: ESelect(
-                                          options: [
-                                            SelectOption(label: 'China', value: 'China'),
-                                          ],
+                                  label: 'Address',
+                                  labelPosition: 'top',
+                                  isRequired: true,
+                                  validator: () {
+                                    return null;
+                                  },
+                                  child: const Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      Expanded(
+                                        child: EFormItem(
+                                          label: '',
+                                          isEmptyLabel: true,
+                                          labelPosition: 'top',
+                                          labelWidth: 0.0,
+                                          isRequired: false,
+                                          child: ESelect(
+                                            options: [
+                                              SelectOption(
+                                                  label: 'China',
+                                                  value: 'China'),
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    Expanded(
-                                      child: EFormItem(
-                                        label: '',
-                                        isEmptyLabel: true,
-                                        labelPosition: 'top',
-                                        isRequired: false,
-                                        child: ESelect(
-                                          options: [
-                                            SelectOption(label: 'China', value: 'China'),
-                                          ],
+                                      Expanded(
+                                        child: EFormItem(
+                                          label: '',
+                                          isEmptyLabel: true,
+                                          labelPosition: 'top',
+                                          isRequired: false,
+                                          child: ESelect(
+                                            options: [
+                                              SelectOption(
+                                                  label: 'China',
+                                                  value: 'China'),
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                )
-                              ),
+                                    ],
+                                  )),
                             ],
                           ),
                         ),
@@ -419,7 +420,6 @@ class _FormPreviewState extends State<FormPreview> {
           ),
         ),
       ),
-
     );
   }
 }
