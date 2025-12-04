@@ -255,21 +255,48 @@ class ERadioGroup extends StatefulWidget {
 class _ERadioGroupState extends State<ERadioGroup> {
   String? _groupValue;
 
+  void _onControllerChanged() {
+    if (widget.textController != null && _groupValue != widget.textController!.text) {
+      setState(() {
+        _groupValue = widget.textController!.text;
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     _groupValue = widget.textController?.text;
+    // 监听 textController 的变化
+    widget.textController?.addListener(_onControllerChanged);
   }
 
   @override
   void didUpdateWidget(covariant ERadioGroup oldWidget) {
     super.didUpdateWidget(oldWidget);
-    // 如果外部 value 变化，内部也要同步
-    if (widget.textController?.text != oldWidget.textController?.text) {
+    // 如果 textController 发生变化，移除旧的 listener，添加新的 listener
+    if (widget.textController != oldWidget.textController) {
+      oldWidget.textController?.removeListener(_onControllerChanged);
+      widget.textController?.addListener(_onControllerChanged);
+      // 同步新的 textController 的值
+      if (widget.textController != null) {
+        setState(() {
+          _groupValue = widget.textController!.text;
+        });
+      }
+    } else if (widget.textController?.text != oldWidget.textController?.text) {
+      // 如果外部 value 变化，内部也要同步
       setState(() {
         _groupValue = widget.textController?.text;
       });
     }
+  }
+
+  @override
+  void dispose() {
+    // 移除 listener
+    widget.textController?.removeListener(_onControllerChanged);
+    super.dispose();
   }
 
   void _onChanged(String value) {

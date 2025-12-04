@@ -11,23 +11,35 @@ class FormPreview extends StatefulWidget {
 }
 
 class _FormPreviewState extends State<FormPreview> {
+  final formController = EFormController();
+
+  // 创建控制器来获取输入值
+  final usernameController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
+  final ageController = TextEditingController();
+  final bioController = TextEditingController();
+  final cityController = TextEditingController();
+  final countryController = TextEditingController();
+  final dateController = TextEditingController();
+  final genderController = TextEditingController();
+  List<String> medicalHistorySelected = [];
+  final formDisabled = false.obs;
+  @override
+    void initState() {
+      super.initState();
+      Future.delayed(const Duration(milliseconds: 1000), () {
+        genderController.text = 'Female';
+        countryController.text = 'China';
+        dateController.text = '2024-11-09';
+        medicalHistorySelected = ['Other'];
+      });
+  }
   @override
   Widget build(BuildContext context) {
-    final formController = EFormController();
 
-    // 创建控制器来获取输入值
-    final usernameController = TextEditingController();
-    final emailController = TextEditingController();
-    final passwordController = TextEditingController();
-    final confirmPasswordController = TextEditingController();
-    final ageController = TextEditingController();
-    final bioController = TextEditingController();
-    final cityController = TextEditingController();
-    final countryController = TextEditingController(text: 'China');
-    final dateController = TextEditingController(text: '2024-11-09');
-    final genderController = TextEditingController(text: 'female');
-    List<String> medicalHistorySelected = [];
-    final formDisabled = false.obs;
+    
     return Scaffold(
       appBar: AppBar(
         title: const Text('按钮组件'),
@@ -41,6 +53,7 @@ class _FormPreviewState extends State<FormPreview> {
           padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               // 表单
               Obx(() => EForm(
@@ -57,6 +70,8 @@ class _FormPreviewState extends State<FormPreview> {
                         ECard(
                           header: const Text('用户信息'),
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
                             children: [
                               EFormItem(
                                   isRequired: true,
@@ -82,8 +97,8 @@ class _FormPreviewState extends State<FormPreview> {
                                     size: ESizeItem.large,
                                     onChanged: (value) {},
                                     children: const [
-                                      ERadio(label: 'Male', value: 'male',size: ESizeItem.medium,),
-                                      ERadio(label: 'Female', value: 'female',size: ESizeItem.medium,),
+                                      ERadio(label: 'Male', value: 'Male',size: ESizeItem.medium,),
+                                      ERadio(label: 'Female', value: 'Female',size: ESizeItem.medium,),
                                     ],
                                   )),
                               EFormItem(
@@ -300,6 +315,7 @@ class _FormPreviewState extends State<FormPreview> {
                         ECard(
                           header: const Text('表单操作'),
                           child: Column(
+                            
                             children: [
                               Row(
                                 children: [
