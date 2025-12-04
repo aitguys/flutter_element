@@ -79,25 +79,27 @@ class _FormPreviewState extends State<FormPreview> {
                                   isRequired: true,
                                   child: ERadioGroup(
                                     textController: genderController,
+                                    size: ESizeItem.large,
                                     onChanged: (value) {},
                                     children: const [
-                                      ERadio(label: 'Male', value: 'male'),
-                                      ERadio(label: 'Female', value: 'female'),
+                                      ERadio(label: 'Male', value: 'male',size: ESizeItem.medium,),
+                                      ERadio(label: 'Female', value: 'female',size: ESizeItem.medium,),
                                     ],
                                   )),
                               EFormItem(
-                                  label: 'Medical History',
+                                  label: 'Medical History.',
                                   labelPosition: EFormLabelPosition.top,
                                   isRequired: true,
                                   child: ECheckboxGroup(
+                                    size: ESizeItem.medium,
                                     value: medicalHistorySelected,
-                                    children: const [
-                                      ECheckbox(label: 'Diabetes'),
-                                      ECheckbox(label: 'Hypertension'),
-                                      ECheckbox(label: 'Heart Disease'),
-                                      ECheckbox(label: 'Stroke'),
-                                      ECheckbox(label: 'Cancer'),
-                                      ECheckbox(label: 'Other'),
+                                    children: const[
+                                      ECheckbox(label: 'Diabetes',size: ESizeItem.large),
+                                      ECheckbox(label: 'Hypertension',size: ESizeItem.medium),
+                                      ECheckbox(label: 'Heart Disease',size: ESizeItem.medium),
+                                      ECheckbox(label: 'Stroke',size: ESizeItem.medium),
+                                      ECheckbox(label: 'Cancer',size: ESizeItem.medium),
+                                      ECheckbox(label: 'Other',size: ESizeItem.small),
                                     ],
                                   )),
                               EFormItem(

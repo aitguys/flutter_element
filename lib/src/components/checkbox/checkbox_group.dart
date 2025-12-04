@@ -102,13 +102,16 @@ class _ECheckboxGroupState extends State<ECheckboxGroup> {
       runSpacing: 16,
       children: widget.children.map((child) {
         if (child is ECheckbox) {
+          // 优先使用 ECheckboxGroup 的 size，这样可以统一设置所有 checkbox 的大小
+          // 如果子组件的 size 与 group 的 size 不同，则使用子组件的 size（允许子组件覆盖）
+          final effectiveSize = child.size != widget.size ? child.size : widget.size;
           return ECheckbox(
             key: child.key,
             label: child.label,
             disabled: widget.disabled || child.disabled,
             readOnly: widget.readOnly || child.readOnly,
             border: child.border,
-            size: widget.size,
+            size: effectiveSize,
             checked: _selectedValues.contains(child.label),
             onChange: (checked) {
               if (child.label != null) {

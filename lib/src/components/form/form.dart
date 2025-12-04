@@ -441,9 +441,12 @@ class _EFormItemState extends State<EFormItem> {
         readOnly: readOnly,
       );
     } else if (child is ECheckboxGroup) {
+      // 只有当 ECheckboxGroup 的 size 是默认值 medium 时，才使用表单的 size
+      // 否则保留 ECheckboxGroup 的 size，允许用户明确设置
+      final effectiveSize = child.size == ESizeItem.medium ? size : null;
       return child.copyWith(
         disabled: disabled,
-        size: size,
+        size: effectiveSize,
         readOnly: readOnly,
       );
     }
@@ -523,8 +526,8 @@ class _EFormItemState extends State<EFormItem> {
             ),
             child: Align(
               alignment: effectiveLabelPosition == EFormLabelPosition.right
-                  ? Alignment.centerRight
-                  : Alignment.centerLeft,
+                  ? Alignment.topRight
+                  : Alignment.topLeft,
               child: labelWidget,
             ),
           );
@@ -535,8 +538,8 @@ class _EFormItemState extends State<EFormItem> {
             ),
             child: Align(
               alignment: effectiveLabelPosition == EFormLabelPosition.right
-                  ? Alignment.centerRight
-                  : Alignment.centerLeft,
+                  ? Alignment.topRight
+                  : Alignment.topLeft,
               child: labelWidget,
             ),
           );
@@ -593,6 +596,7 @@ class _EFormItemState extends State<EFormItem> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               if (widget.label != null && widget.label!.trim().isNotEmpty)
                 Text(widget.label!, style: effectiveTextStyle),
@@ -657,9 +661,10 @@ class _EFormItemLabelMeasure extends StatelessWidget {
     if (effectiveLabelPosition == EFormLabelPosition.right) {
       return Row(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(right: 2.0),
+            padding: const EdgeInsets.only(right: 2.0, top: 0),
             child: isRequired
                 ? const Text(
                     '*',
@@ -678,6 +683,7 @@ class _EFormItemLabelMeasure extends StatelessWidget {
     } else {
       return Row(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(label, style: textStyle),
           if (labelRightChild != null)
@@ -686,7 +692,7 @@ class _EFormItemLabelMeasure extends StatelessWidget {
               child: labelRightChild,
             ),
           Padding(
-            padding: const EdgeInsets.only(left: 2.0),
+            padding: const EdgeInsets.only(left: 2.0, top: 0),
             child: isRequired
                 ? const Text(
                     '*',
