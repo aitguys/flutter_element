@@ -59,6 +59,9 @@ class ECard extends StatefulWidget {
 
   final bool showShadowWhenHover;
 
+  /// The margin around the card.
+  final EdgeInsetsGeometry? margin;
+
   /// Creates an [ECard] widget.
   ///
   const ECard({
@@ -70,6 +73,7 @@ class ECard extends StatefulWidget {
     this.width,
     this.height,
     this.padding,
+    this.margin,
     this.showShadowWhenHover = false,
   });
 
@@ -83,6 +87,7 @@ class _ECardState extends State<ECard> {
     final card = Container(
       width: widget.width,
       height: widget.height,
+      margin: widget.margin,
       padding: widget.padding ?? const EdgeInsets.all(16),
       decoration: (() {
         final defaultDecoration = BoxDecoration(
