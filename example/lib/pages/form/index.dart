@@ -87,7 +87,7 @@ class _FormPreviewState extends State<FormPreview> {
                                     ],
                                   )),
                               EFormItem(
-                                  label: 'Medical History.',
+                                  label: 'Medical History.No one’s born being good at all things. You become good at things through hard work. You’re not a varsity athlete the first time you play a new sport. You don’t hit every note the first time you sing a song.You’ve got to practice. The same principle applies to your schoolwork. You might have to do a math problem a few times before you get it right. You might have to read something a few times before you understand it.You definitely have to do a few drafts of a paper before it’s good enough to hand in',
                                   labelPosition: EFormLabelPosition.top,
                                   isRequired: true,
                                   child: ECheckboxGroup(

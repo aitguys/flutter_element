@@ -591,34 +591,50 @@ class _EFormItemState extends State<EFormItem> {
         );
       }
 
+      Widget labelWidget;
+      if (widget.label != null && widget.label!.trim().isNotEmpty) {
+        List<InlineSpan> textSpans = [
+          TextSpan(
+            text: widget.label!,
+            style: effectiveTextStyle,
+          ),
+        ];
+        
+        if (widget.labelRightChild != null) {
+          textSpans.add(
+            WidgetSpan(
+              alignment: PlaceholderAlignment.middle,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 2.0),
+                child: widget.labelRightChild!,
+              ),
+            ),
+          );
+        }
+        
+        if (widget.isRequired) {
+          textSpans.add(
+            TextSpan(
+              text: ' *',
+              style: effectiveTextStyle.copyWith(color: Colors.red),
+            ),
+          );
+        }
+        
+        labelWidget = Text.rich(
+          TextSpan(children: textSpans),
+          softWrap: true,
+        );
+      } else {
+        labelWidget = const SizedBox.shrink();
+      }
+
       mainContent = Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (widget.label != null && widget.label!.trim().isNotEmpty)
-                Text(widget.label!, style: effectiveTextStyle),
-              if (widget.label != null &&
-                  widget.label!.trim().isNotEmpty &&
-                  widget.labelRightChild != null)
-                Padding(
-                  padding: const EdgeInsets.only(left: 2.0, right: 2.0),
-                  child: widget.labelRightChild ?? const SizedBox(width: 8),
-                ),
-              if (widget.label != null && widget.label!.trim().isNotEmpty)
-                Padding(
-                  padding: const EdgeInsets.only(left: 2.0),
-                  child: widget.isRequired
-                      ? const Text(
-                          '*',
-                          style: TextStyle(color: Colors.red),
-                        )
-                      : const SizedBox(width: 8),
-                ),
-            ],
-          ),
+          if (widget.label != null && widget.label!.trim().isNotEmpty)
+            labelWidget,
           if (widget.label != null && widget.label!.trim().isNotEmpty)
             const SizedBox(height: 8),
           childWithDisabled,
