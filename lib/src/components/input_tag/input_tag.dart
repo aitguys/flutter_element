@@ -387,6 +387,9 @@ class _EInputTagState extends State<EInputTag> {
                             isDense: true,
                             isCollapsed: true,
                             hintText: widget.placeholder,
+                            hintStyle: const TextStyle(
+                              color: EBasicColors.defaultTextColor,
+                            ),
                           ),
                           onChanged: (value) {
                             if (widget.delimiter != null &&

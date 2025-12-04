@@ -486,6 +486,9 @@ class _EAutocompleteState extends State<EAutocomplete> {
                                       widget.showPlaceholderOnTop && _isFocused
                                           ? null
                                           : widget.placeholder,
+                                  hintStyle: const TextStyle(
+                                    color: EBasicColors.defaultTextColor,
+                                  ),
                                 ),
                               ),
                             ),
@@ -565,7 +568,7 @@ class _EAutocompleteState extends State<EAutocomplete> {
                       ? getColorByType(
                           type: widget.colorType,
                           customColor: widget.customColor)
-                      : Colors.grey,
+                      : EBasicColors.defaultTextColor,
                 ),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,

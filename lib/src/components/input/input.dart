@@ -413,6 +413,9 @@ class _EInputState extends State<EInput> {
                             : widget.showPlaceholderOnTop && _isFocused
                                 ? null
                                 : widget.placeholder,
+                        hintStyle: const TextStyle(
+                          color: EBasicColors.defaultTextColor,
+                        ),
                       ),
                       onChanged: widget.onChanged,
                       onTap: widget.readOnly
@@ -509,7 +512,7 @@ class _EInputState extends State<EInput> {
                       ? getColorByType(
                           type: widget.colorType,
                           customColor: widget.customColor)
-                      : Colors.grey,
+                      : EBasicColors.defaultTextColor,
                 ),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,

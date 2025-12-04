@@ -371,6 +371,9 @@ class _EMentionState extends State<EMention> {
           autofocus: widget.autofocus,
           decoration: InputDecoration(
             hintText: widget.placeholder,
+            hintStyle: const TextStyle(
+              color: EBasicColors.defaultTextColor,
+            ),
             prefixIcon: widget.prefixIcon,
             suffixIcon: widget.suffixIcon,
             border: OutlineInputBorder(

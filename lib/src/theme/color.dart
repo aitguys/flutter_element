@@ -39,6 +39,8 @@ class EBasicColors {
   static const Color borderGray = Color.fromRGBO(221, 223, 230, 1);
   // Text color - Gray
   static const Color textGray = Color.fromRGBO(97, 98, 102, 1);
+
+  static const Color defaultTextColor = Color.fromRGBO(222, 222, 222, 1);
 }
 
 //  根据背景色以及状态动态计算 文字、图标等内容的颜色
