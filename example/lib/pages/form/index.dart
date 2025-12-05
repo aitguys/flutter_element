@@ -32,7 +32,7 @@ class _FormPreviewState extends State<FormPreview> {
       Future.delayed(const Duration(milliseconds: 1000), () {
         genderController.text = 'Female';
         countryController.text = 'China';
-        dateController.text = '2024-11-09';
+        dateController.text = '';
         medicalHistorySelected = ['Other'];
       });
   }

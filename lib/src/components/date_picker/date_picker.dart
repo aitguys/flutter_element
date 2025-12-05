@@ -149,6 +149,8 @@ class _EDatePickerState extends State<EDatePicker> {
     if (widget.disabled || _isDisposed || widget.readOnly) return; // 移除标志检查
     if (_controller.text.isNotEmpty) {
       _selectedDate = _controller.text;
+    } else {
+      _selectedDate = null;
     }
     _removeOverlay();
     final RenderBox renderBox = context.findRenderObject() as RenderBox;

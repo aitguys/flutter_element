@@ -134,7 +134,7 @@ class _CalendarState extends State<Calendar> {
     _selectedDate = widget.initialDate;
     _selectedDates = [];
     // _selectedRange = widget.initialRange;
-    _currentMonth = widget.initialDate != null
+    _currentMonth = widget.initialDate != null && widget.initialDate!.isNotEmpty
         ? DateFormat(widget.format ?? getDefaultFormat(widget.type))
             .parse(widget.initialDate!)
         : DateTime.now();
@@ -149,7 +149,7 @@ class _CalendarState extends State<Calendar> {
     super.didUpdateWidget(oldWidget);
     if (widget.initialDate != oldWidget.initialDate) {
       _selectedDate = widget.initialDate;
-      if (widget.initialDate != null) {
+      if (widget.initialDate != null && widget.initialDate!.isNotEmpty) {
         final date = DateFormat(widget.format ?? getDefaultFormat(widget.type))
             .parse(widget.initialDate!);
         _currentMonth = DateTime(date.year, date.month);
@@ -406,10 +406,11 @@ class _CalendarState extends State<Calendar> {
       bool isSelected = false;
       if (widget.type == CalendarType.years) {
         isSelected = _selectedDates?.any((d) =>
+                d.isNotEmpty &&
                 DateFormat(widget.format ?? 'yyyy').parse(d).year == year) ??
             false;
       } else {
-        isSelected = _selectedDate != null
+        isSelected = _selectedDate != null && _selectedDate!.isNotEmpty
             ? DateFormat(widget.format ?? 'yyyy').parse(_selectedDate!).year ==
                 year
             : false;
@@ -429,10 +430,12 @@ class _CalendarState extends State<Calendar> {
                   ];
                 } else {
                   if (_selectedDates!.any((d) =>
+                      d.isNotEmpty &&
                       DateFormat(widget.format ?? 'yyyy').parse(d).year ==
                       year)) {
                     _selectedDates = List<String>.from(_selectedDates!)
                       ..removeWhere((d) =>
+                          d.isNotEmpty &&
                           DateFormat(widget.format ?? 'yyyy').parse(d).year ==
                           year);
                   } else {
@@ -453,6 +456,7 @@ class _CalendarState extends State<Calendar> {
             margin: const EdgeInsets.all(2),
             decoration: BoxDecoration(
               color: _selectedDates?.any((d) =>
+                              d.isNotEmpty &&
                               DateFormat(widget.format ?? 'yyyy')
                                   .parse(d)
                                   .year ==
@@ -472,6 +476,7 @@ class _CalendarState extends State<Calendar> {
                 color: !isInRange
                     ? const Color(0xFFCCCCCC) // 超出范围的年份显示为灰色
                     : _selectedDates?.any((d) =>
+                                    d.isNotEmpty &&
                                     DateFormat(widget.format ?? 'yyyy')
                                         .parse(d)
                                         .year ==
@@ -546,11 +551,13 @@ class _CalendarState extends State<Calendar> {
                         .format(DateTime(_currentMonth.year, month))
                   ];
                 } else if (_selectedDates!.any((d) =>
+                    d.isNotEmpty &&
                     DateFormat(widget.format ?? 'yyyy-MM').parse(d).year ==
                         _currentMonth.year &&
                     DateFormat(widget.format ?? 'yyyy-MM').parse(d).month ==
                         month)) {
                   _selectedDates!.removeWhere((d) =>
+                      d.isNotEmpty &&
                       DateFormat(widget.format ?? 'yyyy-MM').parse(d).year ==
                           _currentMonth.year &&
                       DateFormat(widget.format ?? 'yyyy-MM').parse(d).month ==
@@ -577,6 +584,7 @@ class _CalendarState extends State<Calendar> {
             margin: const EdgeInsets.all(2),
             decoration: BoxDecoration(
               color: _selectedDates?.any((d) =>
+                          d.isNotEmpty &&
                           DateFormat(widget.format ?? 'yyyy-MM')
                                   .parse(d)
                                   .year ==
@@ -599,6 +607,7 @@ class _CalendarState extends State<Calendar> {
                 color: !isInRange
                     ? const Color(0xFFCCCCCC) // 超出范围的月份显示为灰色
                     : _selectedDates?.any((d) =>
+                                d.isNotEmpty &&
                                 DateFormat(widget.format ?? 'yyyy-MM')
                                         .parse(d)
                                         .year ==
@@ -676,12 +685,14 @@ class _CalendarState extends State<Calendar> {
               // 循环 _selectedDates 输出   DateFormat(widget.format ?? 'yyyy-MM-dd') .parse(d)
 
               isSelected = _selectedDates?.any((d) =>
+                      d.isNotEmpty &&
                       DateFormat(widget.format ?? 'yyyy-MM-dd')
                           .parse(d)
                           .isAtSameMomentAs(date)) ??
                   false;
             } else {
               isSelected = _selectedDate != null &&
+                  _selectedDate!.isNotEmpty &&
                   DateFormat(widget.format ?? 'yyyy-MM-dd')
                       .parse(_selectedDate!)
                       .isAtSameMomentAs(date);
@@ -710,10 +721,12 @@ class _CalendarState extends State<Calendar> {
                                 .format(date)
                           ];
                         } else if (_selectedDates!.any((d) =>
+                            d.isNotEmpty &&
                             DateFormat(widget.format ?? 'yyyy-MM-dd')
                                 .parse(d)
                                 .isAtSameMomentAs(date))) {
                           _selectedDates!.removeWhere((d) =>
+                              d.isNotEmpty &&
                               DateFormat(widget.format ?? 'yyyy-MM-dd')
                                   .parse(d)
                                   .isAtSameMomentAs(date));
@@ -736,6 +749,7 @@ class _CalendarState extends State<Calendar> {
                     margin: const EdgeInsets.all(2),
                     decoration: BoxDecoration(
                       color: _selectedDates?.any((d) =>
+                                      d.isNotEmpty &&
                                       DateFormat(widget.format ?? 'yyyy-MM-dd')
                                           .parse(d)
                                           .isAtSameMomentAs(date)) ==
@@ -753,7 +767,8 @@ class _CalendarState extends State<Calendar> {
                       style: TextStyle(
                         color: !_isDateInRange(date)
                             ? const Color(0xFFCCCCCC) // 超出范围的日期显示为灰色
-                            : _selectedDates?.any((d) => DateFormat(
+                            : _selectedDates?.any((d) => d.isNotEmpty &&
+                                        DateFormat(
                                                 widget.format ?? 'yyyy-MM-dd')
                                             .parse(d)
                                             .isAtSameMomentAs(date)) ==
@@ -796,6 +811,7 @@ class _CalendarState extends State<Calendar> {
           child: Row(
             children: weekDays.map((date) {
               bool isSelected = _selectedDate != null &&
+                  _selectedDate!.isNotEmpty &&
                   DateFormat(widget.format ?? 'yyyy-MM-dd')
                       .parse(_selectedDate!)
                       .isAtSameMomentAs(date);
