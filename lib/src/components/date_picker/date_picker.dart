@@ -297,7 +297,11 @@ class _EDatePickerState extends State<EDatePicker> {
   void dispose() {
     _isDisposed = true; // 设置销毁标志
     _removeOverlay();
-    _controller.dispose(); // 直接销毁控制器
+    // 只有当textController是组件内部创建的时候才dispose
+    // 如果是从外部传入的，不应该dispose，由外部管理生命周期
+    if (widget.textController == null) {
+      _controller.dispose();
+    }
     _focusNode.dispose(); // 销毁FocusNode
     super.dispose();
   }
