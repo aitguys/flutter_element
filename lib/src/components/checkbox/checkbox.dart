@@ -86,6 +86,13 @@ class ECheckbox extends StatefulWidget {
   /// The callback receives the new checked state of the checkbox.
   final Function(bool)? onChange;
 
+  /// Whether the label text should wrap to multiple lines.
+  ///
+  /// When true, the label text will wrap to multiple lines if needed.
+  /// When false, the label text will stay on a single line.
+  /// Defaults to true.
+  final bool labelWrap;
+
   /// Creates an [ECheckbox] widget.
   ///
   /// The [checked] argument defaults to false.
@@ -105,6 +112,7 @@ class ECheckbox extends StatefulWidget {
     this.customFontSize,
     this.customIconSize,
     this.onChange,
+    this.labelWrap = false,
   });
 
   @override
@@ -171,52 +179,107 @@ class _ECheckboxState extends State<ECheckbox> {
                 )
               : null,
           child: Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: widget.labelWrap ? MainAxisSize.max : MainAxisSize.min,
+            crossAxisAlignment: widget.labelWrap
+                ? CrossAxisAlignment.start
+                : CrossAxisAlignment.center,
             children: [
-              SizedBox(
-                width: checkboxSize,
-                height: checkboxSize,
-                child: _isChecked
-                    ? Icon(
-                        Icons.check_box,
-                        size: checkboxSize,
-                        color: widget.disabled
-                            ? EBasicColors.borderGray
-                            : getColorByType(
-                                type: widget.iconColorType,
-                                customColor: widget.iconCustomColor),
-                      )
-                    : Icon(
-                        Icons.check_box_outline_blank,
-                        size: checkboxSize,
-                        color: widget.disabled
-                            ? EBasicColors.borderGray
-                            : _isHovered
-                                ? getColorByType(
-                                        type: widget.iconColorType,
-                                        customColor: widget.iconCustomColor)
-                                    .withValues(alpha: 0.5)
-                                : EBasicColors.borderGray,
-                      ),
-              ),
-              if (widget.label != null)
+              if (widget.labelWrap)
                 Padding(
-                  padding: const EdgeInsets.only(left: 8),
-                  child: Text(
-                    widget.label!,
-                    style: TextStyle(
-                      color: widget.disabled
-                          ? EBasicColors.borderGray
-                          : getColorByType(
-                              type: widget.fontColorType,
-                              customColor: widget.fontCustomColor),
-                      fontSize: ElememtSize(size: widget.size).getInputFontSize(
-                          customFontSize: widget.customFontSize),
-                    ),
+                  padding: const EdgeInsets.only(top: 4),
+                  child: SizedBox(
+                    width: checkboxSize,
+                    height: checkboxSize,
+                    child: _isChecked
+                        ? Icon(
+                            Icons.check_box,
+                            size: checkboxSize,
+                            color: widget.disabled
+                                ? EBasicColors.borderGray
+                                : getColorByType(
+                                    type: widget.iconColorType,
+                                    customColor: widget.iconCustomColor),
+                          )
+                        : Icon(
+                            Icons.check_box_outline_blank,
+                            size: checkboxSize,
+                            color: widget.disabled
+                                ? EBasicColors.borderGray
+                                : _isHovered
+                                    ? getColorByType(
+                                            type: widget.iconColorType,
+                                            customColor: widget.iconCustomColor)
+                                        .withValues(alpha: 0.5)
+                                    : EBasicColors.borderGray,
+                          ),
                   ),
+                )
+              else
+                SizedBox(
+                  width: checkboxSize,
+                  height: checkboxSize,
+                  child: _isChecked
+                      ? Icon(
+                          Icons.check_box,
+                          size: checkboxSize,
+                          color: widget.disabled
+                              ? EBasicColors.borderGray
+                              : getColorByType(
+                                  type: widget.iconColorType,
+                                  customColor: widget.iconCustomColor),
+                        )
+                      : Icon(
+                          Icons.check_box_outline_blank,
+                          size: checkboxSize,
+                          color: widget.disabled
+                              ? EBasicColors.borderGray
+                              : _isHovered
+                                  ? getColorByType(
+                                          type: widget.iconColorType,
+                                          customColor: widget.iconCustomColor)
+                                      .withValues(alpha: 0.5)
+                                  : EBasicColors.borderGray,
+                        ),
                 ),
+              if (widget.label != null)
+                widget.labelWrap
+                    ? Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 8),
+                          child: Text(
+                            widget.label!,
+                            softWrap: true,
+                            style: TextStyle(
+                              color: widget.disabled
+                                  ? EBasicColors.borderGray
+                                  : getColorByType(
+                                      type: widget.fontColorType,
+                                      customColor: widget.fontCustomColor),
+                              fontSize: ElememtSize(size: widget.size)
+                                  .getInputFontSize(
+                                      customFontSize: widget.customFontSize),
+                            ),
+                          ),
+                        ),
+                      )
+                    : Padding(
+                        padding: const EdgeInsets.only(left: 8),
+                        child: Text(
+                          widget.label!,
+                          softWrap: false,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            color: widget.disabled
+                                ? EBasicColors.borderGray
+                                : getColorByType(
+                                    type: widget.fontColorType,
+                                    customColor: widget.fontCustomColor),
+                            fontSize: ElememtSize(size: widget.size)
+                                .getInputFontSize(
+                                    customFontSize: widget.customFontSize),
+                          ),
+                        ),
+                      ),
             ],
           ),
         ),

@@ -87,6 +87,19 @@ class _CheckboxSelectAllDemoState extends State<_CheckboxSelectAllDemo> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ECheckbox(
+          label: 'this is a long label text that should wrap to multiple lines.'
+          'No one’s born being good at all things. You become good at things through hard work.'
+          'You’re not a varsity athlete the first time you play a new sport. You don’t hit every note the first time you sing a song.'
+          'You’ve got to practice. The same principle applies to your schoolwork.',
+          value: valuesAll.length == 3,
+          labelWrap: true,
+          onChange: (value) {
+            setState(() {
+              valuesAll = value ? ['option1', 'option2', 'option3'] : [];
+            });
+          },
+        ),
+        ECheckbox(
           label: 'Check All',
           value: valuesAll.length == 3,
           onChange: (value) {
