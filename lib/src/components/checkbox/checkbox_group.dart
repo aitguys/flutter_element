@@ -113,6 +113,13 @@ class _ECheckboxGroupState extends State<ECheckboxGroup> {
             border: child.border,
             size: effectiveSize,
             checked: _selectedValues.contains(child.label),
+            fontColorType: child.fontColorType,
+            fontCustomColor: child.fontCustomColor,
+            iconColorType: child.iconColorType,
+            iconCustomColor: child.iconCustomColor,
+            customFontSize: child.customFontSize,
+            customIconSize: child.customIconSize,
+            labelWrap: child.labelWrap,
             onChange: (checked) {
               if (child.label != null) {
                 _handleChange(child.label.toString(), checked);
