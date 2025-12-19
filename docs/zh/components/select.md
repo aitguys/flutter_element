@@ -102,6 +102,7 @@
 | multiple           | 是否多选                | `bool`                    | `false`            |
 | disabled           | 是否禁用                | `bool`                    | `false`            |
 | clearable          | 是否可清空              | `bool`                    | `false`            |
+| filterable         | 是否可输入搜索          | `bool`                    | `false`            |
 | prefix             | 前缀                    | `Widget?`                 | -                  |
 | suffix             | 后缀（可替换默认箭头）  | `Widget?`                 | -                  |
 | prepend            | 头部插槽                | `Widget?`                 | -                  |

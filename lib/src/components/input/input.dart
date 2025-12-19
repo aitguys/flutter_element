@@ -49,6 +49,12 @@ class EInput extends StatefulWidget {
   /// When true, the input can be focused but cannot be edited.
   final bool readOnly;
 
+  /// Whether the input is non-editable without changing style.
+  ///
+  /// When true, the input cannot be edited but maintains its original style
+  /// (no background color or border color changes).
+  final bool nonEditable;
+
   /// Whether the input is a password input.
   ///
   /// When true, the input will be masked as password.
@@ -145,6 +151,7 @@ class EInput extends StatefulWidget {
     this.clearable = false,
     this.disabled = false,
     this.readOnly = false,
+    this.nonEditable = false,
     this.prefix,
     this.suffix,
     this.prepend,
@@ -178,6 +185,7 @@ class EInput extends StatefulWidget {
     bool? clearable,
     bool? disabled,
     bool? readOnly,
+    bool? nonEditable,
     Widget? prefix,
     Widget? suffix,
     Widget? prepend,
@@ -206,6 +214,7 @@ class EInput extends StatefulWidget {
       clearable: clearable ?? this.clearable,
       disabled: disabled ?? this.disabled,
       readOnly: readOnly ?? this.readOnly,
+      nonEditable: nonEditable ?? this.nonEditable,
       prefix: prefix ?? this.prefix,
       suffix: suffix ?? this.suffix,
       prepend: prepend ?? this.prepend,
@@ -300,7 +309,7 @@ class _EInputState extends State<EInput> {
   }
 
   void _handleClear() {
-    if (widget.readOnly) return;
+    if (widget.readOnly || widget.nonEditable) return;
     setState(() {
       _controller.clear();
       _hasValue = false;
@@ -346,18 +355,30 @@ class _EInputState extends State<EInput> {
                 border: Border.all(
                   color: widget.readOnly
                       ? Colors.grey[100]!
-                      : widget.disabled
-                          ? widget.borderColor
-                          : _isFocused
+                      : widget.nonEditable
+                          ? (_isFocused
                               ? getColorByType(
                                   type: widget.colorType,
                                   customColor: widget.customColor)
-                              : widget.borderColor,
+                              : widget.borderColor)
+                          : widget.disabled
+                              ? widget.borderColor
+                              : _isFocused
+                                  ? getColorByType(
+                                      type: widget.colorType,
+                                      customColor: widget.customColor)
+                                  : widget.borderColor,
                 ),
                 borderRadius: BorderRadius.circular(
                     ElememtSize(size: widget.size).getInputBorderRadius(
                         customBorderRadius: widget.customBorderRadius)),
-                color: widget.disabled ? Colors.grey[100] : Colors.white,
+                color: widget.readOnly
+                    ? Colors.white
+                    : widget.nonEditable
+                        ? Colors.white
+                        : widget.disabled
+                            ? Colors.grey[100]
+                            : Colors.white,
               ),
               child: Row(
                 children: [
@@ -394,7 +415,7 @@ class _EInputState extends State<EInput> {
                       controller: _controller,
                       focusNode: _focusNode,
                       enabled: !widget.disabled,
-                      readOnly: widget.readOnly,
+                      readOnly: widget.readOnly || widget.nonEditable,
                       cursorOpacityAnimates: false,
                       obscureText: _isPasswordVisible,
                       maxLines: widget.maxLines ?? 1,
@@ -408,7 +429,7 @@ class _EInputState extends State<EInput> {
                         isDense: true,
                         isCollapsed:
                             widget.maxLines == null || widget.maxLines == 1,
-                        hintText: widget.readOnly
+                        hintText: (widget.readOnly || widget.nonEditable)
                             ? null
                             : widget.showPlaceholderOnTop && _isFocused
                                 ? null
@@ -418,7 +439,7 @@ class _EInputState extends State<EInput> {
                         ),
                       ),
                       onChanged: widget.onChanged,
-                      onTap: widget.readOnly
+                      onTap: (widget.readOnly || widget.nonEditable)
                           ? () {
                               widget.onFocus?.call();
                             }
@@ -426,7 +447,10 @@ class _EInputState extends State<EInput> {
                       enableInteractiveSelection: true,
                     ),
                   ),
-                  if (widget.clearable && _hasValue && !widget.disabled)
+                  if (widget.clearable &&
+                      _hasValue &&
+                      !widget.disabled &&
+                      !widget.nonEditable)
                     GestureDetector(
                       onTap: _handleClear,
                       child: MouseRegion(

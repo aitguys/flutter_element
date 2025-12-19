@@ -18,7 +18,10 @@
 
 ## 禁用状态
 
-使用 `disabled` 和 `readOnly` 属性来定义输入框是否为禁用状态， 在样式展示上有些微区别。
+使用 `disabled`、`readOnly` 和 `nonEditable` 属性来定义输入框是否为禁用状态，在样式展示上有些微区别：
+- `disabled`: 禁用输入，背景色变为灰色，边框颜色不变
+- `readOnly`: 只读，可以聚焦但不可编辑，边框颜色变为浅灰色
+- `nonEditable`: 禁止输入但不改变样式，保持原有的背景色和边框颜色
 
 <CodeView
   codeUrl="input_page/input_disable.dart"
@@ -106,6 +109,7 @@ input 组件提供 onFocus, onBlur， onChanged 事件， 可以监听输入框�
 | disabled             | 是否禁用             | `boolean`               | `false`                   |
 | passowrd             | 是否为密码           | `boolean`               | `false`                   |
 | readOnly             | 是否只读             | `boolean`               | `false`                   |
+| nonEditable          | 禁止输入但不改变样式 | `boolean`               | `false`                   |
 | prefix               | 输入框前缀           | `Widget`                | -                         |
 | suffix               | 输入框后缀           | `Widget`                | -                         |
 | colorType            | 输入框颜色类型       | `EColorType`            | `EColorType.primary`      |

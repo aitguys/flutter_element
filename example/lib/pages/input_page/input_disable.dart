@@ -10,7 +10,7 @@ class InputDisablePreview extends StatelessWidget {
     return WidgetPreview(
       widget: _viewerContent(),
       code: getCodeUrl('input_page', 'input_disable.dart'),
-      title: 'readOnly 和 disabled 可以限制输入框的只读状态，区别如下',
+      title: 'readOnly、disabled 和 nonEditable 可以限制输入框的只读状态，区别如下',
     );
   }
 }
@@ -38,7 +38,7 @@ class _InputDisableViewState extends State<InputDisableView> {
 }
 
 Widget _viewerContent() {
-  TextEditingController textController = TextEditingController();
+  TextEditingController textController = TextEditingController(text: '示例文本');
   return Column(
     children: [
       const SizedBox(height: 10),
@@ -55,6 +55,13 @@ Widget _viewerContent() {
         placeholder: '请输入内容 disabled',
         disabled: true,
         borderColor: Colors.red,
+      ),
+      const SizedBox(height: 10),
+      EInput(
+        textController: textController,
+        size: ESizeItem.medium,
+        placeholder: '请输入内容 nonEditable',
+        nonEditable: true,
       ),
     ],
   );

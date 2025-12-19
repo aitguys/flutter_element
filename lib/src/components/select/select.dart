@@ -25,6 +25,11 @@ class ESelect extends StatefulWidget {
   final bool readOnly;
   final bool clearable;
   final bool multiple;
+  /// Whether the select is filterable (allows input for searching).
+  ///
+  /// When false, the input field is non-editable and users can only select
+  /// from the dropdown options. Defaults to false.
+  final bool filterable;
   final ESizeItem size;
   final String? placeholder;
   final Widget? header;
@@ -51,6 +56,7 @@ class ESelect extends StatefulWidget {
     this.readOnly = false,
     this.clearable = false,
     this.multiple = false,
+    this.filterable = false,
     this.size = ESizeItem.medium,
     this.placeholder,
     this.header,
@@ -80,6 +86,7 @@ class ESelect extends StatefulWidget {
     bool? readOnly,
     bool? clearable,
     bool? multiple,
+    bool? filterable,
     ESizeItem? size,
     String? placeholder,
     Widget? header,
@@ -105,6 +112,7 @@ class ESelect extends StatefulWidget {
       readOnly: readOnly ?? this.readOnly,
       clearable: clearable ?? this.clearable,
       multiple: multiple ?? this.multiple,
+      filterable: filterable ?? this.filterable,
       size: size ?? this.size,
       placeholder: placeholder ?? this.placeholder,
       header: header ?? this.header,
@@ -449,6 +457,11 @@ class _ESelectState extends State<ESelect> {
         _showOverlay();
         // 聚焦时重置用户输入标志位
         _isUserTyping = false;
+        // 如果不可过滤，聚焦时显示所有选项
+        if (!widget.filterable) {
+          _filteredOptions = widget.options;
+          _updateOverlay();
+        }
       }
       // else if (!_focusNode.hasFocus) {
       //   // 失去焦点时隐藏 Overlay
@@ -456,9 +469,12 @@ class _ESelectState extends State<ESelect> {
       // }
     });
 
-    // 添加文本变化监听
+    // 添加文本变化监听（仅在可过滤时启用）
     _controller.addListener(() {
-      if (_focusNode.hasFocus && !widget.readOnly && !_isAutoSelecting) {
+      if (_focusNode.hasFocus &&
+          !widget.readOnly &&
+          !_isAutoSelecting &&
+          widget.filterable) {
         // 标记用户正在输入
         _isUserTyping = true;
 
@@ -571,6 +587,7 @@ class _ESelectState extends State<ESelect> {
         focusNode: _focusNode,
         disabled: widget.disabled,
         readOnly: widget.readOnly,
+        nonEditable: !widget.filterable,
         clearable: widget.clearable,
         placeholder: widget.placeholder,
         colorType: widget.colorType,

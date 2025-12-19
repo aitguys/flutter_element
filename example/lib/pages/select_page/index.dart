@@ -7,6 +7,7 @@ import 'select_prefix_suffix.dart';
 import 'select_option_disable.dart';
 import 'select_header.dart';
 import 'select_api.dart';
+import 'select_filterable.dart';
 
 class SelectPreview extends StatelessWidget {
   const SelectPreview({super.key});
@@ -20,6 +21,7 @@ class SelectPreview extends StatelessWidget {
           SelectMultiplePreview(),
           SelectDisablePreview(),
           SelectClearablePreview(),
+          SelectFilterablePreview(),
           SelectPrefixSuffixPreview(),
           SelectOptionDisablePreview(),
           SelectHeaderPreview(),
