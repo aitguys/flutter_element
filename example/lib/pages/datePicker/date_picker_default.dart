@@ -43,7 +43,7 @@ Widget _viewerContent() {
           SizedBox(
             width: 240,
             child: EDatePicker(
-              type: CalendarType.date,
+              // type: CalendarType.date,
               textController: TextEditingController(text: '2025-01-01'),
               placeholder: '单个日期默认值',
               onSelect: (date) {
@@ -59,7 +59,7 @@ Widget _viewerContent() {
           SizedBox(
             width: 240,
             child: EDatePicker(
-              type: CalendarType.dates,
+              // type: CalendarType.dates,
               textController:
                   TextEditingController(text: '2025-01-01,2025-01-02'),
               placeholder: '多个日期默认值',

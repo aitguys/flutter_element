@@ -1,18 +1,17 @@
-// ignore_for_file: unused_field
-
 import 'package:flutter/material.dart';
-import 'package:flutter_element_plus/src/theme/index.dart';
-import '../input/input.dart';
-import 'calendar.dart';
 import 'package:intl/intl.dart';
+import '../../theme/index.dart';
+import '../input/input.dart';
+import 'date_picker_style.dart';
+import 'date_picker_model.dart';
+import 'internal/date_picker_popup.dart';
 
 class EDatePicker extends StatefulWidget {
   final TextEditingController? textController;
   final String? format;
   final DateTime? minDate;
   final DateTime? maxDate;
-  final CalendarType type;
-  // 继承自input
+  final DatePickerType type;
   final String? placeholder;
   final bool disabled;
   final bool clearable;
@@ -20,33 +19,25 @@ class EDatePicker extends StatefulWidget {
   final ESizeItem size;
   final Widget? prefix;
   final Widget? suffix;
-  final bool weekDate;
-  final Widget? prevMonth;
-  final Widget? nextMonth;
-  final Widget? prevYear;
-  final Widget? nextYear;
   final EColorType colorType;
   final Color? customColor;
-  final Color defaultColor;
+  final Color borderColor;
   final double? customHeight;
   final double? customFontSize;
   final double? customBorderRadius;
   final ValueChanged<String?>? onSelect;
+  final ValueChanged<EDatePickerValue>? onValueChange;
+
   const EDatePicker({
     super.key,
     this.textController,
     this.onSelect,
+    this.onValueChange,
     this.format,
-    this.type = CalendarType.date,
-    this.weekDate = false,
+    this.type = DatePickerType.date,
     this.minDate,
     this.maxDate,
-    this.prevMonth = const Icon(Icons.chevron_left, size: 20),
-    this.nextMonth = const Icon(Icons.chevron_right, size: 20),
-    this.prevYear = const Icon(Icons.keyboard_double_arrow_left, size: 20),
-    this.nextYear = const Icon(Icons.keyboard_double_arrow_right, size: 20),
-    // 继承自input
-    this.placeholder = '选择日期',
+    this.placeholder = 'Select date',
     this.disabled = false,
     this.clearable = true,
     this.readOnly = false,
@@ -54,26 +45,22 @@ class EDatePicker extends StatefulWidget {
     this.suffix,
     this.colorType = EColorType.primary,
     this.customColor,
-    this.defaultColor = EBasicColors.borderGray,
+    this.borderColor = EBasicColors.borderGray,
     this.size = ESizeItem.medium,
     this.customHeight,
     this.customFontSize,
     this.customBorderRadius,
   });
+
   @override
   State<EDatePicker> createState() => _EDatePickerState();
+
   EDatePicker copyWith({
     TextEditingController? textController,
-    ValueChanged<String?>? onSelect,
     String? format,
-    CalendarType? type,
-    bool? weekDate,
     DateTime? minDate,
     DateTime? maxDate,
-    Widget? prevMonth,
-    Widget? nextMonth,
-    Widget? prevYear,
-    Widget? nextYear,
+    DatePickerType? type,
     String? placeholder,
     bool? disabled,
     bool? clearable,
@@ -83,36 +70,34 @@ class EDatePicker extends StatefulWidget {
     Widget? suffix,
     EColorType? colorType,
     Color? customColor,
-    Color? defaultColor,
+    Color? borderColor,
     double? customHeight,
     double? customFontSize,
     double? customBorderRadius,
+    ValueChanged<String?>? onSelect,
+    ValueChanged<EDatePickerValue>? onValueChange,
   }) {
     return EDatePicker(
       textController: textController ?? this.textController,
-      onSelect: onSelect ?? this.onSelect,
       format: format ?? this.format,
-      type: type ?? this.type,
-      weekDate: weekDate ?? this.weekDate,
       minDate: minDate ?? this.minDate,
       maxDate: maxDate ?? this.maxDate,
-      prevMonth: prevMonth ?? this.prevMonth,
-      nextMonth: nextMonth ?? this.nextMonth,
-      prevYear: prevYear ?? this.prevYear,
-      nextYear: nextYear ?? this.nextYear,
+      type: type ?? this.type,
       placeholder: placeholder ?? this.placeholder,
       disabled: disabled ?? this.disabled,
       clearable: clearable ?? this.clearable,
       readOnly: readOnly ?? this.readOnly,
       size: size ?? this.size,
-      prefix: this.prefix,
-      suffix: this.suffix,
-      colorType: this.colorType,
-      customColor: this.customColor,
-      defaultColor: this.defaultColor,
-      customHeight: this.customHeight,
-      customFontSize: this.customFontSize,
-      customBorderRadius: this.customBorderRadius,
+      prefix: prefix ?? this.prefix,
+      suffix: suffix ?? this.suffix,
+      colorType: colorType ?? this.colorType,
+      customColor: customColor ?? this.customColor,
+      borderColor: borderColor ?? this.borderColor,
+      customHeight: customHeight ?? this.customHeight,
+      customFontSize: customFontSize ?? this.customFontSize,
+      customBorderRadius: customBorderRadius ?? this.customBorderRadius,
+      onSelect: onSelect ?? this.onSelect,
+      onValueChange: onValueChange ?? this.onValueChange,
     );
   }
 }
@@ -120,97 +105,70 @@ class EDatePicker extends StatefulWidget {
 class _EDatePickerState extends State<EDatePicker> {
   late TextEditingController _controller;
   late FocusNode _focusNode;
-  String? _selectedDate;
   final LayerLink _layerLink = LayerLink();
   OverlayEntry? _overlayEntry;
-  bool _isDisposed = false; // 添加标志防止重复销毁
+  bool _isDisposed = false;
+
+  DateTime? _startDate;
+  DateTime? _endDate;
 
   @override
   void initState() {
     super.initState();
-    _selectedDate = widget.textController?.text;
-    _controller = widget.textController ??
-        TextEditingController(
-          text: _selectedDate ?? '',
-        );
+    _controller = widget.textController ?? TextEditingController();
     _focusNode = FocusNode();
+    _parseInitialValue();
   }
 
-  @override
-  void didUpdateWidget(EDatePicker oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.textController?.text != oldWidget.textController?.text) {
-      _selectedDate = widget.textController?.text;
-      _controller.text = _selectedDate ?? '';
+  void _parseInitialValue() {
+    if (_controller.text.isEmpty) return;
+    try {
+      final fmt = widget.format ?? 'MM/dd/yyyy';
+      if (widget.type == DatePickerType.daterange) {
+        final parts = _controller.text.split(' - ');
+        if (parts.length == 2) {
+          _startDate = DateFormat(fmt).parse(parts[0]);
+          _endDate = DateFormat(fmt).parse(parts[1]);
+        }
+      } else {
+        _startDate = DateFormat(fmt).parse(_controller.text);
+      }
+    } catch (e) {
+      // Ignore
     }
   }
 
-  void _showCalendar() {
-    if (widget.disabled || _isDisposed || widget.readOnly) return; // 移除标志检查
-    if (_controller.text.isNotEmpty) {
-      _selectedDate = _controller.text;
-    } else {
-      _selectedDate = null;
-    }
+  void _showPicker() {
+    if (widget.disabled || _isDisposed || widget.readOnly) return;
     _removeOverlay();
+
     final RenderBox renderBox = context.findRenderObject() as RenderBox;
     final size = renderBox.size;
     final offset = renderBox.localToGlobal(Offset.zero);
+    final viewPortSize = MediaQuery.of(context).size;
 
-    // 获取屏幕尺寸和弹窗高度
-    final screenSize = MediaQuery.of(context).size;
-    final double popupHeight =
-        widget.weekDate && widget.type == CalendarType.date
-            ? 180
-            : 320; // 周视图高度较小
-    const double margin = 8; // 边距
+    // Predicted popup size - matches EDatePickerPopup internal defaults
+    bool isRange = widget.type == DatePickerType.daterange;
+    bool isMobileWidth = viewPortSize.width < 600;
+    double popupWidth = isRange ? (isMobileWidth ? 320 : 640) : 320;
+    double popupHeight = isRange ? (isMobileWidth ? 720 : 400) : 400;
 
-    // 计算底部可用空间
-    final bottomSpace = screenSize.height - offset.dy - size.height - margin;
-
-    // 动态决定弹窗位置
-    double topOffset;
-
-    if (bottomSpace >= popupHeight) {
-      // 底部空间充足：显示在下方
-      topOffset = size.height + margin;
-    } else {
-      // 底部空间不足：显示在上方
-      if (widget.type == CalendarType.dates) {
-        topOffset = -430;
-      } else if (widget.type == CalendarType.date) {
-        if (widget.weekDate) {
-          topOffset = -180; // 周视图高度较小
-        } else {
-          topOffset = -390;
-        }
-      } else if (widget.type == CalendarType.years ||
-          widget.type == CalendarType.months) {
-        topOffset = -260;
-      } else if (widget.type == CalendarType.year ||
-          widget.type == CalendarType.month) {
-        topOffset = -220;
-      } else {
-        topOffset = -220;
-      }
+    // Adjust width if screen is small
+    if (popupWidth > viewPortSize.width - 20) {
+      popupWidth = viewPortSize.width - 20;
     }
 
-    final bool isWeekView = widget.weekDate && widget.type == CalendarType.date;
-    final double popupWidth = isWeekView ? 400 : 320;
-
-    // 计算左右可用空间
-    final leftSpace = offset.dx;
-    final rightSpace = screenSize.width - offset.dx - size.width;
-
-    // 动态决定水平偏移
-    double leftOffset = 0;
-    if (rightSpace < popupWidth) {
-      // 右侧空间不足,向左偏移
-      leftOffset = -(popupWidth - size.width);
+    // Determine vertical position
+    bool showAbove = false;
+    if (offset.dy + size.height + popupHeight > viewPortSize.height - 10 &&
+        offset.dy > popupHeight + 10) {
+      showAbove = true;
     }
-    if (leftSpace + leftOffset < 0) {
-      // 左侧空间不足,调整偏移确保不超出左边界
-      leftOffset = -leftSpace;
+
+    // Determine horizontal position (防止超出右边界)
+    double horizontalOffset = 0;
+    if (offset.dx + popupWidth > viewPortSize.width - 10) {
+      horizontalOffset = (viewPortSize.width - offset.dx - popupWidth - 10);
     }
 
     _overlayEntry = OverlayEntry(
@@ -220,59 +178,36 @@ class _EDatePickerState extends State<EDatePicker> {
             child: GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: _removeOverlay,
-              child: Container(
-                color: Colors.transparent,
-              ),
+              child: Container(color: Colors.transparent),
             ),
           ),
-          Positioned(
-            width: popupWidth,
-            child: CompositedTransformFollower(
-              link: _layerLink,
-              showWhenUnlinked: false,
-              offset: Offset(leftOffset, topOffset),
-              child: GestureDetector(
-                onTap: () {},
-                child: Material(
-                  elevation: 8,
-                  borderRadius: BorderRadius.circular(4),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    child: Calendar(
-                      initialDate: _selectedDate,
-                      type: widget.type,
-                      minDate: widget.minDate,
-                      size: widget.size,
-                      maxDate: widget.maxDate,
-                      onSelect: (date) {
-                        _removeOverlay();
-                        if (date != null && !_isDisposed) {
-                          // 添加disposed检查
-                          setState(() {
-                            if (date is String) {
-                              _controller.text = date;
-                            } else {
-                              _selectedDate = date;
-                              _controller.text =
-                                  DateFormat(getDefaultFormat(widget.type))
-                                      .format(date);
-                            }
-                          });
-                          widget.onSelect?.call(date);
-                        }
-                      },
-                      prevMonth: widget.prevMonth,
-                      nextMonth: widget.nextMonth,
-                      prevYear: widget.prevYear,
-                      nextYear: widget.nextYear,
-                      format: widget.format ?? getDefaultFormat(widget.type),
-                      weekDate: widget.weekDate,
-                    ),
-                  ),
-                ),
+          CompositedTransformFollower(
+            link: _layerLink,
+            showWhenUnlinked: false,
+            targetAnchor: showAbove ? Alignment.topLeft : Alignment.bottomLeft,
+            followerAnchor:
+                showAbove ? Alignment.bottomLeft : Alignment.topLeft,
+            offset: Offset(horizontalOffset, showAbove ? -4 : 4),
+            child: Material(
+              elevation: 8,
+              borderRadius: BorderRadius.circular(4),
+              child: EDatePickerPopup(
+                type: widget.type,
+                initialStartDate: _startDate,
+                initialEndDate: _endDate,
+                initialDate: _startDate,
+                size: widget.size,
+                onCancel: _removeOverlay,
+                onConfirm: (value) {
+                  setState(() {
+                    _startDate = value.start;
+                    _endDate = value.end;
+                    _updateText();
+                  });
+                  widget.onValueChange?.call(value);
+                  widget.onSelect?.call(_controller.text);
+                  _removeOverlay();
+                },
               ),
             ),
           ),
@@ -282,12 +217,29 @@ class _EDatePickerState extends State<EDatePicker> {
     Overlay.of(context).insert(_overlayEntry!);
   }
 
+  void _updateText() {
+    final fmt = widget.format ?? 'MM/dd/yyyy';
+    if (widget.type == DatePickerType.daterange) {
+      if (_startDate != null && _endDate != null) {
+        _controller.text =
+            '${DateFormat(fmt).format(_startDate!)} - ${DateFormat(fmt).format(_endDate!)}';
+      } else {
+        _controller.text = '';
+      }
+    } else {
+      if (_startDate != null) {
+        _controller.text = DateFormat(fmt).format(_startDate!);
+      } else {
+        _controller.text = '';
+      }
+    }
+  }
+
   void _removeOverlay() {
     if (_overlayEntry != null) {
       _overlayEntry!.remove();
       _overlayEntry = null;
     }
-    // 重置焦点状态，确保输入框边框恢复正常
     if (!_isDisposed) {
       _focusNode.unfocus();
     }
@@ -295,14 +247,12 @@ class _EDatePickerState extends State<EDatePicker> {
 
   @override
   void dispose() {
-    _isDisposed = true; // 设置销毁标志
+    _isDisposed = true;
     _removeOverlay();
-    // 只有当textController是组件内部创建的时候才dispose
-    // 如果是从外部传入的，不应该dispose，由外部管理生命周期
     if (widget.textController == null) {
       _controller.dispose();
     }
-    _focusNode.dispose(); // 销毁FocusNode
+    _focusNode.dispose();
     super.dispose();
   }
 
@@ -311,11 +261,7 @@ class _EDatePickerState extends State<EDatePicker> {
     return CompositedTransformTarget(
       link: _layerLink,
       child: GestureDetector(
-        onTap: () {
-          if (!widget.disabled && !_isDisposed) {
-            _showCalendar();
-          }
-        },
+        onTap: _showPicker,
         child: EInput(
           textController: _controller,
           focusNode: _focusNode,
@@ -327,16 +273,13 @@ class _EDatePickerState extends State<EDatePicker> {
           suffix: widget.suffix,
           size: widget.size,
           readOnly: widget.readOnly,
-          onFocus: _showCalendar,
+          onFocus: _showPicker,
           onBlur: () {
-            // 失焦时关闭日期选择器
-            if (!_isDisposed) {
-              _removeOverlay();
-            }
+            // Optional: validate manual input here if needed
           },
           colorType: widget.colorType,
           customColor: widget.customColor,
-          borderColor: widget.defaultColor,
+          borderColor: widget.borderColor,
           customHeight: widget.customHeight,
           customFontSize: widget.customFontSize,
           customBorderRadius: widget.customBorderRadius,

@@ -43,7 +43,7 @@ Widget _viewerContent() {
           SizedBox(
             width: 240,
             child: EDatePicker(
-              type: CalendarType.date,
+              // type: CalendarType.date,
               format: 'MM/dd/yyyy',
               placeholder: '日期格式 MM/dd/yyyy',
               onSelect: (date) {
@@ -59,7 +59,7 @@ Widget _viewerContent() {
           SizedBox(
             width: 240,
             child: EDatePicker(
-              type: CalendarType.month,
+              // type: CalendarType.month,
               format: 'MM/yyyy',
               placeholder: '月份格式 MM/yyyy',
               onSelect: (date) {

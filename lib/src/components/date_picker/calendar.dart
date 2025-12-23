@@ -78,6 +78,17 @@ class _CalendarState extends State<Calendar> {
   List<String>? _selectedDates;
   // List<DateTime>? _selectedRange;
   late DateTime _currentMonth;
+  late CalendarType _currentViewType;
+
+  DateTime? get _parsedSelectedDate {
+    if (_selectedDate == null || _selectedDate!.isEmpty) return null;
+    try {
+      return DateFormat(widget.format ?? getDefaultFormat(widget.type))
+          .parse(_selectedDate!);
+    } catch (e) {
+      return null;
+    }
+  }
 
   double get _cellWidth {
     switch (widget.size) {
@@ -131,13 +142,21 @@ class _CalendarState extends State<Calendar> {
   void initState() {
     super.initState();
 
+    _currentViewType = widget.type;
     _selectedDate = widget.initialDate;
     _selectedDates = [];
     // _selectedRange = widget.initialRange;
-    _currentMonth = widget.initialDate != null && widget.initialDate!.isNotEmpty
-        ? DateFormat(widget.format ?? getDefaultFormat(widget.type))
-            .parse(widget.initialDate!)
-        : DateTime.now();
+    if (widget.initialDate != null && widget.initialDate!.isNotEmpty) {
+      try {
+        _currentMonth =
+            DateFormat(widget.format ?? getDefaultFormat(widget.type))
+                .parse(widget.initialDate!);
+      } catch (e) {
+        _currentMonth = DateTime.now();
+      }
+    } else {
+      _currentMonth = DateTime.now();
+    }
 
     if (widget.initialDate != null && widget.initialDate!.isNotEmpty) {
       _selectedDates = widget.initialDate!.split(',').toList();
@@ -150,9 +169,14 @@ class _CalendarState extends State<Calendar> {
     if (widget.initialDate != oldWidget.initialDate) {
       _selectedDate = widget.initialDate;
       if (widget.initialDate != null && widget.initialDate!.isNotEmpty) {
-        final date = DateFormat(widget.format ?? getDefaultFormat(widget.type))
-            .parse(widget.initialDate!);
-        _currentMonth = DateTime(date.year, date.month);
+        try {
+          final date =
+              DateFormat(widget.format ?? getDefaultFormat(widget.type))
+                  .parse(widget.initialDate!);
+          _currentMonth = DateTime(date.year, date.month);
+        } catch (e) {
+          // ignore parse errors during manual input
+        }
       }
     }
 
@@ -162,7 +186,7 @@ class _CalendarState extends State<Calendar> {
   }
 
   Widget _buildHeader() {
-    switch (widget.type) {
+    switch (_currentViewType) {
       case CalendarType.year:
       case CalendarType.years:
         return _buildYearHeader();
@@ -172,8 +196,6 @@ class _CalendarState extends State<Calendar> {
       case CalendarType.date:
       case CalendarType.dates:
         return _buildDateHeader();
-      // default:
-      //   return _buildDateHeader();
     }
   }
 
@@ -246,11 +268,21 @@ class _CalendarState extends State<Calendar> {
               });
             },
           ),
-          Text(
-            _currentMonth.year.toString(),
-            style: TextStyle(
-              fontSize: _headerFontSize,
-              fontWeight: FontWeight.w500,
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                _currentViewType = CalendarType.year;
+              });
+            },
+            child: MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: Text(
+                _currentMonth.year.toString(),
+                style: TextStyle(
+                  fontSize: _headerFontSize,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
             ),
           ),
           IconButton(
@@ -271,8 +303,6 @@ class _CalendarState extends State<Calendar> {
   }
 
   Widget _buildDateHeader() {
-    final monthName =
-        DateFormat(widget.format ?? 'MMMM yyyy').format(_currentMonth);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: const BoxDecoration(
@@ -305,12 +335,44 @@ class _CalendarState extends State<Calendar> {
               ),
             ],
           ),
-          Text(
-            monthName,
-            style: TextStyle(
-              fontSize: _headerFontSize,
-              fontWeight: FontWeight.w500,
-            ),
+          Row(
+            children: [
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _currentViewType = CalendarType.year;
+                  });
+                },
+                child: MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  child: Text(
+                    DateFormat('yyyy').format(_currentMonth),
+                    style: TextStyle(
+                      fontSize: _headerFontSize,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _currentViewType = CalendarType.month;
+                  });
+                },
+                child: MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  child: Text(
+                    DateFormat('MMMM').format(_currentMonth),
+                    style: TextStyle(
+                      fontSize: _headerFontSize,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
           Row(
             children: [
@@ -370,7 +432,7 @@ class _CalendarState extends State<Calendar> {
   }
 
   Widget _buildCalendarGrid() {
-    switch (widget.type) {
+    switch (_currentViewType) {
       case CalendarType.year:
       case CalendarType.years:
         return _buildYearGrid();
@@ -380,8 +442,6 @@ class _CalendarState extends State<Calendar> {
       case CalendarType.date:
       case CalendarType.dates:
         return _buildDateGrid();
-      // default:
-      //   return _buildDateGrid();
     }
   }
 
@@ -405,15 +465,17 @@ class _CalendarState extends State<Calendar> {
       bool isInRange = _isDateInRange(yearDate);
       bool isSelected = false;
       if (widget.type == CalendarType.years) {
-        isSelected = _selectedDates?.any((d) =>
-                d.isNotEmpty &&
-                DateFormat(widget.format ?? 'yyyy').parse(d).year == year) ??
+        isSelected = _selectedDates?.any((d) {
+              try {
+                return DateFormat(widget.format ?? 'yyyy').parse(d).year ==
+                    year;
+              } catch (e) {
+                return false;
+              }
+            }) ??
             false;
       } else {
-        isSelected = _selectedDate != null && _selectedDate!.isNotEmpty
-            ? DateFormat(widget.format ?? 'yyyy').parse(_selectedDate!).year ==
-                year
-            : false;
+        isSelected = _parsedSelectedDate?.year == year;
       }
       final bool isToday = year == DateTime.now().year;
       return MouseRegion(
@@ -429,15 +491,27 @@ class _CalendarState extends State<Calendar> {
                     DateFormat(widget.format ?? 'yyyy').format(yearDate)
                   ];
                 } else {
-                  if (_selectedDates!.any((d) =>
-                      d.isNotEmpty &&
-                      DateFormat(widget.format ?? 'yyyy').parse(d).year ==
-                      year)) {
+                  if (_selectedDates!.any((d) {
+                    try {
+                      return DateFormat(widget.format ?? 'yyyy')
+                              .parse(d)
+                              .year ==
+                          year;
+                    } catch (e) {
+                      return false;
+                    }
+                  })) {
                     _selectedDates = List<String>.from(_selectedDates!)
-                      ..removeWhere((d) =>
-                          d.isNotEmpty &&
-                          DateFormat(widget.format ?? 'yyyy').parse(d).year ==
-                          year);
+                      ..removeWhere((d) {
+                        try {
+                          return DateFormat(widget.format ?? 'yyyy')
+                                  .parse(d)
+                                  .year ==
+                              year;
+                        } catch (e) {
+                          return false;
+                        }
+                      });
                   } else {
                     _selectedDates = List<String>.from(_selectedDates!)
                       ..add(
@@ -445,8 +519,18 @@ class _CalendarState extends State<Calendar> {
                   }
                 }
               } else {
-                _selectedDate = year.toString();
-                widget.onSelect?.call(_selectedDate!);
+                if (widget.type == CalendarType.date ||
+                    widget.type == CalendarType.dates ||
+                    widget.type == CalendarType.month ||
+                    widget.type == CalendarType.months) {
+                  setState(() {
+                    _currentMonth = DateTime(year, _currentMonth.month);
+                    _currentViewType = CalendarType.month;
+                  });
+                } else {
+                  _selectedDate = year.toString();
+                  widget.onSelect?.call(_selectedDate!);
+                }
               }
             });
           },
@@ -455,14 +539,7 @@ class _CalendarState extends State<Calendar> {
             alignment: Alignment.center,
             margin: const EdgeInsets.all(2),
             decoration: BoxDecoration(
-              color: _selectedDates?.any((d) =>
-                              d.isNotEmpty &&
-                              DateFormat(widget.format ?? 'yyyy')
-                                  .parse(d)
-                                  .year ==
-                              year) ==
-                          true ||
-                      isSelected
+              color: isSelected
                   ? EDatePickerStyle.selectedColor
                   : Colors.transparent,
               borderRadius: BorderRadius.circular(4),
@@ -471,18 +548,11 @@ class _CalendarState extends State<Calendar> {
                   : null,
             ),
             child: Text(
-              DateFormat('yyyy').format(DateTime(year)),
+              year.toString(),
               style: TextStyle(
                 color: !isInRange
                     ? const Color(0xFFCCCCCC) // 超出范围的年份显示为灰色
-                    : _selectedDates?.any((d) =>
-                                    d.isNotEmpty &&
-                                    DateFormat(widget.format ?? 'yyyy')
-                                        .parse(d)
-                                        .year ==
-                                    year) ==
-                                true ||
-                            isSelected
+                    : isSelected
                         ? Colors.white
                         : const Color(0xFF606266),
                 fontSize: _fontSize,
@@ -538,6 +608,25 @@ class _CalendarState extends State<Calendar> {
       }
       final bool isToday = _currentMonth.year == DateTime.now().year &&
           month == DateTime.now().month;
+
+      bool isSelected = false;
+      if (widget.type == CalendarType.months) {
+        isSelected = _selectedDates?.any((d) {
+              try {
+                final date = DateFormat(widget.format ?? 'yyyy-MM').parse(d);
+                return date.year == _currentMonth.year && date.month == month;
+              } catch (e) {
+                return false;
+              }
+            }) ??
+            false;
+      } else {
+        final parsedDate = _parsedSelectedDate;
+        isSelected = parsedDate != null &&
+            parsedDate.year == _currentMonth.year &&
+            parsedDate.month == month;
+      }
+
       return MouseRegion(
         cursor: isInRange ? SystemMouseCursors.click : SystemMouseCursors.basic,
         child: GestureDetector(
@@ -550,27 +639,36 @@ class _CalendarState extends State<Calendar> {
                     DateFormat(widget.format ?? 'yyyy-MM')
                         .format(DateTime(_currentMonth.year, month))
                   ];
-                } else if (_selectedDates!.any((d) =>
-                    d.isNotEmpty &&
-                    DateFormat(widget.format ?? 'yyyy-MM').parse(d).year ==
-                        _currentMonth.year &&
-                    DateFormat(widget.format ?? 'yyyy-MM').parse(d).month ==
-                        month)) {
-                  _selectedDates!.removeWhere((d) =>
-                      d.isNotEmpty &&
-                      DateFormat(widget.format ?? 'yyyy-MM').parse(d).year ==
-                          _currentMonth.year &&
-                      DateFormat(widget.format ?? 'yyyy-MM').parse(d).month ==
-                          month);
+                } else if (_selectedDates!.any((d) {
+                  try {
+                    final date =
+                        DateFormat(widget.format ?? 'yyyy-MM').parse(d);
+                    return date.year == _currentMonth.year &&
+                        date.month == month;
+                  } catch (e) {
+                    return false;
+                  }
+                })) {
+                  _selectedDates!.removeWhere((d) {
+                    try {
+                      final date =
+                          DateFormat(widget.format ?? 'yyyy-MM').parse(d);
+                      return date.year == _currentMonth.year &&
+                          date.month == month;
+                    } catch (e) {
+                      return false;
+                    }
+                  });
                 } else {
                   _selectedDates!.add(DateFormat(widget.format ?? 'yyyy-MM')
                       .format(DateTime(_currentMonth.year, month)));
                 }
-              } else if (widget.type == CalendarType.month) {
-                _selectedDate = DateFormat(widget.format ?? 'yyyy-MM')
-                    .format(DateTime(_currentMonth.year, month));
-                widget.onSelect?.call(_selectedDate!);
-                return;
+              } else if (widget.type == CalendarType.date ||
+                  widget.type == CalendarType.dates) {
+                setState(() {
+                  _currentMonth = DateTime(_currentMonth.year, month);
+                  _currentViewType = CalendarType.date;
+                });
               } else {
                 _selectedDate = DateFormat(widget.format ?? 'yyyy-MM')
                     .format(DateTime(_currentMonth.year, month));
@@ -583,17 +681,7 @@ class _CalendarState extends State<Calendar> {
             alignment: Alignment.center,
             margin: const EdgeInsets.all(2),
             decoration: BoxDecoration(
-              color: _selectedDates?.any((d) =>
-                          d.isNotEmpty &&
-                          DateFormat(widget.format ?? 'yyyy-MM')
-                                  .parse(d)
-                                  .year ==
-                              _currentMonth.year &&
-                          DateFormat(widget.format ?? 'yyyy-MM')
-                                  .parse(d)
-                                  .month ==
-                              month) ==
-                      true
+              color: isSelected
                   ? EDatePickerStyle.selectedColor
                   : Colors.transparent,
               borderRadius: BorderRadius.circular(4),
@@ -606,17 +694,7 @@ class _CalendarState extends State<Calendar> {
               style: TextStyle(
                 color: !isInRange
                     ? const Color(0xFFCCCCCC) // 超出范围的月份显示为灰色
-                    : _selectedDates?.any((d) =>
-                                d.isNotEmpty &&
-                                DateFormat(widget.format ?? 'yyyy-MM')
-                                        .parse(d)
-                                        .year ==
-                                    _currentMonth.year &&
-                                DateFormat(widget.format ?? 'yyyy-MM')
-                                        .parse(d)
-                                        .month ==
-                                    month) ==
-                            true
+                    : isSelected
                         ? Colors.white
                         : const Color(0xFF606266),
                 fontSize: _fontSize,
@@ -691,11 +769,11 @@ class _CalendarState extends State<Calendar> {
                           .isAtSameMomentAs(date)) ??
                   false;
             } else {
-              isSelected = _selectedDate != null &&
-                  _selectedDate!.isNotEmpty &&
-                  DateFormat(widget.format ?? 'yyyy-MM-dd')
-                      .parse(_selectedDate!)
-                      .isAtSameMomentAs(date);
+              final parsedDate = _parsedSelectedDate;
+              isSelected = parsedDate != null &&
+                  parsedDate.year == date.year &&
+                  parsedDate.month == date.month &&
+                  parsedDate.day == date.day;
             }
             bool isToday = date.isAtSameMomentAs(DateTime(
                 DateTime.now().year, DateTime.now().month, DateTime.now().day));
@@ -767,11 +845,12 @@ class _CalendarState extends State<Calendar> {
                       style: TextStyle(
                         color: !_isDateInRange(date)
                             ? const Color(0xFFCCCCCC) // 超出范围的日期显示为灰色
-                            : _selectedDates?.any((d) => d.isNotEmpty &&
-                                        DateFormat(
-                                                widget.format ?? 'yyyy-MM-dd')
-                                            .parse(d)
-                                            .isAtSameMomentAs(date)) ==
+                            : _selectedDates?.any((d) =>
+                                            d.isNotEmpty &&
+                                            DateFormat(widget.format ??
+                                                    'yyyy-MM-dd')
+                                                .parse(d)
+                                                .isAtSameMomentAs(date)) ==
                                         true ||
                                     isSelected
                                 ? Colors.white

@@ -599,7 +599,7 @@ class _EFormItemState extends State<EFormItem> {
             style: effectiveTextStyle,
           ),
         ];
-        
+
         if (widget.labelRightChild != null) {
           textSpans.add(
             WidgetSpan(
@@ -611,7 +611,7 @@ class _EFormItemState extends State<EFormItem> {
             ),
           );
         }
-        
+
         if (widget.isRequired) {
           textSpans.add(
             TextSpan(
@@ -620,7 +620,7 @@ class _EFormItemState extends State<EFormItem> {
             ),
           );
         }
-        
+
         labelWidget = Text.rich(
           TextSpan(children: textSpans),
           softWrap: true,

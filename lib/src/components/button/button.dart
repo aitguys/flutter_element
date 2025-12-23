@@ -115,6 +115,9 @@ class EButton extends StatefulWidget {
   /// Callback function when the button is closed.
   final dynamic Function()? onSuffixPressed;
 
+  /// Custom border radius for the button.
+  final double? borderRadius;
+
   /// Creates an [EButton] widget.
   ///
   /// The [text] and [child] arguments are optional, but at least one should be provided
@@ -141,6 +144,7 @@ class EButton extends StatefulWidget {
     this.isDisabled = false,
     this.size = ESizeItem.medium,
     this.fontSize,
+    this.borderRadius,
   });
 
   @override
@@ -204,7 +208,7 @@ class _EButtonState extends State<EButton> {
             ? BorderRadius.circular(100)
             : widget.isRound
                 ? BorderRadius.circular(100)
-                : BorderRadius.circular(5),
+                : BorderRadius.circular(widget.borderRadius ?? 4),
       );
     } else {
       boxDecoration = BoxDecoration(
@@ -221,7 +225,7 @@ class _EButtonState extends State<EButton> {
             ? BorderRadius.circular(100)
             : widget.isRound
                 ? BorderRadius.circular(100)
-                : BorderRadius.circular(5),
+                : BorderRadius.circular(widget.borderRadius ?? 4),
         border: Border.all(
           color: isHovered
               ? calculateBorderColor(buttonColor,

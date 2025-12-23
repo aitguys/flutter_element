@@ -10,7 +10,7 @@ class EDatePickerStyle {
   static const Color backgroundColor = Colors.white;
   static const Color borderColor = Color(0xFFDCDFE6);
   static const Color textColor = Color(0xFF606266);
-  static const Color selectedColor = Color(0xFF409EFF);
+  static const Color selectedColor = Color(0xFF1D4ED8); // Deep Blue
   static const Color hoverColor = Color(0xFFF5F7FA);
   static const Color disabledColor = Color(0xFFC0C4CC);
 

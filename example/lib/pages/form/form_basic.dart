@@ -187,7 +187,7 @@ Widget _viewerContent() {
                             child: EDatePicker(
                               placeholder: '请选择日期',
                               size: ESizeItem.small,
-                              type: CalendarType.date,
+                              // type: CalendarType.date,
                               textController: dateController,
                               onSelect: (value) {
                                 // date = value ?? '';

@@ -43,7 +43,7 @@ Widget _viewerContent() {
           SizedBox(
             width: 240,
             child: EDatePicker(
-              type: CalendarType.dates,
+              type: DatePickerType.dates,
               minDate: DateTime(2025, 1, 1),
               maxDate: DateTime(2025, 12, 31),
               placeholder: '日期范围限制',
@@ -60,7 +60,7 @@ Widget _viewerContent() {
           SizedBox(
             width: 240,
             child: EDatePicker(
-              type: CalendarType.months,
+              type: DatePickerType.months,
               minDate: DateTime(2025, 1, 1),
               maxDate: DateTime(2025, 12, 31),
               placeholder: '月份范围限制',
@@ -77,12 +77,28 @@ Widget _viewerContent() {
           SizedBox(
             width: 240,
             child: EDatePicker(
-              type: CalendarType.years,
+              type: DatePickerType.years,
               minDate: DateTime(2025, 1, 1),
               maxDate: DateTime(2025, 12, 31),
               placeholder: '年份范围限制',
               onSelect: (dates) {
                 debugPrint('onSelect 触发： Selected dates: $dates');
+              },
+            ),
+          ),
+        ],
+      ),
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text('日期范围选择'),
+          SizedBox(
+            width: 320,
+            child: EDatePicker(
+              type: DatePickerType.daterange,
+              placeholder: '选择日期范围',
+              onValueChange: (value) {
+                debugPrint('onValueChange 触发： $value');
               },
             ),
           ),

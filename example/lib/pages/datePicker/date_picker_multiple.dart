@@ -43,7 +43,7 @@ Widget _viewerContent() {
           SizedBox(
             width: 240,
             child: EDatePicker(
-              type: CalendarType.dates,
+              // type: CalendarType.dates,
               placeholder: '选择多个日期',
               onSelect: (dates) {
                 debugPrint('onSelect 触发： Selected dates: $dates');
@@ -58,7 +58,7 @@ Widget _viewerContent() {
           SizedBox(
             width: 240,
             child: EDatePicker(
-              type: CalendarType.months,
+              // type: CalendarType.months,
               placeholder: '选择多个月份',
               onSelect: (dates) {
                 debugPrint('onSelect 触发： Selected dates: $dates');
@@ -73,7 +73,7 @@ Widget _viewerContent() {
           SizedBox(
             width: 240,
             child: EDatePicker(
-              type: CalendarType.years,
+              // type: CalendarType.years,
               placeholder: '选择多个年份',
               onSelect: (dates) {
                 debugPrint('onSelect 触发： Selected dates: $dates');

@@ -102,7 +102,7 @@ Widget _viewerContent() {
           SizedBox(
             width: 240,
             child: EDatePicker(
-              defaultColor: Colors.red,
+              // defaultColor: Colors.red,
               placeholder: '默认颜色',
               onSelect: (date) {
                 debugPrint('onSelect 触发： Selected date: $date');

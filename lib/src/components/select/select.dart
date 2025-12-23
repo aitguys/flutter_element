@@ -25,6 +25,7 @@ class ESelect extends StatefulWidget {
   final bool readOnly;
   final bool clearable;
   final bool multiple;
+
   /// Whether the select is filterable (allows input for searching).
   ///
   /// When false, the input field is non-editable and users can only select
@@ -308,6 +309,27 @@ class _ESelectState extends State<ESelect> {
 
     final RenderBox renderBox = context.findRenderObject() as RenderBox;
     final size = renderBox.size;
+    final position = renderBox.localToGlobal(Offset.zero);
+    final screenHeight = MediaQuery.of(context).size.height;
+    final viewInsets = MediaQuery.of(context).viewInsets;
+
+    // Default dropdown max height
+    final double dropdownMaxHeight = widget.maxHeight ?? 300.0;
+    const double verticalMargin = 8.0;
+
+    // Calculate space below and above
+    final double spaceBelow =
+        screenHeight - position.dy - size.height - viewInsets.bottom - 20;
+    final double spaceAbove = position.dy - verticalMargin - 20;
+
+    // Determine position
+    final bool showAbove =
+        spaceBelow < dropdownMaxHeight && spaceAbove > spaceBelow;
+
+    // Constrain height if space is very limited
+    final double actualMaxHeight = showAbove
+        ? spaceAbove.clamp(100.0, dropdownMaxHeight)
+        : spaceBelow.clamp(100.0, dropdownMaxHeight);
 
     _overlayEntry = OverlayEntry(
       builder: (context) => Stack(
@@ -326,10 +348,11 @@ class _ESelectState extends State<ESelect> {
             child: CompositedTransformFollower(
               link: _layerLink,
               showWhenUnlinked: false,
-              offset: Offset(
-                  0,
-                  ElememtSize(size: widget.size)
-                      .getInputHeight(customHeight: widget.customHeight)),
+              followerAnchor:
+                  showAbove ? Alignment.bottomLeft : Alignment.topLeft,
+              targetAnchor:
+                  showAbove ? Alignment.topLeft : Alignment.bottomLeft,
+              offset: Offset(0, showAbove ? -verticalMargin : verticalMargin),
               child: Material(
                 elevation: 4,
                 borderRadius: BorderRadius.circular(
@@ -340,7 +363,7 @@ class _ESelectState extends State<ESelect> {
                   constraints: widget.customHeight != null
                       ? BoxConstraints(maxHeight: widget.customHeight!)
                       : BoxConstraints(
-                          maxHeight: widget.maxHeight ?? 300.0,
+                          maxHeight: actualMaxHeight,
                         ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

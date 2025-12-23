@@ -27,19 +27,18 @@ class _FormPreviewState extends State<FormPreview> {
   List<String> medicalHistorySelected = [];
   final formDisabled = false.obs;
   @override
-    void initState() {
-      super.initState();
-      Future.delayed(const Duration(milliseconds: 1000), () {
-        genderController.text = 'Female';
-        countryController.text = 'China';
-        dateController.text = '';
-        medicalHistorySelected = ['Other'];
-      });
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(milliseconds: 1000), () {
+      genderController.text = 'Female';
+      countryController.text = 'China';
+      dateController.text = '';
+      medicalHistorySelected = ['Other'];
+    });
   }
+
   @override
   Widget build(BuildContext context) {
-
-    
     return Scaffold(
       appBar: AppBar(
         title: const Text('按钮组件'),
@@ -97,24 +96,45 @@ class _FormPreviewState extends State<FormPreview> {
                                     size: ESizeItem.large,
                                     onChanged: (value) {},
                                     children: const [
-                                      ERadio(label: 'Male', value: 'Male',size: ESizeItem.medium,),
-                                      ERadio(label: 'Female', value: 'Female',size: ESizeItem.medium,),
+                                      ERadio(
+                                        label: 'Male',
+                                        value: 'Male',
+                                        size: ESizeItem.medium,
+                                      ),
+                                      ERadio(
+                                        label: 'Female',
+                                        value: 'Female',
+                                        size: ESizeItem.medium,
+                                      ),
                                     ],
                                   )),
                               EFormItem(
-                                  label: 'Medical History.No one’s born being good at all things. You become good at things through hard work. You’re not a varsity athlete the first time you play a new sport. You don’t hit every note the first time you sing a song.You’ve got to practice. The same principle applies to your schoolwork. You might have to do a math problem a few times before you get it right. You might have to read something a few times before you understand it.You definitely have to do a few drafts of a paper before it’s good enough to hand in',
+                                  label:
+                                      'Medical History.No one’s born being good at all things. You become good at things through hard work. You’re not a varsity athlete the first time you play a new sport. You don’t hit every note the first time you sing a song.You’ve got to practice. The same principle applies to your schoolwork. You might have to do a math problem a few times before you get it right. You might have to read something a few times before you understand it.You definitely have to do a few drafts of a paper before it’s good enough to hand in',
                                   labelPosition: EFormLabelPosition.top,
                                   isRequired: true,
                                   child: ECheckboxGroup(
                                     size: ESizeItem.medium,
                                     value: medicalHistorySelected,
-                                    children: const[
-                                      ECheckbox(label: 'Diabetes',size: ESizeItem.large),
-                                      ECheckbox(label: 'Hypertension',size: ESizeItem.medium),
-                                      ECheckbox(label: 'Heart Disease',size: ESizeItem.medium),
-                                      ECheckbox(label: 'Stroke',size: ESizeItem.medium),
-                                      ECheckbox(label: 'Cancer',size: ESizeItem.medium),
-                                      ECheckbox(label: 'Other',size: ESizeItem.small),
+                                    children: const [
+                                      ECheckbox(
+                                          label: 'Diabetes',
+                                          size: ESizeItem.large),
+                                      ECheckbox(
+                                          label: 'Hypertension',
+                                          size: ESizeItem.medium),
+                                      ECheckbox(
+                                          label: 'Heart Disease',
+                                          size: ESizeItem.medium),
+                                      ECheckbox(
+                                          label: 'Stroke',
+                                          size: ESizeItem.medium),
+                                      ECheckbox(
+                                          label: 'Cancer',
+                                          size: ESizeItem.medium),
+                                      ECheckbox(
+                                          label: 'Other',
+                                          size: ESizeItem.small),
                                     ],
                                   )),
                               EFormItem(
@@ -200,7 +220,7 @@ class _FormPreviewState extends State<FormPreview> {
                                   child: EDatePicker(
                                     placeholder: '请选择日期',
                                     size: ESizeItem.small,
-                                    type: CalendarType.date,
+                                    // type: CalendarType.date,
                                     textController: dateController,
                                     onSelect: (value) {
                                       // date = value ?? '';
@@ -315,7 +335,6 @@ class _FormPreviewState extends State<FormPreview> {
                         ECard(
                           header: const Text('表单操作'),
                           child: Column(
-                            
                             children: [
                               Row(
                                 children: [
