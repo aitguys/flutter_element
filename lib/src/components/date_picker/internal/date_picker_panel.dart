@@ -141,7 +141,7 @@ class _EDatePickerPanelState extends State<EDatePickerPanel> {
         color: Colors.white,
         border: Border(
             bottom: BorderSide(
-                color: EDatePickerStyle.borderColor.withOpacity(0.5))),
+                color: EDatePickerStyle.borderColor.withValues(alpha: 0.5))),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

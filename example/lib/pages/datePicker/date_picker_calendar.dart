@@ -33,7 +33,7 @@ class DatePickerCalendarView extends StatelessWidget {
 }
 
 Widget _viewerContent() {
-  return Wrap(
+  return const Wrap(
     spacing: 20,
     runSpacing: 20,
     children: [

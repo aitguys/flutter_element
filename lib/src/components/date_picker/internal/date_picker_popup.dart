@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import '../date_picker_model.dart';
 import '../date_picker_style.dart';
@@ -156,7 +155,7 @@ class _EDatePickerPopupState extends State<EDatePickerPopup> {
           borderRadius: BorderRadius.circular(4),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.08),
+              color: Colors.black.withValues(alpha: 0.08),
               blurRadius: 12,
               offset: const Offset(0, 4),
             ),
@@ -318,7 +317,7 @@ class _EDatePickerPopupState extends State<EDatePickerPopup> {
         ),
         border: Border(
             top: BorderSide(
-                color: EDatePickerStyle.borderColor.withOpacity(0.5))),
+                color: EDatePickerStyle.borderColor.withValues(alpha: 0.5))),
       ),
       child: Row(
         children: [
@@ -421,7 +420,7 @@ class _EDatePickerPopupState extends State<EDatePickerPopup> {
         border: Border.all(
             color: isError
                 ? const Color(0xFFEF4444)
-                : EDatePickerStyle.selectedColor.withOpacity(0.5)),
+                : EDatePickerStyle.selectedColor.withValues(alpha: 0.5)),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Center(

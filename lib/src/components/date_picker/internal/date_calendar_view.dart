@@ -223,8 +223,9 @@ class EDateCalendarView extends StatelessWidget {
 
   BorderRadius? _getBorderRadius(bool isStart, bool isEnd, bool inRange) {
     if (isStart && isEnd) return BorderRadius.circular(15);
-    if (isStart)
+    if (isStart) {
       return const BorderRadius.horizontal(left: Radius.circular(15));
+    }
     if (isEnd) return const BorderRadius.horizontal(right: Radius.circular(15));
     return null;
   }
