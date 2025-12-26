@@ -21,7 +21,8 @@ export default defineConfig({
 		// 页脚配置
 		footer: {
 			message: "基于 MIT 协议发布",
-			copyright: "Copyright © 2024-present Flutter Element UI",
+			copyright:
+				'Copyright © 2024-present Flutter Element UI | <a href="https://beian.miit.gov.cn/" target="_blank">皖ICP备2025087560号</a>',
 		},
 		search: {
 			provider: "local",
