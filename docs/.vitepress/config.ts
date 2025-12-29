@@ -1,10 +1,13 @@
 import { defineConfig } from "vitepress";
 import { zhConfig } from "../zh/config";
 import { enConfig } from "../en/config";
-
+import { AnalyticsPlugin } from "./plugins/analytics";
 export default defineConfig({
 	// 默认语言设置为中文
 	lang: "zh-CN",
+	vite: {
+		plugins: [AnalyticsPlugin()],
+	},
 	// 多语言配置
 	themeConfig: {
 		// 多语言切换配置

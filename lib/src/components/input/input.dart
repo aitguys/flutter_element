@@ -123,6 +123,9 @@ class EInput extends StatefulWidget {
   /// Callback function when the input gains focus.
   final VoidCallback? onFocus;
 
+  /// Callback function when the input is tapped.
+  final VoidCallback? onTap;
+
   /// Callback function when the input loses focus.
   final VoidCallback? onBlur;
   final VoidCallback? onClear;
@@ -164,6 +167,7 @@ class EInput extends StatefulWidget {
     this.customFontSize,
     this.customBorderRadius,
     this.onFocus,
+    this.onTap,
     this.onBlur,
     this.showPlaceholderOnTop = false,
     this.password = false,
@@ -198,6 +202,7 @@ class EInput extends StatefulWidget {
     double? customFontSize,
     double? customBorderRadius,
     VoidCallback? onFocus,
+    VoidCallback? onTap,
     VoidCallback? onBlur,
     bool? showPlaceholderOnTop,
     bool? password,
@@ -227,6 +232,7 @@ class EInput extends StatefulWidget {
       customFontSize: customFontSize ?? this.customFontSize,
       customBorderRadius: customBorderRadius ?? this.customBorderRadius,
       onFocus: onFocus ?? this.onFocus,
+      onTap: onTap ?? this.onTap,
       onBlur: onBlur ?? this.onBlur,
       showPlaceholderOnTop: showPlaceholderOnTop ?? this.showPlaceholderOnTop,
       password: password ?? this.password,
@@ -439,11 +445,12 @@ class _EInputState extends State<EInput> {
                         ),
                       ),
                       onChanged: widget.onChanged,
-                      onTap: (widget.readOnly || widget.nonEditable)
-                          ? () {
-                              widget.onFocus?.call();
-                            }
-                          : null,
+                      onTap: () {
+                        if (widget.readOnly || widget.nonEditable) {
+                          widget.onFocus?.call();
+                        }
+                        widget.onTap?.call();
+                      },
                       enableInteractiveSelection: true,
                     ),
                   ),

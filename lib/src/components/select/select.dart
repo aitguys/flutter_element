@@ -622,6 +622,11 @@ class _ESelectState extends State<ESelect> {
         customBorderRadius: widget.customBorderRadius,
         showPlaceholderOnTop: widget.showPlaceholderOnTop,
         onClear: _handleClear,
+        onTap: () {
+          if (!widget.readOnly && !widget.disabled) {
+            _showOverlay();
+          }
+        },
         suffix: widget.suffix ??
             Icon(
               Icons.arrow_drop_down,

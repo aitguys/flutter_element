@@ -26,26 +26,8 @@ class _TabsPageState extends State<TabsPage> {
       content: Center(child: Text('角色管理内容')),
     ),
     const ETabPane(
-      label: '定时任务补偿',
+      label: '任务',
       content: Center(child: Text('定时任务补偿内容')),
-    ),
-  ];
-
-  final List<ETabPane> _closableTabs = [
-    const ETabPane(
-      label: 'Tab 1',
-      closable: true,
-      content: Center(child: Text('Tab 1 内容')),
-    ),
-    const ETabPane(
-      label: 'Tab 2',
-      closable: true,
-      content: Center(child: Text('Tab 2 内容')),
-    ),
-    const ETabPane(
-      label: 'Tab 3',
-      closable: true,
-      content: Center(child: Text('Tab 3 内容')),
     ),
   ];
 
@@ -56,68 +38,91 @@ class _TabsPageState extends State<TabsPage> {
         title: const Text('Tabs 标签页'),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text('基础用法',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-            const SizedBox(height: 16),
-            SizedBox(
-              height: 200,
-              child: ETabs(
-                tabs: _tabs,
-                type: ETabType.border,
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildTitle('基础用法 (Border Style - Top)'),
+              Container(
+                height: 100,
+                decoration: _boxDecoration,
+                child: ETabs(
+                  tabs: _tabs,
+                  type: ETabType.border,
+                  position: ETabPosition.top,
+                ),
               ),
-            ),
-            const SizedBox(height: 32),
-            const Text('选项卡样式',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-            const SizedBox(height: 16),
-            SizedBox(
-              height: 200,
-              child: ETabs(
-                tabs: _tabs,
-                type: ETabType.card,
+              _buildTitle('卡片样式 (Card Style)'),
+              Container(
+                height: 200,
+                decoration: _boxDecoration,
+                child: ETabs(
+                  tabs: _tabs,
+                  type: ETabType.card,
+                ),
               ),
-            ),
-            const SizedBox(height: 32),
-            const Text('分段样式',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-            const SizedBox(height: 16),
-            SizedBox(
-              height: 200,
-              child: ETabs(
-                tabs: _tabs.sublist(0, 3),
-                type: ETabType.segment,
+              _buildTitle('分段样式 (Segment Style)'),
+              Container(
+                height: 200,
+                decoration: _boxDecoration,
+                child: ETabs(
+                  tabs: _tabs,
+                  type: ETabType.segment,
+                  stretch: false, // 紧凑模式
+                ),
               ),
-            ),
-            const SizedBox(height: 32),
-            const Text('可关闭标签',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-            const SizedBox(height: 16),
-            SizedBox(
-              height: 200,
-              child: ETabs(
-                tabs: _closableTabs,
-                type: ETabType.card,
-                closable: true,
+              _buildTitle('底部位置 (Bottom Position)'),
+              Container(
+                height: 200,
+                decoration: _boxDecoration,
+                child: ETabs(
+                  tabs: _tabs,
+                  type: ETabType.border,
+                  position: ETabPosition.bottom,
+                ),
               ),
-            ),
-            const SizedBox(height: 32),
-            const Text('位置',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-            const SizedBox(height: 16),
-            SizedBox(
-              height: 200,
-              child: ETabs(
-                tabs: _tabs,
-                type: ETabType.border,
+              _buildTitle('左侧位置 (Left Position)'),
+              Container(
+                height: 200,
+                decoration: _boxDecoration,
+                child: ETabs(
+                  tabs: _tabs,
+                  type: ETabType.border,
+                  position: ETabPosition.left,
+                  tabWidth: 100,
+                ),
               ),
-            ),
-          ],
+              _buildTitle('右侧位置 (Right Position - Segment)'),
+              Container(
+                height: 200,
+                decoration: _boxDecoration,
+                child: ETabs(
+                  tabs: _tabs,
+                  type: ETabType.segment,
+                  position: ETabPosition.right,
+                  tabWidth: 120,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
+
+  Widget _buildTitle(String title) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16),
+      child: Text(
+        title,
+        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+
+  final BoxDecoration _boxDecoration = BoxDecoration(
+    border: Border.all(color: Colors.grey.withValues(alpha: 0.2)),
+    borderRadius: BorderRadius.circular(4),
+  );
 }

@@ -41,9 +41,9 @@ Widget _viewerContent() {
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('请选择选择日期'),
               SizedBox(
                 width: 240,
                 child: EDatePicker(
@@ -60,50 +60,50 @@ Widget _viewerContent() {
           ),
         ],
       ),
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            width: 240,
-            child: EDatePicker(
-                type: DatePickerType.month,
-                placeholder: '选择月份',
-                onSelect: (date) {
-                  debugPrint('onSelect 触发： Selected date: $date');
-                }),
-          ),
-        ],
-      ),
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            width: 240,
-            child: EDatePicker(
-              type: DatePickerType.year,
-              placeholder: '选择年份',
-              onSelect: (date) {
-                debugPrint('onSelect 触发： Selected date: $date');
-              },
-            ),
-          ),
-        ],
-      ),
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            width: 240,
-            child: EDatePicker(
-              type: DatePickerType.week,
-              placeholder: '周视图选择',
-              onSelect: (date) {
-                debugPrint('onSelect 触发： Selected date: $date');
-              },
-            ),
-          ),
-        ],
-      ),
+      // Column(
+      //   crossAxisAlignment: CrossAxisAlignment.start,
+      //   children: [
+      //     SizedBox(
+      //       width: 240,
+      //       child: EDatePicker(
+      //           type: DatePickerType.month,
+      //           placeholder: '选择月份',
+      //           onSelect: (date) {
+      //             debugPrint('onSelect 触发： Selected date: $date');
+      //           }),
+      //     ),
+      //   ],
+      // ),
+      // Column(
+      //   crossAxisAlignment: CrossAxisAlignment.start,
+      //   children: [
+      //     SizedBox(
+      //       width: 240,
+      //       child: EDatePicker(
+      //         type: DatePickerType.year,
+      //         placeholder: '选择年份',
+      //         onSelect: (date) {
+      //           debugPrint('onSelect 触发： Selected date: $date');
+      //         },
+      //       ),
+      //     ),
+      //   ],
+      // ),
+      // Column(
+      //   crossAxisAlignment: CrossAxisAlignment.start,
+      //   children: [
+      //     SizedBox(
+      //       width: 240,
+      //       child: EDatePicker(
+      //         type: DatePickerType.week,
+      //         placeholder: '周视图选择',
+      //         onSelect: (date) {
+      //           debugPrint('onSelect 触发： Selected date: $date');
+      //         },
+      //       ),
+      //     ),
+      //   ],
+      // ),
     ],
   );
 }
