@@ -19,6 +19,7 @@ export default defineConfig({
 			},
 		],
 		// 页脚配置
+
 		footer: {
 			message: "基于 MIT 协议发布",
 			copyright:
@@ -62,6 +63,21 @@ export default defineConfig({
 			...enConfig,
 		},
 	},
+	head: [
+		[
+			"script",
+			{},
+			`
+      var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?515d3e08831eb784a6545b02fa509d48";
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+      })();
+    `,
+		],
+	],
 	// 重定向配置
 	rewrites: {
 		// 访问根路径时重定向到中文首页
