@@ -21,7 +21,7 @@ class DatePickerPreview extends StatelessWidget {
               AppBar(
                 title: const Text('日期选择器'),
               ),
-              DatePickerBasicPreview(),
+              const DatePickerBasicPreview(),
               // DatePickerMultiplePreview(),
               // DatePickerDefaultPreview(),
               // DatePickerStylePreview(),
