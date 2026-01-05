@@ -435,7 +435,7 @@ class _EInputState extends State<EInput> {
                         isDense: true,
                         isCollapsed:
                             widget.maxLines == null || widget.maxLines == 1,
-                        hintText: (widget.readOnly || widget.nonEditable)
+                        hintText: widget.readOnly
                             ? null
                             : widget.showPlaceholderOnTop && _isFocused
                                 ? null
