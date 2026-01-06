@@ -26,7 +26,7 @@ class ETabs extends StatefulWidget {
   final EColorType colorType;
   final Color? customColor;
   final double height; // 整体高度，默认为空自适应
-  
+
   /// 自定义 TabBar 的背景色
   final Color? tabBarBackgroundColor;
 
@@ -116,7 +116,7 @@ class _ETabsState extends State<ETabs> with SingleTickerProviderStateMixin {
 
     // 构建 TabBar
     Widget tabBar = _buildTabBar(theme);
-    
+
     // 构建 Content
     Widget content = TabBarView(
       controller: _controller,
@@ -185,36 +185,45 @@ class _ETabsState extends State<ETabs> with SingleTickerProviderStateMixin {
 
     // 如果是垂直模式，Tab 内容需要反向旋转
     // 如果是水平模式，Tab 内容正常
-    
+
     Widget tabBar = TabBar(
       controller: _controller,
-      isScrollable: isVertical ? true : !widget.stretch, // 垂直模式必须 scrollable 否则溢出
-      tabAlignment: isVertical || !widget.stretch ? TabAlignment.start : TabAlignment.fill,
+      isScrollable:
+          isVertical ? true : !widget.stretch, // 垂直模式必须 scrollable 否则溢出
+      tabAlignment: isVertical || !widget.stretch
+          ? TabAlignment.start
+          : TabAlignment.fill,
       labelColor: isSegment ? _primaryColor : _primaryColor, // Segment 选中颜色调整
       unselectedLabelColor: EBasicColors.textGray,
       indicator: _buildIndicator(theme),
       indicatorSize: TabBarIndicatorSize.tab, // Segment 必须是 tab 才能填满
       dividerColor: Colors.transparent, // 移除默认分割线
       labelStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-      unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.normal, fontSize: 14),
-      padding: isVertical ? EdgeInsets.zero : const EdgeInsets.symmetric(horizontal: 4),
-      labelPadding: isVertical 
-          ? const EdgeInsets.symmetric(horizontal: 20, vertical: 0) // 旋转后的 padding
+      unselectedLabelStyle:
+          const TextStyle(fontWeight: FontWeight.normal, fontSize: 14),
+      padding: isVertical
+          ? EdgeInsets.zero
+          : const EdgeInsets.symmetric(horizontal: 4),
+      labelPadding: isVertical
+          ? const EdgeInsets.symmetric(
+              horizontal: 20, vertical: 0) // 旋转后的 padding
           : const EdgeInsets.symmetric(horizontal: 16),
       tabs: widget.tabs.asMap().entries.map((entry) {
         final index = entry.key;
         final tab = entry.value;
         final isSelected = _currentIndex == index;
-        
+
         Widget child = _buildTabItem(tab, isSelected, isVertical);
-        
+
         if (isVertical) {
           // 垂直模式下，TabBar 旋转了 90 度，TabItem 需要逆时针旋转 90 度回正
           child = RotatedBox(quarterTurns: -1, child: child);
         }
-        
+
         return Tab(
-          height: isVertical ? (widget.tabWidth ?? 100) : (isSegment ? 32 : 40), // 调整 Segment 高度
+          height: isVertical
+              ? (widget.tabWidth ?? 100)
+              : (isSegment ? 32 : 40), // 调整 Segment 高度
           child: child,
         );
       }).toList(),
@@ -242,11 +251,11 @@ class _ETabsState extends State<ETabs> with SingleTickerProviderStateMixin {
   Widget _buildTabItem(ETabPane tab, bool isSelected, bool isVertical) {
     Color textColor;
     if (widget.type == ETabType.segment) {
-       // Segment 模式选中也是主色(或黑色)，未选中是灰色
-       // 背景色改为白色
-       textColor = isSelected ? Colors.black87 : EBasicColors.textGray;
+      // Segment 模式选中也是主色(或黑色)，未选中是灰色
+      // 背景色改为白色
+      textColor = isSelected ? Colors.black87 : EBasicColors.textGray;
     } else {
-       textColor = isSelected ? _primaryColor : EBasicColors.textGray;
+      textColor = isSelected ? _primaryColor : EBasicColors.textGray;
     }
 
     Widget content = Row(
@@ -264,11 +273,10 @@ class _ETabsState extends State<ETabs> with SingleTickerProviderStateMixin {
         if (widget.closable && tab.closable != false) ...[
           const SizedBox(width: 4),
           InkWell(
-            onTap: () {
-              // TODO: 实现关闭逻辑
-            },
+            onTap: () {},
             borderRadius: BorderRadius.circular(10),
-            child: Icon(Icons.close, size: 14, color: textColor.withValues(alpha: 0.6)),
+            child: Icon(Icons.close,
+                size: 14, color: textColor.withValues(alpha: 0.6)),
           ),
         ],
       ],
@@ -288,7 +296,7 @@ class _ETabsState extends State<ETabs> with SingleTickerProviderStateMixin {
         child: content,
       );
     }
-    
+
     return content;
   }
 

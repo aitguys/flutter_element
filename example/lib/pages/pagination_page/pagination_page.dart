@@ -48,6 +48,7 @@ class _PaginationPageState extends State<PaginationPage> {
             const SizedBox(height: 16),
             EPagination(
               total: _total,
+              maxPageCount: 2,
               pageSize: _pageSize,
               currentPage: _currentPage,
               customColor: Colors.red,
