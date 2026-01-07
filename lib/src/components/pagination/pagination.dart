@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_element_plus/src/components/input/index.dart';
 import '../../theme/color.dart';
 // import '../button/button.dart';
 
@@ -380,16 +381,10 @@ class _JumperState extends State<_Jumper> {
         const SizedBox(width: 8),
         SizedBox(
           width: 40,
-          child: TextField(
-            controller: _controller,
-            keyboardType: TextInputType.number,
-            style: const TextStyle(fontSize: 14),
-            decoration: const InputDecoration(
-                isDense: true,
-                contentPadding:
-                    EdgeInsets.symmetric(vertical: 4, horizontal: 4)),
-            onSubmitted: (v) {
-              final p = int.tryParse(v);
+          child: EInput(
+            textController: _controller,
+            onBlur: () {
+              final p = int.tryParse(_controller.text);
               if (p != null) widget.onJump(p);
             },
           ),

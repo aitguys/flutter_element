@@ -16,7 +16,19 @@ class _PaginationPageState extends State<PaginationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Pagination 分页')),
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: const Text(
+          'Pagination 分页',
+          style: TextStyle(fontSize: 15),
+        ),
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Icons.arrow_back),
+          color: Colors.black,
+        ),
+        backgroundColor: Colors.white,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -33,7 +45,6 @@ class _PaginationPageState extends State<PaginationPage> {
                 EPaginationLayout.pager,
                 EPaginationLayout.next,
                 EPaginationLayout.sizes,
-                EPaginationLayout.jumper,
               ],
               currentPage: _currentPage,
               onPageChange: (p) => setState(() {
@@ -64,6 +75,10 @@ class _PaginationPageState extends State<PaginationPage> {
               total: _total,
               pageSize: _pageSize,
               currentPage: _currentPage,
+              layout: const [
+                EPaginationLayout.pager,
+                EPaginationLayout.jumper,
+              ],
               isRound: true,
               onPageChange: (p) => setState(() => _currentPage = p),
             ),
