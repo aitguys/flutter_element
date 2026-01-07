@@ -363,8 +363,8 @@ class EPagination extends StatelessWidget {
         }
       }
 
-      return Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
+      return Wrap(
+        crossAxisAlignment: WrapCrossAlignment.center,
         spacing: 8,
         children: orderedComponents,
       );

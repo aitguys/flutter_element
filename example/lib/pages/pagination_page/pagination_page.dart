@@ -35,6 +35,7 @@ class _PaginationPageState extends State<PaginationPage> {
                 EPaginationLayout.sizes,
                 EPaginationLayout.jumper,
               ],
+              maxPageCount: 2,
               currentPage: _currentPage,
               onPageChange: (p) => setState(() {
                 _currentPage = p;
