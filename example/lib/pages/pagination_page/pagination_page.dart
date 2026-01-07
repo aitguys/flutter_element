@@ -39,6 +39,7 @@ class _PaginationPageState extends State<PaginationPage> {
             EPagination(
               total: _total,
               pageSize: _pageSize,
+              spacing: 5,
               layout: const [
                 EPaginationLayout.total,
                 EPaginationLayout.prev,
@@ -46,6 +47,7 @@ class _PaginationPageState extends State<PaginationPage> {
                 EPaginationLayout.next,
                 EPaginationLayout.sizes,
               ],
+              maxPageCount: 2,
               currentPage: _currentPage,
               onPageChange: (p) => setState(() {
                 _currentPage = p;
@@ -59,6 +61,7 @@ class _PaginationPageState extends State<PaginationPage> {
             const SizedBox(height: 16),
             EPagination(
               total: _total,
+              maxPageCount: 2,
               pageSize: _pageSize,
               currentPage: _currentPage,
               customColor: Colors.red,

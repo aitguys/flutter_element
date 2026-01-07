@@ -63,6 +63,7 @@ class EPagination extends StatelessWidget {
   final ValueChanged<int>? onPageSizeChange;
 
   final List<String> layout; // layout="[total, prev, pager, next]"
+  final int maxPageCount;
 
   /// Whether to show the page jumper input.
 
@@ -71,6 +72,8 @@ class EPagination extends StatelessWidget {
   final Color? customColor;
   final bool isRound;
   final bool showBackground;
+  final double spacing;
+
   const EPagination({
     super.key,
     required this.total,
@@ -79,6 +82,7 @@ class EPagination extends StatelessWidget {
     this.pageSizes = const [10, 20, 50, 100],
     this.onPageChange,
     this.onPageSizeChange,
+    this.maxPageCount = 7,
     this.layout = const [
       EPaginationLayout.prev,
       EPaginationLayout.pager,
@@ -88,39 +92,55 @@ class EPagination extends StatelessWidget {
     this.customColor,
     this.isRound = false,
     this.showBackground = true,
+    this.spacing = 8.0,
   });
 
   /// Calculates the total number of pages based on total items and page size.
   int get pageCount => (total / pageSize).ceil();
 
   /// Generates the list of page numbers to display, including ellipsis for long ranges.
-  ///
-  /// The list includes:
-  /// - First page
-  /// - Ellipsis (...) if needed
-  /// - Pages around the current page
-  /// - Last page
-  List<int> get pageList {
-    if (pageCount <= 7) {
+  List<int> _generatePageList(int limit) {
+    if (pageCount <= limit) {
       return List.generate(pageCount, (i) => i + 1);
-    } else {
-      List<int> list = [1];
-      if (currentPage > 4) list.add(-1); // -1 代表 ...
-      int start = currentPage - 1;
-      int end = currentPage + 1;
-      if (start < 2) start = 2;
-      if (end > pageCount - 1) end = pageCount - 1;
-      for (int i = start; i <= end; i++) {
-        list.add(i);
-      }
-      if (end < pageCount - 1) list.add(-1);
-      list.add(pageCount);
-      return list;
     }
+
+    List<int> list = [1];
+
+    // limit=7 -> radius=1, limit=5 -> radius=0
+    int radius = (limit - 5) ~/ 2;
+
+    bool showPrevMore = currentPage > 3 + radius;
+    bool showNextMore = currentPage < pageCount - (2 + radius);
+
+    if (showPrevMore) list.add(-1);
+
+    int start, end;
+    if (!showPrevMore && showNextMore) {
+      start = 2;
+      end = limit - 2;
+    } else if (showPrevMore && !showNextMore) {
+      start = pageCount - (limit - 3);
+      end = pageCount - 1;
+    } else {
+      start = currentPage - radius;
+      end = currentPage + radius;
+    }
+
+    if (start < 2) start = 2;
+    if (end > pageCount - 1) end = pageCount - 1;
+
+    for (int i = start; i <= end; i++) {
+      list.add(i);
+    }
+
+    if (showNextMore) list.add(-1);
+    list.add(pageCount);
+
+    return list;
   }
 
   /// Builds a widget component based on layout string
-  Widget _buildLayoutComponent(String component) {
+  Widget _buildLayoutComponent(String component, int currentMaxPageCount) {
     switch (component) {
       case EPaginationLayout.total:
         return Padding(
@@ -176,12 +196,13 @@ class EPagination extends StatelessWidget {
         );
 
       case EPaginationLayout.pager:
+        final dynamicPageList = _generatePageList(currentMaxPageCount);
         return Row(
           mainAxisSize: MainAxisSize.min,
-          children: pageList.map((p) {
+          children: dynamicPageList.map((p) {
             if (p == -1) {
               return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4),
+                padding: EdgeInsets.symmetric(horizontal: spacing / 2),
                 child: Text(
                   '...',
                   style: TextStyle(
@@ -194,7 +215,7 @@ class EPagination extends StatelessWidget {
             final isActive = p == currentPage;
 
             return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 2),
+              padding: EdgeInsets.symmetric(horizontal: spacing / 2),
               child: SizedBox(
                 height: 32,
                 child: TextButton(
@@ -313,36 +334,46 @@ class EPagination extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Build components in the exact order specified in layout array
-    final List<Widget> orderedComponents = [];
+    return LayoutBuilder(builder: (context, constraints) {
+      // Build components in the exact order specified in layout array
+      final List<Widget> orderedComponents = [];
 
-    for (final component in layout) {
-      // Check if component should be displayed based on flags
-      bool shouldShow = true;
-      switch (component) {
-        case EPaginationLayout.total:
-          shouldShow = true;
-          break;
-        case EPaginationLayout.sizes:
-          shouldShow = true;
-          break;
-        case EPaginationLayout.jumper:
-          shouldShow = true;
-          break;
-        default:
-          shouldShow = true;
+      // Responsive: reduce to 5 items if width is narrow (< 450px)
+      int dynamicMaxPageCount = maxPageCount;
+      if (constraints.maxWidth < 450 && dynamicMaxPageCount > 5) {
+        dynamicMaxPageCount = 5;
       }
 
-      if (shouldShow) {
-        orderedComponents.add(_buildLayoutComponent(component));
-      }
-    }
+      for (final component in layout) {
+        // Check if component should be displayed based on flags
+        bool shouldShow = true;
+        switch (component) {
+          case EPaginationLayout.total:
+            shouldShow = true;
+            break;
+          case EPaginationLayout.sizes:
+            shouldShow = true;
+            break;
+          case EPaginationLayout.jumper:
+            shouldShow = true;
+            break;
+          default:
+            shouldShow = true;
+        }
 
-    return Wrap(
-      crossAxisAlignment: WrapCrossAlignment.center,
-      spacing: 8,
-      children: orderedComponents,
-    );
+        if (shouldShow) {
+          orderedComponents
+              .add(_buildLayoutComponent(component, dynamicMaxPageCount));
+        }
+      }
+
+      return Wrap(
+        crossAxisAlignment: WrapCrossAlignment.center,
+        spacing: spacing,
+        runSpacing: spacing,
+        children: orderedComponents,
+      );
+    });
   }
 }
 
