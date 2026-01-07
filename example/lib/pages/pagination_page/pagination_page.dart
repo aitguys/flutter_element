@@ -27,6 +27,7 @@ class _PaginationPageState extends State<PaginationPage> {
             EPagination(
               total: _total,
               pageSize: _pageSize,
+              spacing: 5,
               layout: const [
                 EPaginationLayout.total,
                 EPaginationLayout.prev,

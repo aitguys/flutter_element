@@ -71,6 +71,8 @@ class EPagination extends StatelessWidget {
   final Color? customColor;
   final bool isRound;
   final bool showBackground;
+  final double spacing;
+
   const EPagination({
     super.key,
     required this.total,
@@ -89,6 +91,7 @@ class EPagination extends StatelessWidget {
     this.customColor,
     this.isRound = false,
     this.showBackground = true,
+    this.spacing = 8.0,
   });
 
   /// Calculates the total number of pages based on total items and page size.
@@ -198,7 +201,7 @@ class EPagination extends StatelessWidget {
           children: dynamicPageList.map((p) {
             if (p == -1) {
               return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4),
+                padding: EdgeInsets.symmetric(horizontal: spacing / 2),
                 child: Text(
                   '...',
                   style: TextStyle(
@@ -211,7 +214,7 @@ class EPagination extends StatelessWidget {
             final isActive = p == currentPage;
 
             return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 2),
+              padding: EdgeInsets.symmetric(horizontal: spacing / 2),
               child: SizedBox(
                 height: 32,
                 child: TextButton(
@@ -365,7 +368,8 @@ class EPagination extends StatelessWidget {
 
       return Wrap(
         crossAxisAlignment: WrapCrossAlignment.center,
-        spacing: 8,
+        spacing: spacing,
+        runSpacing: spacing,
         children: orderedComponents,
       );
     });
