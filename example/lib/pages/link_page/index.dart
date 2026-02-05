@@ -12,21 +12,28 @@ class LinkPreview extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('链接组件'),
+        backgroundColor: Colors.white,
+        title: const Text(
+          '链接组件',
+          style: TextStyle(fontSize: 15),
+        ),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back, size: 16),
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: const SingleChildScrollView(
-        child: Column(
-          children: [
-            LinkBasicPreview(),
-            LinkDisabledPreview(),
-            LinkIconPreview(),
-            LinkUnderlinePreview(),
-            LinkHrefPreview(),
-          ],
+      body: SingleChildScrollView(
+        child: Container(
+          color: Colors.white,
+          child: const Column(
+            children: [
+              LinkBasicPreview(),
+              LinkDisabledPreview(),
+              LinkIconPreview(),
+              LinkUnderlinePreview(),
+              LinkHrefPreview(),
+            ],
+          ),
         ),
       ),
     );

@@ -19,7 +19,18 @@ class _SegmentedPageState extends State<SegmentedPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Segmented 分段控制器'),
+        backgroundColor: Colors.white,
+        title: const Text(
+          'Segmented 分段控制器',
+          style: TextStyle(color: Colors.black, fontSize: 15),
+        ),
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back,
+            size: 16,
+          ),
+          onPressed: () => Navigator.pop(context),
+        ),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
@@ -74,7 +85,6 @@ class _SegmentedPageState extends State<SegmentedPage> {
             ),
             const SizedBox(height: 20),
             SizedBox(
-              width: 700,
               child: FlSegmented<String>(
                 isRound: true,
                 iconTheme: const IconThemeData(
@@ -112,6 +122,64 @@ class _SegmentedPageState extends State<SegmentedPage> {
                   });
                 },
               ),
+            ),
+            const SizedBox(height: 40),
+            const Text(
+              '选中且禁用的选项',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 20),
+            FlSegmented<String>(
+              options: const [
+                FlSegmentedOption(
+                  label: 'Option A',
+                  value: 'Option A',
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                ),
+                FlSegmentedOption(
+                  label: 'Option B ',
+                  value: 'Option B',
+                  disabled: true,
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                ),
+                FlSegmentedOption(
+                  label: 'Option C',
+                  value: 'Option C',
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                ),
+              ],
+              value: 'Option B',
+              onChange: (value) {},
+            ),
+            const SizedBox(height: 40),
+            const Text(
+              '间距与内边距',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 20),
+            FlSegmented<String>(
+              space: 10,
+              backgroundColor:
+                  Colors.transparent, // Use transparent to see gaps better
+              options: const [
+                FlSegmentedOption(
+                  label: 'Gap 1',
+                  value: 'Gap 1',
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                ),
+                FlSegmentedOption(
+                  label: 'Gap 2',
+                  value: 'Gap 2',
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                ),
+                FlSegmentedOption(
+                  label: 'Gap 3',
+                  value: 'Gap 3',
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                ),
+              ],
+              value: 'Gap 1',
+              onChange: (value) {},
             ),
             const SizedBox(height: 40),
             const Text(

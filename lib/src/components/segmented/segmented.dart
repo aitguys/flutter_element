@@ -12,7 +12,10 @@ class FlSegmentedOption<T> {
   /// Optional icon to display before the label.
   final Widget? icon;
 
-  /// Whether this option is disabled.
+  /// Optional padding for this option.
+  final EdgeInsets? padding;
+
+  /// Optional disabled for this option.
   final bool disabled;
 
   const FlSegmentedOption({
@@ -20,6 +23,7 @@ class FlSegmentedOption<T> {
     required this.value,
     this.icon,
     this.disabled = false,
+    this.padding,
   });
 }
 
@@ -74,6 +78,9 @@ class FlSegmented<T> extends StatefulWidget {
   final IconThemeData? iconTheme;
   final IconThemeData? selectedIconTheme;
 
+  /// The space between options.
+  final double space;
+
   const FlSegmented(
       {super.key,
       required this.options,
@@ -94,7 +101,8 @@ class FlSegmented<T> extends StatefulWidget {
       this.textStyle,
       this.selectedTextStyle,
       this.iconTheme,
-      this.selectedIconTheme});
+      this.selectedIconTheme,
+      this.space = 0});
 
   @override
   State<FlSegmented<T>> createState() => _FlSegmentedState<T>();
@@ -208,13 +216,15 @@ class _FlSegmentedState<T> extends State<FlSegmented<T>>
   }
 
   Color _calculateContentColor(bool isSelected, bool isDisabled) {
-    return isSelected
-        ? calculateContentColor(
-            getBackGroundColorByTypeAndTheme(
-                type: widget.selectedColorType,
-                customColor: widget.contentColor),
-            isDisabled: isDisabled)
-        : Colors.black;
+    if (isSelected) {
+      return calculateContentColor(
+          getColorByType(
+              type: widget.selectedColorType,
+              customColor: widget.selectedBackgroundColor),
+          isDisabled: isDisabled);
+    } else {
+      return EBasicColors.textGray.withValues(alpha: isDisabled ? 0.4 : 1.0);
+    }
   }
 
   @override
@@ -238,17 +248,15 @@ class _FlSegmentedState<T> extends State<FlSegmented<T>>
 
         final double optionWidth =
             widget.block && totalWidth != null && totalWidth > 0
-                ? totalWidth / optionCount
+                ? (totalWidth - (optionCount - 1) * widget.space) / optionCount
                 : double.infinity;
 
-        // If block, we can calculate left/width directly
-        double? left, width;
+        // Use background measurement for better accuracy with spacing
+        double? left = _backgroundLeft;
+        double? width = _backgroundWidth;
         if (widget.block && totalWidth != null && totalWidth > 0) {
-          left = optionWidth * _selectedIndex;
+          left = (optionWidth + widget.space) * _selectedIndex;
           width = optionWidth;
-        } else {
-          left = _backgroundLeft;
-          width = _backgroundWidth;
         }
 
         // 监听布局变化，防止屏幕缩放时浮层不更新
@@ -284,9 +292,11 @@ class _FlSegmentedState<T> extends State<FlSegmented<T>>
                   duration: const Duration(milliseconds: 220),
                   curve: Curves.easeInOut,
                   decoration: BoxDecoration(
-                    color: getColorByType(
-                        type: widget.selectedColorType,
-                        customColor: widget.selectedBackgroundColor),
+                    color: calculateBackgroundColor(
+                        getColorByType(
+                            type: widget.selectedColorType,
+                            customColor: widget.selectedBackgroundColor),
+                        isDisabled: widget.options[_selectedIndex].disabled),
                     borderRadius: BorderRadius.circular(_getBorderRadius() - 1),
                   ),
                 ),
@@ -295,13 +305,13 @@ class _FlSegmentedState<T> extends State<FlSegmented<T>>
                 mainAxisSize: widget.block || totalWidth != null
                     ? MainAxisSize.max
                     : MainAxisSize.min,
-                children: widget.options.asMap().entries.map((entry) {
+                children: widget.options.asMap().entries.expand((entry) {
                   final index = entry.key;
                   final option = entry.value;
                   final isSelected = index == _selectedIndex;
                   final isDisabled = option.disabled;
 
-                  return Expanded(
+                  final item = Expanded(
                     key: _optionKeys[index],
                     child: GestureDetector(
                       onTap: isDisabled ? null : () => _onTap(index),
@@ -318,7 +328,7 @@ class _FlSegmentedState<T> extends State<FlSegmented<T>>
                           width: widget.block || totalWidth != null
                               ? double.infinity
                               : null,
-                          padding: EdgeInsets.zero,
+                          padding: option.padding ?? EdgeInsets.zero,
                           // 默认 padding 为 0
                           // Remove color here, handled by animated background
                           decoration: const BoxDecoration(
@@ -366,6 +376,11 @@ class _FlSegmentedState<T> extends State<FlSegmented<T>>
                       ),
                     ),
                   );
+
+                  if (index < optionCount - 1 && widget.space > 0) {
+                    return [item, SizedBox(width: widget.space)];
+                  }
+                  return [item];
                 }).toList(),
               ),
             ],

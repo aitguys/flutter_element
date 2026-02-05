@@ -45,6 +45,15 @@ Widget _viewerContent() {
             child: EButton(
               text: 'Primary Button',
               loading: true,
+              type: EColorType.lightBlue,
+              onPressed: () {},
+            ),
+          ),
+          SizedBox(
+            width: 400,
+            child: EButton(
+              text: 'Primary Button',
+              loading: true,
               type: EColorType.primary,
               onPressed: () {},
             ),
@@ -98,6 +107,12 @@ Widget _viewerContent() {
         spacing: 8,
         runSpacing: 16,
         children: [
+          EButton(
+            text: 'Primary Button',
+            type: EColorType.lightBlue,
+            isPlain: true,
+            onPressed: () {},
+          ),
           EButton(
             text: 'Primary Button',
             type: EColorType.primary,

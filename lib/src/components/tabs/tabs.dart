@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_element_plus/src/theme/index.dart';
 
 enum ETabType {
-  card,
-  border, // 对应 Line/Underline
-  segment, // 对应 Button/Capsule
+  primary,
+  border,
+  segment,
 }
 
 enum ETabPosition {
@@ -34,7 +34,7 @@ class ETabs extends StatefulWidget {
     super.key,
     required this.tabs,
     this.initialActive = 0,
-    this.type = ETabType.border, // 默认改为 border (line)
+    this.type = ETabType.primary, // 默认改为 border (line)
     this.position = ETabPosition.top, // 默认 top
     this.closable = false,
     this.onChange,
@@ -130,8 +130,8 @@ class _ETabsState extends State<ETabs> with SingleTickerProviderStateMixin {
         return Column(
           children: [
             tabBar,
-            if (widget.type != ETabType.segment && widget.type != ETabType.card)
-              const Divider(height: 1, thickness: 0.5), // segment 和 card 不显示分割线
+            if (widget.type != ETabType.segment)
+              const Divider(height: 1, thickness: 0.5), // segment 不显示分割线
             Expanded(child: content),
           ],
         );
@@ -139,7 +139,7 @@ class _ETabsState extends State<ETabs> with SingleTickerProviderStateMixin {
         return Column(
           children: [
             Expanded(child: content),
-            if (widget.type != ETabType.segment && widget.type != ETabType.card)
+            if (widget.type != ETabType.segment)
               const Divider(height: 1, thickness: 0.5),
             tabBar,
           ],
@@ -148,7 +148,7 @@ class _ETabsState extends State<ETabs> with SingleTickerProviderStateMixin {
         return Row(
           children: [
             _buildVerticalTabBarWrapper(tabBar),
-            if (widget.type != ETabType.segment && widget.type != ETabType.card)
+            if (widget.type != ETabType.segment)
               const VerticalDivider(width: 1, thickness: 0.5),
             Expanded(child: content),
           ],
@@ -157,7 +157,7 @@ class _ETabsState extends State<ETabs> with SingleTickerProviderStateMixin {
         return Row(
           children: [
             Expanded(child: content),
-            if (widget.type != ETabType.segment && widget.type != ETabType.card)
+            if (widget.type != ETabType.segment)
               const VerticalDivider(width: 1, thickness: 0.5),
             _buildVerticalTabBarWrapper(tabBar),
           ],
@@ -283,31 +283,32 @@ class _ETabsState extends State<ETabs> with SingleTickerProviderStateMixin {
     );
 
     // Card 模式包裹
-    if (widget.type == ETabType.card) {
-      return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: isSelected ? EBasicColors.borderGray : Colors.transparent,
-          ),
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(4)),
-          color: isSelected ? Colors.white : const Color(0xFFF5F7FA),
-        ),
-        child: content,
-      );
-    }
+    // if (widget.type == ETabType.card) {
+    //   return Container(
+    //     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+    //     decoration: BoxDecoration(
+    //       border: Border.all(
+    //         color: isSelected ? EBasicColors.borderGray : Colors.transparent,
+    //       ),
+    //       borderRadius: const BorderRadius.vertical(top: Radius.circular(4)),
+    //       color: isSelected ? Colors.white : const Color(0xFFF5F7FA),
+    //     ),
+    //     child: content,
+    //   );
+    // }
 
     return content;
   }
 
   Decoration _buildIndicator(ThemeData theme) {
     switch (widget.type) {
-      case ETabType.card:
-        return const BoxDecoration(); // Card 模式没有 Indicator，靠背景色
+      case ETabType.primary:
+        return const BoxDecoration();
+
       case ETabType.border:
         return UnderlineTabIndicator(
           borderSide: BorderSide(width: 2, color: _primaryColor),
-          insets: const EdgeInsets.only(bottom: 4), // 调整下划线位置
+          insets: const EdgeInsets.only(bottom: 0), // 调整下划线位置
         );
       case ETabType.segment:
         return BoxDecoration(

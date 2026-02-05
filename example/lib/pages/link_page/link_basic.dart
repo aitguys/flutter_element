@@ -40,6 +40,11 @@ Widget _viewerContent() {
       children: [
         ELink(
           text: 'Default Link',
+          colorType: EColorType.lightBlue,
+          onPressed: () {},
+        ),
+        ELink(
+          text: 'Default Link',
           colorType: EColorType.default_,
           onPressed: () {},
         ),

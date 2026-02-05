@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 enum EColorType {
+  lightBlue,
   primary,
   success,
   warning,
@@ -13,6 +14,7 @@ enum EThemeType { light, dark }
 
 // Element Plus color type
 class EColorTypes {
+  static const Color lightBlue = Color(0xFF1D4ED8);
   // Primary color - Blue
   static const Color primary = Color(0xFF4982f7);
 
@@ -145,6 +147,8 @@ Color getColorByType(
   }
   // 根据 type 和主题生成样式
   switch (type) {
+    case EColorType.lightBlue:
+      return EColorTypes.lightBlue;
     case EColorType.primary:
       return EColorTypes.primary;
     // 其他类型...
@@ -163,6 +167,8 @@ Color getColorByType(
 
 Color getMessageBackgroundColor(EColorType type) {
   switch (type) {
+    case EColorType.lightBlue:
+      return EColorTypes.lightBlue.withValues(alpha: 0.9);
     case EColorType.primary:
       return EColorTypes.primary.withValues(alpha: 0.9);
     case EColorType.success:
@@ -180,6 +186,8 @@ Color getMessageBackgroundColor(EColorType type) {
 
 IconData getDefaultIconByType(EColorType type, {IconData? customIcon}) {
   switch (type) {
+    case EColorType.lightBlue:
+      return Icons.info_outline;
     case EColorType.primary:
       return Icons.info_outline;
     case EColorType.success:

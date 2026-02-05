@@ -34,8 +34,14 @@ class _TabsPageState extends State<TabsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Tabs 标签页'),
+        title: const Text('Tabs 标签页', style: TextStyle(fontSize: 15)),
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, size: 16),
+          onPressed: () => Navigator.pop(context),
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -43,6 +49,16 @@ class _TabsPageState extends State<TabsPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              _buildTitle('基础用法 (Primary Style - Top)'),
+              Container(
+                height: 100,
+                decoration: _boxDecoration,
+                child: ETabs(
+                  tabs: _tabs,
+                  type: ETabType.primary,
+                  position: ETabPosition.top,
+                ),
+              ),
               _buildTitle('基础用法 (Border Style - Top)'),
               Container(
                 height: 100,
@@ -51,15 +67,7 @@ class _TabsPageState extends State<TabsPage> {
                   tabs: _tabs,
                   type: ETabType.border,
                   position: ETabPosition.top,
-                ),
-              ),
-              _buildTitle('卡片样式 (Card Style)'),
-              Container(
-                height: 200,
-                decoration: _boxDecoration,
-                child: ETabs(
-                  tabs: _tabs,
-                  type: ETabType.card,
+                  colorType: EColorType.lightBlue,
                 ),
               ),
               _buildTitle('分段样式 (Segment Style)'),
@@ -70,6 +78,7 @@ class _TabsPageState extends State<TabsPage> {
                   tabs: _tabs,
                   type: ETabType.segment,
                   stretch: false, // 紧凑模式
+                  colorType: EColorType.lightBlue,
                 ),
               ),
               _buildTitle('底部位置 (Bottom Position)'),
