@@ -41,69 +41,77 @@ Widget _viewerContent() {
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                width: 240,
-                child: EDatePicker(
-                  type: DatePickerType.date,
-                  textController: TextEditingController(
-                      text: DateFormat('MM/dd/yyyy').format(DateTime.now())),
-                  placeholder: '选择日期',
-                  onSelect: (date) {
-                    debugPrint('onSelect 触发： Selected date: $date');
-                  },
-                ),
-              ),
-            ],
+          const Text(
+            '日期选择 (date)',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+              color: Color(0xFF606266),
+            ),
+          ),
+          const SizedBox(height: 8),
+          SizedBox(
+            width: 240,
+            child: EDatePicker(
+              type: DatePickerType.date,
+              textController: TextEditingController(
+                  text: DateFormat('MM/dd/yyyy').format(DateTime.now())),
+              placeholder: '选择日期',
+              onSelect: (date) {
+                debugPrint('onSelect 触发： Selected date: $date');
+              },
+            ),
           ),
         ],
       ),
-      // Column(
-      //   crossAxisAlignment: CrossAxisAlignment.start,
-      //   children: [
-      //     SizedBox(
-      //       width: 240,
-      //       child: EDatePicker(
-      //           type: DatePickerType.month,
-      //           placeholder: '选择月份',
-      //           onSelect: (date) {
-      //             debugPrint('onSelect 触发： Selected date: $date');
-      //           }),
-      //     ),
-      //   ],
-      // ),
-      // Column(
-      //   crossAxisAlignment: CrossAxisAlignment.start,
-      //   children: [
-      //     SizedBox(
-      //       width: 240,
-      //       child: EDatePicker(
-      //         type: DatePickerType.year,
-      //         placeholder: '选择年份',
-      //         onSelect: (date) {
-      //           debugPrint('onSelect 触发： Selected date: $date');
-      //         },
-      //       ),
-      //     ),
-      //   ],
-      // ),
-      // Column(
-      //   crossAxisAlignment: CrossAxisAlignment.start,
-      //   children: [
-      //     SizedBox(
-      //       width: 240,
-      //       child: EDatePicker(
-      //         type: DatePickerType.week,
-      //         placeholder: '周视图选择',
-      //         onSelect: (date) {
-      //           debugPrint('onSelect 触发： Selected date: $date');
-      //         },
-      //       ),
-      //     ),
-      //   ],
-      // ),
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            '月份选择 (month)',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+              color: Color(0xFF606266),
+            ),
+          ),
+          const SizedBox(height: 8),
+          SizedBox(
+            width: 240,
+            child: EDatePicker(
+              type: DatePickerType.month,
+              placeholder: '选择月份',
+              onSelect: (date) {
+                debugPrint('onSelect 触发： Selected month: $date');
+              },
+            ),
+          ),
+        ],
+      ),
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            '年份选择 (year)',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+              color: Color(0xFF606266),
+            ),
+          ),
+          const SizedBox(height: 8),
+          SizedBox(
+            width: 240,
+            child: EDatePicker(
+              type: DatePickerType.year,
+              placeholder: '选择年份',
+              onSelect: (date) {
+                debugPrint('onSelect 触发： Selected year: $date');
+              },
+            ),
+          ),
+        ],
+      ),
     ],
   );
 }

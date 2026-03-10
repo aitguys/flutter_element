@@ -59,14 +59,37 @@ class _EDatePickerPopupState extends State<EDatePickerPopup> {
     _updateInputFields();
   }
 
+  String _getInputFormat() {
+    switch (widget.type) {
+      case DatePickerType.year:
+        return 'yyyy';
+      case DatePickerType.month:
+        return 'yyyy/MM';
+      default:
+        return 'MM/dd/yyyy';
+    }
+  }
+
+  String _getInputHint() {
+    switch (widget.type) {
+      case DatePickerType.year:
+        return 'YYYY';
+      case DatePickerType.month:
+        return 'YYYY/MM';
+      default:
+        return 'MM/DD/YYYY';
+    }
+  }
+
   void _updateInputFields() {
     final now = DateTime.now();
+    final fmt = _getInputFormat();
     DateTime sd = _startDate ?? _selectedDate ?? now;
-    _startInputController.text = DateFormat('MM/dd/yyyy').format(sd);
+    _startInputController.text = DateFormat(fmt).format(sd);
 
     if (widget.type == DatePickerType.daterange) {
       DateTime ed = _endDate ?? now;
-      _endInputController.text = DateFormat('MM/dd/yyyy').format(ed);
+      _endInputController.text = DateFormat(fmt).format(ed);
     }
   }
 
@@ -265,6 +288,7 @@ class _EDatePickerPopupState extends State<EDatePickerPopup> {
       selectedDate: _selectedDate,
       onDateSelect: _onDateSelect,
       size: widget.size,
+      pickerType: widget.type,
     );
   }
 
@@ -325,9 +349,12 @@ class _EDatePickerPopupState extends State<EDatePickerPopup> {
             child: Row(
               children: [
                 Expanded(
-                  child: _buildInput(_startInputController,
-                      (val) => _handleManualInput(val, true),
-                      isError: _hasStartError),
+                  child: _buildInput(
+                    _startInputController,
+                    (val) => _handleManualInput(val, true),
+                    isError: _hasStartError,
+                    hintText: _getInputHint(),
+                  ),
                 ),
                 if (widget.type == DatePickerType.daterange) ...[
                   const Padding(
@@ -341,9 +368,12 @@ class _EDatePickerPopupState extends State<EDatePickerPopup> {
                     ),
                   ),
                   Expanded(
-                    child: _buildInput(_endInputController,
-                        (val) => _handleManualInput(val, false),
-                        isError: _hasEndError),
+                    child: _buildInput(
+                      _endInputController,
+                      (val) => _handleManualInput(val, false),
+                      isError: _hasEndError,
+                      hintText: _getInputHint(),
+                    ),
                   ),
                 ],
               ],
@@ -374,10 +404,16 @@ class _EDatePickerPopupState extends State<EDatePickerPopup> {
                 DateTime? finalStart;
                 DateTime? finalEnd;
                 bool hasError = false;
+                final fmt = _getInputFormat();
 
                 try {
-                  finalStart = DateFormat('MM/dd/yyyy')
+                  finalStart = DateFormat(fmt)
                       .parseStrict(_startInputController.text);
+                  if (widget.type == DatePickerType.year) {
+                    finalStart = DateTime(finalStart.year, 1, 1);
+                  } else if (widget.type == DatePickerType.month) {
+                    finalStart = DateTime(finalStart.year, finalStart.month, 1);
+                  }
                   setState(() => _hasStartError = false);
                 } catch (e) {
                   setState(() => _hasStartError = true);
@@ -386,7 +422,7 @@ class _EDatePickerPopupState extends State<EDatePickerPopup> {
 
                 if (widget.type == DatePickerType.daterange) {
                   try {
-                    finalEnd = DateFormat('MM/dd/yyyy')
+                    finalEnd = DateFormat(fmt)
                         .parseStrict(_endInputController.text);
                     setState(() => _hasEndError = false);
                   } catch (e) {
@@ -410,8 +446,12 @@ class _EDatePickerPopupState extends State<EDatePickerPopup> {
   }
 
   Widget _buildInput(
-      TextEditingController controller, ValueChanged<String> onChanged,
-      {bool isError = false}) {
+    TextEditingController controller,
+    ValueChanged<String> onChanged, {
+    bool isError = false,
+    String? hintText,
+  }) {
+    final hint = hintText ?? 'MM/DD/YYYY';
     return Container(
       height: 30,
       padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -432,12 +472,12 @@ class _EDatePickerPopupState extends State<EDatePickerPopup> {
             color: Color(0xFF111827),
             fontWeight: FontWeight.w500,
           ),
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
             isDense: true,
             border: InputBorder.none,
             contentPadding: EdgeInsets.zero,
-            hintText: 'MM/DD/YYYY',
-            hintStyle: TextStyle(fontSize: 13, color: Color(0xFFC0C4CC)),
+            hintText: hint,
+            hintStyle: const TextStyle(fontSize: 13, color: Color(0xFFC0C4CC)),
           ),
         ),
       ),
@@ -446,17 +486,24 @@ class _EDatePickerPopupState extends State<EDatePickerPopup> {
 
   void _handleManualInput(String val, bool isStart) {
     try {
-      final date = DateFormat('MM/dd/yyyy').parse(val);
+      final fmt = _getInputFormat();
+      final date = DateFormat(fmt).parse(val);
+      DateTime normalized = date;
+      if (widget.type == DatePickerType.year) {
+        normalized = DateTime(date.year, 1, 1);
+      } else if (widget.type == DatePickerType.month) {
+        normalized = DateTime(date.year, date.month, 1);
+      }
       setState(() {
         if (isStart) {
-          _startDate = date;
+          _startDate = normalized;
           if (widget.type != DatePickerType.daterange) {
-            _selectedDate = date;
+            _selectedDate = normalized;
           }
-          _leftDisplayMonth = DateTime(date.year, date.month);
-          _rightDisplayMonth = DateTime(date.year, date.month + 1);
+          _leftDisplayMonth = DateTime(normalized.year, normalized.month);
+          _rightDisplayMonth = DateTime(normalized.year, normalized.month + 1);
         } else {
-          _endDate = date;
+          _endDate = normalized;
         }
       });
     } catch (e) {

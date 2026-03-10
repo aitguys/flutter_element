@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../date_picker_model.dart';
+import '../date_picker_style.dart';
 import 'date_calendar_view.dart';
 import '../../../theme/index.dart';
-
-import '../date_picker_style.dart';
 
 class EDatePickerPanel extends StatefulWidget {
   final DateTime? initialDisplayDate;
@@ -16,6 +15,8 @@ class EDatePickerPanel extends StatefulWidget {
   final ValueChanged<DateTime>? onHover;
   final VoidCallback? onHeaderClick;
   final ESizeItem size;
+  /// 选择器类型：date=日，month=月，year=年。用于决定初始视图与选即确认。
+  final DatePickerType? pickerType;
 
   const EDatePickerPanel({
     super.key,
@@ -28,6 +29,7 @@ class EDatePickerPanel extends StatefulWidget {
     this.onHover,
     this.onHeaderClick,
     this.size = ESizeItem.medium,
+    this.pickerType,
   });
 
   @override
@@ -45,6 +47,11 @@ class _EDatePickerPanelState extends State<EDatePickerPanel> {
         widget.selectedDate ??
         widget.startDate ??
         DateTime.now();
+    if (widget.pickerType == DatePickerType.year) {
+      _viewMode = EDatePickerViewMode.year;
+    } else if (widget.pickerType == DatePickerType.month) {
+      _viewMode = EDatePickerViewMode.month;
+    }
   }
 
   @override
@@ -105,11 +112,19 @@ class _EDatePickerPanelState extends State<EDatePickerPanel> {
           onHover: widget.onHover,
           onDateClick: (date) {
             if (_viewMode == EDatePickerViewMode.year) {
+              if (widget.pickerType == DatePickerType.year) {
+                widget.onDateSelect(DateTime(date.year, 1, 1));
+                return;
+              }
               setState(() {
                 _displayDate = DateTime(date.year, _displayDate.month);
                 _viewMode = EDatePickerViewMode.month;
               });
             } else if (_viewMode == EDatePickerViewMode.month) {
+              if (widget.pickerType == DatePickerType.month) {
+                widget.onDateSelect(DateTime(_displayDate.year, date.month, 1));
+                return;
+              }
               setState(() {
                 _displayDate = DateTime(_displayDate.year, date.month);
                 _viewMode = EDatePickerViewMode.day;

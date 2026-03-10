@@ -43,7 +43,7 @@ Widget _viewerContent() {
           SizedBox(
             width: 240,
             child: EDatePicker(
-              // type: CalendarType.date,
+              type: DatePickerType.date,
               format: 'MM/dd/yyyy',
               placeholder: '日期格式 MM/dd/yyyy',
               onSelect: (date) {
@@ -59,7 +59,7 @@ Widget _viewerContent() {
           SizedBox(
             width: 240,
             child: EDatePicker(
-              // type: CalendarType.month,
+              type: DatePickerType.month,
               format: 'MM/yyyy',
               placeholder: '月份格式 MM/yyyy',
               onSelect: (date) {
@@ -69,6 +69,25 @@ Widget _viewerContent() {
           ),
         ],
       ),
+
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: 240,
+            child: EDatePicker(
+              type: DatePickerType.year,
+              format: 'yyyy',
+              placeholder: '年份格式 yyyy',
+              onSelect: (date) {
+                debugPrint('onSelect 触发： Selected date: $date');
+              },
+            ),
+          ),
+        ],
+      ),
+
+
     ],
   );
 }

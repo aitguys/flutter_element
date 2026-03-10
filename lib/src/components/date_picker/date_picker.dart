@@ -120,10 +120,24 @@ class _EDatePickerState extends State<EDatePicker> {
     _parseInitialValue();
   }
 
+  String _getFormat() {
+    if (widget.format != null) return widget.format!;
+    switch (widget.type) {
+      case DatePickerType.year:
+        return 'yyyy';
+      case DatePickerType.month:
+        return 'yyyy/MM';
+      case DatePickerType.daterange:
+        return 'MM/dd/yyyy';
+      default:
+        return 'MM/dd/yyyy';
+    }
+  }
+
   void _parseInitialValue() {
     if (_controller.text.isEmpty) return;
     try {
-      final fmt = widget.format ?? 'MM/dd/yyyy';
+      final fmt = _getFormat();
       if (widget.type == DatePickerType.daterange) {
         final parts = _controller.text.split(' - ');
         if (parts.length == 2) {
@@ -218,7 +232,7 @@ class _EDatePickerState extends State<EDatePicker> {
   }
 
   void _updateText() {
-    final fmt = widget.format ?? 'MM/dd/yyyy';
+    final fmt = _getFormat();
     if (widget.type == DatePickerType.daterange) {
       if (_startDate != null && _endDate != null) {
         _controller.text =
