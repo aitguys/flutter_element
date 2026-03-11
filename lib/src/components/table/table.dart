@@ -89,7 +89,21 @@ class ETable extends StatefulWidget {
 
   /// Whether to show striped rows.
   /// When true, alternate rows will have a different background color.
+  /// When both [stripe] and [rowBackgroundColor] are set, stripe takes priority.
   final bool stripe;
+
+  /// Color of table borders when [border] is true.
+  /// When null, uses [Theme.of(context).dividerColor].
+  /// Note: this color is applied uniformly to all table borders.
+  final Color? borderColor;
+
+  /// Background color of the table header row.
+  /// When null, uses theme-based default.
+  final Color? headerBackgroundColor;
+
+  /// Background color of each data row.
+  /// When [stripe] is true, stripe styling takes priority (odd rows use stripe color).
+  final Color? rowBackgroundColor;
 
   /// Whether to show borders around cells.
   /// When true, each cell will have a border.
@@ -102,6 +116,7 @@ class ETable extends StatefulWidget {
 
   /// Whether to show the table header.
   /// When false, the column headers will be hidden.
+  /// Defaults to false.
   final bool showHeader;
 
   /// Callback function when a row is tapped.
@@ -121,9 +136,12 @@ class ETable extends StatefulWidget {
     required this.data,
     required this.columns,
     this.stripe = false,
+    this.borderColor,
+    this.headerBackgroundColor,
+    this.rowBackgroundColor,
     this.border = false,
     this.height,
-    this.showHeader = true,
+    this.showHeader = false,
     this.onRowTap,
     this.onRowLongPress,
     this.onSort,
@@ -136,7 +154,9 @@ class ETable extends StatefulWidget {
 class _ETableState extends State<ETable> {
   @override
   Widget build(BuildContext context) {
-    final borderSide = BorderSide(color: Theme.of(context).dividerColor);
+    final borderSide = BorderSide(
+      color: widget.borderColor ?? Theme.of(context).dividerColor,
+    );
     return Table(
       defaultVerticalAlignment: TableCellVerticalAlignment.middle,
       textBaseline: TextBaseline.ideographic,
@@ -159,7 +179,58 @@ class _ETableState extends State<ETable> {
               horizontalInside: borderSide,
               verticalInside: borderSide)
           : null,
-      children: _buildRows(),
+      children: [
+        if (widget.showHeader) _buildHeaderRow(),
+        ..._buildRows(),
+      ],
+    );
+  }
+
+  TableRow _buildHeaderRow() {
+    final headerColor = widget.headerBackgroundColor ??
+        Theme.of(context).colorScheme.surfaceContainerHighest.withValues(
+              alpha: 0.5,
+            );
+    return TableRow(
+      decoration: BoxDecoration(color: headerColor),
+      children: widget.columns.map((column) {
+        return InkWell(
+          onTap: column.sortable && widget.onSort != null
+              ? () {
+                  // Default ascending on first tap; caller can track state
+                  widget.onSort!(column.prop, true);
+                }
+              : null,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: column.align?.toMainAxisAlignment() ??
+                  MainAxisAlignment.start,
+              children: [
+                Flexible(
+                  child: Text(
+                    column.label,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
+                  ),
+                ),
+                if (column.sortable) ...[
+                  const SizedBox(width: 4),
+                  Icon(
+                    Icons.unfold_more,
+                    size: 16,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
+                ],
+              ],
+            ),
+          ),
+        );
+      }).toList(),
     );
   }
 
@@ -168,12 +239,12 @@ class _ETableState extends State<ETable> {
       final index = entry.key;
       final row = entry.value;
 
+      // When stripe is true, stripe takes priority; otherwise use rowBackgroundColor.
+      final Color? rowColor = widget.stripe && index.isOdd
+          ? Theme.of(context).colorScheme.surface.withValues(alpha: 0.3)
+          : widget.rowBackgroundColor;
       return TableRow(
-        decoration: BoxDecoration(
-          color: widget.stripe && index.isOdd
-              ? Theme.of(context).colorScheme.surface.withValues(alpha: 0.3)
-              : null,
-        ),
+        decoration: BoxDecoration(color: rowColor),
         children: widget.columns.asMap().entries.map((colEntry) {
           final column = colEntry.value;
           final value = row[column.prop];
