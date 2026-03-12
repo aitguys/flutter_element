@@ -90,6 +90,13 @@ class HomePage extends StatelessWidget {
                     FlNavItem(
                       suffix: const Icon(Icons.arrow_forward_ios, size: 16),
                       padding: const EdgeInsets.symmetric(horizontal: 4),
+                      onTap: () => Get.toNamed(Routes.badge),
+                      child: const Text('Badge 徽标',
+                          style: TextStyle(fontSize: 15)),
+                    ),
+                    FlNavItem(
+                      suffix: const Icon(Icons.arrow_forward_ios, size: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
                       onTap: () => Get.toNamed(Routes.link),
                       child:
                           const Text('Link 链接', style: TextStyle(fontSize: 15)),
@@ -298,6 +305,13 @@ class HomePage extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 4),
                       onTap: () => Get.toNamed(Routes.datePicker),
                       child: const Text('DatePicker 日期选择器',
+                          style: TextStyle(fontSize: 15)),
+                    ),
+                    FlNavItem(
+                      suffix: const Icon(Icons.arrow_forward_ios, size: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      onTap: () => Get.toNamed(Routes.badge),
+                      child: const Text('Badge 徽标',
                           style: TextStyle(fontSize: 15)),
                     ),
                     FlNavItem(

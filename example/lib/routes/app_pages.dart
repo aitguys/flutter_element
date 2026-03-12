@@ -19,6 +19,7 @@ import '../pages/checkbox_page/route.dart';
 import '../pages/color_picker_page/route.dart';
 import '../pages/progress_page/route.dart';
 import '../pages/avatar_page/route.dart';
+import '../pages/badge_page/badge_page.dart';
 import '../pages/image_page/route.dart';
 import '../pages/card_page/route.dart';
 import '../pages/form/route.dart';
@@ -171,6 +172,7 @@ abstract class Routes {
   static const selectPrefixSuffix = SelectRoutes.selectPrefixSuffix;
   static const selectOptionDisable = SelectRoutes.selectOptionDisable;
   static const slider = '/slider';
+  static const badge = '/badge';
   static const avatar = AvatarRoutes.avatar;
   static const avatarBasic = AvatarRoutes.avatarBasic;
   static const avatarSize = AvatarRoutes.avatarSize;
@@ -252,6 +254,10 @@ class AppPages {
     GetPage(
       name: Routes.table,
       page: () => const TablePage(),
+    ),
+    GetPage(
+      name: Routes.badge,
+      page: () => const BadgePage(),
     ),
     ...tagRoutesPages,
     GetPage(

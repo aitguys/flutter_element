@@ -15,6 +15,7 @@ export 'src/components/input_number/index.dart';
 export 'src/components/mention/index.dart';
 export 'src/components/select/index.dart';
 export 'src/components/avatar/index.dart';
+export 'src/components/badge/index.dart';
 export 'src/components/card/index.dart';
 export 'src/components/carousel/index.dart';
 export 'src/components/collapse/index.dart';
